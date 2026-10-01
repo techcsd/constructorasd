@@ -3,6 +3,18 @@
 All notable changes to this project. Versioning is simple (CLAUDE.md / WB9): a `CHANGELOG.md` entry plus a
 `package.json` bump per release. Not tracked in `sgc.app_versiones`.
 
+## 1.0.1 — logo refinement + polish (2026-10-01)
+
+- **Logo:** resized the `.SD` monogram so it balances the wordmark instead of towering over it
+  (`src/app/ui/logo/logo.scss`) — cleaner header lockup. Also redirects `www/` root to apex (was 200).
+- **SEO fix (important):** project / news / job **detail** pages now emit their own canonical, `og:url`
+  and hreflang. Previously all 12 project pages pointed their canonical at `/proyectos/`, declaring
+  themselves duplicates of the listing (risked de-indexing). `SeoInput` gained optional `path` + `altPaths`.
+- **Accessibility:** valid `h1 → h2 → h3` order on `/proyectos` (visually-hidden section heading),
+  `aria-pressed` on the sector filter chips, and `tabindex="-1"` on `<main>` so the skip link moves focus.
+- **`--header-h` token:** the sticky-header height and the service-anchor `scroll-margin-top` now derive
+  from one value (service anchors were landing ~18px off).
+
 ## 1.0.0 — production launch (2026-10-01)
 
 - **Live on constructorasd.com.** DNS moved to Squarespace nameservers (`nsa1–4.squarespacedns.com`);

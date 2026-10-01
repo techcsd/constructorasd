@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { I18nService } from '../../core/i18n/i18n.service';
 import { SeoService } from '../../core/seo/seo.service';
 import { JOBS } from '../../../content/jobs';
-import { pathFor } from '../../core/i18n/localized-routes';
+import { detailPathFor, pathFor } from '../../core/i18n/localized-routes';
 import { Eyebrow } from '../../ui/eyebrow/eyebrow';
 import { ApplyForm } from '../../ui/apply-form/apply-form';
 import { Button } from '../../ui/button/button';
@@ -39,6 +39,10 @@ export class VacanteDetalle {
       description: j ? this.i18n.pick(j.summary)! : '',
       routeKey: 'vacantes',
       locale: this.i18n.locale(),
+      path: j ? detailPathFor('vacante', this.slug, this.i18n.locale())! : undefined,
+      altPaths: j
+        ? { es: detailPathFor('vacante', this.slug, 'es'), en: detailPathFor('vacante', this.slug, 'en') }
+        : undefined,
       noindex: !j,
     });
   }

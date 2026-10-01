@@ -5,7 +5,7 @@ import { marked } from 'marked';
 import { I18nService } from '../../core/i18n/i18n.service';
 import { SeoService } from '../../core/seo/seo.service';
 import { getPost } from '../../../content/posts';
-import { pathFor } from '../../core/i18n/localized-routes';
+import { detailPathFor, pathFor } from '../../core/i18n/localized-routes';
 import { Button } from '../../ui/button/button';
 import { ImageFigure } from '../../ui/image-figure/image-figure';
 import { TPipe } from '../../core/i18n/t.pipe';
@@ -53,6 +53,8 @@ export class NoticiaDetalle {
         description: this.i18n.pick(p.excerpt) ?? '',
         routeKey: 'noticias',
         locale: this.i18n.locale(),
+        path: detailPathFor('noticia', this.slug, this.i18n.locale())!,
+        altPaths: { es: detailPathFor('noticia', this.slug, 'es'), en: detailPathFor('noticia', this.slug, 'en') },
         type: 'article',
       });
     } else {

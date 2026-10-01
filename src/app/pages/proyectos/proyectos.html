@@ -5,7 +5,8 @@
   <div class="proyectos__controls">
     <div class="proyectos__filters" role="group" [attr.aria-label]="'Filtrar por sector' | t">
       @for (c of sectorChips(); track c.id) {
-        <button type="button" class="proyectos__chip" [class.is-active]="sector() === c.id" (click)="setSector(c.id)">
+        <button type="button" class="proyectos__chip" [class.is-active]="sector() === c.id"
+          [attr.aria-pressed]="sector() === c.id" (click)="setSector(c.id)">
           {{ c.label }}
         </button>
       }
@@ -18,7 +19,8 @@
     </div>
   </div>
 
-  <!-- Grid -->
+  <!-- Results (hidden heading keeps the h1 → h2 → card-h3 order valid) -->
+  <h2 class="visually-hidden">{{ 'Proyectos' | t }}</h2>
   @if (vista() === 'cuadricula') {
     <div class="proyectos__grid">
       @for (p of projects(); track p.href) {

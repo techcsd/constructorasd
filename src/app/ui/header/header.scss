@@ -27,7 +27,7 @@
   display: flex;
   align-items: center;
   gap: var(--space-5);
-  height: 72px;
+  height: var(--header-h);
 }
 
 .app-header__logo {
@@ -101,7 +101,7 @@
 // ── Mobile full-screen menu ──
 .app-header__menu {
   position: fixed;
-  inset: 72px 0 0 0;
+  inset: var(--header-h) 0 0 0;
   z-index: 99;
   background: var(--bg);
   color: var(--text);

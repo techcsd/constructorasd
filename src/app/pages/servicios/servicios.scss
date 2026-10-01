@@ -1,5 +1,5 @@
 .servicios__stage {
-  scroll-margin-top: 90px;
+  scroll-margin-top: calc(var(--header-h) + var(--space-3));
 }
 .servicios__stage--alt {
   background: var(--bg-elevated);

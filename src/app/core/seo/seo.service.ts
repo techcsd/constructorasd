@@ -9,9 +9,16 @@ export interface SeoInput {
   title: string;
   /** Already-localized meta description. */
   description: string;
-  /** Page key from the slug map — used to build canonical + hreflang pair. */
+  /** Page key from the slug map — used to build canonical + hreflang pair for static pages. */
   routeKey: string;
   locale: Locale;
+  /**
+   * Detail routes (`/proyectos/:slug`, etc.) must override the canonical/hreflang that `routeKey`
+   * alone would produce (which is the parent listing). Pass the current page's localized path and its
+   * es/en twins; omit for static pages.
+   */
+  path?: string;
+  altPaths?: { es?: string; en?: string };
   /** Force noindex (e.g. /styleguide). Non-prod builds are always noindex regardless. */
   noindex?: boolean;
   image?: string;
@@ -52,9 +59,9 @@ export class SeoService {
       content: noindex ? 'noindex, nofollow' : 'index, follow',
     });
 
-    const esPath = pathFor(input.routeKey, 'es');
-    const enPath = pathFor(input.routeKey, 'en');
-    const currentPath = input.locale === 'en' ? (enPath ?? esPath) : esPath;
+    const esPath = input.altPaths?.es ?? pathFor(input.routeKey, 'es');
+    const enPath = input.altPaths?.en ?? pathFor(input.routeKey, 'en');
+    const currentPath = input.path ?? (input.locale === 'en' ? (enPath ?? esPath) : esPath);
     const canonical = this.abs(currentPath);
 
     this.setCanonical(canonical);

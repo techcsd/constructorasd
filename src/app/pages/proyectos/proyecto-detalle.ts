@@ -79,6 +79,10 @@ export class ProyectoDetalle {
       description: p ? this.pick(p.summary)! : '',
       routeKey: 'proyectos',
       locale: this.i18n.locale(),
+      path: p ? detailPathFor('proyecto', this.slug, this.i18n.locale())! : undefined,
+      altPaths: p
+        ? { es: detailPathFor('proyecto', this.slug, 'es'), en: detailPathFor('proyecto', this.slug, 'en') }
+        : undefined,
       image: p ? `/img/${p.cover.src}-1280.webp` : undefined,
       noindex: !p,
     });
