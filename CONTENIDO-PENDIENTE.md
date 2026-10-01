@@ -70,9 +70,14 @@ fiscales reales, marcados en el texto como `[Razón social, RNC y domicilio lega
   leads **se guardan** en `web.leads` (fuente de verdad) pero el correo queda con `email_error`. Opciones:
   ponla en `.env.local` (`RESEND_API_KEY=…`) y la configuro como secreto de las edge functions, o autorízame
   a leerla del Vault de SGC. También hay que **verificar el dominio remitente** en Resend (ver `docs/DNS-CUTOVER.md`).
-- **Aplicar a prod (csd-core)**: el schema `web` + funciones están probados en sgc-dev; aplicarlos a prod
-  requiere tu OK (es la base de datos de producción compartida con SGC). Runbook exacto en `docs/DNS-CUTOVER.md`.
-- **Dominio + DNS**: pasos en `docs/DNS-CUTOVER.md` (cambiar A/CNAME en Wix; MX/SPF se mantienen).
+- **Prod backend (csd-core)**: ✅ **APLICADO** con tu OK — schema `web` + grants + bucket + funciones
+  (`web-contact`, `web-apply`, `web-client-error`) desplegadas y **verificadas** en prod (una fila de prueba
+  entró en `web.leads` y se borró). Falta solo la `RESEND_API_KEY` para que salga el correo.
+- **Vercel (panel, ~2 min — no lo puedo hacer por API)**: 1) *Settings → Git → Production Branch* = **`main`**;
+  2) *Settings → Domains* → añadir `constructorasd.com` y `www.constructorasd.com`. Vercel te dará un TXT de
+  verificación que va en Wix.
+- **DNS en Wix**: pasos en `docs/DNS-CUTOVER.md` (cambiar A → `76.76.21.21`, CNAME `www` → `cname.vercel-dns.com`;
+  MX/SPF de Google **no se tocan**).
 - **Search Console**: alta de la propiedad + TXT de verificación (lo generas tú).
 
 ## Para la próxima ronda de SGC (no se toca SGC en este repo)
