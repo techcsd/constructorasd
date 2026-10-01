@@ -1,10 +1,15 @@
 // Content model (CLAUDE.md rule 10 / WA8). Interfaces mirror the future `web.*` tables field-for-field
-// (camelCase here ↔ snake_case in Postgres). Don't add a field that couldn't be a column.
-import { LocalizedText } from './page-meta';
+// (camelCase here ↔ snake_case in Postgres). See docs/CONTENT-MODEL.md for the TS ↔ SQL mapping.
+// Don't add a field that couldn't be a column.
 
-export type { LocalizedText };
+/** Bilingual string. The key convention elsewhere is "Spanish is the source"; content objects carry both. */
+export interface LocalizedText {
+  es: string;
+  en: string;
+}
+export type L = LocalizedText;
 
-export type Sector =
+export type SectorId =
   | 'hotelero'
   | 'institucional'
   | 'hospitalario'
@@ -12,42 +17,128 @@ export type Sector =
   | 'residencial'
   | 'minero';
 
-export interface Stat {
-  value: string; // e.g. "45+"
-  label: LocalizedText;
+export type StageId =
+  | 'etapa-01'
+  | 'etapa-02'
+  | 'etapa-03'
+  | 'etapa-04'
+  | 'etapa-05'
+  | 'etapa-06'
+  | 'etapa-07';
+
+/** Reference to an optimized image: `src` is a key in content/image-manifest.json; `alt` is bilingual. */
+export interface ImageRef {
+  src: string;
+  alt: L;
 }
 
-export interface Stage {
-  index: string; // "01".."07"
-  slug: string; // etapa-01 … (anchor)
-  title: LocalizedText;
-  summary: LocalizedText;
-  capabilities: LocalizedText[]; // 4 bullets
-  /** Stage 04 only: the heights table (value + label). */
-  heights?: { value: string; label: LocalizedText }[];
-}
+export type ProjectStatus = 'ejecutado' | 'en_ejecucion';
 
 export interface Project {
   slug: string;
   name: string; // proper noun — same in both languages
   client: string; // proper noun
-  sector?: Sector;
-  city?: string;
-  featured?: boolean;
-  /** Image key in public/img/manifest.json (Prompt 2); absent → neutral placeholder. */
-  image?: string;
+  sector: SectorId;
+  location: L;
+  year?: number;
+  status: ProjectStatus;
+  summary: L;
+  body?: L;
+  scope: StageId[];
+  cover: ImageRef;
+  gallery: ImageRef[];
+  featured: boolean;
+  order: number;
 }
 
+export type ClientGroup = 'promotores' | 'hoteleria' | 'industria_mineria' | 'instituciones';
+
 export interface Client {
-  name: string; // proper noun
-  /** Grouping for the Clientes page. */
-  group: 'promotores' | 'hoteleria' | 'industria' | 'instituciones';
-  /** Monochrome SVG path under /img/clients/ when available; else render the name as text. */
-  logo?: string;
+  slug: string;
+  name: string;
+  group: ClientGroup;
+  logo?: ImageRef;
+  order: number;
+}
+
+export interface StageFact {
+  label: L;
+  value: string;
+}
+
+export interface Stage {
+  id: StageId;
+  index: 1 | 2 | 3 | 4 | 5 | 6 | 7;
+  title: L;
+  tagline: L;
+  description: L;
+  capabilities: L[];
+  images: ImageRef[];
+  facts?: StageFact[];
+  note?: L;
+}
+
+export interface Sector {
+  id: SectorId;
+  name: L;
+  blurb: L;
+  projects: string[]; // project slugs
+}
+
+export interface Equipment {
+  index: number;
+  name: L;
+}
+
+export type JobType = 'tiempo_completo' | 'por_proyecto';
+
+export interface Job {
+  slug: string;
+  title: L;
+  area: L;
+  location: L;
+  type: JobType;
+  summary: L;
+  requirements: L[];
+  open: boolean;
+  publishedAt: string; // ISO date
+}
+
+export interface Post {
+  slug: string;
+  title: L;
+  excerpt: L;
+  cover?: ImageRef;
+  publishedAt: string; // ISO date
+  body: { es: string; en: string }; // markdown
+}
+
+export interface Stat {
+  value: string;
+  label: L;
 }
 
 export interface Advantage {
-  index: string;
-  title: LocalizedText;
-  body: LocalizedText;
+  title: L;
+  text: L;
+}
+
+export interface Company {
+  name: string;
+  shortName: string;
+  tagline: L;
+  description: L;
+  mission: L;
+  vision: L;
+  values: L[];
+  philosophyQuote: L;
+  philosophyAttribution: L;
+  stats: Stat[];
+  advantages: Advantage[];
+  phones: string[];
+  email: string;
+  instagram: string;
+  whatsapp: string; // E.164 digits for wa.me
+  presence: L;
+  founded?: number;
 }

@@ -28,11 +28,13 @@ const OUT_DIR = join(ROOT, 'public', 'img');
 // AVIF/WebP files live in public/img/ and are served statically.
 const MANIFEST = join(ROOT, 'src', 'content', 'image-manifest.json');
 
-// Cap at 1600w: the container is 1320px and these detailed site photos compress poorly past that.
-// (The hero budget is defined at 1600w AVIF; larger widths only blow the per-image budget.)
-const WIDTHS = [480, 960, 1600];
-const AVIF = { quality: 44, effort: 6 };
-const WEBP = { quality: 52, effort: 5 };
+// Cap at 1280w: the container is 1320px and these detailed drone/site photos compress poorly past that;
+// 1280 keeps every served image within the 250 kB budget (hero AVIF well under 180 kB).
+const WIDTHS = [480, 960, 1280];
+const AVIF = { quality: 42, effort: 6 };
+const WEBP = { quality: 46, effort: 5 };
+// Staging folders under assets-src/ that are NOT optimized/committed (raw PPTX dump).
+const SKIP_DIRS = new Set(['pptx']);
 
 if (!existsSync(SRC_DIR)) {
   console.log(`[optimize-images] ⏭  no assets-src/ — nothing to optimize.`);
@@ -45,8 +47,10 @@ function walk(dir) {
   for (const name of readdirSync(dir)) {
     const p = join(dir, name);
     const s = statSync(p);
-    if (s.isDirectory()) out.push(...walk(p));
-    else if (/\.(jpe?g|png)$/i.test(name)) out.push(p);
+    if (s.isDirectory()) {
+      if (SKIP_DIRS.has(name)) continue;
+      out.push(...walk(p));
+    } else if (/\.(jpe?g|png)$/i.test(name)) out.push(p);
   }
   return out;
 }

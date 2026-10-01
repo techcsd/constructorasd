@@ -3,10 +3,8 @@
  * These are section statements and neutral descriptions — never invented facts/figures (CLAUDE.md rule 2).
  * Prompt 2 replaces the shells with full pages; the keys here stay the same.
  */
-export interface LocalizedText {
-  es: string;
-  en: string;
-}
+import { LocalizedText } from './types';
+export type { LocalizedText };
 
 export interface PageMeta {
   eyebrow?: LocalizedText;

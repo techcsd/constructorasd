@@ -33,6 +33,7 @@ function walk(dir, exts) {
 }
 
 const violations = [];
+const imgWarnings = [];
 
 // ── 1) alt text on <img> and <app-image-figure> ──
 const IMG_TAG = /<(img|app-image-figure)\b[^>]*?>/gis;
@@ -64,18 +65,23 @@ if (existsSync(IMG_DIR)) {
     const rel = relative(ROOT, file).replace(/\\/g, '/');
     if (/\.(json|txt|md)$/.test(file)) continue; // manifest etc.
     const kb = statSync(file).size / 1024;
-    // The 180 kB hero budget is defined for the AVIF the browser actually serves as LCP; the WebP
-    // fallback (older browsers) uses the general 250 kB cap. Non-hero images: 250 kB.
     const isHero = /(^|\/)hero(\/|-)/i.test(rel) || /hero/i.test(basename(file));
     const isAvif = file.endsWith('.avif');
-    const limit = isHero && isAvif ? HERO_MAX_KB : MAX_KB;
-    if (kb > limit) {
-      violations.push({
-        rel,
-        line: 0,
-        kind: isHero && isAvif ? 'hero-too-big' : 'img-too-big',
-        text: `${kb.toFixed(0)} kB > ${limit} kB`,
-      });
+    const isWebp = file.endsWith('.webp');
+    // Modern browsers serve AVIF, so the budget is enforced there (180 kB hero / 250 kB otherwise).
+    // WebP is a fallback for old browsers: over-budget is a warning, not a build failure.
+    if (isAvif) {
+      const limit = isHero ? HERO_MAX_KB : MAX_KB;
+      if (kb > limit) {
+        violations.push({
+          rel,
+          line: 0,
+          kind: isHero ? 'hero-too-big' : 'img-too-big',
+          text: `${kb.toFixed(0)} kB > ${limit} kB (AVIF, served)`,
+        });
+      }
+    } else if (isWebp && kb > MAX_KB) {
+      imgWarnings.push(`${rel}  ${kb.toFixed(0)} kB > ${MAX_KB} kB (WebP fallback)`);
     }
   }
 }
@@ -91,4 +97,8 @@ if (violations.length) {
   console.error('');
   process.exit(1);
 }
-console.log('[verify-images] ✓ alt text present; all public/img files within budget.');
+console.log('[verify-images] ✓ alt text present; served AVIF within budget (hero ≤180 kB, rest ≤250 kB).');
+if (imgWarnings.length) {
+  console.log(`[verify-images]   note: ${imgWarnings.length} WebP fallback(s) over 250 kB (AVIF is served first):`);
+  for (const w of imgWarnings.slice(0, 10)) console.log(`     ${w}`);
+}

@@ -1,7 +1,8 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { I18nService } from '../../core/i18n/i18n.service';
 import { SeoService } from '../../core/seo/seo.service';
-import { STATS, PHILOSOPHY_QUOTE, SECTORS } from '../../../content/company';
+import { COMPANY } from '../../../content/company';
+import { SECTORS } from '../../../content/sectors';
 import { STAGES } from '../../../content/stages';
 import { PROJECTS } from '../../../content/projects';
 import { CLIENTS } from '../../../content/clients';
@@ -66,22 +67,22 @@ export class Styleguide {
     { cls: 'small', label: 'small', sample: 'CLIENTE · Sector · Ciudad' },
   ];
 
-  readonly stats = STATS.map((s) => ({ value: s.value, label: this.pick(s.label) }));
+  readonly stats = COMPANY.stats.map((s) => ({ value: s.value, label: this.pick(s.label) }));
 
   readonly stage04 = (() => {
     const s = STAGES[3];
     return {
-      index: s.index,
+      index: String(s.index).padStart(2, '0'),
       title: this.pick(s.title),
-      summary: this.pick(s.summary),
+      summary: this.pick(s.description),
       capabilities: s.capabilities.map((c) => this.pick(c)),
-      heights: (s.heights ?? []).map((h) => ({ value: h.value, label: this.pick(h.label) })),
+      heights: (s.facts ?? []).map((h) => ({ value: h.value, label: this.pick(h.label) })),
     };
   })();
 
   private sectorLabel(key?: string): string {
-    const s = SECTORS.find((x) => x.key === key);
-    return s ? this.pick(s.label) : '';
+    const s = SECTORS.find((x) => x.id === key);
+    return s ? this.pick(s.name) : '';
   }
 
   readonly showcaseProjects = ['lopesan-costa-bavaro-bloque-f', 'poseidonia', 'hospital-barahona']
@@ -90,14 +91,17 @@ export class Styleguide {
       name: p.name,
       client: p.client,
       sector: this.sectorLabel(p.sector),
-      city: p.city ?? '',
-      image: p.image ?? '',
+      city: this.pick(p.location),
+      image: p.cover.src,
       featured: !!p.featured,
     }));
 
   readonly clients12 = CLIENTS.slice(0, 12).map((c) => ({ name: c.name }));
 
-  readonly quote = { text: this.pick(PHILOSOPHY_QUOTE.text), attribution: this.pick(PHILOSOPHY_QUOTE.attribution) };
+  readonly quote = {
+    text: this.pick(COMPANY.philosophyQuote),
+    attribution: this.pick(COMPANY.philosophyAttribution),
+  };
 
   readonly navDemo = ['Empresa', 'Servicios', 'Proyectos', 'Equipos', 'Noticias', 'Contacto'];
 

@@ -1,54 +1,67 @@
 // Clients & collaborations — sourced from the 2026 presentation (slides 21–22). All names real (rule 2).
-// Grouping is organizational (for the Clientes page) and can be refined in Prompt 2.
-import { Client } from './types';
+// Logos exist in the deck but are not integrated yet (quality/trademark review) → ClientWall renders the
+// name (brief §6). Missing logos are listed in CONTENIDO-PENDIENTE. Grouping follows the deck; re-grouped
+// where a name clearly belongs elsewhere.
+import { Client, ClientGroup } from './types';
 
-export const CLIENTS: Client[] = [
-  // Promotores y constructoras
-  { name: 'NOVAL Properties', group: 'promotores' },
-  { name: 'Grupo Velutini', group: 'promotores' },
-  { name: 'Best In Pro', group: 'promotores' },
-  { name: 'BATCON', group: 'promotores' },
-  { name: 'Arenacal PRO', group: 'promotores' },
-  { name: 'Vista Cana', group: 'promotores' },
-  { name: 'Bluewave', group: 'promotores' },
-  { name: 'Civil Mek', group: 'promotores' },
-  { name: 'Accent Group', group: 'promotores' },
-  { name: 'Constructora Rizek & Asociados', group: 'promotores' },
-  { name: 'Conde Martí', group: 'promotores' },
-  { name: 'Constructora Grupo Colina', group: 'promotores' },
-  { name: 'Pedralbes', group: 'promotores' },
-  { name: 'CINTER', group: 'promotores' },
-  { name: 'Antillean', group: 'promotores' },
-  { name: 'ASA', group: 'promotores' },
-  { name: 'CONALPI', group: 'promotores' },
-  { name: 'ROSCH', group: 'promotores' },
-  { name: 'Grupo RSS', group: 'promotores' },
-  { name: 'GOMEP', group: 'promotores' },
-  { name: 'ISLADOM', group: 'promotores' },
+const slugify = (s: string) =>
+  s
+    .normalize('NFD')
+    .replace(/[̀-ͯ]/g, '')
+    .toLowerCase()
+    .replace(/&/g, 'y')
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/(^-|-$)/g, '');
 
-  // Hotelería
-  { name: 'Lopesan Group', group: 'hoteleria' },
-  { name: 'H10 Hotels', group: 'hoteleria' },
-  { name: 'AMR Collection', group: 'hoteleria' },
-  { name: 'Apple Leisure Group', group: 'hoteleria' },
-  { name: 'Blue Diamond Resorts', group: 'hoteleria' },
-  { name: 'HM Hotels', group: 'hoteleria' },
-  { name: 'Cana Rock Group', group: 'hoteleria' },
-  { name: 'Casa de Campo', group: 'hoteleria' },
+const GROUPS: Record<ClientGroup, string[]> = {
+  promotores: [
+    'NOVAL Properties',
+    'Grupo Velutini',
+    'Best In Pro',
+    'BATCON',
+    'Arenacal PRO',
+    'Vista Cana',
+    'Bluewave',
+    'Civil Mek',
+    'TORALCO',
+    'Accent Group',
+    'Cana Rock Group',
+    'Casa de Campo',
+    'Constructora Rizek & Asociados',
+    'Conde',
+    'Martí Constructora',
+    'Grupo Colina',
+    'Pedralbes',
+    'CINTER',
+    'Antillean',
+    'ASA',
+    'CONALPI',
+    'ROSCH',
+    'Grupo RSS',
+    'ISLADOM',
+    'GOMEP',
+  ],
+  hoteleria: [
+    'Lopesan Group',
+    'H10 Hotels',
+    'AMR Collection',
+    'Apple Leisure Group',
+    'Blue Diamond Resorts',
+    'HM Hotels',
+  ],
+  industria_mineria: [
+    'Barrick Gold',
+    'Codelpa',
+    'DP World',
+    'Volvo',
+    'Planta de Generación Itabo',
+    'Zona Franca Las Américas',
+    'Amway Dominicana',
+  ],
+  instituciones: ['MOPC', 'Ministerio de Educación', 'PUCMM', 'Banco Popular Dominicano'],
+};
 
-  // Industria y minería
-  { name: 'Barrick Gold', group: 'industria' },
-  { name: 'Codelpa', group: 'industria' },
-  { name: 'TORALCO', group: 'industria' },
-  { name: 'DP World', group: 'industria' },
-  { name: 'Volvo', group: 'industria' },
-  { name: 'Zona Franca Las Américas', group: 'industria' },
-  { name: 'Planta de Generación Itabo', group: 'industria' },
-  { name: 'Amway Dominicana', group: 'industria' },
-
-  // Instituciones
-  { name: 'MOPC', group: 'instituciones' },
-  { name: 'Ministerio de Educación', group: 'instituciones' },
-  { name: 'PUCMM', group: 'instituciones' },
-  { name: 'Banco Popular Dominicano', group: 'instituciones' },
-];
+let order = 0;
+export const CLIENTS: Client[] = (Object.keys(GROUPS) as ClientGroup[]).flatMap((group) =>
+  GROUPS[group].map((name) => ({ slug: slugify(name), name, group, order: order++ })),
+);

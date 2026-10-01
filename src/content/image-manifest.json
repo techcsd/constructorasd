@@ -1,4 +1,28 @@
 {
+  "lopesan/apuntalamiento": {
+    "hash": "d14c98f0035f",
+    "width": 3000,
+    "height": 4000,
+    "aspect": 0.75,
+    "widths": [
+      480,
+      960,
+      1280
+    ],
+    "variants": {
+      "avif": {
+        "480": "/img/lopesan/apuntalamiento-480.avif",
+        "960": "/img/lopesan/apuntalamiento-960.avif",
+        "1280": "/img/lopesan/apuntalamiento-1280.avif"
+      },
+      "webp": {
+        "480": "/img/lopesan/apuntalamiento-480.webp",
+        "960": "/img/lopesan/apuntalamiento-960.webp",
+        "1280": "/img/lopesan/apuntalamiento-1280.webp"
+      }
+    },
+    "lqip": "data:image/webp;base64,UklGRiYBAABXRUJQVlA4IBoBAACwBgCdASoYACAAPu1gp02ppSOiMAgBMB2JZACC5g4HZRGRq0e9g1ijIEnGYmig+v0Ri00r//O3yJF07zZSAAD+wRtHPdLzhgX/iajzFL4GWuAjXwtQoBmjEmN4D1wzUazSibeHvsljgW6oDFIckRXXM3IRT1jm2A53cqHsMxkGlliHjpmtd/Yb4C87UbrtxCtmJr5FYV2UPp/e7ITsAiP6n+E82U75fo0XtoEk6e2pBHny40CFC9ThMRCUQAaBG0fjtU6GF5n1F6Epv01pu2uEFz3tL2+vo38Cs7DDmCnpRlLZRxYASd0CK6LJEd+u5qfGSn9xXVt85GrRtpuUMk5dn+B1GqBhtCLCm47dtdpuMdlOBZeShq2SgAA="
+  },
   "lopesan/componentes": {
     "hash": "9e49c5d1490e",
     "width": 4000,
@@ -7,21 +31,45 @@
     "widths": [
       480,
       960,
-      1600
+      1280
     ],
     "variants": {
       "avif": {
         "480": "/img/lopesan/componentes-480.avif",
         "960": "/img/lopesan/componentes-960.avif",
-        "1600": "/img/lopesan/componentes-1600.avif"
+        "1280": "/img/lopesan/componentes-1280.avif"
       },
       "webp": {
         "480": "/img/lopesan/componentes-480.webp",
         "960": "/img/lopesan/componentes-960.webp",
-        "1600": "/img/lopesan/componentes-1600.webp"
+        "1280": "/img/lopesan/componentes-1280.webp"
       }
     },
     "lqip": "data:image/webp;base64,UklGRrQAAABXRUJQVlA4IKgAAABQBQCdASoYABIAPu1mqk8ppaOiKA1RMB2JYwDH5BExyDIoutnskdjhwSp8Cz59LFAsJwAA/tMeEYe62ubjjmkJhq3FgHHO2A44s7jVHSAYEJ2VcjyW9M8lJP8BLsBX6Srb1+r2POJJRIbW9UhJIXQaQH1mUKMtNBg2mShIDdTYByNN5xgqIpKO/CZgz0+rVU7Xr4+MnpwtZCh+WfN9oFxVQHCl5gHgAAA="
+  },
+  "lopesan/encofrado-vertical": {
+    "hash": "f36da7d4ef55",
+    "width": 4000,
+    "height": 3000,
+    "aspect": 1.3333,
+    "widths": [
+      480,
+      960,
+      1280
+    ],
+    "variants": {
+      "avif": {
+        "480": "/img/lopesan/encofrado-vertical-480.avif",
+        "960": "/img/lopesan/encofrado-vertical-960.avif",
+        "1280": "/img/lopesan/encofrado-vertical-1280.avif"
+      },
+      "webp": {
+        "480": "/img/lopesan/encofrado-vertical-480.webp",
+        "960": "/img/lopesan/encofrado-vertical-960.webp",
+        "1280": "/img/lopesan/encofrado-vertical-1280.webp"
+      }
+    },
+    "lqip": "data:image/webp;base64,UklGRsYAAABXRUJQVlA4ILoAAABQBQCdASoYABIAPu1qrlCppaQiqAqpMB2JZACnR2QBqhie4SsUxvNbHGMNQs8rnqcYwIgA/U6GpAAJ7vYHutwpJn0JyONfVhIQ8QXlkJJXEzcPIfcih8G1VClZa/kNEb4VMv26It26NekjzE/xV9G+5Jtjogz2BX8it7doVHghTM+DS7N+pgc7Tkf+eqJZxdlFb9QB2D7/mbbLBZYI7Cf4TAN5QMyFMCkvnVONpzHi5KdMqzfYkyOpgAA="
   },
   "lopesan/estructura": {
     "hash": "c14f8a0d8c51",
@@ -31,21 +79,45 @@
     "widths": [
       480,
       960,
-      1600
+      1280
     ],
     "variants": {
       "avif": {
         "480": "/img/lopesan/estructura-480.avif",
         "960": "/img/lopesan/estructura-960.avif",
-        "1600": "/img/lopesan/estructura-1600.avif"
+        "1280": "/img/lopesan/estructura-1280.avif"
       },
       "webp": {
         "480": "/img/lopesan/estructura-480.webp",
         "960": "/img/lopesan/estructura-960.webp",
-        "1600": "/img/lopesan/estructura-1600.webp"
+        "1280": "/img/lopesan/estructura-1280.webp"
       }
     },
     "lqip": "data:image/webp;base64,UklGRrYAAABXRUJQVlA4IKoAAADwBACdASoYABIAPu1sqlEppaOuqAqp0B2JZQC/8a0AqFCqzpZyNYg9fC5B0Yju8MAA/sGGrZqqj8XWjuDXNmKcXjlNcl6BRZrFkOljRZBXZr9bqGUhXHAJ9R91MVolqv17Armp/bSx/ixj4U47fDc8CxUcz6R4YaFLlu2qn8DikVoi1kiTd7toXEPRrNDyM+LpLgKIvIvvgL1tCd5INefPx/yD81JH2AAAAA=="
+  },
+  "lopesan/fachada": {
+    "hash": "39c8de536e4d",
+    "width": 3000,
+    "height": 4000,
+    "aspect": 0.75,
+    "widths": [
+      480,
+      960,
+      1280
+    ],
+    "variants": {
+      "avif": {
+        "480": "/img/lopesan/fachada-480.avif",
+        "960": "/img/lopesan/fachada-960.avif",
+        "1280": "/img/lopesan/fachada-1280.avif"
+      },
+      "webp": {
+        "480": "/img/lopesan/fachada-480.webp",
+        "960": "/img/lopesan/fachada-960.webp",
+        "1280": "/img/lopesan/fachada-1280.webp"
+      }
+    },
+    "lqip": "data:image/webp;base64,UklGRiABAABXRUJQVlA4IBQBAADQBQCdASoYACAAPu1usFKppiSiqAgBMB2JYgC7MxmvtngyaAdYcYGf5Ic7KSSfRIcqsCccoroAAP6R5bC2usuDePrGPrw+KSbyfJLv6/MbPjpll1RelOPnqRKMvSBbtdwCYhYigQQeZE1LbJBGlGHNCJG5yE4Umdvssygrlq8GHQ6vub7gVAONHqE29a71C0bxD9nz3ouguUgOnfDwtCoNz5hsNZ1mzlOb6k1SiJPionPAp/3S8IH0Lpd9JV9nTeDEWioXJlCGF28yQ6YuhdUGIE1oMS60iSJ0+gX912ZBCE1RPKVAr2xLTUNu1P4ck4i3jd4O8Lrg5Fp0NJsO/+P5H/ElY+nIYOBUmeyctQpULJY4AAA="
   },
   "lopesan/hero": {
     "hash": "078a8f04509e",
@@ -55,21 +127,45 @@
     "widths": [
       480,
       960,
-      1600
+      1280
     ],
     "variants": {
       "avif": {
         "480": "/img/lopesan/hero-480.avif",
         "960": "/img/lopesan/hero-960.avif",
-        "1600": "/img/lopesan/hero-1600.avif"
+        "1280": "/img/lopesan/hero-1280.avif"
       },
       "webp": {
         "480": "/img/lopesan/hero-480.webp",
         "960": "/img/lopesan/hero-960.webp",
-        "1600": "/img/lopesan/hero-1600.webp"
+        "1280": "/img/lopesan/hero-1280.webp"
       }
     },
     "lqip": "data:image/webp;base64,UklGRsoAAABXRUJQVlA4IL4AAACwBQCdASoYABIAPu1kq0+ppSOiMBgIATAdiUATpmGJzLb/APPB6L508DVIJgLujKOopBiXpgAA/tlhZZfy4OCkJvG5x9ZaJtFTDAHrMSLqFpH4+dAG2rEVgvfr7LBIUVgkiPyZi8XWPNF5U6a0+hluMOabvkXM4mS7C73IzM8Jz+1+XGxqretZUnNJdepodMls3TkfcCqMT/AoMaeY07hVM0FeUXWPd6T1SrmV5faU5PgyXkMI7eWGwCdJ1wAA"
+  },
+  "lopesan/losas": {
+    "hash": "acaf546a4566",
+    "width": 3000,
+    "height": 4000,
+    "aspect": 0.75,
+    "widths": [
+      480,
+      960,
+      1280
+    ],
+    "variants": {
+      "avif": {
+        "480": "/img/lopesan/losas-480.avif",
+        "960": "/img/lopesan/losas-960.avif",
+        "1280": "/img/lopesan/losas-1280.avif"
+      },
+      "webp": {
+        "480": "/img/lopesan/losas-480.webp",
+        "960": "/img/lopesan/losas-960.webp",
+        "1280": "/img/lopesan/losas-1280.webp"
+      }
+    },
+    "lqip": "data:image/webp;base64,UklGRrAAAABXRUJQVlA4IKQAAAAwBQCdASoYACAAPu1qqk8ppiOiMBgIATAdiUAWI+aHwAG751pPrdn4xItRGCeUZ3os3AD+b7xTJpT5bRvNybNy56duw+GbQLnc3z0uLtGcd6lSZzyq3EIKedl7C1zNQsZn/QF5IKsgkjHVN7EWd+9MtPbUs8X99RqlT7bRFtQIdeGg76fswOcx6uLeE0T9gMJh9RZWAdFvJYZBIXLi1s2EsAAAAA=="
   },
   "lopesan/obra": {
     "hash": "9bf90e93515f",
@@ -79,18 +175,18 @@
     "widths": [
       480,
       960,
-      1600
+      1280
     ],
     "variants": {
       "avif": {
         "480": "/img/lopesan/obra-480.avif",
         "960": "/img/lopesan/obra-960.avif",
-        "1600": "/img/lopesan/obra-1600.avif"
+        "1280": "/img/lopesan/obra-1280.avif"
       },
       "webp": {
         "480": "/img/lopesan/obra-480.webp",
         "960": "/img/lopesan/obra-960.webp",
-        "1600": "/img/lopesan/obra-1600.webp"
+        "1280": "/img/lopesan/obra-1280.webp"
       }
     },
     "lqip": "data:image/webp;base64,UklGRo4AAABXRUJQVlA4IIIAAADwBACdASoYABIAPu1kqE2ppaOiMAgBMB2JYwCsACHYCAaQyKNkYnpHiZwWZWF7t4AA/t6IaQYupY+ErpeKfitKl/hZTqSQIeDetch8kjcvfWiqlnCYxQ8jIP8iMY1wnQbAVQSmj0dXrMnOqDC+wb95weoQuOXfl+jJ38lc2mhEAAAA"
@@ -103,20 +199,434 @@
     "widths": [
       480,
       960,
-      1600
+      1280
     ],
     "variants": {
       "avif": {
         "480": "/img/lopesan/puntales-480.avif",
         "960": "/img/lopesan/puntales-960.avif",
-        "1600": "/img/lopesan/puntales-1600.avif"
+        "1280": "/img/lopesan/puntales-1280.avif"
       },
       "webp": {
         "480": "/img/lopesan/puntales-480.webp",
         "960": "/img/lopesan/puntales-960.webp",
-        "1600": "/img/lopesan/puntales-1600.webp"
+        "1280": "/img/lopesan/puntales-1280.webp"
       }
     },
     "lqip": "data:image/webp;base64,UklGRpIAAABXRUJQVlA4IIYAAACwBACdASoYABIAPu1qrFCppaQiqAqpMB2JYwDGfA9gtWez4o3jz1mUA/mxvowAAN5Nlugm4Yu5qySHSVcwAGX3a4oUDblsyv5b0OF1gRzrsFn10H09sRCyXp4Hk8OxbxLTCJpFqwJ9yDUPnaCRH5k9jN172z3LR354qzK6A1pWZ1QIuyAAAA=="
+  },
+  "projects/brisas-city-center": {
+    "hash": "c6b3a143a227",
+    "width": 2560,
+    "height": 1440,
+    "aspect": 1.7778,
+    "widths": [
+      480,
+      960,
+      1280
+    ],
+    "variants": {
+      "avif": {
+        "480": "/img/projects/brisas-city-center-480.avif",
+        "960": "/img/projects/brisas-city-center-960.avif",
+        "1280": "/img/projects/brisas-city-center-1280.avif"
+      },
+      "webp": {
+        "480": "/img/projects/brisas-city-center-480.webp",
+        "960": "/img/projects/brisas-city-center-960.webp",
+        "1280": "/img/projects/brisas-city-center-1280.webp"
+      }
+    },
+    "lqip": "data:image/webp;base64,UklGRqoAAABXRUJQVlA4IJ4AAACwBACdASoYAA4APu1iqU2ppaOiMAgBMB2JZQCw7ywTogxhYRjiYXNm8mHJQERgAP2ZhnhlrRuIo6nfAbMKzwnBt1rgyXVr2u0FwGFnp37U9lXPqywaPbNg7+/ZFGe58/11wKtj63oCLekoOt5P1wNA7Mdow01uGnKIulWIOANE9/dtzb2SkqXENu/nfmaXt8PeyQloMbIIjVGbVIKoAA=="
+  },
+  "projects/city-place": {
+    "hash": "602cd10415da",
+    "width": 2560,
+    "height": 1440,
+    "aspect": 1.7778,
+    "widths": [
+      480,
+      960,
+      1280
+    ],
+    "variants": {
+      "avif": {
+        "480": "/img/projects/city-place-480.avif",
+        "960": "/img/projects/city-place-960.avif",
+        "1280": "/img/projects/city-place-1280.avif"
+      },
+      "webp": {
+        "480": "/img/projects/city-place-480.webp",
+        "960": "/img/projects/city-place-960.webp",
+        "1280": "/img/projects/city-place-1280.webp"
+      }
+    },
+    "lqip": "data:image/webp;base64,UklGRpwAAABXRUJQVlA4IJAAAABQBACdASoYAA4APu1iqU2ppaOiMAgBMB2JZwAD5aGWIAp/GrGk25nMZtWAAP6Cs6OMNKnK/XqjOBGXvzleonM4aKpag0Yh9N0aVUTlQtqi4pjnCEPdITCgvB1T7aBU6kOb7SaQhc5dF5EKLNqrHbpaAn5Mmh88lnTH4nia8EadeOtsJx7g77jUccFRy0cFAAA="
+  },
+  "projects/elements-volare": {
+    "hash": "5dff783eb73f",
+    "width": 2560,
+    "height": 1440,
+    "aspect": 1.7778,
+    "widths": [
+      480,
+      960,
+      1280
+    ],
+    "variants": {
+      "avif": {
+        "480": "/img/projects/elements-volare-480.avif",
+        "960": "/img/projects/elements-volare-960.avif",
+        "1280": "/img/projects/elements-volare-1280.avif"
+      },
+      "webp": {
+        "480": "/img/projects/elements-volare-480.webp",
+        "960": "/img/projects/elements-volare-960.webp",
+        "1280": "/img/projects/elements-volare-1280.webp"
+      }
+    },
+    "lqip": "data:image/webp;base64,UklGRpwAAABXRUJQVlA4IJAAAAAQBACdASoYAA4APu1iqU2ppaOiMAgBMB2JZwAAUz4YQjRT/jrckNVmAAD+rBFfTU7nnwgeVo8rnh0ggAiSARo/QApJkg3oCtbhs8m9I++8cwEmPfeRTqruXn/eJSVDTN9moeHNkmxiTOasSB47mTc9fA1uKF1XoA06/YoWBhyp1LbT/xLQ8C6x9fTeXmsYAAA="
+  },
+  "projects/hospital-barahona": {
+    "hash": "ac58348f66c9",
+    "width": 2560,
+    "height": 1920,
+    "aspect": 1.3333,
+    "widths": [
+      480,
+      960,
+      1280
+    ],
+    "variants": {
+      "avif": {
+        "480": "/img/projects/hospital-barahona-480.avif",
+        "960": "/img/projects/hospital-barahona-960.avif",
+        "1280": "/img/projects/hospital-barahona-1280.avif"
+      },
+      "webp": {
+        "480": "/img/projects/hospital-barahona-480.webp",
+        "960": "/img/projects/hospital-barahona-960.webp",
+        "1280": "/img/projects/hospital-barahona-1280.webp"
+      }
+    },
+    "lqip": "data:image/webp;base64,UklGRtQAAABXRUJQVlA4IMgAAADwBQCdASoYABIAPu1ur1IppiQiqAgBMB2JZQC/7y7GAFUvHR8IRh5xTzX397NjpKD7SVhjrViSgAD+2rX5M5hLUyEg22ZAw0BhWPQ0axJAcu3PTPWR3mPVIqPyg65H+KivMSwr6mxMfzzTQNceEh8B5QuIWRljpoIl9lVwXrdLdFbs4WZ18ARTmAy3oiB1tD2JZkrOrunkd/1vA1keGeDgEX0VVlhN6eQH57Hpkfm7RSdxiSVRtjXjeLOy8mVSNWP8+jrUX6mwAA=="
+  },
+  "projects/monterezzo": {
+    "hash": "27a568001fc3",
+    "width": 2560,
+    "height": 1440,
+    "aspect": 1.7778,
+    "widths": [
+      480,
+      960,
+      1280
+    ],
+    "variants": {
+      "avif": {
+        "480": "/img/projects/monterezzo-480.avif",
+        "960": "/img/projects/monterezzo-960.avif",
+        "1280": "/img/projects/monterezzo-1280.avif"
+      },
+      "webp": {
+        "480": "/img/projects/monterezzo-480.webp",
+        "960": "/img/projects/monterezzo-960.webp",
+        "1280": "/img/projects/monterezzo-1280.webp"
+      }
+    },
+    "lqip": "data:image/webp;base64,UklGRrYAAABXRUJQVlA4IKoAAABQBACdASoYAA4APu1iqU2ppaOiMAgBMB2JQACiA90SLOctbcCslk85WGXgAPqezpuHGCz0bd6y6NwEprqUKPpT2EPHgoQvbGjfPj/DxeD8KBN7uESS7mUAnLkZX1jGwhLmeCx0XxzBrsFOx9s/CNyWm5J5X8kgeJJAG68eden1KOOWdHiPhcSgJYOBsVgxqnJ8+QT7zTBwyDDe3te1I03QrPYuUHcj+wAAAA=="
+  },
+  "projects/olea": {
+    "hash": "849a99c38905",
+    "width": 2560,
+    "height": 1920,
+    "aspect": 1.3333,
+    "widths": [
+      480,
+      960,
+      1280
+    ],
+    "variants": {
+      "avif": {
+        "480": "/img/projects/olea-480.avif",
+        "960": "/img/projects/olea-960.avif",
+        "1280": "/img/projects/olea-1280.avif"
+      },
+      "webp": {
+        "480": "/img/projects/olea-480.webp",
+        "960": "/img/projects/olea-960.webp",
+        "1280": "/img/projects/olea-1280.webp"
+      }
+    },
+    "lqip": "data:image/webp;base64,UklGRugAAABXRUJQVlA4INwAAABQBQCdASoYABIAPu1or1CppaQiqAqpMB2JQBdgMZtOHLIVFV929xb/qI5k5ztpHZcZ08AA3lZJn6aoDXM9BR/sx5MZqKFonO008wFwbk64rFyKSjVR1besRikBbBGj75xpGbWEm7l4gQdJ+N27SIzFYuKnGKottJ1z4FvSyrSQNjncHqFhRhomrBtJw5MNVSukDff6cnEs6WqMlgAQhzyGVsrry21LcoDNYlp/81v8OES7bvW3Pnap5GBmC5tL6o2zeoWZ6eelROtR0JC0CrdL7x008+F7G+ljrAAA"
+  },
+  "projects/plaza-roque": {
+    "hash": "efd8f98e5095",
+    "width": 768,
+    "height": 487,
+    "aspect": 1.577,
+    "widths": [
+      480
+    ],
+    "variants": {
+      "avif": {
+        "480": "/img/projects/plaza-roque-480.avif"
+      },
+      "webp": {
+        "480": "/img/projects/plaza-roque-480.webp"
+      }
+    },
+    "lqip": "data:image/webp;base64,UklGRq4AAABXRUJQVlA4IKIAAABQBACdASoYAA8APu1iqU2ppaOiMAgBMB2JagCdAYwc5RNs52mCuMQsKzjAAP3Fzf7EvgYEy9KQ7ZfFXkX4dU6TH56ZP2Z14aKrjczT0TyK2ERDkexSthsuzv64KWRYqzoofbQZoQH3FOPt08wNg3AJ4r2495uA7Dwq2NcEP83JDLNyfIaOEkuVFITe80aZ85n8+cMqba6yKlp9K/uKcD74AAA="
+  },
+  "projects/poseidonia": {
+    "hash": "1dc2eb52a15e",
+    "width": 2560,
+    "height": 1440,
+    "aspect": 1.7778,
+    "widths": [
+      480,
+      960,
+      1280
+    ],
+    "variants": {
+      "avif": {
+        "480": "/img/projects/poseidonia-480.avif",
+        "960": "/img/projects/poseidonia-960.avif",
+        "1280": "/img/projects/poseidonia-1280.avif"
+      },
+      "webp": {
+        "480": "/img/projects/poseidonia-480.webp",
+        "960": "/img/projects/poseidonia-960.webp",
+        "1280": "/img/projects/poseidonia-1280.webp"
+      }
+    },
+    "lqip": "data:image/webp;base64,UklGRnoAAABXRUJQVlA4IG4AAABwAwCdASoYAA4APu1iqU2ppaOiMAgBMB2JZwAAW9K6fNkNN4AA/rqHgegRzXzony6jrtcJ3B2MmAheyB6Ta97SBTdD7RGB7Ps70oUngreBq3U+umCmPKsp0MWfhes6Xm4N6ggQqmSnHVRyCawAAA=="
+  },
+  "projects/riviera-bay": {
+    "hash": "a5a76567b350",
+    "width": 2560,
+    "height": 1440,
+    "aspect": 1.7778,
+    "widths": [
+      480,
+      960,
+      1280
+    ],
+    "variants": {
+      "avif": {
+        "480": "/img/projects/riviera-bay-480.avif",
+        "960": "/img/projects/riviera-bay-960.avif",
+        "1280": "/img/projects/riviera-bay-1280.avif"
+      },
+      "webp": {
+        "480": "/img/projects/riviera-bay-480.webp",
+        "960": "/img/projects/riviera-bay-960.webp",
+        "1280": "/img/projects/riviera-bay-1280.webp"
+      }
+    },
+    "lqip": "data:image/webp;base64,UklGRpwAAABXRUJQVlA4IJAAAADwAwCdASoYAA4APu1iqU2ppaOiMAgBMB2JYwCsABu1TgNPHm6oVtScAPuh7sOjarbNIHs+rDT8E0nJi/Qt1uwfxoZQQZUkKDuHjAAGiJB1zu+p3LmwWnEa8OyBSslxEPzIo3f4seh0KeOB7xWoZoM26Qqg7/H1+W18W1Cwv4dO4QlJ1MxywF3VVID0WrcGAAA="
+  },
+  "projects/torre-alpha": {
+    "hash": "071b7c87cfbc",
+    "width": 2560,
+    "height": 1440,
+    "aspect": 1.7778,
+    "widths": [
+      480,
+      960,
+      1280
+    ],
+    "variants": {
+      "avif": {
+        "480": "/img/projects/torre-alpha-480.avif",
+        "960": "/img/projects/torre-alpha-960.avif",
+        "1280": "/img/projects/torre-alpha-1280.avif"
+      },
+      "webp": {
+        "480": "/img/projects/torre-alpha-480.webp",
+        "960": "/img/projects/torre-alpha-960.webp",
+        "1280": "/img/projects/torre-alpha-1280.webp"
+      }
+    },
+    "lqip": "data:image/webp;base64,UklGRrAAAABXRUJQVlA4IKQAAADwAwCdASoYAA4APu1iqU2ppaQiMAgBMB2JQBYdgfDY+aMdxeheRp2AAO/HPmeZPGIHTrKvg2CBAFeEUPKbFeGpF8MDydHtNSVwkMEnvVZ7LWihR30iLpkD2U2bTJLRv96z57H95NwVF8VwEMahLZzm+JuuNXRhsGMJNwgNfug3PsNXYDiIkZ88dwmq2Yi7gF/wE/fMQ5Qa4bpHbC2IOHUACLgAAA=="
+  },
+  "projects/villa-cacique-38": {
+    "hash": "d8ffeb5efe96",
+    "width": 2560,
+    "height": 1920,
+    "aspect": 1.3333,
+    "widths": [
+      480,
+      960,
+      1280
+    ],
+    "variants": {
+      "avif": {
+        "480": "/img/projects/villa-cacique-38-480.avif",
+        "960": "/img/projects/villa-cacique-38-960.avif",
+        "1280": "/img/projects/villa-cacique-38-1280.avif"
+      },
+      "webp": {
+        "480": "/img/projects/villa-cacique-38-480.webp",
+        "960": "/img/projects/villa-cacique-38-960.webp",
+        "1280": "/img/projects/villa-cacique-38-1280.webp"
+      }
+    },
+    "lqip": "data:image/webp;base64,UklGRsoAAABXRUJQVlA4IL4AAABQBQCdASoYABIAPu1qrVCppaQiqAqpMB2JYwCdMoABqfPRoQAY+GveACdKCQBRkrDj8QAA/nk4XL/InKglGLBttGy0m/zGXFIlIxuhLqjCH0h88dOxmV85cb7pydsDqpqulta+9vki8siKkQ2KBn1WundvEsjDHQw9OQr08qzN/5zRnjLCZKloRn2wNm5dWbrj7or1Q8zfgZ3cRO/VAzTz7Jnd4nSfWuTu6crkhcuZEJ3VPPJ78eQ/so/0UAAA"
+  },
+  "stages/etapa-01": {
+    "hash": "b1447257b26d",
+    "width": 1169,
+    "height": 634,
+    "aspect": 1.8438,
+    "widths": [
+      480,
+      960
+    ],
+    "variants": {
+      "avif": {
+        "480": "/img/stages/etapa-01-480.avif",
+        "960": "/img/stages/etapa-01-960.avif"
+      },
+      "webp": {
+        "480": "/img/stages/etapa-01-480.webp",
+        "960": "/img/stages/etapa-01-960.webp"
+      }
+    },
+    "lqip": "data:image/webp;base64,UklGRn4AAABXRUJQVlA4IHIAAADwAwCdASoYAA0APu1iqU2ppaOiMAgBMB2JZQCdABehgv40hDkE4n4AAMo6J9gZ3h3Lm9U8Y7YPFemfR07Mb7Yrg/RhqNFmyQ/vkymftP+PLqEiJsagUuoYzIJaeeIdUVRzLGh0l0dUVG94BiUbQ0fAAAA="
+  },
+  "stages/etapa-02": {
+    "hash": "f8d839616735",
+    "width": 1800,
+    "height": 1350,
+    "aspect": 1.3333,
+    "widths": [
+      480,
+      960,
+      1280
+    ],
+    "variants": {
+      "avif": {
+        "480": "/img/stages/etapa-02-480.avif",
+        "960": "/img/stages/etapa-02-960.avif",
+        "1280": "/img/stages/etapa-02-1280.avif"
+      },
+      "webp": {
+        "480": "/img/stages/etapa-02-480.webp",
+        "960": "/img/stages/etapa-02-960.webp",
+        "1280": "/img/stages/etapa-02-1280.webp"
+      }
+    },
+    "lqip": "data:image/webp;base64,UklGRq4AAABXRUJQVlA4IKIAAAAwBQCdASoYABIAPu1qr1CppaQiqAqpMB2JQBdl5xJ/QHjDSFAYAp4GjDNYejzs9sEdAAD+1f5UoY2NDyqL9TF3au05UebFOnsKXW2JS/Rv6C4uZ9utJ4/TzHLDfJcZmxOeYJIDwLVXwLZvPPsR3ajChqcgzm6Uv7MiSnHZEBq0KiMrKZc9hh0oQ+nO2RiOwZKw8EBBOMvoBesw27GaQAAAAAA="
+  },
+  "stages/etapa-03": {
+    "hash": "7017e327e0cb",
+    "width": 1800,
+    "height": 1350,
+    "aspect": 1.3333,
+    "widths": [
+      480,
+      960,
+      1280
+    ],
+    "variants": {
+      "avif": {
+        "480": "/img/stages/etapa-03-480.avif",
+        "960": "/img/stages/etapa-03-960.avif",
+        "1280": "/img/stages/etapa-03-1280.avif"
+      },
+      "webp": {
+        "480": "/img/stages/etapa-03-480.webp",
+        "960": "/img/stages/etapa-03-960.webp",
+        "1280": "/img/stages/etapa-03-1280.webp"
+      }
+    },
+    "lqip": "data:image/webp;base64,UklGRrQAAABXRUJQVlA4IKgAAABQBQCdASoYABIAPu1qrlCppaQiqAqpMB2JQBOmYG5jBKC8Bttp2+AMSU+et6PJm5jhtJgA/uqo+RXfMSNZq34l6ejCgnGbO4KN7jkmD6UM24y9HSQ3Er27YcE+j7guk8bA1rfPON+zYyu7G9arqkwc4k2DSpfh+MqamAeV9VqSQQecKIVZCBZu5cBOT89Xtiqw/kBASVWS8pq7kDLmDk/tSAQ9wClgAAA="
+  },
+  "stages/etapa-04": {
+    "hash": "15040ac97074",
+    "width": 1217,
+    "height": 1350,
+    "aspect": 0.9015,
+    "widths": [
+      480,
+      960
+    ],
+    "variants": {
+      "avif": {
+        "480": "/img/stages/etapa-04-480.avif",
+        "960": "/img/stages/etapa-04-960.avif"
+      },
+      "webp": {
+        "480": "/img/stages/etapa-04-480.webp",
+        "960": "/img/stages/etapa-04-960.webp"
+      }
+    },
+    "lqip": "data:image/webp;base64,UklGRtQAAABXRUJQVlA4IMgAAABQBQCdASoYABsAPu1oqU+ppiOiKA1RMB2JYwDE6f/gG3+vCaCnvzrqUMJ4vcvIVvfrXAAA/rv0BHWERbIOV6w3s6jIQBQqAMW8RDRLOkN/4emfM7YSCrceHMlVZexVaS5r8e1uqNRy+JCJ1XGNghrzCjhHhygJGahKI8Tmq6etHR32cdAXMBGVKwscgPVGRa7OHyg42ekhp+kur8Lkx9ISf2LyadJr23k5zy0ptlotvklCze3BHXnogbYIz1ctaIfEcX69tAAAAA=="
+  },
+  "stages/etapa-05": {
+    "hash": "efd8f98e5095",
+    "width": 768,
+    "height": 487,
+    "aspect": 1.577,
+    "widths": [
+      480
+    ],
+    "variants": {
+      "avif": {
+        "480": "/img/stages/etapa-05-480.avif"
+      },
+      "webp": {
+        "480": "/img/stages/etapa-05-480.webp"
+      }
+    },
+    "lqip": "data:image/webp;base64,UklGRq4AAABXRUJQVlA4IKIAAABQBACdASoYAA8APu1iqU2ppaOiMAgBMB2JagCdAYwc5RNs52mCuMQsKzjAAP3Fzf7EvgYEy9KQ7ZfFXkX4dU6TH56ZP2Z14aKrjczT0TyK2ERDkexSthsuzv64KWRYqzoofbQZoQH3FOPt08wNg3AJ4r2495uA7Dwq2NcEP83JDLNyfIaOEkuVFITe80aZ85n8+cMqba6yKlp9K/uKcD74AAA="
+  },
+  "stages/etapa-06": {
+    "hash": "9fc361f6b017",
+    "width": 1800,
+    "height": 1800,
+    "aspect": 1,
+    "widths": [
+      480,
+      960,
+      1280
+    ],
+    "variants": {
+      "avif": {
+        "480": "/img/stages/etapa-06-480.avif",
+        "960": "/img/stages/etapa-06-960.avif",
+        "1280": "/img/stages/etapa-06-1280.avif"
+      },
+      "webp": {
+        "480": "/img/stages/etapa-06-480.webp",
+        "960": "/img/stages/etapa-06-960.webp",
+        "1280": "/img/stages/etapa-06-1280.webp"
+      }
+    },
+    "lqip": "data:image/webp;base64,UklGRuIAAABXRUJQVlA4INYAAABwBQCdASoYABgAPu1urlIppiQiqAgBMB2JZwC/PAgAmUoTFr5PTCBTu41Ff9AQJ1mOKcAAAP6x91ACboZMxdBFTgUBOLSUS4qeen9sXfod5z/urh2or/VWccMXyUEXmoGY99ZgzBvFz2gjZ/cNXJFNGiOHw7xREgfqeLpzVujBgXJ9I7bTdyri7BNUdLW8l+FACNauqNxdgV+TobVEjeFgHKou90CDCd0RwQdJJsPB3vzfUGMUVozmwXMp3S9ZiHkjy7SrUdIEPkOjGwKmIEovDHnZAAAA"
+  },
+  "stages/etapa-07": {
+    "hash": "288b00b22f01",
+    "width": 1280,
+    "height": 720,
+    "aspect": 1.7778,
+    "widths": [
+      480,
+      960,
+      1280
+    ],
+    "variants": {
+      "avif": {
+        "480": "/img/stages/etapa-07-480.avif",
+        "960": "/img/stages/etapa-07-960.avif",
+        "1280": "/img/stages/etapa-07-1280.avif"
+      },
+      "webp": {
+        "480": "/img/stages/etapa-07-480.webp",
+        "960": "/img/stages/etapa-07-960.webp",
+        "1280": "/img/stages/etapa-07-1280.webp"
+      }
+    },
+    "lqip": "data:image/webp;base64,UklGRqAAAABXRUJQVlA4IJQAAACQBACdASoYAA4APu1iqU2ppaOiMAgBMB2JQBOmUDX/wHkcJDd3ExlF3AvDXWAA99vAKlowiHWGTHnwqVMbg0T6DYVFfZYerTNdfbM9Q02tVQmtSOv/5LU+DJGtAs5GEPr7e5gEcMKnk+OtaL1maGPHyW9PMLEWqBe8Tgj3ar2/+2G+8UPUBpmqMD4Er8p7cYeM8IAA"
   }
 }
