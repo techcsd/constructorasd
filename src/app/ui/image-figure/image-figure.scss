@@ -6,7 +6,10 @@
   width: 100%;
   border-radius: var(--r-img);
   overflow: hidden;
-  background: var(--bg-sunken);
+  background-color: var(--bg-sunken);
+  background-size: cover; // the LQIP data-URI (set inline) scales to fill while the real image loads
+  background-position: center;
+  background-repeat: no-repeat;
 }
 .app-image-figure__pic img {
   width: 100%;

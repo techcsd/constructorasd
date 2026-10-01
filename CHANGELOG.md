@@ -3,6 +3,14 @@
 All notable changes to this project. Versioning is simple (CLAUDE.md / WB9): a `CHANGELOG.md` entry plus a
 `package.json` bump per release. Not tracked in `sgc.app_versiones`.
 
+## 1.0.3 — image blur-up + small dedup (2026-10-01)
+
+- **Blur-up images:** every `app-image-figure` now paints the manifest's `lqip` (a tiny webp data-URI) as
+  the `<picture>` background, so a blurred preview shows while the real image loads — the `lqip` was already
+  shipped in the bundle but never rendered. No extra request, no JS.
+- **Dedup:** extracted the shared H1 emphasis-split into `core/split-emphasis.ts` (was copied in
+  `page-header` and the home hero).
+
 ## 1.0.2 — accessibility + structured-data polish (2026-10-01)
 
 - **Accessibility:** gallery lightbox now traps Tab, focuses the close button on open and restores focus to

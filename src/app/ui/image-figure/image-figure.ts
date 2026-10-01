@@ -37,6 +37,13 @@ export class ImageFigure {
 
   readonly entry = computed<ImageEntry | undefined>(() => MANIFEST[this.image()]);
 
+  // Blur-up: paint the tiny LQIP (a webp data-URI) as the <picture> background so there's a blurred
+  // preview while the real image loads — then the opaque <img> covers it. No JS, no extra request.
+  readonly lqipBg = computed(() => {
+    const e = this.entry();
+    return e?.lqip ? `url("${e.lqip}")` : null;
+  });
+
   readonly avifSrcset = computed(() => this.buildSrcset('avif'));
   readonly webpSrcset = computed(() => this.buildSrcset('webp'));
   readonly fallbackSrc = computed(() => {

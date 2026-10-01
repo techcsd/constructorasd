@@ -1,6 +1,6 @@
 @if (entry()) {
   <figure class="app-image-figure">
-    <picture class="app-image-figure__pic" [style.aspect-ratio]="aspect()">
+    <picture class="app-image-figure__pic" [style.aspect-ratio]="aspect()" [style.background-image]="lqipBg()">
       <source type="image/avif" [attr.srcset]="avifSrcset()" [attr.sizes]="sizes()" />
       <source type="image/webp" [attr.srcset]="webpSrcset()" [attr.sizes]="sizes()" />
       <img

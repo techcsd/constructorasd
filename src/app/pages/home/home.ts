@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
 import { I18nService } from '../../core/i18n/i18n.service';
 import { applyPageSeo } from '../../core/seo/page-seo';
+import { splitEmphasis } from '../../core/split-emphasis';
 import { pathFor, detailPathFor } from '../../core/i18n/localized-routes';
 import { PAGE_META } from '../../../content/page-meta';
 import { COMPANY } from '../../../content/company';
@@ -50,12 +51,7 @@ export class Home {
   private meta = PAGE_META['home'];
   readonly heroLead = computed(() => this.pick(this.meta.lead));
   readonly heroEyebrow = computed(() => this.pick(this.meta.eyebrow));
-  readonly h1parts = computed(() => {
-    const full = this.pick(this.meta.h1);
-    const em = this.pick(this.meta.emphasis);
-    const i = full.indexOf(em);
-    return i < 0 ? { before: full, em: '', after: '' } : { before: full.slice(0, i), em, after: full.slice(i + em.length) };
-  });
+  readonly h1parts = computed(() => splitEmphasis(this.pick(this.meta.h1), this.pick(this.meta.emphasis)));
 
   readonly intro = computed(() => this.pick(COMPANY.description));
   readonly stats = computed(() => COMPANY.stats.map((s) => ({ value: s.value, label: this.pick(s.label) })));
