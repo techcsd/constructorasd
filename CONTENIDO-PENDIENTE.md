@@ -32,8 +32,17 @@
   la sección "Equipo" queda fuera de v1 (WB8). Si Xaviel quiere incluirla, hacen falta nombres, cargos y fotos.
 
 ### Proyectos
-- Fotos propias (no-PPTX) de los 10 proyectos distintos a Lopesan, si existen.
-- Confirmar nombre de cliente, sector, ubicación y alcance de cada uno de los 11 proyectos.
+- **Fotos auto-mapeadas**: las portadas de los 11 proyectos no-Lopesan y Plaza Roque se sacaron del PPTX
+  mapeando por orden de diapositiva (image38→Poseidonia … image48→Villa Cacique, image22→Plaza Roque).
+  Son fotos reales de CSD, pero **conviene que Xaviel verifique que cada foto corresponde al proyecto**.
+- **Galerías**: solo Lopesan tiene galería (8 fotos). Los demás proyectos muestran solo la portada —
+  hacen falta más fotos propias por proyecto para una galería.
+- **Sector / ubicación / alcance por proyecto**: confirmados solo para Lopesan, Hospital Barahona,
+  Brisas City Center y Plaza Roque. El resto usa "República Dominicana" como ubicación neutral y un
+  alcance indicativo (`scope` en `src/content/projects.ts`) — confirmar ciudad y etapas reales.
+- **Plaza Roque**: no figura el cliente en el PPTX (queda vacío) — confirmar.
+- Nota técnica menor: el WebP de respaldo de `hospital-barahona` pesa 349 kB (>250 kB); el AVIF servido a
+  navegadores modernos sí cumple. Solo afecta a navegadores muy antiguos.
 
 ### Clientes
 - Logos vectoriales (SVG) de los ~42 clientes; donde no haya logo se muestra el nombre en texto (nunca placeholder de imagen).

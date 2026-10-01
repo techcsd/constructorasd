@@ -1,8 +1,12 @@
 // serve-dist.mjs — minimal static server for the prerendered build (used by Playwright + Lighthouse).
 import { createServer } from 'node:http';
 import { readFileSync, existsSync, statSync } from 'node:fs';
+import { gzipSync } from 'node:zlib';
 import { fileURLToPath } from 'node:url';
 import { dirname, join, extname } from 'node:path';
+
+// gzip text assets so local Lighthouse approximates Vercel's compression.
+const COMPRESSIBLE = new Set(['.html', '.js', '.mjs', '.css', '.json', '.svg', '.xml', '.txt']);
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(__dirname, '..', 'dist', 'constructorasd', 'browser');
@@ -38,8 +42,19 @@ createServer((req, res) => {
     res.statusCode = 404;
   }
   try {
-    res.setHeader('content-type', MIME[extname(file)] || 'application/octet-stream');
-    res.end(readFileSync(file));
+    const ext = extname(file);
+    res.setHeader('content-type', MIME[ext] || 'application/octet-stream');
+    if (/\.(css|js|mjs|woff2|avif|webp|png|svg|ico)$/.test(file)) {
+      res.setHeader('cache-control', 'public, max-age=31536000, immutable');
+    }
+    const body = readFileSync(file);
+    const accepts = (req.headers['accept-encoding'] || '').includes('gzip');
+    if (accepts && COMPRESSIBLE.has(ext)) {
+      res.setHeader('content-encoding', 'gzip');
+      res.end(gzipSync(body));
+    } else {
+      res.end(body);
+    }
   } catch {
     res.statusCode = 500;
     res.end('error');

@@ -45,7 +45,7 @@ const BUDGETS = { performance: 90, accessibility: 100, 'best-practices': 100, se
 const MANDATORY = ['accessibility', 'best-practices', 'seo'];
 const TARGETS = [
   { url: '/', name: 'home' },
-  { url: '/styleguide/', name: 'styleguide' },
+  { url: '/proyectos/lopesan-costa-bavaro-bloque-f/', name: 'proyecto-detalle' },
 ];
 
 if (!existsSync(browser)) {

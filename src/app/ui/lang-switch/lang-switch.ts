@@ -3,7 +3,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { NavigationEnd, Router, RouterLink } from '@angular/router';
 import { filter } from 'rxjs';
 import { I18nService } from '../../core/i18n/i18n.service';
-import { pathFor, resolveUrl } from '../../core/i18n/localized-routes';
+import { pathFor, detailPathFor, resolveUrl } from '../../core/i18n/localized-routes';
 
 /** ES / EN switch (DESIGN-BRIEF §6). Maps the current route to its twin; current locale in --text. */
 @Component({
@@ -31,7 +31,15 @@ export class LangSwitch {
 
   readonly locale = this.i18n.locale;
 
-  private key = computed(() => resolveUrl(this.url())?.key ?? 'home');
-  readonly esPath = computed(() => pathFor(this.key(), 'es') ?? '/');
-  readonly enPath = computed(() => pathFor(this.key(), 'en') ?? '/en');
+  private info = computed(() => resolveUrl(this.url()));
+  readonly esPath = computed(() => {
+    const r = this.info();
+    if (!r) return '/';
+    return (r.slug ? detailPathFor(r.key, r.slug, 'es') : pathFor(r.key, 'es')) ?? '/';
+  });
+  readonly enPath = computed(() => {
+    const r = this.info();
+    if (!r) return '/en';
+    return (r.slug ? detailPathFor(r.key, r.slug, 'en') : pathFor(r.key, 'en')) ?? '/en';
+  });
 }

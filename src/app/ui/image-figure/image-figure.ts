@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, DOCUMENT, computed, effect, inject, input } from '@angular/core';
 import manifestJson from '../../../content/image-manifest.json';
 
 interface ImageEntry {
@@ -51,4 +51,25 @@ export class ImageFigure {
     if (!e) return '';
     return e.widths.map((w) => `${e.variants[fmt][String(w)]} ${w}w`).join(', ');
   }
+
+  // Preload a priority (LCP) image so the browser starts fetching it before the component renders.
+  // Runs during prerender too → the <link rel=preload> lands in the static HTML head. Improves LCP.
+  private doc = inject<Document>(DOCUMENT);
+  private preloaded = false;
+  private preloadEffect = effect(() => {
+    const e = this.entry();
+    if (!this.priority() || !e || this.preloaded) return;
+    this.preloaded = true;
+    const id = `preload-${this.image()}`.replace(/[^a-z0-9-]/gi, '-');
+    if (this.doc.getElementById(id)) return;
+    const link = this.doc.createElement('link');
+    link.id = id;
+    link.setAttribute('rel', 'preload');
+    link.setAttribute('as', 'image');
+    link.setAttribute('type', 'image/avif');
+    link.setAttribute('imagesrcset', this.avifSrcset());
+    link.setAttribute('imagesizes', this.sizes());
+    link.setAttribute('fetchpriority', 'high');
+    this.doc.head.appendChild(link);
+  });
 }

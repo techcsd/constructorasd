@@ -8,16 +8,19 @@ import { dirname, join, relative } from 'node:path';
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(__dirname, '..');
 
-// Resolve siteUrl from the generated environment.ts (falls back to prod domain).
-function siteUrl() {
+// Resolve siteUrl + envName from the generated environment.ts (falls back to prod).
+function readEnv() {
   try {
     const env = readFileSync(join(ROOT, 'src', 'environments', 'environment.ts'), 'utf8');
-    const m = env.match(/"siteUrl"\s*:\s*"([^"]+)"/);
-    if (m && m[1]) return m[1].replace(/\/$/, '');
+    const url = env.match(/"siteUrl"\s*:\s*"([^"]+)"/)?.[1];
+    const name = env.match(/"envName"\s*:\s*"([^"]+)"/)?.[1];
+    return { siteUrlVal: (url || 'https://constructorasd.com').replace(/\/$/, ''), envName: name || 'dev' };
   } catch {
-    /* ignore */
+    return { siteUrlVal: 'https://constructorasd.com', envName: 'dev' };
   }
-  return 'https://constructorasd.com';
+}
+function siteUrl() {
+  return readEnv().siteUrlVal;
 }
 
 // Find the prerendered browser output dir.
@@ -59,10 +62,13 @@ const urls = [...routes]
 const xml = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls}\n</urlset>\n`;
 writeFileSync(join(browser, 'sitemap.xml'), xml, 'utf8');
 
-// Make sure robots.txt (committed in public/, copied to output) references the sitemap.
+// robots.txt is env-aware: prod allows all + points at the sitemap; non-prod (preview) disallows all.
+const { envName } = readEnv();
 const robotsPath = join(browser, 'robots.txt');
-let robots = existsSync(robotsPath) ? readFileSync(robotsPath, 'utf8') : 'User-agent: *\nAllow: /\n';
-if (!/Sitemap:/i.test(robots)) robots += `\nSitemap: ${base}/sitemap.xml\n`;
+const robots =
+  envName === 'prod'
+    ? `User-agent: *\nAllow: /\n\nSitemap: ${base}/sitemap.xml\n`
+    : `# Non-production (preview) deployment — keep it out of search.\nUser-agent: *\nDisallow: /\n`;
 writeFileSync(robotsPath, robots, 'utf8');
 
-console.log(`[gen-sitemap] ✓ ${routes.size} route(s) → sitemap.xml (base ${base}).`);
+console.log(`[gen-sitemap] ✓ ${routes.size} route(s) → sitemap.xml (base ${base}, env ${envName}).`);

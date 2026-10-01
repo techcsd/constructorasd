@@ -61,7 +61,7 @@ export class SeoService {
     this.setHreflang(esPath, enPath);
 
     // Open Graph
-    const image = this.abs(input.image ?? '/og/default.png');
+    const image = this.abs(input.image ?? '/og/default.jpg');
     this.meta.updateTag({ property: 'og:type', content: input.type ?? 'website' });
     this.meta.updateTag({ property: 'og:site_name', content: 'Constructora Scheker & Domínguez' });
     this.meta.updateTag({ property: 'og:title', content: TITLE_TEMPLATE(input.title) });
