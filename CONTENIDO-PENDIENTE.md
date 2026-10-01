@@ -64,21 +64,27 @@ fiscales reales, marcados en el texto como `[Razón social, RNC y domicilio lega
 - **RNC** (Registro Nacional del Contribuyente).
 - **Domicilio legal / fiscal** completo.
 
-## Backend / lanzamiento (Prompt 3)
+## Backend / lanzamiento (Prompt 3) — ✅ EN PRODUCCIÓN (2026-10-01)
 
-- **RESEND_API_KEY**: hace falta para que el formulario envíe el correo de aviso a `info@`. Ahora mismo los
-  leads **se guardan** en `web.leads` (fuente de verdad) pero el correo queda con `email_error`. Opciones:
-  ponla en `.env.local` (`RESEND_API_KEY=…`) y la configuro como secreto de las edge functions, o autorízame
-  a leerla del Vault de SGC. También hay que **verificar el dominio remitente** en Resend (ver `docs/DNS-CUTOVER.md`).
-- **Prod backend (csd-core)**: ✅ **APLICADO** con tu OK — schema `web` + grants + bucket + funciones
-  (`web-contact`, `web-apply`, `web-client-error`) desplegadas y **verificadas** en prod (una fila de prueba
-  entró en `web.leads` y se borró). Falta solo la `RESEND_API_KEY` para que salga el correo.
-- **Vercel (panel, ~2 min — no lo puedo hacer por API)**: 1) *Settings → Git → Production Branch* = **`main`**;
-  2) *Settings → Domains* → añadir `constructorasd.com` y `www.constructorasd.com`. Vercel te dará un TXT de
-  verificación que va en Wix.
-- **DNS en Wix**: pasos en `docs/DNS-CUTOVER.md` (cambiar A → `76.76.21.21`, CNAME `www` → `cname.vercel-dns.com`;
-  MX/SPF de Google **no se tocan**).
-- **Search Console**: alta de la propiedad + TXT de verificación (lo generas tú).
+El sitio está **publicado en https://constructorasd.com** (v1.0.0). Todo lo de abajo ya está hecho:
+
+- **RESEND_API_KEY**: ✅ leída del Vault de SGC (con tu OK) y puesta como secreto en dev + prod. Remitente
+  `noreply@sgcconstructorasd.com` (dominio verificado en Resend). Verificado en prod: un lead real se guardó
+  en `web.leads` y el correo **se envió** (`emailed_at` con valor, sin `email_error`); la fila de prueba se borró.
+- **Prod backend (csd-core)**: ✅ schema `web` + grants + bucket `web-cv` + funciones
+  (`web-contact`, `web-apply`, `web-client-error`) desplegadas y verificadas end-to-end.
+- **Vercel**: ✅ Production Branch = `main`; dominios `constructorasd.com` + `www.constructorasd.com` añadidos y
+  verificados; HTTPS emitido; `www` → 308 → apex; build de prod sirviendo (indexable).
+- **DNS**: ✅ el dominio (registrado en Squarespace) movido a **nameservers de Squarespace**
+  (`nsa1–4.squarespacedns.com`). A `@` → `76.76.21.21`, CNAME `www` → `cname.vercel-dns.com`.
+  MX/SPF/DKIM de Google **intactos** (el correo de la empresa no se tocó). *(Nota: ya no se usa Wix.)*
+
+### Pendiente menor (lo haces tú, requiere tu cuenta Google)
+- **Search Console**: la propiedad ya tiene el TXT `google-site-verification` en DNS. Entra a Search Console →
+  propiedad `constructorasd.com` → **Sitemaps** → envía `sitemap.xml`. Opcional: "Inspección de URL" sobre la
+  home y "Solicitar indexación" para acelerar.
+- **Resend (opcional, branding)**: verificar `constructorasd.com` como dominio remitente para que los correos
+  salgan desde `noreply@constructorasd.com` en vez de `@sgcconstructorasd.com`.
 
 ## Para la próxima ronda de SGC (no se toca SGC en este repo)
 
