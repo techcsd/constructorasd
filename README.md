@@ -1,59 +1,51 @@
-# Constructorasd
+# constructorasd.com
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.2.16.
+Corporate website of **Constructora Scheker & Domínguez (CSD)** — a Dominican construction company
+(earthworks, structures, light systems, finishes, turnkey resorts & hospitals). Bilingual (Spanish
+default, English under `/en`), built with Angular 21 (standalone, signals, `@angular/ssr` static
+prerender), deployed on Vercel, with leads/CVs persisted to Supabase (schema `web`) + email via Resend.
 
-## Development server
+Built and maintained solo with Claude Code. See `CLAUDE.md` for the house rules and `docs/` for the design
+brief, decisions, content model, environments, analytics and the DNS cutover.
 
-To start a local development server, run:
+## Requirements
 
-```bash
-ng serve
-```
+- Node 20+ / npm 10+ (the repo pins `legacy-peer-deps=true` in `.npmrc`).
+- A `.env.local` (gitignored). Generate it from the Supabase Management API:
+  ```bash
+  SUPABASE_ACCESS_TOKEN=… node scripts/supabase/init-env.mjs
+  ```
+  It writes `SUPABASE_URL_{DEV,PROD}`, `SUPABASE_ANON_KEY_{DEV,PROD}`, `SITE_URL_*` and project refs.
+  Service-role keys are **not** stored (rule 5).
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+## Common commands
 
-## Code scaffolding
+| Command | What it does |
+|---|---|
+| `npm start` | dev server (`ng serve`); generates a dev `environment.ts` first |
+| `npm run build` | runs all `verify-*` guards (prebuild), prerenders every route in ES+EN, then the sitemap |
+| `npm run build:dev` / `build:prod` | env-resolved build via `scripts/build-env.mjs` (what Vercel runs) |
+| `npm test` | vitest unit tests (i18n, routes, SEO, contrast, content, lead validators) |
+| `npm run test:e2e` | Playwright smoke (run `npm run build` first) |
+| `npm run images` | optimize `assets-src/**` → `public/img/**` (AVIF/WebP, manifest) |
+| `npm run og` | regenerate the default Open Graph image |
+| `npm run lighthouse` | local Lighthouse on `/` and a project detail (needs Chrome or Playwright’s Chromium) |
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+## Deploy
 
-```bash
-ng generate component component-name
-```
+Vercel builds via `vercel.json` → `node scripts/build-env.mjs`, which picks the env from the branch
+(`main` → prod, else dev), generates `environment.ts`, runs the guards and prerenders. Branch `dev` gets a
+preview; `main` is production. **Production domain and DNS are gated on Xaviel’s OK** (CLAUDE.md rule 6).
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+## Backend (schema `web`)
 
-```bash
-ng generate --help
-```
+Supabase projects are shared with SGC (BU1): `dev = sgc-dev`, `prod = csd-core`; CSD lives in schema `web`.
+Apply migrations with `node scripts/supabase/apply.mjs --env dev|prod`; edge functions in
+`supabase/functions/` (`web-contact`, `web-apply`, `web-client-error`) are deployed per environment. The
+site only ever calls the edge functions with the **anon** key; the service role never reaches the browser.
 
-## Building
+## Repo layout
 
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+See `CLAUDE.md` → *Repo map*. In short: `src/app/{core,ui,pages}`, `src/content/` (typed, Supabase-ready
+data), `src/styles/` (semantic tokens), `scripts/` (guards + tooling), `sql/`, `supabase/functions/`,
+`docs/`.

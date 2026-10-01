@@ -63,3 +63,21 @@ fiscales reales, marcados en el texto como `[Razón social, RNC y domicilio lega
 - **Razón social exacta** (nombre legal registrado de la empresa).
 - **RNC** (Registro Nacional del Contribuyente).
 - **Domicilio legal / fiscal** completo.
+
+## Backend / lanzamiento (Prompt 3)
+
+- **RESEND_API_KEY**: hace falta para que el formulario envíe el correo de aviso a `info@`. Ahora mismo los
+  leads **se guardan** en `web.leads` (fuente de verdad) pero el correo queda con `email_error`. Opciones:
+  ponla en `.env.local` (`RESEND_API_KEY=…`) y la configuro como secreto de las edge functions, o autorízame
+  a leerla del Vault de SGC. También hay que **verificar el dominio remitente** en Resend (ver `docs/DNS-CUTOVER.md`).
+- **Aplicar a prod (csd-core)**: el schema `web` + funciones están probados en sgc-dev; aplicarlos a prod
+  requiere tu OK (es la base de datos de producción compartida con SGC). Runbook exacto en `docs/DNS-CUTOVER.md`.
+- **Dominio + DNS**: pasos en `docs/DNS-CUTOVER.md` (cambiar A/CNAME en Wix; MX/SPF se mantienen).
+- **Search Console**: alta de la propiedad + TXT de verificación (lo generas tú).
+
+## Para la próxima ronda de SGC (no se toca SGC en este repo)
+
+- **Monitoreo de uptime**: añadir `constructorasd.com` al módulo de infraestructura de SGC (DNS/RDAP/HTTP +
+  alertas Telegram). Es un cambio en el repo de SGC, no aquí.
+- **Vista "Web → Solicitudes"**: exponer `web.leads` / `web.job_applications` en SGC (con sus propias
+  políticas de lectura) para gestionar los leads y las candidaturas desde el ERP.

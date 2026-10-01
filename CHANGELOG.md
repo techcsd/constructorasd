@@ -3,6 +3,21 @@
 All notable changes to this project. Versioning is simple (CLAUDE.md / WB9): a `CHANGELOG.md` entry plus a
 `package.json` bump per release. Not tracked in `sgc.app_versiones`.
 
+## 1.0.0-rc.1 — backend & launch prep (Prompt 3)
+
+- Supabase schema `web` (leads, job_applications, rate_limits, client_errors) with RLS and no anon
+  policies — only the edge functions (service role) write. Private `web-cv` storage bucket. Applied and
+  tested on **sgc-dev**; prod runbook in `docs/DNS-CUTOVER.md` (gated on Xaviel's OK).
+- Edge functions (Deno): `web-contact`, `web-apply`, `web-client-error` — validation, anti-spam
+  (honeypot + min fill time + per-IP rate limit on a salted hash + link-stuffing), persist-then-email via
+  Resend (dev redirect to Tecnología, `[DEV]` subject), signed 7-day CV links, CORS. Deployed to sgc-dev.
+- Frontend `LeadsService` (anon key only) wires the contact + application forms; optimistic UI, friendly
+  bilingual error state, `lead_submitted` / `application_submitted` analytics events. Client error reporter
+  → `web-client-error`. Analytics + Speed Insights are prod-only.
+- Shared validators (`src/shared/lead-validation.ts`) with vitest. `docs/ANALYTICS.md`, `README.md`,
+  `docs/DNS-CUTOVER.md`. Verified end-to-end on sgc-dev: a lead row persists; email records `email_error`
+  until `RESEND_API_KEY` is provided.
+
 ## 0.2.0 — content & pages (Prompt 2)
 
 - Content model (`src/content/types.ts`) mirroring future `web.*` tables; data filled from the 2026
