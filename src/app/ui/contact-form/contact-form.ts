@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@a
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { I18nService } from '../../core/i18n/i18n.service';
+import { LeadsService } from '../../core/leads/leads.service';
 import { pathFor } from '../../core/i18n/localized-routes';
 import { Button } from '../button/button';
 import { Icon } from '../icon/icon';
@@ -23,9 +24,12 @@ import { TPipe } from '../../core/i18n/t.pipe';
 export class ContactForm {
   private fb = inject(FormBuilder);
   private i18n = inject(I18nService);
+  private leads = inject(LeadsService);
 
   readonly submitting = signal(false);
   readonly submitted = signal(false);
+  readonly submitError = signal(false);
+  private readonly startedAt = Date.now();
   readonly privacidadPath = computed(() => pathFor('privacidad', this.i18n.locale()) ?? '/privacidad');
 
   readonly sectors = ['Hotelero', 'Institucional', 'Hospitalario', 'Industrial', 'Residencial', 'Minero', 'Otro'];
@@ -53,9 +57,36 @@ export class ContactForm {
     }
     if (this.form.controls.website.value) return; // bot caught by honeypot
     this.submitting.set(true);
-    // Prompt 1 stub — Prompt 3 posts to the web-contact edge function with the anon key.
-    await new Promise((r) => setTimeout(r, 600));
+    this.submitError.set(false);
+    const v = this.form.getRawValue();
+    const result = await this.leads.submitContact({
+      locale: this.i18n.locale(),
+      name: v.nombre,
+      company: v.empresa,
+      email: v.email,
+      phone: v.telefono,
+      projectType: v.tipo,
+      message: v.mensaje,
+      consent: v.consent,
+      website: v.website,
+      startedAt: this.startedAt,
+      page: typeof location !== 'undefined' ? location.pathname : undefined,
+    });
     this.submitting.set(false);
-    this.submitted.set(true);
+    if (result.ok) {
+      this.submitted.set(true);
+      this.trackEvent('lead_submitted');
+    } else {
+      this.submitError.set(true);
+    }
+  }
+
+  private async trackEvent(name: string): Promise<void> {
+    try {
+      const { track } = await import('@vercel/analytics');
+      track(name);
+    } catch {
+      /* analytics optional */
+    }
   }
 }

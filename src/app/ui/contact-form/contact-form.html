@@ -79,5 +79,11 @@
     <app-button variant="primary" type="submit" [icon]="'arrow-right'" [disabled]="submitting()">
       {{ 'Enviar mensaje' | t }}
     </app-button>
+
+    @if (submitError()) {
+      <p class="app-field__err small" role="alert">
+        {{ 'No pudimos enviar tu mensaje. Inténtalo de nuevo o escríbenos a info@constructorasd.com.' | t }}
+      </p>
+    }
   </form>
 }

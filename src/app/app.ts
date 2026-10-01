@@ -42,17 +42,42 @@ export class App {
 
     this.seo.setOrganizationJsonLd();
 
-    // Vercel analytics + speed insights — browser only (CSP allows the Vercel hosts, see vercel.json).
+    // Vercel analytics + speed insights — PROD builds only (WB10), browser only.
     afterNextRender(async () => {
-      try {
-        const { inject: vaInject } = await import('@vercel/analytics');
-        vaInject({ mode: environment.production ? 'production' : 'development' });
-        const { injectSpeedInsights } = await import('@vercel/speed-insights');
-        injectSpeedInsights();
-      } catch {
-        /* analytics is best-effort */
+      if (environment.production) {
+        try {
+          const { inject: vaInject } = await import('@vercel/analytics');
+          vaInject({ mode: 'production' });
+          const { injectSpeedInsights } = await import('@vercel/speed-insights');
+          injectSpeedInsights();
+        } catch {
+          /* analytics is best-effort */
+        }
       }
+      this.installErrorReporter();
     });
+  }
+
+  /** Report uncaught errors to the web-client-error edge function (rate-limited, no PII). */
+  private installErrorReporter(): void {
+    const base = (environment.supabaseUrl || '').replace(/\/$/, '');
+    const anon = environment.supabaseAnonKey || '';
+    if (!base || !anon || typeof window === 'undefined') return;
+    let sent = 0;
+    const report = (message: string, source?: string) => {
+      if (sent >= 5 || !message) return; // cap per page load
+      sent++;
+      fetch(`${base}/functions/v1/web-client-error`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', apikey: anon, Authorization: `Bearer ${anon}` },
+        body: JSON.stringify({ message: String(message).slice(0, 1024), source, page: location.pathname }),
+        keepalive: true,
+      }).catch(() => {});
+    };
+    window.addEventListener('error', (e) => report(e.message, e.filename));
+    window.addEventListener('unhandledrejection', (e) =>
+      report(`unhandledrejection: ${(e.reason && e.reason.message) || e.reason}`),
+    );
   }
 
   private applyLocale(url: string): void {

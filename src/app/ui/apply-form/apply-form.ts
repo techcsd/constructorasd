@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, computed, inject, input, signal } f
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { I18nService } from '../../core/i18n/i18n.service';
+import { LeadsService } from '../../core/leads/leads.service';
 import { pathFor } from '../../core/i18n/localized-routes';
 import { Button } from '../button/button';
 import { Icon } from '../icon/icon';
@@ -26,14 +27,19 @@ const ACCEPT = ['.pdf', '.doc', '.docx'];
 export class ApplyForm {
   /** Optional position title (prefilled on a job-detail page). */
   readonly position = input<string>('');
+  /** Optional job slug (from the job-detail route); empty = spontaneous application. */
+  readonly jobSlug = input<string>('');
 
   private fb = inject(FormBuilder);
   private i18n = inject(I18nService);
+  private leads = inject(LeadsService);
 
   readonly submitting = signal(false);
   readonly submitted = signal(false);
+  readonly submitError = signal(false);
   readonly fileName = signal('');
   readonly fileError = signal('');
+  private readonly startedAt = Date.now();
   readonly accept = ACCEPT.join(',');
   readonly privacidadPath = computed(() => pathFor('privacidad', this.i18n.locale()) ?? '/privacidad');
 
@@ -92,8 +98,35 @@ export class ApplyForm {
     }
     if (this.form.controls.website.value) return;
     this.submitting.set(true);
-    await new Promise((r) => setTimeout(r, 600)); // Prompt 3 posts to web-apply with the file
+    this.submitError.set(false);
+    const v = this.form.getRawValue();
+    const fd = new FormData();
+    fd.set('locale', this.i18n.locale());
+    fd.set('jobSlug', this.jobSlug() || '');
+    fd.set('name', v.nombre);
+    fd.set('email', v.email);
+    fd.set('phone', v.telefono);
+    fd.set('message', v.mensaje);
+    fd.set('consent', String(v.consent));
+    fd.set('website', v.website);
+    fd.set('startedAt', String(this.startedAt));
+    fd.set('cv', this.file, this.file.name);
+    const result = await this.leads.submitApplication(fd);
     this.submitting.set(false);
-    this.submitted.set(true);
+    if (result.ok) {
+      this.submitted.set(true);
+      this.trackEvent('application_submitted');
+    } else {
+      this.submitError.set(true);
+    }
+  }
+
+  private async trackEvent(name: string): Promise<void> {
+    try {
+      const { track } = await import('@vercel/analytics');
+      track(name);
+    } catch {
+      /* analytics optional */
+    }
   }
 }

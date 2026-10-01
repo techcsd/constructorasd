@@ -1,0 +1,14 @@
+# Supabase config for the constructorasd `web` edge functions. The CSD web shares the Supabase projects
+# with SGC (dev=sgc-dev, prod=csd-core); only these functions + the `web` schema belong to this repo.
+project_id = "constructorasd-web"
+
+# Public form endpoints — no JWT required. Protected by our own validation + honeypot + fill-time +
+# rate limiting (web.rate_limits). They never expose the service role to the client.
+[functions.web-contact]
+verify_jwt = false
+
+[functions.web-apply]
+verify_jwt = false
+
+[functions.web-client-error]
+verify_jwt = false
