@@ -3,6 +3,18 @@
 All notable changes to this project. Versioning is simple (CLAUDE.md / WB9): a `CHANGELOG.md` entry plus a
 `package.json` bump per release. Not tracked in `sgc.app_versiones`.
 
+## 1.0.0 — production launch (2026-10-01)
+
+- **Live on constructorasd.com.** DNS moved to Squarespace nameservers (`nsa1–4.squarespacedns.com`);
+  apex A → Vercel, `www` → 308 → apex; Google MX/SPF/DKIM preserved (email intact). HTTPS issued,
+  prod build serving (indexable), sitemap + robots at the apex. Production branch = `main`.
+- **Backend applied to prod (csd-core).** Schema `web` + grants + `web-cv` bucket + edge functions
+  (`web-contact`, `web-apply`, `web-client-error`) deployed; `RESEND_API_KEY` set (read from SGC Vault),
+  sender `noreply@sgcconstructorasd.com` (verified). End-to-end verified in prod: a real contact
+  submission persisted to `web.leads` and the notification email delivered (`emailed_at` set); test row removed.
+- Fix: Resend setup scripts now resolve Supabase refs by project name (were hardcoding the prod ref,
+  which failed the `verify-sin-ref-hardcodeado` guard and the first `main` production build).
+
 ## 1.0.0-rc.1 — backend & launch prep (Prompt 3)
 
 - Supabase schema `web` (leads, job_applications, rate_limits, client_errors) with RLS and no anon
