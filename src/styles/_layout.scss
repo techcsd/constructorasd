@@ -1,0 +1,65 @@
+// ════════════════════════════════════════════════════════════════════════════
+//  constructorasd.com — layout utilities (DESIGN-BRIEF §4)
+// ════════════════════════════════════════════════════════════════════════════
+
+.container {
+  width: 100%;
+  max-width: var(--container);
+  margin-inline: auto;
+  padding-inline: var(--pad-inline);
+}
+
+// 12-column grid; gutter widens at ≥1200px. Compositions are asymmetric on purpose.
+.grid-12 {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: var(--gutter);
+  @media (min-width: 1200px) {
+    gap: var(--gutter-lg);
+  }
+}
+
+// Full-bleed: break out of the container to the viewport edges.
+.bleed {
+  width: 100vw;
+  margin-inline: calc(50% - 50vw);
+}
+
+// Section vertical rhythm.
+.section {
+  padding-block: var(--space-8);
+  @media (min-width: 768px) {
+    padding-block: var(--space-10);
+  }
+}
+.section--tight {
+  padding-block: var(--space-7);
+  @media (min-width: 768px) {
+    padding-block: var(--space-8);
+  }
+}
+
+// Dark-tone band: fills with the dark semantic surface (tokens come from .tone-dark).
+.tone-dark {
+  background: var(--bg);
+  color: var(--text);
+}
+
+// Responsive column-span helpers used by asymmetric compositions.
+@media (min-width: 768px) {
+  .col-1-5 {
+    grid-column: 1 / span 5;
+  }
+  .col-6-12 {
+    grid-column: 6 / span 7;
+  }
+  .col-1-6 {
+    grid-column: 1 / span 6;
+  }
+  .col-8-12 {
+    grid-column: 8 / span 5;
+  }
+  .col-1-7 {
+    grid-column: 1 / span 7;
+  }
+}

@@ -1,0 +1,18 @@
+.app-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+.app-eyebrow__rule {
+  width: 24px;
+  height: 1px;
+  background: var(--line-strong);
+  flex: none;
+}
+.app-eyebrow__index {
+  color: var(--text-3);
+  font-variant-numeric: tabular-nums;
+}
+.app-eyebrow__label {
+  color: var(--text-3);
+}

@@ -1,0 +1,191 @@
+<!-- ░░ Home hero mock (WA15 checkpoint) ░░ -->
+<section class="sg-hero">
+  <div class="sg-hero__media">
+    <app-image-figure
+      image="lopesan/hero"
+      alt="Estructura de hormigón y encofrado en obra — Lopesan Costa Bávaro, Bávaro"
+      aspect="16 / 9"
+      [priority]="true"
+    />
+  </div>
+  <div class="sg-hero__scrim"></div>
+  <div class="container sg-hero__content">
+    <h1 class="display sg-hero__title">Construyendo el futuro con bases <em>sólidas</em></h1>
+    <p class="lead sg-hero__lead">
+      Entregamos resorts, hospitales y obras institucionales llave en mano, cubriendo todo el ciclo
+      constructivo con un solo equipo.
+    </p>
+    <div class="sg-hero__actions">
+      <app-button variant="primary" href="#proyectos" [icon]="'arrow-right'">Ver proyectos</app-button>
+      <app-button variant="secondary" href="#contacto" [icon]="null">Hablemos</app-button>
+    </div>
+    <span class="eyebrow sg-hero__eyebrow">Santo Domingo · Punta Cana · desde 2014</span>
+  </div>
+</section>
+
+<div class="container sg-intro">
+  <app-eyebrow label="Sistema de diseño" index="00" />
+  <h2 class="h1">Guía de estilos</h2>
+  <p class="lead">
+    Tinta, hueso y un acento óxido usado con cuentagotas. Hanken Grotesk para todo; Instrument Serif,
+    solo para citas y numerales. Esta página es el checkpoint de diseño del Prompt 1.
+  </p>
+</div>
+
+<!-- ░░ Colors ░░ -->
+<section class="section container">
+  <app-eyebrow label="Color" index="01" />
+  <h2 class="h2 sg-h">Tokens semánticos</h2>
+  <p class="small sg-note">Claro (por defecto). Los componentes solo usan estos tokens, nunca primitivos.</p>
+  <div class="sg-swatches">
+    @for (t of tokens; track t) {
+      <div class="sg-swatch">
+        <span class="sg-swatch__chip" [style.background-color]="'var(--' + t + ')'"></span>
+        <span class="small sg-swatch__name">--{{ t }}</span>
+      </div>
+    }
+  </div>
+</section>
+
+<section class="section tone-dark" data-tone="dark">
+  <div class="container">
+    <app-eyebrow label="Color" index="01" />
+    <h2 class="h2 sg-h">Tokens semánticos — tono oscuro</h2>
+    <p class="small sg-note">Una sección opta al set oscuro con <code>data-tone="dark"</code>.</p>
+    <div class="sg-swatches">
+      @for (t of tokens; track t) {
+        <div class="sg-swatch">
+          <span class="sg-swatch__chip" [style.background-color]="'var(--' + t + ')'"></span>
+          <span class="small sg-swatch__name">--{{ t }}</span>
+        </div>
+      }
+    </div>
+  </div>
+</section>
+
+<!-- ░░ Type ░░ -->
+<section class="section container">
+  <app-eyebrow label="Tipografía" index="02" />
+  <h2 class="h2 sg-h">Escala tipográfica</h2>
+  <div class="sg-type">
+    @for (t of typeScale; track t.label) {
+      <div class="sg-type__row">
+        <span class="eyebrow sg-type__tag">{{ t.label }}</span>
+        <span [class]="t.cls">{{ t.sample }}</span>
+      </div>
+    }
+  </div>
+</section>
+
+<!-- ░░ Eyebrows + Buttons ░░ -->
+<section class="section container sg-grid2">
+  <div>
+    <app-eyebrow label="Eyebrow" index="03" />
+    <h2 class="h2 sg-h">Eyebrows</h2>
+    <div class="sg-stack">
+      <app-eyebrow label="La empresa" index="01" />
+      <app-eyebrow label="Alcance integral" />
+      <app-eyebrow label="Proyectos ejecutados" index="04" />
+    </div>
+  </div>
+  <div>
+    <app-eyebrow label="Botones" index="04" />
+    <h2 class="h2 sg-h">Botones</h2>
+    <div class="sg-buttons">
+      <app-button variant="primary">Hablemos</app-button>
+      <app-button variant="secondary">Ver proyectos</app-button>
+      <app-button variant="ghost">Conocer la empresa</app-button>
+      <app-button variant="primary" [disabled]="true" [icon]="null">Enviado</app-button>
+    </div>
+  </div>
+</section>
+
+<!-- ░░ Header states (static demo) ░░ -->
+<section class="section container">
+  <app-eyebrow label="Header" index="05" />
+  <h2 class="h2 sg-h">Estados del header</h2>
+  <p class="small sg-note">Sólido (páginas interiores y tras 24px de scroll).</p>
+  <div class="sg-headerdemo sg-headerdemo--solid">
+    <app-logo />
+    <nav class="sg-headerdemo__nav">
+      @for (l of navDemo; track l) {<span class="small">{{ l }}</span>}
+    </nav>
+    <span class="small sg-headerdemo__lang">ES / <span class="sg-muted">EN</span></span>
+    <app-button variant="primary" [icon]="null">Hablemos</app-button>
+  </div>
+  <p class="small sg-note">Transparente sobre el hero (texto claro sobre foto).</p>
+  <div class="sg-headerdemo sg-headerdemo--over tone-dark" data-tone="dark">
+    <app-logo />
+    <nav class="sg-headerdemo__nav">
+      @for (l of navDemo; track l) {<span class="small">{{ l }}</span>}
+    </nav>
+    <span class="small sg-headerdemo__lang">ES / <span class="sg-muted">EN</span></span>
+    <app-button variant="primary" [icon]="null">Hablemos</app-button>
+  </div>
+</section>
+
+<!-- ░░ StatsBand ░░ -->
+<app-stats-band [stats]="stats" />
+
+<!-- ░░ StageRow ░░ -->
+<section class="section container">
+  <app-eyebrow label="Servicios" index="06" />
+  <h2 class="h2 sg-h">Etapa constructiva</h2>
+  <app-stage-row
+    [index]="stage04.index"
+    [title]="stage04.title"
+    [summary]="stage04.summary"
+    [capabilities]="stage04.capabilities"
+    [heights]="stage04.heights"
+    image="lopesan/estructura"
+    imageAlt="Estructura vertical y encofrado — Lopesan Costa Bávaro"
+    [open]="true"
+  />
+</section>
+
+<!-- ░░ Project cards ░░ -->
+<section class="section container" id="proyectos">
+  <app-section-heading
+    eyebrow="Proyectos"
+    index="07"
+    heading="Obras que hablan por nosotros"
+    lead="Un proyecto destacado y dos del índice. Las fotos sin foto propia usan un bloque neutro."
+  />
+  <div class="sg-projects">
+    @for (p of showcaseProjects; track p.name) {
+      <app-project-card
+        [class.sg-projects__featured]="p.featured"
+        [name]="p.name"
+        [client]="p.client"
+        [sector]="p.sector"
+        [city]="p.city"
+        [image]="p.image"
+        [featured]="p.featured"
+      />
+    }
+  </div>
+</section>
+
+<!-- ░░ ClientWall ░░ -->
+<section class="section container">
+  <app-eyebrow label="Clientes" index="08" />
+  <h2 class="h2 sg-h">Clientes y colaboraciones</h2>
+  <app-client-wall [clients]="clients12" />
+</section>
+
+<!-- ░░ Quote ░░ -->
+<section class="section tone-dark" data-tone="dark">
+  <div class="container">
+    <app-quote [text]="quote.text" [attribution]="quote.attribution" />
+  </div>
+</section>
+
+<!-- ░░ ContactForm ░░ -->
+<section class="section container sg-grid2" id="contacto">
+  <div>
+    <app-eyebrow label="Contacto" index="09" />
+    <h2 class="h2 sg-h">Formulario</h2>
+    <p class="lead">Validación en vivo; el envío real se conecta en el Prompt 3.</p>
+  </div>
+  <app-contact-form />
+</section>

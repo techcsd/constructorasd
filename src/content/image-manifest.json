@@ -1,0 +1,122 @@
+{
+  "lopesan/componentes": {
+    "hash": "9e49c5d1490e",
+    "width": 4000,
+    "height": 3000,
+    "aspect": 1.3333,
+    "widths": [
+      480,
+      960,
+      1600
+    ],
+    "variants": {
+      "avif": {
+        "480": "/img/lopesan/componentes-480.avif",
+        "960": "/img/lopesan/componentes-960.avif",
+        "1600": "/img/lopesan/componentes-1600.avif"
+      },
+      "webp": {
+        "480": "/img/lopesan/componentes-480.webp",
+        "960": "/img/lopesan/componentes-960.webp",
+        "1600": "/img/lopesan/componentes-1600.webp"
+      }
+    },
+    "lqip": "data:image/webp;base64,UklGRrQAAABXRUJQVlA4IKgAAABQBQCdASoYABIAPu1mqk8ppaOiKA1RMB2JYwDH5BExyDIoutnskdjhwSp8Cz59LFAsJwAA/tMeEYe62ubjjmkJhq3FgHHO2A44s7jVHSAYEJ2VcjyW9M8lJP8BLsBX6Srb1+r2POJJRIbW9UhJIXQaQH1mUKMtNBg2mShIDdTYByNN5xgqIpKO/CZgz0+rVU7Xr4+MnpwtZCh+WfN9oFxVQHCl5gHgAAA="
+  },
+  "lopesan/estructura": {
+    "hash": "c14f8a0d8c51",
+    "width": 4000,
+    "height": 3000,
+    "aspect": 1.3333,
+    "widths": [
+      480,
+      960,
+      1600
+    ],
+    "variants": {
+      "avif": {
+        "480": "/img/lopesan/estructura-480.avif",
+        "960": "/img/lopesan/estructura-960.avif",
+        "1600": "/img/lopesan/estructura-1600.avif"
+      },
+      "webp": {
+        "480": "/img/lopesan/estructura-480.webp",
+        "960": "/img/lopesan/estructura-960.webp",
+        "1600": "/img/lopesan/estructura-1600.webp"
+      }
+    },
+    "lqip": "data:image/webp;base64,UklGRrYAAABXRUJQVlA4IKoAAADwBACdASoYABIAPu1sqlEppaOuqAqp0B2JZQC/8a0AqFCqzpZyNYg9fC5B0Yju8MAA/sGGrZqqj8XWjuDXNmKcXjlNcl6BRZrFkOljRZBXZr9bqGUhXHAJ9R91MVolqv17Armp/bSx/ixj4U47fDc8CxUcz6R4YaFLlu2qn8DikVoi1kiTd7toXEPRrNDyM+LpLgKIvIvvgL1tCd5INefPx/yD81JH2AAAAA=="
+  },
+  "lopesan/hero": {
+    "hash": "078a8f04509e",
+    "width": 4000,
+    "height": 3000,
+    "aspect": 1.3333,
+    "widths": [
+      480,
+      960,
+      1600
+    ],
+    "variants": {
+      "avif": {
+        "480": "/img/lopesan/hero-480.avif",
+        "960": "/img/lopesan/hero-960.avif",
+        "1600": "/img/lopesan/hero-1600.avif"
+      },
+      "webp": {
+        "480": "/img/lopesan/hero-480.webp",
+        "960": "/img/lopesan/hero-960.webp",
+        "1600": "/img/lopesan/hero-1600.webp"
+      }
+    },
+    "lqip": "data:image/webp;base64,UklGRsoAAABXRUJQVlA4IL4AAACwBQCdASoYABIAPu1kq0+ppSOiMBgIATAdiUATpmGJzLb/APPB6L508DVIJgLujKOopBiXpgAA/tlhZZfy4OCkJvG5x9ZaJtFTDAHrMSLqFpH4+dAG2rEVgvfr7LBIUVgkiPyZi8XWPNF5U6a0+hluMOabvkXM4mS7C73IzM8Jz+1+XGxqretZUnNJdepodMls3TkfcCqMT/AoMaeY07hVM0FeUXWPd6T1SrmV5faU5PgyXkMI7eWGwCdJ1wAA"
+  },
+  "lopesan/obra": {
+    "hash": "9bf90e93515f",
+    "width": 4000,
+    "height": 3000,
+    "aspect": 1.3333,
+    "widths": [
+      480,
+      960,
+      1600
+    ],
+    "variants": {
+      "avif": {
+        "480": "/img/lopesan/obra-480.avif",
+        "960": "/img/lopesan/obra-960.avif",
+        "1600": "/img/lopesan/obra-1600.avif"
+      },
+      "webp": {
+        "480": "/img/lopesan/obra-480.webp",
+        "960": "/img/lopesan/obra-960.webp",
+        "1600": "/img/lopesan/obra-1600.webp"
+      }
+    },
+    "lqip": "data:image/webp;base64,UklGRo4AAABXRUJQVlA4IIIAAADwBACdASoYABIAPu1kqE2ppaOiMAgBMB2JYwCsACHYCAaQyKNkYnpHiZwWZWF7t4AA/t6IaQYupY+ErpeKfitKl/hZTqSQIeDetch8kjcvfWiqlnCYxQ8jIP8iMY1wnQbAVQSmj0dXrMnOqDC+wb95weoQuOXfl+jJ38lc2mhEAAAA"
+  },
+  "lopesan/puntales": {
+    "hash": "f401fba9aa99",
+    "width": 4000,
+    "height": 3000,
+    "aspect": 1.3333,
+    "widths": [
+      480,
+      960,
+      1600
+    ],
+    "variants": {
+      "avif": {
+        "480": "/img/lopesan/puntales-480.avif",
+        "960": "/img/lopesan/puntales-960.avif",
+        "1600": "/img/lopesan/puntales-1600.avif"
+      },
+      "webp": {
+        "480": "/img/lopesan/puntales-480.webp",
+        "960": "/img/lopesan/puntales-960.webp",
+        "1600": "/img/lopesan/puntales-1600.webp"
+      }
+    },
+    "lqip": "data:image/webp;base64,UklGRpIAAABXRUJQVlA4IIYAAACwBACdASoYABIAPu1qrFCppaQiqAqpMB2JYwDGfA9gtWez4o3jz1mUA/mxvowAAN5Nlugm4Yu5qySHSVcwAGX3a4oUDblsyv5b0OF1gRzrsFn10H09sRCyXp4Hk8OxbxLTCJpFqwJ9yDUPnaCRH5k9jN172z3LR354qzK6A1pWZ1QIuyAAAA=="
+  }
+}

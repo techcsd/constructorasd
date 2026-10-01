@@ -1,0 +1,61 @@
+:host {
+  display: block;
+}
+.app-pir {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: var(--space-2) var(--space-4);
+  padding-block: var(--space-5);
+  border-bottom: 1px solid var(--line);
+  transition: border-color var(--dur) var(--ease-out);
+}
+.app-pir:hover {
+  border-color: var(--text);
+}
+.app-pir__name {
+  grid-column: 1;
+}
+.app-pir__client,
+.app-pir__sector {
+  color: var(--text-3);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.app-pir__icon {
+  grid-column: 2;
+  grid-row: 1;
+  color: var(--text-3);
+  transition:
+    transform var(--dur) var(--ease-out),
+    color var(--dur) var(--ease-out);
+}
+.app-pir:hover .app-pir__icon {
+  color: var(--text);
+  transform: translate(3px, -3px);
+}
+// Desktop hover thumbnail, floated at the right edge.
+.app-pir__thumb {
+  display: none;
+}
+@media (min-width: 1024px) {
+  .app-pir__thumb {
+    display: block;
+    position: absolute;
+    right: var(--space-8);
+    top: 50%;
+    width: 180px;
+    transform: translateY(-50%) scale(0.98);
+    opacity: 0;
+    pointer-events: none;
+    transition:
+      opacity var(--dur) var(--ease-out),
+      transform var(--dur) var(--ease-out);
+    z-index: 2;
+  }
+  .app-pir:hover .app-pir__thumb {
+    opacity: 1;
+    transform: translateY(-50%) scale(1);
+  }
+}

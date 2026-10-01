@@ -1,0 +1,19 @@
+.app-wa-fab {
+  position: fixed;
+  right: var(--space-5);
+  bottom: var(--space-5);
+  z-index: 90;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%; // .fab is the only circle (DESIGN-BRIEF §4)
+  background: var(--ink-900); // tokens-allow (fixed brand chrome, not a themed surface)
+  color: var(--white); // tokens-allow
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--shadow-1);
+  transition: transform var(--dur) var(--ease-out);
+}
+.app-wa-fab:hover {
+  transform: translateY(-3px);
+}

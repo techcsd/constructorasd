@@ -1,0 +1,36 @@
+<details class="app-stage-row" [attr.open]="open() ? '' : null">
+  <summary class="app-stage-row__summary">
+    <span class="eyebrow app-stage-row__index">{{ index() }}</span>
+    <span class="h3 app-stage-row__title">{{ title() }}</span>
+    <span class="small app-stage-row__desc">{{ summary() }}</span>
+    <span class="app-stage-row__chev" aria-hidden="true"><app-icon name="chevron-down" [size]="20" /></span>
+  </summary>
+
+  <div class="app-stage-row__body">
+    <ul class="app-stage-row__caps">
+      @for (cap of capabilities(); track cap) {
+        <li class="app-stage-row__cap">
+          <app-icon name="check" [size]="18" />
+          <span>{{ cap }}</span>
+        </li>
+      }
+    </ul>
+
+    @if (heights().length) {
+      <dl class="app-stage-row__heights">
+        @for (h of heights(); track h.label) {
+          <div class="app-stage-row__height">
+            <dt class="serif app-stage-row__height-val">{{ h.value }}</dt>
+            <dd class="small app-stage-row__height-lbl">{{ h.label }}</dd>
+          </div>
+        }
+      </dl>
+    }
+
+    @if (image()) {
+      <div class="app-stage-row__media">
+        <app-image-figure [image]="image()" [alt]="imageAlt() || title()" aspect="16 / 10" />
+      </div>
+    }
+  </div>
+</details>

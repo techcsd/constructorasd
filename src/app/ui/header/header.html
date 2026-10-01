@@ -1,0 +1,57 @@
+<div class="app-header__bar container">
+  <a class="app-header__logo" [routerLink]="homePath()" aria-label="Constructora SD — inicio">
+    <app-logo />
+  </a>
+
+  <nav class="app-header__nav" [attr.aria-label]="'Menú principal' | t">
+    @for (link of links(); track link.key) {
+      <a
+        class="app-header__link"
+        [routerLink]="link.path"
+        routerLinkActive="is-active"
+        [routerLinkActiveOptions]="{ exact: false }"
+        >{{ link.label | t }}</a
+      >
+    }
+  </nav>
+
+  <div class="app-header__actions">
+    <app-lang-switch />
+    <app-button class="app-header__cta" variant="primary" [routerLink]="contactoPath()" [icon]="null">
+      {{ 'Hablemos' | t }}
+    </app-button>
+    <button
+      class="app-header__toggle"
+      type="button"
+      [attr.aria-expanded]="menuOpen()"
+      [attr.aria-label]="(menuOpen() ? 'Cerrar menú' : 'Abrir menú') | t"
+      (click)="toggleMenu()"
+    >
+      <app-icon [name]="menuOpen() ? 'close' : 'menu'" [size]="24" />
+    </button>
+  </div>
+</div>
+
+<!-- Mobile full-screen menu -->
+@if (menuOpen()) {
+  <div
+    #menuPanel
+    class="app-header__menu tone-dark"
+    role="dialog"
+    aria-modal="true"
+    [attr.aria-label]="'Menú principal' | t"
+    (keydown)="onMenuKeydown($event)"
+  >
+    <nav class="app-header__menu-nav">
+      @for (link of links(); track link.key) {
+        <a class="app-header__menu-link h2" [routerLink]="link.path">{{ link.label | t }}</a>
+      }
+    </nav>
+    <div class="app-header__menu-foot">
+      <app-lang-switch />
+      <app-button variant="primary" [routerLink]="contactoPath()" [icon]="null">
+        {{ 'Hablemos' | t }}
+      </app-button>
+    </div>
+  </div>
+}

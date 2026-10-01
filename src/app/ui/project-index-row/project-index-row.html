@@ -1,0 +1,11 @@
+<a class="app-pir" [routerLink]="routerLink()">
+  <span class="app-pir__name h3">{{ name() }}</span>
+  <span class="app-pir__client small">{{ client() }}</span>
+  <span class="app-pir__sector small">{{ sector() }}</span>
+  <span class="app-pir__icon"><app-icon name="arrow-up-right" [size]="18" /></span>
+  @if (image()) {
+    <span class="app-pir__thumb" aria-hidden="true">
+      <app-image-figure [image]="image()" [alt]="altText()" aspect="3 / 2" />
+    </span>
+  }
+</a>

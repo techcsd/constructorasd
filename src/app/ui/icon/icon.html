@@ -1,0 +1,9 @@
+@if (decorative()) {
+  <svg [attr.width]="size()" [attr.height]="size()" aria-hidden="true" focusable="false">
+    <use [attr.href]="href()"></use>
+  </svg>
+} @else {
+  <svg [attr.width]="size()" [attr.height]="size()" role="img" [attr.aria-label]="label()">
+    <use [attr.href]="href()"></use>
+  </svg>
+}

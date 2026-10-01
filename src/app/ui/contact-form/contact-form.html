@@ -1,0 +1,83 @@
+@if (submitted()) {
+  <div class="app-contact-form__success" role="status">
+    <span class="app-contact-form__check"><app-icon name="check" [size]="22" /></span>
+    <p class="h3">{{ 'Gracias. Hemos recibido tu mensaje.' | t }}</p>
+    <p class="body">{{ 'Te responderemos a la brevedad.' | t }}</p>
+  </div>
+} @else {
+  <form class="app-contact-form" (ngSubmit)="onSubmit()" [formGroup]="form" novalidate>
+    <div class="app-contact-form__row">
+      <div class="app-field">
+        <label for="cf-nombre">{{ 'Nombre' | t }}</label>
+        <input id="cf-nombre" type="text" formControlName="nombre" autocomplete="name"
+          [attr.aria-invalid]="showError('nombre')" aria-describedby="cf-nombre-err" />
+        @if (showError('nombre')) {
+          <p id="cf-nombre-err" class="app-field__err small">{{ 'Este campo es obligatorio.' | t }}</p>
+        }
+      </div>
+      <div class="app-field">
+        <label for="cf-empresa">{{ 'Empresa / Organización' | t }}</label>
+        <input id="cf-empresa" type="text" formControlName="empresa" autocomplete="organization" />
+      </div>
+    </div>
+
+    <div class="app-contact-form__row">
+      <div class="app-field">
+        <label for="cf-email">{{ 'Correo electrónico' | t }}</label>
+        <input id="cf-email" type="email" formControlName="email" autocomplete="email"
+          [attr.aria-invalid]="showError('email')" aria-describedby="cf-email-err" />
+        @if (showError('email')) {
+          <p id="cf-email-err" class="app-field__err small">{{ 'Introduce un correo válido.' | t }}</p>
+        }
+      </div>
+      <div class="app-field">
+        <label for="cf-telefono">{{ 'Teléfono' | t }}</label>
+        <input id="cf-telefono" type="tel" formControlName="telefono" autocomplete="tel" />
+      </div>
+    </div>
+
+    <div class="app-field">
+      <label for="cf-tipo">{{ 'Tipo de proyecto' | t }}</label>
+      <select id="cf-tipo" formControlName="tipo" [attr.aria-invalid]="showError('tipo')">
+        <option value="" disabled>—</option>
+        @for (s of sectors; track s) {
+          <option [value]="s">{{ s | t }}</option>
+        }
+      </select>
+      @if (showError('tipo')) {
+        <p class="app-field__err small">{{ 'Este campo es obligatorio.' | t }}</p>
+      }
+    </div>
+
+    <div class="app-field">
+      <label for="cf-mensaje">{{ 'Mensaje' | t }}</label>
+      <textarea id="cf-mensaje" rows="5" formControlName="mensaje"
+        [attr.aria-invalid]="showError('mensaje')"></textarea>
+      @if (showError('mensaje')) {
+        <p class="app-field__err small">{{ 'Este campo es obligatorio.' | t }}</p>
+      }
+    </div>
+
+    <!-- honeypot: hidden from users + assistive tech -->
+    <div class="app-contact-form__hp" aria-hidden="true">
+      <label>No llenar<input type="text" formControlName="website" tabindex="-1" autocomplete="off" /></label>
+    </div>
+
+    <div class="app-field app-field--check">
+      <label class="app-contact-form__consent">
+        <input type="checkbox" formControlName="consent" [attr.aria-invalid]="showError('consent')" />
+        <span class="small">
+          {{ 'Acepto la' | t }}
+          <a [routerLink]="privacidadPath()">{{ 'política de privacidad' | t }}</a>.
+        </span>
+      </label>
+      @if (showError('consent')) {
+        <p class="app-field__err small">{{ 'Debes aceptar la política de privacidad.' | t }}</p>
+      }
+    </div>
+
+    <app-button variant="primary" type="submit" [icon]="'arrow-right'" [disabled]="submitting()">
+      {{ 'Enviar mensaje' | t }}
+    </app-button>
+  </form>
+}

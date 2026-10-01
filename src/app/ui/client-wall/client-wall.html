@@ -1,0 +1,11 @@
+<ul class="app-client-wall">
+  @for (c of clients(); track c.name) {
+    <li class="app-client-wall__cell">
+      @if (c.logo) {
+        <img class="app-client-wall__logo" [src]="c.logo" [alt]="c.name" loading="lazy" />
+      } @else {
+        <span class="app-client-wall__name small">{{ c.name }}</span>
+      }
+    </li>
+  }
+</ul>

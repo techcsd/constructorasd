@@ -1,0 +1,42 @@
+// ════════════════════════════════════════════════════════════════════════════
+//  constructorasd.com — mixins (DESIGN-BRIEF §1 / §5)
+// ════════════════════════════════════════════════════════════════════════════
+
+// The ONLY allowed gradient: a photo scrim so overlaid text stays legible on a
+// hero image. verify-no-ai-tropes.mjs permits gradients only here / on `scrim` lines.
+@mixin photo-scrim($from: rgba(20, 21, 22, 0.76), $to: 66%) {
+  // scrim: darken the lower part of a hero image behind text
+  background-image: linear-gradient(to top, $from, transparent $to); // scrim
+}
+
+// Visible focus ring (brief §9): 2px in --focus, offset 2px.
+@mixin focus-ring {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+  border-radius: var(--r-sm);
+}
+
+// Reveal base state used by appReveal — hidden until observed, visible without JS
+// (the directive only sets .is-revealed; the no-JS / SSR state is fully visible).
+@mixin reveal-prep {
+  @media (prefers-reduced-motion: no-preference) {
+    opacity: 0;
+    transform: translateY(12px);
+    transition:
+      opacity var(--dur-reveal) var(--ease-out),
+      transform var(--dur-reveal) var(--ease-out);
+  }
+}
+
+// 1px hairline — the second "system signature" (brief §4).
+@mixin hairline($side: bottom, $color: var(--line)) {
+  border-#{$side}: 1px solid $color;
+}
+
+// Section vertical rhythm: 128px desktop, 64px mobile.
+@mixin section-padding {
+  padding-block: var(--space-8);
+  @media (min-width: 768px) {
+    padding-block: var(--space-10);
+  }
+}

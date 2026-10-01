@@ -1,0 +1,35 @@
+:host {
+  display: inline-flex;
+  color: inherit;
+}
+.app-logo {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+.app-logo__mark {
+  height: 1.7em;
+  width: auto;
+  flex: none;
+}
+.app-logo__text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1;
+}
+.app-logo__name {
+  font-weight: 700;
+  font-size: 1.05rem;
+  letter-spacing: -0.02em;
+}
+.app-logo__tag {
+  font-size: 0.5rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.34em;
+  color: var(--text-3);
+  margin-top: 2px;
+}
+.app-logo--mark-only .app-logo__mark {
+  height: 1.9em;
+}

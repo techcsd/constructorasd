@@ -1,0 +1,32 @@
+.app-image-figure {
+  margin: 0;
+}
+.app-image-figure__pic {
+  display: block;
+  width: 100%;
+  border-radius: var(--r-img);
+  overflow: hidden;
+  background: var(--bg-sunken);
+}
+.app-image-figure__pic img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.app-image-figure__placeholder {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-5);
+  text-align: center;
+  color: var(--text-3);
+  background: var(--bg-sunken);
+  border: 1px solid var(--line);
+  border-radius: var(--r-img);
+}
+.app-image-figure__cap {
+  color: var(--text-3);
+  margin-top: var(--space-2);
+}

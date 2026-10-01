@@ -1,0 +1,16 @@
+.app-quote {
+  margin: 0;
+  padding-left: var(--space-5);
+  border-left: 1px solid var(--line-strong);
+  max-width: 24ch;
+}
+.app-quote__text {
+  font-size: var(--fs-h2);
+  line-height: 1.12;
+  color: var(--text);
+}
+.app-quote__cite {
+  display: block;
+  margin-top: var(--space-4);
+  color: var(--text-3);
+}

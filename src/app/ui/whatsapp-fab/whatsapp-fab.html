@@ -1,0 +1,11 @@
+@if (visible()) {
+  <a
+    class="app-wa-fab"
+    [href]="href()"
+    target="_blank"
+    rel="noopener noreferrer"
+    [attr.aria-label]="'Escríbenos por WhatsApp' | t"
+  >
+    <app-icon name="whatsapp" [size]="28" />
+  </a>
+}

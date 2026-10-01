@@ -1,0 +1,60 @@
+<div class="container app-footer__inner">
+  <div class="app-footer__cols">
+    <!-- Brand -->
+    <div class="app-footer__brand">
+      <a [routerLink]="homePath()" aria-label="Constructora SD — inicio"><app-logo /></a>
+      <p class="small app-footer__tagline">{{ 'Del terreno a la llave en mano.' | t }}</p>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="app-footer__group" [attr.aria-label]="'Navegación' | t">
+      <h2 class="eyebrow app-footer__heading">{{ 'Navegación' | t }}</h2>
+      <ul>
+        @for (link of links(); track link.key) {
+          <li><a [routerLink]="link.path">{{ link.label | t }}</a></li>
+        }
+      </ul>
+    </nav>
+
+    <!-- Contact -->
+    <div class="app-footer__group">
+      <h2 class="eyebrow app-footer__heading">{{ 'Contacto' | t }}</h2>
+      <ul>
+        <li>
+          <a href="tel:+18096925906"><app-icon name="phone" [size]="16" /> 809-692-5906</a>
+        </li>
+        <li>
+          <a href="tel:+18293225878"><app-icon name="phone" [size]="16" /> 829-322-5878</a>
+        </li>
+        <li>
+          <a href="mailto:info@constructorasd.com"
+            ><app-icon name="mail" [size]="16" /> info&#64;constructorasd.com</a
+          >
+        </li>
+        <li>
+          <a href="https://www.instagram.com/constructorasd" target="_blank" rel="noopener noreferrer"
+            ><app-icon name="instagram" [size]="16" /> &#64;constructorasd</a
+          >
+        </li>
+      </ul>
+    </div>
+
+    <!-- Legal -->
+    <div class="app-footer__group">
+      <h2 class="eyebrow app-footer__heading">{{ 'Legal' | t }}</h2>
+      <ul>
+        <li><a [routerLink]="privacidadPath()">{{ 'Privacidad' | t }}</a></li>
+        <li><a [routerLink]="avisoPath()">{{ 'Aviso legal' | t }}</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="app-footer__bottom">
+    <span class="small"
+      >© {{ year }} Constructora Scheker &amp; Domínguez. {{ 'Todos los derechos reservados.' | t }}</span
+    >
+    <span class="small app-footer__places">
+      <app-icon name="map-pin" [size]="16" /> Santo Domingo · Punta Cana
+    </span>
+  </div>
+</div>

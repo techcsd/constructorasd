@@ -1,0 +1,19 @@
+.app-section-heading {
+  row-gap: var(--space-5);
+  align-items: end;
+}
+.app-section-heading__main {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  grid-column: 1 / -1;
+  @media (min-width: 768px) {
+    grid-column: 1 / span 6;
+  }
+}
+.app-section-heading__lead {
+  grid-column: 1 / -1;
+  @media (min-width: 768px) {
+    grid-column: 8 / span 5;
+  }
+}

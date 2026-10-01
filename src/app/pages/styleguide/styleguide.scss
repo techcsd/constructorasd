@@ -1,0 +1,220 @@
+@use '../../../styles/mixins' as *;
+
+:host {
+  display: block;
+}
+
+// ── Hero mock ──
+.sg-hero {
+  position: relative;
+  min-height: 72vh;
+  display: flex;
+  align-items: flex-end;
+  overflow: hidden;
+  color: var(--bone-50); // tokens-allow (text over a dark photo is fixed chrome, not a surface)
+}
+.sg-hero__media {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+.sg-hero__media :is(app-image-figure, figure, picture) {
+  display: block;
+  height: 100%;
+  width: 100%;
+}
+.sg-hero__media picture {
+  aspect-ratio: auto !important;
+}
+.sg-hero__media img {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+}
+.sg-hero__scrim {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  @include photo-scrim; // scrim
+}
+.sg-hero__content {
+  position: relative;
+  z-index: 2;
+  padding-block: var(--space-9) var(--space-8);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-4);
+}
+.sg-hero__title {
+  max-width: 16ch;
+}
+.sg-hero .sg-hero__lead {
+  color: inherit;
+  opacity: 0.92;
+  max-width: 48ch;
+}
+.sg-hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  margin-top: var(--space-2);
+}
+.sg-hero__eyebrow {
+  color: inherit;
+  opacity: 0.85;
+  margin-top: var(--space-3);
+}
+
+// ── Intro + section helpers ──
+.sg-intro {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  padding-block: var(--space-8) 0;
+}
+.sg-h {
+  margin: var(--space-3) 0 var(--space-5);
+}
+.sg-note {
+  color: var(--text-3);
+  margin-bottom: var(--space-4);
+}
+.sg-note code {
+  font-family: ui-monospace, monospace;
+  font-size: 0.85em;
+}
+.sg-stack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  align-items: flex-start;
+}
+.sg-grid2 {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-7);
+  @media (min-width: 900px) {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+.sg-muted {
+  color: var(--text-3);
+}
+
+// ── Swatches ──
+.sg-swatches {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-4);
+  @media (min-width: 640px) {
+    grid-template-columns: repeat(5, 1fr);
+  }
+}
+.sg-swatch {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+.sg-swatch__chip {
+  display: block;
+  height: 64px;
+  border-radius: var(--r-md);
+  border: 1px solid var(--line-strong);
+}
+.sg-swatch__name {
+  color: var(--text-3);
+  font-family: ui-monospace, monospace;
+  font-size: 0.75rem;
+}
+
+// ── Type scale ──
+.sg-type {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+.sg-type__row {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-2);
+  padding-bottom: var(--space-5);
+  border-bottom: 1px solid var(--line);
+  @media (min-width: 768px) {
+    grid-template-columns: 80px 1fr;
+    align-items: baseline;
+    gap: var(--space-5);
+  }
+}
+.sg-type__tag {
+  color: var(--text-3);
+}
+
+// ── Buttons ──
+.sg-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+// ── Header demo ──
+.sg-headerdemo {
+  display: flex;
+  align-items: center;
+  gap: var(--space-5);
+  padding: var(--space-3) var(--space-5);
+  border-radius: var(--r-md);
+  margin-bottom: var(--space-5);
+}
+.sg-headerdemo--solid {
+  background: var(--bg-elevated);
+  border: 1px solid var(--line);
+}
+.sg-headerdemo--over {
+  background: var(--bg);
+}
+.sg-headerdemo__nav {
+  display: none;
+  gap: var(--space-5);
+  margin-right: auto;
+  @media (min-width: 768px) {
+    display: flex;
+  }
+}
+.sg-headerdemo__nav .small {
+  color: var(--text-2);
+}
+.sg-headerdemo app-logo {
+  margin-right: auto;
+}
+@media (min-width: 768px) {
+  .sg-headerdemo app-logo {
+    margin-right: var(--space-5);
+  }
+}
+.sg-headerdemo__lang {
+  color: var(--text);
+}
+
+// ── Projects ──
+.sg-projects {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-6);
+  margin-top: var(--space-6);
+  @media (min-width: 768px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  @media (min-width: 1024px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+.sg-projects__featured {
+  @media (min-width: 768px) {
+    grid-column: 1 / -1;
+  }
+  @media (min-width: 1024px) {
+    grid-column: 1 / span 2;
+  }
+}

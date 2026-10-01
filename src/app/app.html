@@ -1,0 +1,14 @@
+<a class="skip-link" href="#main">{{ 'Ir al contenido' | t }}</a>
+
+@if (isDev) {
+  <div class="dev-ribbon" aria-hidden="true">DEV</div>
+}
+
+<app-header />
+
+<main id="main">
+  <router-outlet />
+</main>
+
+<app-footer />
+<app-whatsapp-fab />

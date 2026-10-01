@@ -1,0 +1,36 @@
+<ng-template #tpl>
+  <span class="app-button__label"><ng-content></ng-content></span>
+  @if (icon()) {
+    <app-icon class="app-button__icon" [name]="icon()!" [size]="18" />
+  }
+</ng-template>
+
+@if (routerLink() !== null) {
+  <a
+    class="app-button"
+    [routerLink]="routerLink()"
+    [attr.aria-label]="ariaLabel() || null"
+    [attr.aria-disabled]="disabled() ? true : null"
+  >
+    <ng-container [ngTemplateOutlet]="tpl" />
+  </a>
+} @else if (href() !== null) {
+  <a
+    class="app-button"
+    [href]="href()"
+    [attr.target]="external() ? '_blank' : null"
+    [attr.rel]="external() ? 'noopener noreferrer' : null"
+    [attr.aria-label]="ariaLabel() || null"
+  >
+    <ng-container [ngTemplateOutlet]="tpl" />
+  </a>
+} @else {
+  <button
+    class="app-button"
+    [type]="type()"
+    [disabled]="disabled()"
+    [attr.aria-label]="ariaLabel() || null"
+  >
+    <ng-container [ngTemplateOutlet]="tpl" />
+  </button>
+}

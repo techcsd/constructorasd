@@ -1,0 +1,19 @@
+<div class="app-lang-switch" role="group" aria-label="Language / Idioma">
+  <a
+    class="app-lang-switch__opt"
+    [class.is-active]="locale() === 'es'"
+    [routerLink]="esPath()"
+    hreflang="es"
+    [attr.aria-current]="locale() === 'es' ? 'true' : null"
+    >ES</a
+  >
+  <span class="app-lang-switch__sep" aria-hidden="true">/</span>
+  <a
+    class="app-lang-switch__opt"
+    [class.is-active]="locale() === 'en'"
+    [routerLink]="enPath()"
+    hreflang="en"
+    [attr.aria-current]="locale() === 'en' ? 'true' : null"
+    >EN</a
+  >
+</div>

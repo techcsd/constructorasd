@@ -1,0 +1,29 @@
+:host {
+  display: block;
+}
+.app-project-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+.app-project-card__media {
+  overflow: hidden;
+  border-radius: var(--r-img);
+}
+.app-project-card__media app-image-figure {
+  display: block;
+  transition: transform 0.6s var(--ease-out);
+}
+a.app-project-card:hover .app-project-card__media app-image-figure {
+  transform: scale(1.02);
+}
+.app-project-card__info {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+.app-project-card__meta {
+  color: var(--text-3);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}

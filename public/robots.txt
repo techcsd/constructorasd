@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+# Non-prod deployments send X-Robots / meta noindex per page; prod is indexable.
+# The sitemap line is appended at build time by scripts/gen-sitemap.mjs with the right host.

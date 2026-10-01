@@ -1,0 +1,62 @@
+:host {
+  display: inline-flex;
+}
+
+.app-button {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  height: 48px;
+  padding: 0 var(--space-5);
+  border-radius: var(--r-sm);
+  font-weight: 500;
+  font-size: var(--fs-body);
+  line-height: 1;
+  border: 1px solid transparent;
+  transition:
+    background var(--dur-fast) var(--ease-out),
+    color var(--dur-fast) var(--ease-out),
+    border-color var(--dur-fast) var(--ease-out);
+  white-space: nowrap;
+}
+
+.app-button__icon {
+  transition: transform var(--dur-fast) var(--ease-out);
+}
+.app-button:hover .app-button__icon {
+  transform: translateX(4px);
+}
+
+// ── Variants ──
+:host([data-variant='primary']) .app-button {
+  background: var(--accent);
+  color: var(--text-on-accent);
+}
+:host([data-variant='primary']) .app-button:hover {
+  background: var(--accent-hover);
+}
+
+:host([data-variant='secondary']) .app-button {
+  border-color: var(--line-strong);
+  color: var(--text);
+  background: transparent;
+}
+:host([data-variant='secondary']) .app-button:hover {
+  border-color: var(--text);
+}
+
+:host([data-variant='ghost']) .app-button {
+  padding-inline: 0;
+  height: auto;
+  color: var(--text);
+  background: transparent;
+}
+:host([data-variant='ghost']) .app-button:hover {
+  color: var(--accent-hover);
+}
+
+.app-button[aria-disabled='true'],
+.app-button:disabled {
+  opacity: 0.45;
+  pointer-events: none;
+}

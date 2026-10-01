@@ -1,0 +1,79 @@
+// ════════════════════════════════════════════════════════════════════════════
+//  constructorasd.com — typographic classes (DESIGN-BRIEF §3)
+//  Display weights stay 500–600 with tight tracking (never 800+). `em` inside a
+//  display/h1/h2 renders in Instrument Serif italic (max one serif moment / screen).
+// ════════════════════════════════════════════════════════════════════════════
+
+.display {
+  font-family: var(--font-sans);
+  font-size: var(--fs-display);
+  font-weight: 500;
+  line-height: 0.98;
+  letter-spacing: -0.035em;
+}
+
+.h1 {
+  font-family: var(--font-sans);
+  font-size: var(--fs-h1);
+  font-weight: 500;
+  line-height: 1.02;
+  letter-spacing: -0.03em;
+}
+
+.h2 {
+  font-family: var(--font-sans);
+  font-size: var(--fs-h2);
+  font-weight: 500;
+  line-height: 1.08;
+  letter-spacing: -0.025em;
+}
+
+.h3 {
+  font-family: var(--font-sans);
+  font-size: var(--fs-h3);
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: -0.015em;
+}
+
+.lead {
+  font-size: var(--fs-lead);
+  font-weight: 400;
+  line-height: 1.45;
+  color: var(--text-2);
+}
+
+.body {
+  font-size: var(--fs-body);
+  font-weight: 400;
+  line-height: 1.6;
+  max-width: 65ch;
+  @media (min-width: 1024px) {
+    font-size: var(--fs-body-lg);
+  }
+}
+
+.small {
+  font-size: var(--fs-small);
+  line-height: 1.5;
+}
+
+.eyebrow {
+  font-size: var(--fs-eyebrow);
+  font-weight: 600;
+  line-height: 1;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--text-3);
+}
+
+// Editorial serif italic for <em> inside big headings, and the .serif helper.
+.display em,
+.h1 em,
+.h2 em,
+.serif {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+}

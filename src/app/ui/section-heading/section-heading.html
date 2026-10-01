@@ -1,0 +1,11 @@
+<div class="app-section-heading grid-12">
+  <div class="app-section-heading__main">
+    @if (eyebrow()) {
+      <app-eyebrow [label]="eyebrow()" [index]="index()" />
+    }
+    <h2 class="h2">{{ heading() }}</h2>
+  </div>
+  @if (lead()) {
+    <p class="lead app-section-heading__lead">{{ lead() }}</p>
+  }
+</div>

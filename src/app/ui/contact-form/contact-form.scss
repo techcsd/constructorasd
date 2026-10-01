@@ -1,0 +1,99 @@
+.app-contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+.app-contact-form__row {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-5);
+  @media (min-width: 560px) {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.app-field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+.app-field label {
+  font-size: var(--fs-small);
+  font-weight: 500;
+  color: var(--text-2);
+}
+.app-field input,
+.app-field select,
+.app-field textarea {
+  width: 100%;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid var(--line-strong);
+  padding: var(--space-3) 0;
+  font-size: var(--fs-body);
+  color: var(--text);
+  border-radius: 0;
+  transition: border-color var(--dur-fast) var(--ease-out);
+}
+.app-field input:focus,
+.app-field select:focus,
+.app-field textarea:focus {
+  outline: none;
+  border-bottom-width: 2px;
+  border-bottom-color: var(--focus);
+}
+.app-field textarea {
+  resize: vertical;
+  min-height: 120px;
+}
+.app-field input[aria-invalid='true'],
+.app-field select[aria-invalid='true'],
+.app-field textarea[aria-invalid='true'] {
+  border-bottom-color: var(--accent);
+}
+.app-field__err {
+  color: var(--accent);
+}
+
+.app-field--check .app-contact-form__consent {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  flex-direction: row;
+  cursor: pointer;
+}
+.app-contact-form__consent input {
+  width: 18px;
+  height: 18px;
+  margin-top: 2px;
+  accent-color: var(--text);
+  flex: none;
+}
+.app-contact-form__consent a {
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+// honeypot — visually and semantically removed, but present in the DOM
+.app-contact-form__hp {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+.app-contact-form__success {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  align-items: flex-start;
+  padding: var(--space-6);
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+  background: var(--bg-elevated);
+}
+.app-contact-form__check {
+  display: inline-flex;
+  color: var(--accent);
+}

@@ -1,0 +1,29 @@
+@if (entry()) {
+  <figure class="app-image-figure">
+    <picture class="app-image-figure__pic" [style.aspect-ratio]="aspect()">
+      <source type="image/avif" [attr.srcset]="avifSrcset()" [attr.sizes]="sizes()" />
+      <source type="image/webp" [attr.srcset]="webpSrcset()" [attr.sizes]="sizes()" />
+      <img
+        [src]="fallbackSrc()"
+        [alt]="alt()"
+        [attr.width]="entry()!.width"
+        [attr.height]="entry()!.height"
+        [attr.loading]="priority() ? 'eager' : 'lazy'"
+        [attr.fetchpriority]="priority() ? 'high' : null"
+        [attr.decoding]="priority() ? 'sync' : 'async'"
+      />
+    </picture>
+    @if (caption()) {
+      <figcaption class="small app-image-figure__cap">{{ caption() }}</figcaption>
+    }
+  </figure>
+} @else {
+  <figure class="app-image-figure">
+    <div class="app-image-figure__placeholder" [style.aspect-ratio]="aspect()">
+      <span class="small">{{ alt() }}</span>
+    </div>
+    @if (caption()) {
+      <figcaption class="small app-image-figure__cap">{{ caption() }}</figcaption>
+    }
+  </figure>
+}

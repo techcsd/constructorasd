@@ -1,0 +1,10 @@
+<div class="container">
+  <dl class="app-stats-band">
+    @for (s of stats(); track s.label) {
+      <div class="app-stats-band__item">
+        <dt class="app-stats-band__value serif">{{ s.value }}</dt>
+        <dd class="eyebrow app-stats-band__label">{{ s.label }}</dd>
+      </div>
+    }
+  </dl>
+</div>
