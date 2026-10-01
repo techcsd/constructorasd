@@ -1,0 +1,103 @@
+.gallery__grid {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-3);
+  @media (min-width: 768px) {
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-4);
+  }
+}
+.gallery__thumb {
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: none;
+  background: none;
+  overflow: hidden;
+  border-radius: var(--r-img);
+}
+.gallery__thumb app-image-figure {
+  display: block;
+  transition: transform 0.6s var(--ease-out);
+}
+.gallery__thumb:hover app-image-figure {
+  transform: scale(1.03);
+}
+
+// ── Lightbox ──
+.gallery__lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  background: rgba(20, 21, 22, 0.94); // tokens-allow (fixed full-screen overlay scrim)
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: var(--space-3);
+  padding: clamp(16px, 4vw, 48px);
+}
+.gallery__full {
+  margin: 0;
+  max-height: 86vh;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  min-width: 0;
+}
+.gallery__full app-image-figure,
+.gallery__full :is(figure, picture) {
+  height: 100%;
+  min-height: 0;
+}
+.gallery__full picture {
+  aspect-ratio: auto !important;
+  max-height: 80vh;
+  background: transparent !important;
+}
+.gallery__full img {
+  object-fit: contain !important;
+  max-height: 80vh;
+  width: auto;
+  margin-inline: auto;
+}
+.gallery__caption {
+  color: var(--bone-100); // tokens-allow (text on the fixed overlay)
+  text-align: center;
+}
+.gallery__close {
+  position: absolute;
+  top: var(--space-4);
+  right: var(--space-4);
+  background: none;
+  border: none;
+  color: var(--bone-50); // tokens-allow
+}
+.gallery__nav {
+  background: none;
+  border: none;
+  color: var(--bone-50); // tokens-allow
+  padding: var(--space-3);
+  display: inline-flex;
+}
+.gallery__nav--prev {
+  transform: scaleX(-1);
+}
+.gallery__close:hover,
+.gallery__nav:hover {
+  opacity: 0.7;
+}
+@media (max-width: 640px) {
+  .gallery__nav {
+    position: absolute;
+    bottom: var(--space-5);
+  }
+  .gallery__nav--prev {
+    left: var(--space-5);
+  }
+  .gallery__nav--next {
+    right: var(--space-5);
+  }
+}

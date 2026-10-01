@@ -1,0 +1,42 @@
+<app-page-header [key]="'proyectos'" />
+
+<section class="section container">
+  <!-- Controls -->
+  <div class="proyectos__controls">
+    <div class="proyectos__filters" role="group" [attr.aria-label]="'Filtrar por sector' | t">
+      @for (c of sectorChips(); track c.id) {
+        <button type="button" class="proyectos__chip" [class.is-active]="sector() === c.id" (click)="setSector(c.id)">
+          {{ c.label }}
+        </button>
+      }
+    </div>
+    <div class="proyectos__toggle" role="group" [attr.aria-label]="'Vista' | t">
+      <button type="button" class="proyectos__view" [class.is-active]="vista() === 'cuadricula'"
+        (click)="setVista('cuadricula')" [attr.aria-pressed]="vista() === 'cuadricula'">{{ 'Cuadrícula' | t }}</button>
+      <button type="button" class="proyectos__view" [class.is-active]="vista() === 'lista'"
+        (click)="setVista('lista')" [attr.aria-pressed]="vista() === 'lista'">{{ 'Lista' | t }}</button>
+    </div>
+  </div>
+
+  <!-- Grid -->
+  @if (vista() === 'cuadricula') {
+    <div class="proyectos__grid">
+      @for (p of projects(); track p.href) {
+        <app-project-card [name]="p.name" [client]="p.client" [sector]="p.sector" [city]="p.city"
+          [image]="p.image" [alt]="p.alt" [routerLink]="p.href" />
+      }
+    </div>
+  } @else {
+    <!-- List -->
+    <div class="proyectos__list">
+      @for (p of projects(); track p.href) {
+        <app-project-index-row [name]="p.name" [client]="p.client" [sector]="p.sector"
+          [image]="p.image" [routerLink]="p.href" />
+      }
+    </div>
+  }
+
+  @if (!projects().length) {
+    <p class="lead proyectos__empty">{{ 'No hay proyectos en este sector.' | t }}</p>
+  }
+</section>

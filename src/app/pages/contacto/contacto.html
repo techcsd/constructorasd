@@ -1,0 +1,61 @@
+<app-page-header [key]="'contacto'" />
+
+<section class="section container">
+  <div class="contacto__grid">
+    <!-- Form -->
+    <div class="contacto__form" appReveal>
+      <app-eyebrow [label]="'Escríbenos' | t" index="01" />
+      <app-contact-form />
+    </div>
+
+    <!-- Details -->
+    <aside class="contacto__details" appReveal>
+      <app-eyebrow [label]="'Datos de contacto' | t" index="02" />
+
+      <ul class="contacto__list">
+        @for (p of phones; track p) {
+          <li><a [href]="telHref(p)"><app-icon name="phone" [size]="18" /> {{ p }}</a></li>
+        }
+        <li><a [href]="'mailto:' + email"><app-icon name="mail" [size]="18" /> {{ email }}</a></li>
+        <li>
+          <a [href]="whatsappUrl()" target="_blank" rel="noopener noreferrer">
+            <app-icon name="whatsapp" [size]="18" /> WhatsApp
+          </a>
+        </li>
+        <li>
+          <a [href]="instagramUrl" target="_blank" rel="noopener noreferrer">
+            <app-icon name="instagram" [size]="18" /> &#64;{{ instagram }}
+          </a>
+        </li>
+      </ul>
+
+      <!-- Static map-pin card (WB13 — no third-party map embed) -->
+      <div class="contacto__map" aria-hidden="true">
+        <svg viewBox="0 0 320 160" class="contacto__map-svg" role="img">
+          <rect width="320" height="160" class="contacto__map-bg" />
+          <g class="contacto__map-grid" stroke-width="1" fill="none">
+            <path d="M0 48 H320 M0 96 H320 M64 0 V160 M160 0 V160 M240 0 V160" />
+          </g>
+          <g class="contacto__map-pin">
+            <circle cx="112" cy="64" r="5" />
+            <circle cx="232" cy="104" r="5" />
+          </g>
+        </svg>
+        <div class="contacto__map-labels small">
+          <span><app-icon name="map-pin" [size]="16" /> {{ presence() }}</span>
+        </div>
+      </div>
+
+      <div class="contacto__directions">
+        <span class="small contacto__directions-label">{{ 'Cómo llegar' | t }}</span>
+        <div class="contacto__cities">
+          @for (c of cities; track c.name) {
+            <a class="small" [href]="c.url" target="_blank" rel="noopener noreferrer">
+              {{ c.name }} <app-icon name="arrow-up-right" [size]="14" />
+            </a>
+          }
+        </div>
+      </div>
+    </aside>
+  </div>
+</section>

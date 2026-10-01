@@ -1,0 +1,55 @@
+// ════════════════════════════════════════════════════════════════════════════
+//  constructorasd.com — shared form fields (ContactForm, ApplyForm). Global so both
+//  reuse the same field look; components only style their own layout bits.
+// ════════════════════════════════════════════════════════════════════════════
+
+.app-field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+.app-field label {
+  font-size: var(--fs-small);
+  font-weight: 500;
+  color: var(--text-2);
+}
+.app-field input,
+.app-field select,
+.app-field textarea {
+  width: 100%;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid var(--line-strong);
+  padding: var(--space-3) 0;
+  font-size: var(--fs-body);
+  color: var(--text);
+  border-radius: 0;
+  transition: border-color var(--dur-fast) var(--ease-out);
+}
+.app-field input[type='file'] {
+  padding-block: var(--space-2);
+  font-size: var(--fs-small);
+  color: var(--text-2);
+}
+.app-field input:focus,
+.app-field select:focus,
+.app-field textarea:focus {
+  outline: none;
+  border-bottom-width: 2px;
+  border-bottom-color: var(--focus);
+}
+.app-field textarea {
+  resize: vertical;
+  min-height: 120px;
+}
+.app-field input[aria-invalid='true'],
+.app-field select[aria-invalid='true'],
+.app-field textarea[aria-invalid='true'] {
+  border-bottom-color: var(--accent);
+}
+.app-field__err {
+  color: var(--accent);
+}
+.app-field--check {
+  gap: var(--space-2);
+}

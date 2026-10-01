@@ -1,0 +1,96 @@
+.contacto__grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-7);
+  @media (min-width: 900px) {
+    grid-template-columns: 1.2fr 1fr;
+    gap: var(--space-8);
+    align-items: start;
+  }
+}
+.contacto__form,
+.contacto__details {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.contacto__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+.contacto__list a {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3);
+  color: var(--text);
+  font-size: var(--fs-body);
+}
+.contacto__list app-icon {
+  color: var(--text-3);
+}
+.contacto__list a:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.contacto__map {
+  margin-top: var(--space-4);
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+  overflow: hidden;
+}
+.contacto__map-svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.contacto__map-bg {
+  fill: var(--bg-sunken);
+}
+.contacto__map-grid {
+  stroke: var(--line-strong);
+}
+.contacto__map-pin {
+  fill: var(--accent);
+}
+.contacto__map-labels {
+  padding: var(--space-3) var(--space-4);
+  border-top: 1px solid var(--line);
+  color: var(--text-2);
+}
+.contacto__map-labels span {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.contacto__directions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  margin-top: var(--space-3);
+}
+.contacto__directions-label {
+  color: var(--text-3);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+.contacto__cities {
+  display: flex;
+  gap: var(--space-5);
+}
+.contacto__cities a {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  color: var(--text);
+}
+.contacto__cities a:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}

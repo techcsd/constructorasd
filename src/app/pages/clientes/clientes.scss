@@ -1,0 +1,8 @@
+.clientes__group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+.clientes__group + .clientes__group {
+  margin-top: var(--space-8);
+}

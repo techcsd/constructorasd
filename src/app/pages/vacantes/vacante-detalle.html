@@ -1,0 +1,26 @@
+@if (job()) {
+  <section class="section container vacante">
+    <div class="vacante__head">
+      <h1 class="h1">{{ title() }}</h1>
+      <p class="small vacante__meta">{{ area() }} · {{ location() }}</p>
+      <p class="lead">{{ summary() }}</p>
+    </div>
+    <div class="vacante__body">
+      <div class="vacante__reqs">
+        <app-eyebrow [label]="'Requisitos' | t" />
+        <ul>
+          @for (r of requirements(); track r) {<li class="body">{{ r }}</li>}
+        </ul>
+      </div>
+      <div class="vacante__form">
+        <app-eyebrow [label]="'Postúlate' | t" />
+        <app-apply-form [position]="title()" />
+      </div>
+    </div>
+  </section>
+} @else {
+  <section class="section container vacante__missing">
+    <h1 class="h1">{{ 'Página no encontrada' | t }}</h1>
+    <app-button variant="secondary" [routerLink]="vacantesPath()">{{ 'Vacantes' | t }}</app-button>
+  </section>
+}

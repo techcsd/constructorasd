@@ -1,0 +1,28 @@
+<app-page-header [key]="'vacantes'" />
+
+<section class="section container">
+  <div class="vacantes__grid">
+    <div class="vacantes__intro" appReveal>
+      @if (hasJobs()) {
+        <app-eyebrow [label]="'Posiciones abiertas' | t" />
+        <ul class="vacantes__list">
+          @for (j of jobs(); track j.slug) {
+            <li class="vacantes__row">
+              <a [href]="j.href">
+                <span class="h3">{{ j.title }}</span>
+                <span class="small vacantes__meta">{{ j.area }} · {{ j.location }}</span>
+              </a>
+            </li>
+          }
+        </ul>
+      } @else {
+        <app-eyebrow [label]="'Candidatura espontánea' | t" />
+        <h2 class="h2 vacantes__none">{{ 'No hay vacantes abiertas ahora mismo.' | t }}</h2>
+        <p class="lead">{{ 'Déjanos tu CV y te tendremos en cuenta para el próximo proyecto.' | t }}</p>
+      }
+    </div>
+    <div class="vacantes__form" appReveal>
+      <app-apply-form />
+    </div>
+  </div>
+</section>

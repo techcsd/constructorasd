@@ -1,0 +1,33 @@
+@if (images().length) {
+  <ul class="gallery__grid">
+    @for (img of images(); track img.src; let i = $index) {
+      <li>
+        <button type="button" class="gallery__thumb" (click)="open(i)"
+          [attr.aria-label]="('Ampliar imagen' | t) + ' — ' + img.alt">
+          <app-image-figure [image]="img.src" [alt]="img.alt" aspect="4 / 3" />
+        </button>
+      </li>
+    }
+  </ul>
+}
+
+@if (isOpen()) {
+  <div class="gallery__lightbox" role="dialog" aria-modal="true"
+    (touchstart)="onTouchStart($event)" (touchend)="onTouchEnd($event)">
+    <button type="button" class="gallery__close" (click)="close()" [attr.aria-label]="'Cerrar' | t">
+      <app-icon name="close" [size]="28" />
+    </button>
+    <button type="button" class="gallery__nav gallery__nav--prev" (click)="prev()"
+      [attr.aria-label]="'Anterior' | t"><app-icon name="arrow-right" [size]="28" /></button>
+
+    <figure class="gallery__full">
+      <app-image-figure [image]="current().src" [alt]="current().alt" aspect="3 / 2" [priority]="true" />
+      <figcaption class="small gallery__caption">
+        {{ current().alt }} · {{ openIndex() + 1 }} / {{ count() }}
+      </figcaption>
+    </figure>
+
+    <button type="button" class="gallery__nav gallery__nav--next" (click)="next()"
+      [attr.aria-label]="'Siguiente' | t"><app-icon name="arrow-right" [size]="28" /></button>
+  </div>
+}

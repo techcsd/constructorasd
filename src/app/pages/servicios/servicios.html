@@ -1,0 +1,38 @@
+<app-page-header [key]="'servicios'" />
+
+@for (s of stages(); track s.id; let i = $index) {
+  <section class="section servicios__stage" [id]="s.id" [class.servicios__stage--alt]="i % 2 === 1">
+    <div class="container grid-12 servicios__grid" appReveal>
+      <div class="servicios__text">
+        <app-eyebrow [label]="s.eyebrow" />
+        <h2 class="h2 servicios__title">{{ s.tagline }}</h2>
+        <p class="lead">{{ s.description }}</p>
+
+        <ul class="servicios__caps">
+          @for (c of s.capabilities; track c) {
+            <li><app-icon name="check" [size]="18" /> <span>{{ c }}</span></li>
+          }
+        </ul>
+
+        @if (s.facts.length) {
+          <dl class="servicios__facts">
+            @for (f of s.facts; track f.label) {
+              <div class="servicios__fact">
+                <dt class="serif servicios__fact-val">{{ f.value }}</dt>
+                <dd class="small servicios__fact-lbl">{{ f.label }}</dd>
+              </div>
+            }
+          </dl>
+        }
+
+        @if (s.note) {
+          <p class="small servicios__note">{{ s.note }}</p>
+        }
+      </div>
+
+      <div class="servicios__media">
+        <app-image-figure [image]="s.image" [alt]="s.imageAlt" aspect="4 / 5" />
+      </div>
+    </div>
+  </section>
+}

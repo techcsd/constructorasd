@@ -1,0 +1,28 @@
+<app-page-header [key]="'noticias'" />
+
+<section class="section container">
+  @if (hasPosts()) {
+    <ul class="noticias__list">
+      @for (p of posts(); track p.slug) {
+        <li class="noticias__item" appReveal>
+          <a class="noticias__link" [href]="p.href">
+            @if (p.cover) {
+              <app-image-figure [image]="p.cover" [alt]="p.coverAlt" aspect="16 / 10" />
+            }
+            <time class="small noticias__date">{{ p.date }}</time>
+            <h2 class="h3">{{ p.title }}</h2>
+            <p class="body noticias__excerpt">{{ p.excerpt }}</p>
+          </a>
+        </li>
+      }
+    </ul>
+  } @else {
+    <div class="noticias__empty" appReveal>
+      <p class="h2">{{ 'Próximamente' | t }}</p>
+      <p class="lead">{{ 'Mientras tanto, sigue nuestros avances de obra en Instagram.' | t }}</p>
+      <a class="noticias__ig" [href]="instagram" target="_blank" rel="noopener noreferrer">
+        <app-icon name="instagram" [size]="20" /> {{ '@constructorasd' }}
+      </a>
+    </div>
+  }
+</section>

@@ -1,0 +1,37 @@
+<app-page-header [key]="'equipos'" />
+
+<section class="section container">
+  <div class="equipos__grid">
+    <div class="equipos__list-col" appReveal>
+      <app-eyebrow [label]="'Equipos propios' | t" index="01" />
+      <ul class="equipos__list">
+        @for (l of lines(); track l.index) {
+          <li class="equipos__row">
+            <span class="small equipos__idx">{{ l.index }}</span>
+            <span class="body">{{ l.name }}</span>
+          </li>
+        }
+      </ul>
+    </div>
+    <div class="equipos__media" appReveal>
+      <app-image-figure image="lopesan/componentes" aspect="4 / 5"
+        [alt]="'Componentes de encofrado modular en obra' | t" />
+    </div>
+  </div>
+</section>
+
+<section class="section tone-dark" data-tone="dark">
+  <div class="container equipos__formwork" appReveal>
+    <app-eyebrow [label]="'Sistemas de encofrado que utilizamos' | t" index="02" />
+    <p class="display equipos__formwork-names">
+      @for (f of formwork; track f; let last = $last) {<span>{{ f }}</span>@if (!last) {<span class="equipos__sep"> / </span>}}
+    </p>
+  </div>
+</section>
+
+<section class="section container">
+  <div class="equipos__media equipos__media--wide" appReveal>
+    <app-image-figure image="lopesan/puntales" aspect="16 / 10"
+      [alt]="'Andamios y apuntalamiento certificado en obra' | t" />
+  </div>
+</section>

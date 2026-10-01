@@ -1,0 +1,13 @@
+<section class="section">
+  <div class="container">
+    <app-page-header [key]="'aviso-legal'" />
+    <article class="legal">
+      @for (s of sections(); track s.heading) {
+        <h2 class="h3 legal__heading">{{ s.heading }}</h2>
+        @for (p of s.paras; track p) {
+          <p class="body legal__p">{{ p }}</p>
+        }
+      }
+    </article>
+  </div>
+</section>

@@ -1,0 +1,70 @@
+<app-page-header [key]="'empresa'" />
+
+<!-- Quiénes somos -->
+<section class="section container">
+  <div class="grid-12 empresa__intro" appReveal>
+    <p class="lead empresa__intro-text">{{ description() }}</p>
+  </div>
+</section>
+
+<!-- Misión / Visión -->
+<section class="section container">
+  <div class="empresa__mv" appReveal>
+    <div class="empresa__mv-col">
+      <app-eyebrow [label]="'Misión' | t" index="01" />
+      <p class="body">{{ mission() }}</p>
+    </div>
+    <div class="empresa__mv-col">
+      <app-eyebrow [label]="'Visión' | t" index="02" />
+      <p class="body">{{ vision() }}</p>
+    </div>
+  </div>
+</section>
+
+<!-- Valores -->
+<section class="section container">
+  <app-eyebrow [label]="'Valores' | t" index="03" />
+  <ul class="empresa__values" appReveal>
+    @for (v of values(); track v; let i = $index) {
+      <li class="empresa__value">
+        <span class="small empresa__value-idx">0{{ i + 1 }}</span>
+        <span class="h3">{{ v }}</span>
+      </li>
+    }
+  </ul>
+</section>
+
+<!-- Filosofía -->
+<section class="section tone-dark" data-tone="dark">
+  <div class="container" appReveal>
+    <app-quote [text]="quote()" [attribution]="quoteAttr()" />
+  </div>
+</section>
+
+<!-- Ventajas -->
+<section class="section container">
+  <app-eyebrow [label]="'Por qué Scheker & Domínguez' | t" index="04" />
+  <ol class="empresa__adv" appReveal>
+    @for (a of advantages(); track a.title; let i = $index) {
+      <li class="empresa__adv-item">
+        <span class="small empresa__adv-idx">0{{ i + 1 }}</span>
+        <div>
+          <h3 class="h3">{{ a.title }}</h3>
+          <p class="body empresa__adv-text">{{ a.text }}</p>
+        </div>
+      </li>
+    }
+  </ol>
+</section>
+
+<app-stats-band [stats]="stats()" />
+
+<!-- CTA -->
+<section class="section tone-dark" data-tone="dark">
+  <div class="container empresa__cta" appReveal>
+    <h2 class="h2">{{ 'Construyamos juntos el próximo proyecto.' | t }}</h2>
+    <app-button variant="primary" [routerLink]="contactoPath()" [icon]="'arrow-right'">
+      {{ 'Hablemos' | t }}
+    </app-button>
+  </div>
+</section>

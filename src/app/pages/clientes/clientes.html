@@ -1,0 +1,10 @@
+<app-page-header [key]="'clientes'" />
+
+<section class="section container">
+  @for (g of groups; track g.label) {
+    <div class="clientes__group" appReveal>
+      <app-eyebrow [label]="g.label | t" />
+      <app-client-wall [clients]="g.clients" />
+    </div>
+  }
+</section>

@@ -108,6 +108,27 @@ export class SeoService {
     add('x-default', esPath);
   }
 
+  /** BreadcrumbList JSON-LD for a detail page. Items are {name, path}; replaces any previous breadcrumb. */
+  setBreadcrumb(items: { name: string; path: string }[]): void {
+    const id = 'ld-breadcrumb';
+    this.doc.getElementById(id)?.remove();
+    const data = {
+      '@context': 'https://schema.org',
+      '@type': 'BreadcrumbList',
+      itemListElement: items.map((it, i) => ({
+        '@type': 'ListItem',
+        position: i + 1,
+        name: it.name,
+        item: this.abs(it.path),
+      })),
+    };
+    const script = this.doc.createElement('script');
+    script.id = id;
+    script.type = 'application/ld+json';
+    script.textContent = JSON.stringify(data);
+    this.doc.head.appendChild(script);
+  }
+
   /** Organization JSON-LD — injected once by the app shell. */
   setOrganizationJsonLd(): void {
     const id = 'ld-organization';

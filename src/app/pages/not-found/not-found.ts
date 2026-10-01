@@ -18,6 +18,8 @@ export class NotFound {
   private seo = inject(SeoService);
 
   readonly homePath = computed(() => pathFor('home', this.i18n.locale()) ?? '/');
+  readonly proyectosPath = computed(() => pathFor('proyectos', this.i18n.locale()) ?? '/proyectos');
+  readonly contactoPath = computed(() => pathFor('contacto', this.i18n.locale()) ?? '/contacto');
 
   constructor() {
     this.seo.set({

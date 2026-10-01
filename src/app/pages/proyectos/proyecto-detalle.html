@@ -1,0 +1,68 @@
+@if (project()) {
+  <!-- Hero -->
+  <section class="pd-hero">
+    <div class="pd-hero__media">
+      <app-image-figure [image]="coverSrc()" [alt]="coverAlt()" aspect="16 / 9" [priority]="true" />
+    </div>
+  </section>
+
+  <section class="section container">
+    <div class="pd-top grid-12">
+      <div class="pd-top__intro" appReveal>
+        <h1 class="h1">{{ name() }}</h1>
+        <p class="lead">{{ summary() }}</p>
+        @if (body()) {
+          <p class="body pd-top__body">{{ body() }}</p>
+        }
+      </div>
+
+      <!-- Facts -->
+      <aside class="pd-facts" appReveal>
+        <dl>
+          @for (f of facts(); track f.label) {
+            <div class="pd-facts__row">
+              <dt class="eyebrow">{{ f.label }}</dt>
+              <dd class="body">{{ f.value }}</dd>
+            </div>
+          }
+        </dl>
+      </aside>
+    </div>
+  </section>
+
+  <!-- Gallery -->
+  @if (gallery().length) {
+    <section class="section container">
+      <app-eyebrow [label]="'Galería' | t" />
+      <div class="pd-gallery" appReveal>
+        <app-gallery [images]="gallery()" />
+      </div>
+    </section>
+  }
+
+  <!-- Prev / next -->
+  <section class="section--tight container pd-nav">
+    @if (nav().prev; as prev) {
+      <a class="pd-nav__link pd-nav__link--prev" [routerLink]="prev.href">
+        <span class="small">{{ 'Anterior' | t }}</span>
+        <span class="h3">{{ prev.name }}</span>
+      </a>
+    } @else {
+      <span></span>
+    }
+    <a class="pd-nav__all small" [routerLink]="proyectosPath()">{{ 'Todos los proyectos' | t }}</a>
+    @if (nav().next; as next) {
+      <a class="pd-nav__link pd-nav__link--next" [routerLink]="next.href">
+        <span class="small">{{ 'Siguiente' | t }}</span>
+        <span class="h3">{{ next.name }}</span>
+      </a>
+    } @else {
+      <span></span>
+    }
+  </section>
+} @else {
+  <section class="section container pd-missing">
+    <h1 class="h1">{{ 'Página no encontrada' | t }}</h1>
+    <app-button variant="secondary" [routerLink]="proyectosPath()">{{ 'Todos los proyectos' | t }}</app-button>
+  </section>
+}

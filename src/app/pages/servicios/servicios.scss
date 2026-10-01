@@ -1,0 +1,83 @@
+.servicios__stage {
+  scroll-margin-top: 90px;
+}
+.servicios__stage--alt {
+  background: var(--bg-elevated);
+}
+.servicios__grid {
+  row-gap: var(--space-6);
+  align-items: center;
+}
+.servicios__text {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  @media (min-width: 900px) {
+    grid-column: 1 / span 6;
+  }
+}
+.servicios__media {
+  grid-column: 1 / -1;
+  @media (min-width: 900px) {
+    grid-column: 7 / span 6;
+  }
+}
+// Alternate image to the left on odd stages (desktop).
+@media (min-width: 900px) {
+  .servicios__stage--alt .servicios__text {
+    grid-column: 7 / span 6;
+    order: 2;
+  }
+  .servicios__stage--alt .servicios__media {
+    grid-column: 1 / span 6;
+    order: 1;
+  }
+}
+.servicios__title {
+  max-width: 18ch;
+}
+.servicios__caps {
+  list-style: none;
+  margin: var(--space-2) 0 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-3);
+  @media (min-width: 560px) {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+.servicios__caps li {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-2);
+  color: var(--text-2);
+}
+.servicios__caps app-icon {
+  color: var(--accent);
+  flex: none;
+  margin-top: 2px;
+}
+.servicios__facts {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-4);
+  margin: var(--space-4) 0 0;
+}
+.servicios__fact {
+  border-top: 1px solid var(--line);
+  padding-top: var(--space-2);
+}
+.servicios__fact-val {
+  font-size: var(--fs-h3);
+  line-height: 1;
+}
+.servicios__fact-lbl {
+  color: var(--text-3);
+}
+.servicios__note {
+  color: var(--text-3);
+  border-left: 1px solid var(--line-strong);
+  padding-left: var(--space-3);
+}

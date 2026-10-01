@@ -1,0 +1,13 @@
+.page-header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+  padding-top: var(--space-8);
+  padding-bottom: var(--space-6);
+}
+.page-header__title {
+  max-width: 20ch;
+}
+.page-header__lead {
+  max-width: 56ch;
+}

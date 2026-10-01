@@ -10,3 +10,9 @@
   color: var(--text-3);
   line-height: 1;
 }
+.not-found__links {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-4);
+}

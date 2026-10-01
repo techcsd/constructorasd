@@ -1,0 +1,17 @@
+@if (post(); as p) {
+  <article class="section container noticia">
+    <time class="small noticia__date">{{ p.publishedAt }}</time>
+    <h1 class="h1 noticia__title">{{ title() }}</h1>
+    @if (p.cover) {
+      <div class="noticia__cover">
+        <app-image-figure [image]="p.cover.src" [alt]="coverAlt()" aspect="16 / 9" [priority]="true" />
+      </div>
+    }
+    <div class="body noticia__body" [innerHTML]="bodyHtml()"></div>
+  </article>
+} @else {
+  <section class="section container noticia__missing">
+    <h1 class="h1">{{ 'Página no encontrada' | t }}</h1>
+    <app-button variant="secondary" [routerLink]="noticiasPath()">{{ 'Noticias' | t }}</app-button>
+  </section>
+}

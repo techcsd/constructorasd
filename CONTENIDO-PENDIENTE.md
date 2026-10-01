@@ -47,3 +47,10 @@
 ### Contacto
 - Horario de atención, imagen estática del mapa / enlace "Cómo llegar".
 - ¿Correo `rrhh@` para copias de CVs? (por ahora todo va a `info@`).
+
+### Legal (páginas Privacidad / Aviso legal)
+Las páginas `/privacidad` y `/aviso-legal` están redactadas (Ley 172-13 RD) pero necesitan los datos
+fiscales reales, marcados en el texto como `[Razón social, RNC y domicilio legal — pendiente]`:
+- **Razón social exacta** (nombre legal registrado de la empresa).
+- **RNC** (Registro Nacional del Contribuyente).
+- **Domicilio legal / fiscal** completo.
