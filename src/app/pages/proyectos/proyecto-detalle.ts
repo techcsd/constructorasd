@@ -3,6 +3,7 @@ import { ActivatedRoute, RouterLink } from '@angular/router';
 import { I18nService } from '../../core/i18n/i18n.service';
 import { SeoService } from '../../core/seo/seo.service';
 import { detailPathFor, pathFor } from '../../core/i18n/localized-routes';
+import { ogImageFor } from '../../core/seo/og-image';
 import { PROJECTS } from '../../../content/projects';
 import { SECTORS } from '../../../content/sectors';
 import { STAGES } from '../../../content/stages';
@@ -83,10 +84,21 @@ export class ProyectoDetalle {
       altPaths: p
         ? { es: detailPathFor('proyecto', this.slug, 'es'), en: detailPathFor('proyecto', this.slug, 'en') }
         : undefined,
-      image: p ? `/img/${p.cover.src}-1280.webp` : undefined,
+      image: p ? ogImageFor(p.cover.src) : undefined,
+      imageAlt: p ? this.pick(p.cover.alt) : undefined,
       noindex: !p,
     });
-    if (p) this.seo.setBreadcrumb(this.breadcrumb(p.name));
+    if (p) {
+      this.seo.setBreadcrumb(this.breadcrumb(p.name));
+      this.seo.setProjectJsonLd({
+        name: p.name,
+        description: this.pick(p.summary)!,
+        path: detailPathFor('proyecto', this.slug, this.i18n.locale())!,
+        image: ogImageFor(p.cover.src),
+        location: this.pick(p.location),
+        year: p.year,
+      });
+    }
   }
 
   private breadcrumb(name: string) {

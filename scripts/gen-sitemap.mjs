@@ -34,8 +34,8 @@ if (!browser) {
   process.exit(0);
 }
 
-// Every directory containing an index.html is a route.
-const routes = new Set();
+// Every directory containing an index.html is a route; its mtime becomes <lastmod>.
+const routes = new Map();
 function walk(dir) {
   for (const name of readdirSync(dir)) {
     const p = join(dir, name);
@@ -46,17 +46,17 @@ function walk(dir) {
       rel = rel === '.' ? '' : rel;
       // Skip the noindex styleguide from the sitemap.
       if (rel === 'styleguide') continue;
-      routes.add('/' + rel);
+      routes.set('/' + rel, s.mtime.toISOString().slice(0, 10));
     }
   }
 }
 walk(browser);
 
 const base = siteUrl();
-const urls = [...routes]
-  .map((r) => (r === '/' ? '' : r))
-  .sort()
-  .map((r) => `  <url>\n    <loc>${base}${r}/</loc>\n  </url>`)
+const urls = [...routes.entries()]
+  .map(([r, lastmod]) => [r === '/' ? '' : r, lastmod])
+  .sort((a, b) => a[0].localeCompare(b[0]))
+  .map(([r, lastmod]) => `  <url>\n    <loc>${base}${r}/</loc>\n    <lastmod>${lastmod}</lastmod>\n  </url>`)
   .join('\n');
 
 const xml = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls}\n</urlset>\n`;

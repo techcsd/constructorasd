@@ -22,6 +22,7 @@ export interface SeoInput {
   /** Force noindex (e.g. /styleguide). Non-prod builds are always noindex regardless. */
   noindex?: boolean;
   image?: string;
+  imageAlt?: string;
   type?: 'website' | 'article';
 }
 
@@ -76,12 +77,14 @@ export class SeoService {
     this.meta.updateTag({ property: 'og:url', content: canonical });
     this.meta.updateTag({ property: 'og:image', content: image });
     this.meta.updateTag({ property: 'og:locale', content: input.locale === 'en' ? 'en_US' : 'es_DO' });
+    if (input.imageAlt) this.meta.updateTag({ property: 'og:image:alt', content: input.imageAlt });
 
     // Twitter
     this.meta.updateTag({ name: 'twitter:card', content: 'summary_large_image' });
     this.meta.updateTag({ name: 'twitter:title', content: TITLE_TEMPLATE(input.title) });
     this.meta.updateTag({ name: 'twitter:description', content: input.description });
     this.meta.updateTag({ name: 'twitter:image', content: image });
+    if (input.imageAlt) this.meta.updateTag({ name: 'twitter:image:alt', content: input.imageAlt });
   }
 
   private abs(path?: string): string {
@@ -134,6 +137,70 @@ export class SeoService {
     script.type = 'application/ld+json';
     script.textContent = JSON.stringify(data);
     this.doc.head.appendChild(script);
+  }
+
+  /** Replace (or insert) the keyed detail-entity JSON-LD. One per detail page. */
+  private setDetailJsonLd(data: unknown): void {
+    const id = 'ld-detail';
+    this.doc.getElementById(id)?.remove();
+    const script = this.doc.createElement('script');
+    script.id = id;
+    script.type = 'application/ld+json';
+    script.textContent = JSON.stringify(data);
+    this.doc.head.appendChild(script);
+  }
+
+  private orgRef(): Record<string, unknown> {
+    return { '@type': 'Organization', name: 'Constructora Scheker & Domínguez', url: this.siteUrl + '/' };
+  }
+
+  /** CreativeWork for a built project (entity graph; projects aren't rich-result eligible but this links them to the Org). */
+  setProjectJsonLd(i: { name: string; description: string; path: string; image?: string; location?: string; year?: number }): void {
+    const data: Record<string, unknown> = {
+      '@context': 'https://schema.org',
+      '@type': 'CreativeWork',
+      name: i.name,
+      description: i.description,
+      url: this.abs(i.path),
+      creator: this.orgRef(),
+    };
+    if (i.image) data['image'] = this.abs(i.image);
+    if (i.location) data['locationCreated'] = { '@type': 'Place', name: i.location };
+    if (i.year) data['dateCreated'] = String(i.year);
+    this.setDetailJsonLd(data);
+  }
+
+  /** NewsArticle for a post (Google rich-result eligible). */
+  setArticleJsonLd(i: { headline: string; description: string; path: string; datePublished: string; image?: string }): void {
+    const data: Record<string, unknown> = {
+      '@context': 'https://schema.org',
+      '@type': 'NewsArticle',
+      headline: i.headline,
+      description: i.description,
+      datePublished: i.datePublished,
+      mainEntityOfPage: this.abs(i.path),
+      author: this.orgRef(),
+      publisher: { ...this.orgRef(), logo: { '@type': 'ImageObject', url: this.abs('/img/logo-dark.svg') } },
+    };
+    if (i.image) data['image'] = this.abs(i.image);
+    this.setDetailJsonLd(data);
+  }
+
+  /** JobPosting for an open vacancy (Google rich-result eligible). */
+  setJobPostingJsonLd(i: { title: string; description: string; datePosted: string; employmentType: string; location: string }): void {
+    this.setDetailJsonLd({
+      '@context': 'https://schema.org',
+      '@type': 'JobPosting',
+      title: i.title,
+      description: i.description,
+      datePosted: i.datePosted,
+      employmentType: i.employmentType,
+      hiringOrganization: this.orgRef(),
+      jobLocation: {
+        '@type': 'Place',
+        address: { '@type': 'PostalAddress', addressLocality: i.location, addressCountry: 'DO' },
+      },
+    });
   }
 
   /** Organization JSON-LD — injected once by the app shell. */

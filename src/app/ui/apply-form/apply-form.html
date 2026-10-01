@@ -12,16 +12,18 @@
     <div class="app-field">
       <label for="af-nombre">{{ 'Nombre' | t }}</label>
       <input id="af-nombre" type="text" formControlName="nombre" autocomplete="name"
-        [attr.aria-invalid]="showError('nombre')" />
-      @if (showError('nombre')) {<p class="app-field__err small">{{ 'Este campo es obligatorio.' | t }}</p>}
+        [attr.aria-invalid]="showError('nombre')"
+        [attr.aria-describedby]="showError('nombre') ? 'af-nombre-err' : null" />
+      @if (showError('nombre')) {<p id="af-nombre-err" class="app-field__err small" role="alert">{{ 'Este campo es obligatorio.' | t }}</p>}
     </div>
 
     <div class="apply-form__row">
       <div class="app-field">
         <label for="af-email">{{ 'Correo electrónico' | t }}</label>
         <input id="af-email" type="email" formControlName="email" autocomplete="email"
-          [attr.aria-invalid]="showError('email')" />
-        @if (showError('email')) {<p class="app-field__err small">{{ 'Introduce un correo válido.' | t }}</p>}
+          [attr.aria-invalid]="showError('email')"
+          [attr.aria-describedby]="showError('email') ? 'af-email-err' : null" />
+        @if (showError('email')) {<p id="af-email-err" class="app-field__err small" role="alert">{{ 'Introduce un correo válido.' | t }}</p>}
       </div>
       <div class="app-field">
         <label for="af-telefono">{{ 'Teléfono' | t }}</label>
@@ -31,9 +33,10 @@
 
     <div class="app-field">
       <label for="af-cv">{{ 'Tu CV (PDF, DOC o DOCX — máx. 5 MB)' | t }}</label>
-      <input id="af-cv" type="file" [attr.accept]="accept" (change)="onFile($event)" />
+      <input id="af-cv" type="file" [attr.accept]="accept" (change)="onFile($event)"
+        [attr.aria-invalid]="!!fileError()" [attr.aria-describedby]="fileError() ? 'af-cv-err' : null" />
       @if (fileName()) {<p class="small apply-form__file">{{ fileName() }}</p>}
-      @if (fileError()) {<p class="app-field__err small">{{ fileError() }}</p>}
+      @if (fileError()) {<p id="af-cv-err" class="app-field__err small" role="alert">{{ fileError() }}</p>}
     </div>
 
     <div class="app-field">
@@ -47,13 +50,14 @@
 
     <div class="app-field app-field--check">
       <label class="apply-form__consent">
-        <input type="checkbox" formControlName="consent" [attr.aria-invalid]="showError('consent')" />
+        <input type="checkbox" formControlName="consent" [attr.aria-invalid]="showError('consent')"
+          [attr.aria-describedby]="showError('consent') ? 'af-consent-err' : null" />
         <span class="small">
           {{ 'Acepto la' | t }}
           <a [routerLink]="privacidadPath()">{{ 'política de privacidad' | t }}</a>.
         </span>
       </label>
-      @if (showError('consent')) {<p class="app-field__err small">{{ 'Debes aceptar la política de privacidad.' | t }}</p>}
+      @if (showError('consent')) {<p id="af-consent-err" class="app-field__err small" role="alert">{{ 'Debes aceptar la política de privacidad.' | t }}</p>}
     </div>
 
     <app-button variant="primary" type="submit" [icon]="'arrow-right'" [disabled]="submitting()">

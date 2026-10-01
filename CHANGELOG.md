@@ -3,6 +3,18 @@
 All notable changes to this project. Versioning is simple (CLAUDE.md / WB9): a `CHANGELOG.md` entry plus a
 `package.json` bump per release. Not tracked in `sgc.app_versiones`.
 
+## 1.0.2 — accessibility + structured-data polish (2026-10-01)
+
+- **Accessibility:** gallery lightbox now traps Tab, focuses the close button on open and restores focus to
+  the triggering thumbnail on close, with an accessible name; every form field (contact + apply) wires a
+  conditional `aria-describedby` + `role="alert"` on its error message; the mobile menu restores focus to its
+  toggle on close; sector-filter chips use a new `--line-control` border token that clears 3:1 non-text contrast.
+- **Structured data:** detail pages emit entity JSON-LD — `CreativeWork` (projects, live), `NewsArticle`
+  (posts) and `JobPosting` (vacancies) — plus breadcrumbs on the news/vacancy pages.
+- **Share images:** `og:image` now resolves to the largest variant that actually exists (fixes Plaza Roque's
+  broken `-1280` reference → it 404'd), and `og:image:alt` / `twitter:image:alt` are emitted.
+- **Sitemap:** every URL now carries `<lastmod>`.
+
 ## 1.0.1 — logo refinement + polish (2026-10-01)
 
 - **Logo:** resized the `.SD` monogram so it balances the wordmark instead of towering over it

@@ -52,6 +52,7 @@ export class Header {
   readonly menuOpen = signal(false);
 
   private menuPanel = viewChild<ElementRef<HTMLElement>>('menuPanel');
+  private menuToggle = viewChild<ElementRef<HTMLElement>>('menuToggle');
 
   readonly locale = this.i18n.locale;
   readonly homePath = computed(() => pathFor('home', this.locale()) ?? '/');
@@ -93,8 +94,12 @@ export class Header {
 
   closeMenu(): void {
     if (!this.menuOpen()) return;
+    // Only pull focus back to the toggle if focus was inside the menu (not on route-change close).
+    const focusInMenu =
+      typeof document !== 'undefined' && !!this.menuPanel()?.nativeElement.contains(document.activeElement);
     this.menuOpen.set(false);
     if (typeof document !== 'undefined') document.body.style.overflow = '';
+    if (focusInMenu) queueMicrotask(() => this.menuToggle()?.nativeElement.focus());
   }
 
   onMenuKeydown(event: KeyboardEvent): void {

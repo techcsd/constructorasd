@@ -6,6 +6,7 @@ import { I18nService } from '../../core/i18n/i18n.service';
 import { SeoService } from '../../core/seo/seo.service';
 import { getPost } from '../../../content/posts';
 import { detailPathFor, pathFor } from '../../core/i18n/localized-routes';
+import { ogImageFor } from '../../core/seo/og-image';
 import { Button } from '../../ui/button/button';
 import { ImageFigure } from '../../ui/image-figure/image-figure';
 import { TPipe } from '../../core/i18n/t.pipe';
@@ -48,14 +49,28 @@ export class NoticiaDetalle {
   constructor() {
     const p = this.post();
     if (p) {
+      const path = detailPathFor('noticia', this.slug, this.i18n.locale())!;
       this.seo.set({
         title: this.i18n.pick(p.title) ?? '',
         description: this.i18n.pick(p.excerpt) ?? '',
         routeKey: 'noticias',
         locale: this.i18n.locale(),
-        path: detailPathFor('noticia', this.slug, this.i18n.locale())!,
+        path,
         altPaths: { es: detailPathFor('noticia', this.slug, 'es'), en: detailPathFor('noticia', this.slug, 'en') },
+        image: ogImageFor(p.cover?.src),
+        imageAlt: p.cover ? this.i18n.pick(p.cover.alt) : undefined,
         type: 'article',
+      });
+      this.seo.setBreadcrumb([
+        { name: this.i18n.t('Noticias'), path: this.noticiasPath() },
+        { name: this.i18n.pick(p.title) ?? '', path },
+      ]);
+      this.seo.setArticleJsonLd({
+        headline: this.i18n.pick(p.title) ?? '',
+        description: this.i18n.pick(p.excerpt) ?? '',
+        path,
+        datePublished: p.publishedAt,
+        image: ogImageFor(p.cover?.src),
       });
     } else {
       this.seo.set({

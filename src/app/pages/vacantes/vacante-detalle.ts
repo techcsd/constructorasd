@@ -45,5 +45,18 @@ export class VacanteDetalle {
         : undefined,
       noindex: !j,
     });
+    if (j) {
+      this.seo.setBreadcrumb([
+        { name: this.i18n.t('Vacantes'), path: this.vacantesPath() },
+        { name: this.i18n.pick(j.title)!, path: detailPathFor('vacante', this.slug, this.i18n.locale())! },
+      ]);
+      this.seo.setJobPostingJsonLd({
+        title: this.i18n.pick(j.title)!,
+        description: this.i18n.pick(j.summary)!,
+        datePosted: j.publishedAt,
+        employmentType: j.type === 'tiempo_completo' ? 'FULL_TIME' : 'CONTRACTOR',
+        location: this.i18n.pick(j.location)!,
+      });
+    }
   }
 }

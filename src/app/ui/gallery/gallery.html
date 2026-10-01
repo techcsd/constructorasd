@@ -12,7 +12,9 @@
 }
 
 @if (isOpen()) {
-  <div class="gallery__lightbox" role="dialog" aria-modal="true"
+  <div #lightbox class="gallery__lightbox" role="dialog" aria-modal="true"
+    [attr.aria-label]="current().alt"
+    (keydown)="onLightboxKeydown($event)"
     (touchstart)="onTouchStart($event)" (touchend)="onTouchEnd($event)">
     <button type="button" class="gallery__close" (click)="close()" [attr.aria-label]="'Cerrar' | t">
       <app-icon name="close" [size]="28" />
