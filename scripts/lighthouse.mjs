@@ -6,11 +6,35 @@
 // Best-effort: if Chrome / lighthouse can't run in this environment, it reports and exits 0 (never blocks
 // a commit) — the Vercel preview is the source of truth for the checkpoint.
 
-import { spawn, spawnSync } from 'node:child_process';
+import { spawnSync } from 'node:child_process';
 import { createServer } from 'node:http';
-import { readFileSync, existsSync, mkdirSync, statSync } from 'node:fs';
+import { readFileSync, existsSync, mkdirSync, statSync, readdirSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, join, extname } from 'node:path';
+import { homedir } from 'node:os';
+
+// Resolve a Chrome/Chromium binary for chrome-launcher. Prefer an explicit CHROME_PATH; otherwise fall
+// back to the Chromium that Playwright installs (so `npm run lighthouse` works without a system Chrome).
+function resolveChrome() {
+  if (process.env.CHROME_PATH && existsSync(process.env.CHROME_PATH)) return process.env.CHROME_PATH;
+  const base = join(homedir(), 'AppData', 'Local', 'ms-playwright');
+  const linuxBase = join(homedir(), '.cache', 'ms-playwright');
+  for (const root of [base, linuxBase]) {
+    if (!existsSync(root)) continue;
+    const dirs = readdirSync(root)
+      .filter((d) => /^chromium-\d+$/.test(d))
+      .sort()
+      .reverse();
+    for (const d of dirs) {
+      for (const rel of ['chrome-win64/chrome.exe', 'chrome-win/chrome.exe', 'chrome-linux/chrome']) {
+        const p = join(root, d, rel);
+        if (existsSync(p)) return p;
+      }
+    }
+  }
+  return '';
+}
+const CHROME = resolveChrome();
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(__dirname, '..');
@@ -85,7 +109,12 @@ function runLighthouse(url, name) {
       `--output=html`,
       `--output-path=${join(OUT, name)}`,
     ],
-    { encoding: 'utf8', shell: process.platform === 'win32', timeout: 180000 },
+    {
+      encoding: 'utf8',
+      shell: process.platform === 'win32',
+      timeout: 180000,
+      env: { ...process.env, ...(CHROME ? { CHROME_PATH: CHROME } : {}) },
+    },
   );
   // lighthouse writes <path>.report.json / <path>.report.html with multiple outputs
   const jsonPath = existsSync(report) ? report : join(OUT, `${name}.report.json`);
