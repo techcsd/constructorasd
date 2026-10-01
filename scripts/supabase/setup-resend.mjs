@@ -2,7 +2,18 @@
 // RESEND_API_KEY edge secret on both projects, and pick an already-verified Resend sender domain so email
 // works without new DNS. Prints only non-secret info (domain names, status). Never logs the key.
 const TOKEN = process.env.SUPABASE_ACCESS_TOKEN;
-const REFS = { dev: 'fzfrnrvndzrjwyvdpkgg', prod: 'jeeqhgccqefbqilntcpu' };
+
+// Resolve project refs by NAME via the Management API — never hardcode the prod ref
+// (verify-sin-ref-hardcodeado bans the literal). dev = sgc-dev · prod = csd-core.
+const projects = await (
+  await fetch('https://api.supabase.com/v1/projects', { headers: { Authorization: 'Bearer ' + TOKEN } })
+).json();
+const byName = (n) => projects.find((p) => p.name === n)?.id;
+const REFS = { dev: byName('sgc-dev'), prod: byName('csd-core') };
+if (!REFS.dev || !REFS.prod) {
+  console.error('✖ could not resolve sgc-dev / csd-core by name');
+  process.exit(1);
+}
 
 async function q(ref, sql) {
   const r = await fetch(`https://api.supabase.com/v1/projects/${ref}/database/query`, {

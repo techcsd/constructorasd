@@ -1,7 +1,18 @@
 // probe-sender.mjs — find a Resend sender domain already verified for this account (SGC's), set it as
 // MAIL_FROM on both projects so email works now. Reads the key from the SGC Vault; sends one probe email.
 const TOKEN = process.env.SUPABASE_ACCESS_TOKEN;
-const REFS = { dev: 'fzfrnrvndzrjwyvdpkgg', prod: 'jeeqhgccqefbqilntcpu' };
+
+// Resolve project refs by NAME via the Management API — never hardcode the prod ref
+// (verify-sin-ref-hardcodeado bans the literal). dev = sgc-dev · prod = csd-core.
+const projects = await (
+  await fetch('https://api.supabase.com/v1/projects', { headers: { Authorization: 'Bearer ' + TOKEN } })
+).json();
+const byName = (n) => projects.find((p) => p.name === n)?.id;
+const REFS = { dev: byName('sgc-dev'), prod: byName('csd-core') };
+if (!REFS.dev || !REFS.prod) {
+  console.error('✖ could not resolve sgc-dev / csd-core by name');
+  process.exit(1);
+}
 const CANDIDATES = ['sgcconstructorasd.com', 'constructorasd.com'];
 const PROBE_TO = 'tecnologia@constructorasd.com';
 
