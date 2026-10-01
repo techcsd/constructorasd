@@ -68,8 +68,11 @@ export function generateEnvironment(envName) {
     return fallback;
   };
 
+  // dev/preview: use the per-deployment Vercel URL when present (correct canonical on previews),
+  // else localhost for local dev. prod: the apex domain.
+  const vercelUrl = process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : '';
   const siteUrlFallback =
-    envName === 'prod' ? 'https://constructorasd.com' : 'http://localhost:4200';
+    envName === 'prod' ? 'https://constructorasd.com' : vercelUrl || 'http://localhost:4200';
 
   const environment = {
     envName,
