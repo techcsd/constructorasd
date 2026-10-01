@@ -5,6 +5,12 @@
   "redirects": [
     { "source": "/index.html", "destination": "/", "permanent": true },
     {
+      "source": "/",
+      "has": [{ "type": "host", "value": "www.constructorasd.com" }],
+      "destination": "https://constructorasd.com/",
+      "permanent": true
+    },
+    {
       "source": "/:path*",
       "has": [{ "type": "host", "value": "www.constructorasd.com" }],
       "destination": "https://constructorasd.com/:path*",
