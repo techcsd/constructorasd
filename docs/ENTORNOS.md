@@ -54,5 +54,13 @@ edge functions (Prompt 3), nunca el navegador (CLAUDE.md regla 5).
 
 ## URL de preview (dev)
 
-- Pendiente de registrar tras el primer deploy del Prompt 1 (se anota aquí: `https://constructorasd-…vercel.app`).
+- **Preview en vivo (Prompt 1): https://constructorasd.vercel.app** (alias estable; también
+  `https://constructorasd-git-dev-xaviel-csd.vercel.app`). Proyecto Vercel `constructorasd`
+  (`prj_E3QOicacJUsZEZTx77UUJ95cjwSq`) en el equipo **CSD** (`xaviel-csd`), ligado a `techcsd/constructorasd`.
+- Es un build **DEV**: `noindex`, prefijo `[DEV]` en el título y cinta DEV en la esquina. El `ENV_NAME`
+  lo decide el nombre de la rama (`main` → prod, cualquier otra → dev), así que esto se cumple aunque
+  Vercel etiquete el deploy como "production".
+- ⚠️ **Acción pendiente de Xaviel en el panel de Vercel** (no bloquea): Vercel puso la *Production Branch*
+  en `dev` porque `main` estaba vacío al crear el proyecto. Cuando se haga el gate de prod (WC4), cambiar
+  *Settings → Git → Production Branch* a **`main`** para que `dev` quede como preview y `main` como producción.
 - El subdominio opcional `dev.constructorasd.com` se añadiría en el cutover de DNS (WB11), no es necesario para trabajar.
