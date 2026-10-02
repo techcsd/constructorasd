@@ -10,7 +10,7 @@
     <div class="body noticia__body" [innerHTML]="bodyHtml()"></div>
   </article>
 } @else {
-  <section class="section container noticia__missing">
+  <section class="section container detail-missing">
     <h1 class="h1">{{ 'Página no encontrada' | t }}</h1>
     <app-button variant="secondary" [routerLink]="noticiasPath()">{{ 'Noticias' | t }}</app-button>
   </section>

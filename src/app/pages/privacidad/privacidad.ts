@@ -99,7 +99,6 @@ const SECTIONS: LegalSection[] = [
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [PageHeader],
   templateUrl: './privacidad.html',
-  styleUrl: './privacidad.scss',
 })
 export class Privacidad {
   private i18n = inject(I18nService);

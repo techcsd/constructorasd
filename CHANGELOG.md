@@ -3,6 +3,12 @@
 All notable changes to this project. Versioning is simple (CLAUDE.md / WB9): a `CHANGELOG.md` entry plus a
 `package.json` bump per release. Not tracked in `sgc.app_versiones`.
 
+## 1.1.1 — internal dedup (2026-10-02)
+
+- Extracted the duplicated detail-page "not found" fallback and the legal prose styles into shared global
+  classes (`.detail-missing`, `.legal*` in `_layout.scss`); removed 3 copied SCSS blocks and the 2
+  byte-identical legal stylesheets. No visual change.
+
 ## 1.1.0 — real obra photos + brand logo fix (2026-10-02)
 
 - **Logo:** replaced the rough traced `.SD` monogram (it rendered blobby) with the **real brand mark**,

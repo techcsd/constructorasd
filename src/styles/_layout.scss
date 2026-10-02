@@ -45,6 +45,31 @@
   color: var(--text);
 }
 
+// Detail-page "not found" fallback — shared by proyecto / noticia / vacante detail.
+.detail-missing {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-5);
+  min-height: 40vh;
+}
+
+// Long-form legal prose column (privacidad, aviso-legal).
+.legal {
+  max-width: 65ch;
+}
+.legal__heading {
+  margin-top: var(--space-7);
+  margin-bottom: var(--space-3);
+  &:first-child {
+    margin-top: 0;
+  }
+}
+.legal__p {
+  margin-bottom: var(--space-4);
+  color: var(--text-2);
+}
+
 // Responsive column-span helpers used by asymmetric compositions.
 @media (min-width: 768px) {
   .col-1-5 {

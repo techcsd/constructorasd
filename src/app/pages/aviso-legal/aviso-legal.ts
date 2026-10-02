@@ -81,7 +81,6 @@ const SECTIONS: LegalSection[] = [
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [PageHeader],
   templateUrl: './aviso-legal.html',
-  styleUrl: './aviso-legal.scss',
 })
 export class AvisoLegal {
   private i18n = inject(I18nService);
