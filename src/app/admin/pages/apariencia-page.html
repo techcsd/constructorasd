@@ -1,0 +1,42 @@
+<div class="dn">
+  <div class="dn__head">
+    <h1 class="dn__title">Apariencia</h1>
+  </div>
+
+  @if (error()) { <p class="dn__error" role="alert">{{ error() }}</p> }
+
+  @if (loading()) {
+    <p class="dn__muted">Cargando…</p>
+  } @else {
+    <div class="ap">
+      <div class="ap__field">
+        <div class="ap__label">
+          <span class="ap__title">Color de marca (acento)</span>
+          <span class="ap__hint">Se usa en botones, enlaces y detalles. El cambio se aplica a toda la página.</span>
+        </div>
+        <div class="ap__control">
+          <input class="ap__swatch" type="color" [ngModel]="accent()" (ngModelChange)="setAccent($event)" aria-label="Color de acento" />
+          <input class="ap__hex" type="text" [ngModel]="accent()" (ngModelChange)="setAccent($event)" />
+        </div>
+      </div>
+
+      <div class="ap__preview">
+        <button class="adm-btn adm-btn--primary" type="button">Botón de ejemplo</button>
+        <a href="#" class="ap__link" (click)="$event.preventDefault()">Un enlace de ejemplo</a>
+      </div>
+
+      <div class="ap__actions">
+        <button class="adm-btn adm-btn--primary" type="button" [disabled]="saving()" (click)="save()">
+          {{ saving() ? 'Guardando…' : 'Guardar' }}
+        </button>
+        <button class="adm-btn adm-btn--ghost" type="button" (click)="reset()">Restablecer al valor original</button>
+        @if (saved()) { <span class="ap__saved">Guardado — ya está en vivo en la página.</span> }
+      </div>
+
+      <p class="dn__muted ap__note">
+        Nota: el color se aplica en vivo en el sitio público (sin necesidad de volver a desplegar).
+        Más controles (tipografía, espaciado) y la edición de contenido llegan en el módulo de Contenido.
+      </p>
+    </div>
+  }
+</div>

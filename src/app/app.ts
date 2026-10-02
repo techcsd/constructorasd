@@ -61,7 +61,25 @@ export class App {
         }
       }
       this.installErrorReporter();
+      this.applyAppearance();
     });
+  }
+
+  /** Apply live appearance settings (brand accent) from web.site_settings. Plain fetch (no supabase-js
+   *  in the public bundle); anon read is allowed by RLS. Best-effort — the design default stands if it fails. */
+  private applyAppearance(): void {
+    const base = (environment.supabaseUrl || '').replace(/\/$/, '');
+    const anon = environment.supabaseAnonKey || '';
+    if (!base || !anon || typeof document === 'undefined') return;
+    fetch(`${base}/rest/v1/site_settings?select=accent&id=eq.1`, {
+      headers: { apikey: anon, Authorization: `Bearer ${anon}`, 'Accept-Profile': 'web' },
+    })
+      .then((r) => (r.ok ? r.json() : []))
+      .then((rows) => {
+        const accent = rows?.[0]?.accent;
+        if (accent) document.documentElement.style.setProperty('--accent', accent);
+      })
+      .catch(() => {});
   }
 
   /** Report uncaught errors to the web-client-error edge function (rate-limited, no PII). */

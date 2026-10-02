@@ -464,3 +464,158 @@
   color: var(--accent);
   text-decoration: underline;
 }
+
+// ---- Leads ----
+.lead__row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  cursor: pointer;
+  width: 100%;
+}
+.lead__main {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.lead__status {
+  flex: none;
+  font-size: 0.68rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 2px var(--space-2);
+  border-radius: var(--r-sm);
+  border: 1px solid var(--line-control);
+  color: var(--text-3);
+}
+.lead__status--nuevo {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+.lead__status--descartado {
+  opacity: 0.55;
+}
+.lead__detail {
+  margin-top: var(--space-4);
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--line);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+.lead__msg {
+  white-space: pre-wrap;
+  color: var(--text-2);
+}
+.lead__facts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+  font-size: var(--fs-small);
+  color: var(--text-3);
+}
+.lead__actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+}
+.lead__set {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--fs-small);
+  color: var(--text-2);
+}
+.lead__set select {
+  padding: var(--space-2);
+  border: 1px solid var(--line-control);
+  border-radius: var(--r-sm);
+  background: var(--bg);
+  color: var(--text);
+  font: inherit;
+  font-size: var(--fs-small);
+}
+
+// ---- Apariencia ----
+.ap {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+  max-width: 560px;
+}
+.ap__field {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-5);
+  padding: var(--space-4);
+  border: 1px solid var(--line);
+  border-radius: var(--r-img);
+  background: var(--bg-elevated);
+}
+.ap__label {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.ap__title {
+  font-weight: 600;
+}
+.ap__hint {
+  font-size: var(--fs-small);
+  color: var(--text-3);
+}
+.ap__control {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  flex: none;
+}
+.ap__swatch {
+  width: 44px;
+  height: 36px;
+  padding: 0;
+  border: 1px solid var(--line-control);
+  border-radius: var(--r-sm);
+  background: none;
+  cursor: pointer;
+}
+.ap__hex {
+  width: 96px;
+  font: inherit;
+  font-size: var(--fs-small);
+  padding: var(--space-2);
+  border: 1px solid var(--line-control);
+  border-radius: var(--r-sm);
+  background: var(--bg);
+  color: var(--text);
+}
+.ap__preview {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  padding: var(--space-4);
+  border: 1px dashed var(--line-control);
+  border-radius: var(--r-img);
+}
+.ap__link {
+  color: var(--accent);
+  text-decoration: underline;
+}
+.ap__actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+}
+.ap__saved {
+  font-size: var(--fs-small);
+  color: var(--text-2);
+}
+.ap__note {
+  font-size: var(--fs-small);
+}

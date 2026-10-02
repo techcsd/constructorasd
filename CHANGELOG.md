@@ -3,6 +3,15 @@
 All notable changes to this project. Versioning is simple (CLAUDE.md / WB9): a `CHANGELOG.md` entry plus a
 `package.json` bump per release. Not tracked in `sgc.app_versiones`.
 
+## 1.4.0 — admin: Leads + Apariencia modules (2026-10-02)
+
+- **Leads module** — view contact messages + CV applications in `/admin`, update status, download CVs
+  (short-lived signed URLs), reply by email. RLS-locked to the admin email.
+- **Apariencia module** — change the brand **accent color** live (`web.site_settings`); the public site
+  applies it at runtime (a small anon read), no redeploy needed. A deliberately bounded, safe control.
+- Bumped the per-component style budget for the (internal, growing) admin stylesheet.
+- Next: **Contenido** — full content editing (projects, clients, news, jobs) via a DB-backed CMS + publish.
+
 ## 1.3.0 — admin panel (/admin) + Dev notes module (2026-10-02)
 
 - **Private admin panel at `/admin`** — Supabase email+password login; fully hidden (auth-gated, noindex via

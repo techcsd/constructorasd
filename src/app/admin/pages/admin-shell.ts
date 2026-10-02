@@ -17,7 +17,7 @@ export class AdminShell {
   readonly email = this.auth.email;
 
   // Future modules — shown as disabled so the panel reads as a growing tool.
-  readonly soon = ['Contenido', 'Apariencia', 'Leads'];
+  readonly soon = ['Contenido'];
 
   constructor() {
     inject(Title).setTitle('Panel — CSD');

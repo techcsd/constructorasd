@@ -14,6 +14,8 @@ export const ADMIN_ROUTES: Routes = [
     children: [
       { path: '', pathMatch: 'full', redirectTo: 'notas' },
       { path: 'notas', loadComponent: () => import('./pages/dev-notes-page').then((m) => m.DevNotesPage) },
+      { path: 'leads', loadComponent: () => import('./pages/leads-page').then((m) => m.LeadsPage) },
+      { path: 'apariencia', loadComponent: () => import('./pages/apariencia-page').then((m) => m.ApparienciaPage) },
     ],
   },
 ];
