@@ -3,6 +3,14 @@
 All notable changes to this project. Versioning is simple (CLAUDE.md / WB9): a `CHANGELOG.md` entry plus a
 `package.json` bump per release. Not tracked in `sgc.app_versiones`.
 
+## 1.2.0 — real brand lockup logo + UI polish (2026-10-02)
+
+- **Logo:** now renders the **full real brand lockup** (monogram + two-line "Scheker & / Domínguez" +
+  CONSTRUCTORA) via a `currentColor` CSS mask — matches the brand exactly, stays crisp, and adapts to
+  light/dark. Asset `public/img/logo-full.png`. (Replaces the generic one-line Hanken wordmark.)
+- **Project detail:** removed the doubled section padding between the intro/facts and the gallery
+  (~256px of empty space on desktop → one clean section gap).
+
 ## 1.1.1 — internal dedup (2026-10-02)
 
 - Extracted the duplicated detail-page "not found" fallback and the legal prose styles into shared global

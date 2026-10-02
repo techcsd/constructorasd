@@ -32,7 +32,7 @@
 
   <!-- Gallery -->
   @if (gallery().length) {
-    <section class="section container">
+    <section class="section container pd-gallery-sec">
       <app-eyebrow [label]="'Galería' | t" />
       <div class="pd-gallery" appReveal>
         <app-gallery [images]="gallery()" />

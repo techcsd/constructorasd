@@ -5,35 +5,20 @@
 .app-logo {
   display: inline-flex;
   align-items: center;
-  gap: var(--space-3);
 }
-.app-logo__mark {
-  // The real .SD monogram, painted in currentColor via a mask (crisp on light + dark, no bad trace).
-  height: 1.28em; // sized to balance the wordmark block (not tower over it)
-  aspect-ratio: 204 / 107;
-  flex: none;
+.app-logo__img {
+  // The REAL brand lockup (monogram + two-line wordmark + CONSTRUCTORA), painted in currentColor
+  // via a mask — so it matches the brand exactly and still adapts to light/dark. No font substitution.
+  height: 2.3em;
+  aspect-ratio: 440 / 108;
   background-color: currentColor;
-  -webkit-mask: url(/img/logo-mono.png) center / contain no-repeat;
-  mask: url(/img/logo-mono.png) center / contain no-repeat;
+  -webkit-mask: url(/img/logo-full.png) left center / contain no-repeat;
+  mask: url(/img/logo-full.png) left center / contain no-repeat;
 }
-.app-logo__text {
-  display: flex;
-  flex-direction: column;
-  line-height: 1;
-}
-.app-logo__name {
-  font-weight: 700;
-  font-size: 1.12rem;
-  letter-spacing: -0.025em;
-}
-.app-logo__tag {
-  font-size: 0.52rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.3em;
-  color: var(--text-3);
-  margin-top: 3px;
-}
-.app-logo--mark-only .app-logo__mark {
-  height: 1.45em;
+// Mark-only (monogram) variant — not currently used in the app, kept for completeness.
+.app-logo--mark-only .app-logo__img {
+  height: 1.6em;
+  aspect-ratio: 204 / 107;
+  -webkit-mask-image: url(/img/logo-mono.png);
+  mask-image: url(/img/logo-mono.png);
 }

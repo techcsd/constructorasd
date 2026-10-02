@@ -42,6 +42,11 @@
   border-bottom: 1px solid var(--line);
 }
 
+// The gallery belongs with the intro above it — drop the duplicated top padding so they read as
+// one block instead of being separated by two stacked section paddings.
+.pd-gallery-sec {
+  padding-top: 0;
+}
 .pd-gallery {
   margin-top: var(--space-5);
 }
