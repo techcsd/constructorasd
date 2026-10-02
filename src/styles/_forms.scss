@@ -31,6 +31,24 @@
   font-size: var(--fs-small);
   color: var(--text-2);
 }
+// Style the native file-picker button to match the control aesthetic (instead of the OS default).
+.app-field input[type='file']::file-selector-button {
+  font: inherit;
+  font-size: var(--fs-small);
+  padding: var(--space-2) var(--space-4);
+  margin-right: var(--space-4);
+  background: transparent;
+  color: var(--text);
+  border: 1px solid var(--line-control);
+  border-radius: var(--r-sm);
+  cursor: pointer;
+  transition:
+    color var(--dur-fast) var(--ease-out),
+    border-color var(--dur-fast) var(--ease-out);
+}
+.app-field input[type='file']::file-selector-button:hover {
+  border-color: var(--text);
+}
 .app-field input:focus,
 .app-field select:focus,
 .app-field textarea:focus {

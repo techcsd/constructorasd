@@ -3,6 +3,11 @@
 All notable changes to this project. Versioning is simple (CLAUDE.md / WB9): a `CHANGELOG.md` entry plus a
 `package.json` bump per release. Not tracked in `sgc.app_versiones`.
 
+## 1.2.1 — styled file-upload button (2026-10-02)
+
+- Styled the CV upload button (`::file-selector-button`) to match the control aesthetic (bordered chip)
+  instead of the browser's default OS button. Found during a full desktop + mobile UI audit of every page.
+
 ## 1.2.0 — real brand lockup logo + UI polish (2026-10-02)
 
 - **Logo:** now renders the **full real brand lockup** (monogram + two-line "Scheker & / Domínguez" +
