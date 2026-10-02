@@ -21,12 +21,12 @@
 - **Sector y ciudad por proyecto**: solo están confirmados Lopesan (Hotelero / Punta Cana) y Hospital
   Barahona (Hospitalario / Barahona). Falta el sector/ciudad de los otros 9 proyectos (`src/content/projects.ts`).
 - **Agrupación de clientes**: se agrupó a ojo (promotores / hotelería / industria / instituciones); revisar.
-- **Año de fundación**: el material dice "desde 2014 / 12 años" — confirmar el año oficial exacto.
+- ~~**Año de fundación**~~: ✅ confirmado **2014** (Xaviel). `COMPANY.founded = 2014`.
 
 ## Pendiente por página (se detalla en Prompt 2)
 
 ### General / empresa
-- Año de fundación exacto (el material dice "desde 2014" / "12 años" — confirmar el año oficial).
+- ~~Año de fundación~~: ✅ **2014** (confirmado). · Foto "Volares" = proyecto **Elements Volare** (confirmado).
 - RNC y dirección legal completa (para Aviso legal / Ley 172-13 y el footer).
 - Equipo directivo: el PPTX solo nombra al Ing. Ángel R. Caraballo. **No se inventan nombres ni fotos** →
   la sección "Equipo" queda fuera de v1 (WB8). Si Xaviel quiere incluirla, hacen falta nombres, cargos y fotos.

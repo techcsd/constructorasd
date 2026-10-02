@@ -97,6 +97,6 @@ describe('content model', () => {
   it('company has the four stats and six advantages', () => {
     expect(COMPANY.stats.length).toBe(4);
     expect(COMPANY.advantages.length).toBe(6);
-    expect(COMPANY.founded).toBeUndefined();
+    expect(COMPANY.founded).toBe(2014);
   });
 });

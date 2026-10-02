@@ -1,5 +1,5 @@
 // Company facts — sourced from the 2026 presentation (slides 1, 3, 4, 23, 24). Nothing invented (rule 2).
-// `founded` is NOT stated in the deck → left undefined and listed in CONTENIDO-PENDIENTE.
+// `founded` = 2014 (confirmed by Xaviel; the hero eyebrow reads "desde 2014").
 import { Company } from './types';
 
 export const COMPANY: Company = {
@@ -90,5 +90,5 @@ export const COMPANY: Company = {
   instagram: 'constructorasd',
   whatsapp: '18096925906',
   presence: { es: 'Santo Domingo · Punta Cana', en: 'Santo Domingo · Punta Cana' },
-  founded: undefined,
+  founded: 2014,
 };
