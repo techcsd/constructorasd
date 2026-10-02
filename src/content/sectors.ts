@@ -2,7 +2,8 @@
 // matches are flagged in CONTENIDO-PENDIENTE. Nothing invented (rule 2).
 import { Sector } from './types';
 
-export const SECTORS: Sector[] = [
+import { ov } from './_overrides';
+const SECTORS_SEED: Sector[] = [
   {
     id: 'hotelero',
     name: { es: 'Hotelero y turístico', en: 'Hospitality & tourism' },
@@ -58,3 +59,5 @@ export const SECTORS: Sector[] = [
     projects: [],
   },
 ];
+
+export const SECTORS: Sector[] = ov('sectors', SECTORS_SEED);

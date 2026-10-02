@@ -1,7 +1,8 @@
 // Equipment lines + formwork systems — sourced from the 2026 presentation (slide 11). Nothing invented.
 import { Equipment } from './types';
 
-export const EQUIPMENT: Equipment[] = [
+import { ov } from './_overrides';
+const EQUIPMENT_SEED: Equipment[] = [
   { index: 1, name: { es: 'Encofrado modular metálico', en: 'Modular metal formwork' } },
   { index: 2, name: { es: 'Encofrado de aluminio para muros y losas', en: 'Aluminium formwork for walls and slabs' } },
   { index: 3, name: { es: 'Andamios multidireccionales certificados', en: 'Certified multidirectional scaffolding' } },
@@ -12,4 +13,7 @@ export const EQUIPMENT: Equipment[] = [
   { index: 8, name: { es: 'Equipos de topografía y nivelación', en: 'Surveying and grading equipment' } },
 ];
 
-export const FORMWORK_SYSTEMS: string[] = ['Faresin', 'PERI', 'Symons'];
+const FORMWORK_SYSTEMS_SEED: string[] = ['Faresin', 'PERI', 'Symons'];
+
+export const EQUIPMENT: Equipment[] = ov('equipment', EQUIPMENT_SEED);
+export const FORMWORK_SYSTEMS: string[] = ov('formwork', FORMWORK_SYSTEMS_SEED);

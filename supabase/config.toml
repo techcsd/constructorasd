@@ -12,3 +12,7 @@ verify_jwt = false
 
 [functions.web-client-error]
 verify_jwt = false
+
+# Admin "Publicar" — verifies the admin JWT inside the function, then hits the Vercel deploy hook.
+[functions.web-publish]
+verify_jwt = false

@@ -3,6 +3,16 @@
 All notable changes to this project. Versioning is simple (CLAUDE.md / WB9): a `CHANGELOG.md` entry plus a
 `package.json` bump per release. Not tracked in `sgc.app_versiones`.
 
+## 1.5.0 — admin: Contenido (full content CMS) (2026-10-02)
+
+- **Contenido module** — edit all site content (company, projects, clients, sectors, stages, equipment,
+  jobs, posts, page titles) from `/admin`. Content lives in `web.site_content`; the build (`gen-content`,
+  prebuild) reads it and overrides the TS seeds, which remain as a safe fallback — **the build never breaks**
+  (on any fetch failure it uses the seeds). Seeded once from the current content.
+- **Publicar** — a rebuild trigger (`web-publish` edge function → Vercel deploy hook) so content/appearance
+  changes go live (~2 min). Admin-email-gated.
+- The admin panel is now **complete**: Dev notes · Leads · Contenido · Apariencia.
+
 ## 1.4.0 — admin: Leads + Apariencia modules (2026-10-02)
 
 - **Leads module** — view contact messages + CV applications in `/admin`, update status, download CVs

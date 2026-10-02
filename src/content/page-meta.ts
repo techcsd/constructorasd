@@ -4,6 +4,7 @@
  * Prompt 2 replaces the shells with full pages; the keys here stay the same.
  */
 import { LocalizedText } from './types';
+import { ov } from './_overrides';
 export type { LocalizedText };
 
 export interface PageMeta {
@@ -17,7 +18,7 @@ export interface PageMeta {
   description: LocalizedText;
 }
 
-export const PAGE_META: Record<string, PageMeta> = {
+const PAGE_META_SEED: Record<string, PageMeta> = {
   home: {
     eyebrow: { es: 'Santo Domingo · Punta Cana · desde 2014', en: 'Santo Domingo · Punta Cana · since 2014' },
     h1: { es: 'Construyendo el futuro con bases sólidas', en: 'Building the future on solid ground' },
@@ -168,3 +169,5 @@ export const PAGE_META: Record<string, PageMeta> = {
     },
   },
 };
+
+export const PAGE_META: Record<string, PageMeta> = ov('page_meta', PAGE_META_SEED);

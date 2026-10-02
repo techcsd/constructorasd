@@ -1,0 +1,49 @@
+<div class="dn">
+  @if (editKey(); as key) {
+    <div class="dn__head">
+      <h1 class="dn__title">{{ label(key) }}</h1>
+      <div class="dn__head-actions">
+        <button class="adm-btn adm-btn--ghost" type="button" (click)="cancel()">Cancelar</button>
+        <button class="adm-btn adm-btn--primary" type="button" [disabled]="saving()" (click)="save()">
+          {{ saving() ? 'Guardando…' : 'Guardar' }}
+        </button>
+      </div>
+    </div>
+    @if (error()) { <p class="dn__error" role="alert">{{ error() }}</p> }
+    <p class="dn__muted" style="margin-bottom: var(--space-3)">
+      Edita el contenido como JSON. Guarda y luego pulsa «Publicar» para que salga en vivo.
+    </p>
+    <textarea class="ct__json" spellcheck="false" [ngModel]="json()" (ngModelChange)="json.set($event)"></textarea>
+  } @else {
+    <div class="dn__head">
+      <h1 class="dn__title">Contenido</h1>
+      <button class="adm-btn adm-btn--primary" type="button" [disabled]="publishing()" (click)="publish()">
+        {{ publishing() ? 'Publicando…' : 'Publicar cambios' }}
+      </button>
+    </div>
+
+    @if (dirty()) {
+      <p class="ct__banner">Tienes cambios sin publicar. Pulsa «Publicar cambios» para reconstruir el sitio (~2 min).</p>
+    } @else if (published()) {
+      <p class="ct__banner ct__banner--ok">Publicación iniciada. El sitio se reconstruye en ~2 minutos.</p>
+    }
+
+    @if (error()) { <p class="dn__error" role="alert">{{ error() }}</p> }
+
+    @if (loading()) {
+      <p class="dn__muted">Cargando…</p>
+    } @else {
+      <ul class="dn__list">
+        @for (s of sections(); track s.key) {
+          <li class="dn__item">
+            <div class="dn__item-body" (click)="edit(s)" style="cursor: pointer">
+              <span class="dn__item-title">{{ label(s.key) }}</span>
+              <span class="dn__item-meta"><span class="dn__date">editado {{ fmt(s.updated_at) }}</span></span>
+            </div>
+            <button class="adm-btn adm-btn--ghost" type="button" (click)="edit(s)">Editar</button>
+          </li>
+        }
+      </ul>
+    }
+  }
+</div>

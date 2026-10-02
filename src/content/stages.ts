@@ -1,7 +1,8 @@
 // The 7 construction-cycle stages — sourced from the 2026 presentation (slides 6–14). Nothing invented.
 import { Stage } from './types';
 
-export const STAGES: Stage[] = [
+import { ov } from './_overrides';
+const STAGES_SEED: Stage[] = [
   {
     id: 'etapa-01',
     index: 1,
@@ -171,3 +172,5 @@ export const STAGES: Stage[] = [
     ],
   },
 ];
+
+export const STAGES: Stage[] = ov('stages', STAGES_SEED);

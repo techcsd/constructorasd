@@ -619,3 +619,30 @@
 .ap__note {
   font-size: var(--fs-small);
 }
+
+// ---- Contenido ----
+.ct__json {
+  width: 100%;
+  min-height: 60vh;
+  font-family: ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
+  font-size: 0.82rem;
+  line-height: 1.5;
+  tab-size: 2;
+  padding: var(--space-4);
+  border: 1px solid var(--line-control);
+  border-radius: var(--r-sm);
+  background: var(--bg);
+  color: var(--text);
+  resize: vertical;
+  white-space: pre;
+  overflow-wrap: normal;
+}
+.ct__banner {
+  padding: var(--space-3) var(--space-4);
+  border: 1px solid var(--line-control);
+  border-radius: var(--r-sm);
+  background: var(--bg-elevated);
+  font-size: var(--fs-small);
+  color: var(--text-2);
+  margin-bottom: var(--space-4);
+}

@@ -5,10 +5,11 @@
 // Per-project `scope` is indicative (the deck does not break stages down per project) — flagged.
 import { Project } from './types';
 
+import { ov } from './_overrides';
 const loc = (es: string, en: string) => ({ es, en });
 const RD = loc('República Dominicana', 'Dominican Republic');
 
-export const PROJECTS: Project[] = [
+const PROJECTS_SEED: Project[] = [
   {
     slug: 'lopesan-costa-bavaro-bloque-f',
     name: 'Lopesan Costa Bávaro — Bloque F',
@@ -239,3 +240,5 @@ export const PROJECTS: Project[] = [
     order: 12,
   },
 ];
+
+export const PROJECTS: Project[] = ov('projects', PROJECTS_SEED);

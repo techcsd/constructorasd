@@ -4,6 +4,7 @@
 // where a name clearly belongs elsewhere.
 import { Client, ClientGroup } from './types';
 
+import { ov } from './_overrides';
 const slugify = (s: string) =>
   s
     .normalize('NFD')
@@ -62,6 +63,8 @@ const GROUPS: Record<ClientGroup, string[]> = {
 };
 
 let order = 0;
-export const CLIENTS: Client[] = (Object.keys(GROUPS) as ClientGroup[]).flatMap((group) =>
+const CLIENTS_SEED: Client[] = (Object.keys(GROUPS) as ClientGroup[]).flatMap((group) =>
   GROUPS[group].map((name) => ({ slug: slugify(name), name, group, order: order++ })),
 );
+
+export const CLIENTS: Client[] = ov('clients', CLIENTS_SEED);

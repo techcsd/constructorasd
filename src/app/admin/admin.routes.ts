@@ -16,6 +16,7 @@ export const ADMIN_ROUTES: Routes = [
       { path: 'notas', loadComponent: () => import('./pages/dev-notes-page').then((m) => m.DevNotesPage) },
       { path: 'leads', loadComponent: () => import('./pages/leads-page').then((m) => m.LeadsPage) },
       { path: 'apariencia', loadComponent: () => import('./pages/apariencia-page').then((m) => m.ApparienciaPage) },
+      { path: 'contenido', loadComponent: () => import('./pages/contenido-page').then((m) => m.ContenidoPage) },
     ],
   },
 ];

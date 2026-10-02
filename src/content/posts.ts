@@ -3,8 +3,11 @@
 // rendered with marked + DOMPurify at build in the article page).
 import { Post } from './types';
 
-export const POSTS: Post[] = [];
+import { ov } from './_overrides';
+const POSTS_SEED: Post[] = [];
 
 export function getPost(slug: string): Post | undefined {
   return POSTS.find((p) => p.slug === slug);
 }
+
+export const POSTS: Post[] = ov('posts', POSTS_SEED);

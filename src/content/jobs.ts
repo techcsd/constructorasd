@@ -2,4 +2,7 @@
 // No fabricated vacancies (rule 2).
 import { Job } from './types';
 
-export const JOBS: Job[] = [];
+import { ov } from './_overrides';
+const JOBS_SEED: Job[] = [];
+
+export const JOBS: Job[] = ov('jobs', JOBS_SEED);

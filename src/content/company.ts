@@ -2,7 +2,8 @@
 // `founded` = 2014 (confirmed by Xaviel; the hero eyebrow reads "desde 2014").
 import { Company } from './types';
 
-export const COMPANY: Company = {
+import { ov } from './_overrides';
+const COMPANY_SEED: Company = {
   name: 'Constructora Scheker & Domínguez',
   shortName: 'Constructora SD',
   tagline: {
@@ -92,3 +93,5 @@ export const COMPANY: Company = {
   presence: { es: 'Santo Domingo · Punta Cana', en: 'Santo Domingo · Punta Cana' },
   founded: 2014,
 };
+
+export const COMPANY: Company = ov('company', COMPANY_SEED);

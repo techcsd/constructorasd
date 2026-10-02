@@ -16,9 +16,6 @@ export class AdminShell {
   private router = inject(Router);
   readonly email = this.auth.email;
 
-  // Future modules — shown as disabled so the panel reads as a growing tool.
-  readonly soon = ['Contenido'];
-
   constructor() {
     inject(Title).setTitle('Panel — CSD');
     inject(Meta).updateTag({ name: 'robots', content: 'noindex, nofollow' });
