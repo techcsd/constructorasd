@@ -3,6 +3,15 @@
 All notable changes to this project. Versioning is simple (CLAUDE.md / WB9): a `CHANGELOG.md` entry plus a
 `package.json` bump per release. Not tracked in `sgc.app_versiones`.
 
+## 1.1.0 — real obra photos + brand logo fix (2026-10-02)
+
+- **Logo:** replaced the rough traced `.SD` monogram (it rendered blobby) with the **real brand mark**,
+  painted via a CSS mask in `currentColor` — pixel-accurate to the logo and still adapts to light/dark
+  (header ink, footer bone). Asset: `public/img/logo-mono.png`.
+- **Real project photos:** swapped the deck-auto-mapped covers for the client's actual site photos on
+  6 projects — City Place, Monterezzo, Olea, Poseidonia, Riviera Bay, Elements Volare. (Romo & Solhe
+  pending project details; Solhe's photo has editing markup and needs a clean version.)
+
 ## 1.0.3 — image blur-up + small dedup (2026-10-01)
 
 - **Blur-up images:** every `app-image-figure` now paints the manifest's `lqip` (a tiny webp data-URI) as

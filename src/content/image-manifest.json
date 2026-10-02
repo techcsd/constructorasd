@@ -240,10 +240,10 @@
     "lqip": "data:image/webp;base64,UklGRqoAAABXRUJQVlA4IJ4AAACwBACdASoYAA4APu1iqU2ppaOiMAgBMB2JZQCw7ywTogxhYRjiYXNm8mHJQERgAP2ZhnhlrRuIo6nfAbMKzwnBt1rgyXVr2u0FwGFnp37U9lXPqywaPbNg7+/ZFGe58/11wKtj63oCLekoOt5P1wNA7Mdow01uGnKIulWIOANE9/dtzb2SkqXENu/nfmaXt8PeyQloMbIIjVGbVIKoAA=="
   },
   "projects/city-place": {
-    "hash": "602cd10415da",
-    "width": 2560,
-    "height": 1440,
-    "aspect": 1.7778,
+    "hash": "9a978856f2c2",
+    "width": 1280,
+    "height": 960,
+    "aspect": 1.3333,
     "widths": [
       480,
       960,
@@ -261,12 +261,12 @@
         "1280": "/img/projects/city-place-1280.webp"
       }
     },
-    "lqip": "data:image/webp;base64,UklGRpwAAABXRUJQVlA4IJAAAABQBACdASoYAA4APu1iqU2ppaOiMAgBMB2JZwAD5aGWIAp/GrGk25nMZtWAAP6Cs6OMNKnK/XqjOBGXvzleonM4aKpag0Yh9N0aVUTlQtqi4pjnCEPdITCgvB1T7aBU6kOb7SaQhc5dF5EKLNqrHbpaAn5Mmh88lnTH4nia8EadeOtsJx7g77jUccFRy0cFAAA="
+    "lqip": "data:image/webp;base64,UklGRrQAAABXRUJQVlA4IKgAAACQBACdASoYABIAPu1orlCppaQiqAqpMB2JZwC+aTYBg0v3ABBS3x/DeVZwcpAA/ducjmCV8rnS/46mZizaakUKj8/H0qatUrVOHnPWNghmNTJZppXWUa0udUt63QOz53oP2HNKuXGlRpGNcIWHvA7umEKYDGc5r8UiWQHvVfiYaefuX+NrR6Ae4W7vsRzPhdaaG+1QGpJ3Uz4hPYqB5L8RnBt1Df0AAAA="
   },
   "projects/elements-volare": {
-    "hash": "5dff783eb73f",
-    "width": 2560,
-    "height": 1440,
+    "hash": "b1966bdbdfa7",
+    "width": 1280,
+    "height": 720,
     "aspect": 1.7778,
     "widths": [
       480,
@@ -285,7 +285,7 @@
         "1280": "/img/projects/elements-volare-1280.webp"
       }
     },
-    "lqip": "data:image/webp;base64,UklGRpwAAABXRUJQVlA4IJAAAAAQBACdASoYAA4APu1iqU2ppaOiMAgBMB2JZwAAUz4YQjRT/jrckNVmAAD+rBFfTU7nnwgeVo8rnh0ggAiSARo/QApJkg3oCtbhs8m9I++8cwEmPfeRTqruXn/eJSVDTN9moeHNkmxiTOasSB47mTc9fA1uKF1XoA06/YoWBhyp1LbT/xLQ8C6x9fTeXmsYAAA="
+    "lqip": "data:image/webp;base64,UklGRq4AAABXRUJQVlA4IKIAAABwBACdASoYAA4APu1iqU2ppaOiMAgBMB2JZwDKAYyArK/HaFJ+bDUb7zemgAD+gsajFUccNzBI+0C7Koh/S0d2EqCD7FdBDmgjYfObcvxIKOAp/WmZkQtaVMQjtBNWY1PloO01Y2AMVaEqSEJxwd/U2XFE5mBXZCpFy98/w9FIYpwHAfXz/fiEDyiB728UzX9CyA6GojtmtH4invsW48nqgAA="
   },
   "projects/hospital-barahona": {
     "hash": "ac58348f66c9",
@@ -312,10 +312,10 @@
     "lqip": "data:image/webp;base64,UklGRtQAAABXRUJQVlA4IMgAAADwBQCdASoYABIAPu1ur1IppiQiqAgBMB2JZQC/7y7GAFUvHR8IRh5xTzX397NjpKD7SVhjrViSgAD+2rX5M5hLUyEg22ZAw0BhWPQ0axJAcu3PTPWR3mPVIqPyg65H+KivMSwr6mxMfzzTQNceEh8B5QuIWRljpoIl9lVwXrdLdFbs4WZ18ARTmAy3oiB1tD2JZkrOrunkd/1vA1keGeDgEX0VVlhN6eQH57Hpkfm7RSdxiSVRtjXjeLOy8mVSNWP8+jrUX6mwAA=="
   },
   "projects/monterezzo": {
-    "hash": "27a568001fc3",
-    "width": 2560,
-    "height": 1440,
-    "aspect": 1.7778,
+    "hash": "fd197aeebdfc",
+    "width": 1280,
+    "height": 960,
+    "aspect": 1.3333,
     "widths": [
       480,
       960,
@@ -333,13 +333,13 @@
         "1280": "/img/projects/monterezzo-1280.webp"
       }
     },
-    "lqip": "data:image/webp;base64,UklGRrYAAABXRUJQVlA4IKoAAABQBACdASoYAA4APu1iqU2ppaOiMAgBMB2JQACiA90SLOctbcCslk85WGXgAPqezpuHGCz0bd6y6NwEprqUKPpT2EPHgoQvbGjfPj/DxeD8KBN7uESS7mUAnLkZX1jGwhLmeCx0XxzBrsFOx9s/CNyWm5J5X8kgeJJAG68eden1KOOWdHiPhcSgJYOBsVgxqnJ8+QT7zTBwyDDe3te1I03QrPYuUHcj+wAAAA=="
+    "lqip": "data:image/webp;base64,UklGRuIAAABXRUJQVlA4INYAAACwBQCdASoYABIAPu1ur1IppiQiqAgBMB2JZQDH5ywTpIZfq09WBtJ8cmKDOhYaN08Jl9g37AAA8qIG7FfeZ48BRKSSvgX8Ur7A5uMJlRtjYAhgqOEQk8N2ntC9qOenynxxmZTdD7AbBTeqHsaNOTRMOlOAV1Urjvej+gkWAqfIvSLLW7MCAU8SvNTFnlk907u5z+sni43o3Ox3hjGH5oCC3iwnyPvtCSw/t72FcanwX5n4Rk+ROmJQEuTMGGg3rRj5dm6+PHn0SmQHXZlEuxOkzq3xQAAA"
   },
   "projects/olea": {
-    "hash": "849a99c38905",
-    "width": 2560,
-    "height": 1920,
-    "aspect": 1.3333,
+    "hash": "7dc5baa28f00",
+    "width": 1280,
+    "height": 720,
+    "aspect": 1.7778,
     "widths": [
       480,
       960,
@@ -357,7 +357,7 @@
         "1280": "/img/projects/olea-1280.webp"
       }
     },
-    "lqip": "data:image/webp;base64,UklGRugAAABXRUJQVlA4INwAAABQBQCdASoYABIAPu1or1CppaQiqAqpMB2JQBdgMZtOHLIVFV929xb/qI5k5ztpHZcZ08AA3lZJn6aoDXM9BR/sx5MZqKFonO008wFwbk64rFyKSjVR1besRikBbBGj75xpGbWEm7l4gQdJ+N27SIzFYuKnGKottJ1z4FvSyrSQNjncHqFhRhomrBtJw5MNVSukDff6cnEs6WqMlgAQhzyGVsrry21LcoDNYlp/81v8OES7bvW3Pnap5GBmC5tL6o2zeoWZ6eelROtR0JC0CrdL7x008+F7G+ljrAAA"
+    "lqip": "data:image/webp;base64,UklGRpIAAABXRUJQVlA4IIYAAAAwBACdASoYAA4APu1iqU2ppaOiMAgBMB2JZQDE2YxOY3nMSlr/s5PBEUAA/rn8dVJuC2qa5Y35xiNL8ng1qVZnGrLZehPqNvXomksMRHrw1JBU5z5xCsS01nfAD1cMUzKVPhTEPrdzk0SW8wZIoef2h/8QcE8RWorjr2YHMHYernid2AAAAA=="
   },
   "projects/plaza-roque": {
     "hash": "efd8f98e5095",
@@ -378,9 +378,9 @@
     "lqip": "data:image/webp;base64,UklGRq4AAABXRUJQVlA4IKIAAABQBACdASoYAA8APu1iqU2ppaOiMAgBMB2JagCdAYwc5RNs52mCuMQsKzjAAP3Fzf7EvgYEy9KQ7ZfFXkX4dU6TH56ZP2Z14aKrjczT0TyK2ERDkexSthsuzv64KWRYqzoofbQZoQH3FOPt08wNg3AJ4r2495uA7Dwq2NcEP83JDLNyfIaOEkuVFITe80aZ85n8+cMqba6yKlp9K/uKcD74AAA="
   },
   "projects/poseidonia": {
-    "hash": "1dc2eb52a15e",
-    "width": 2560,
-    "height": 1440,
+    "hash": "73868f5c76c9",
+    "width": 1280,
+    "height": 720,
     "aspect": 1.7778,
     "widths": [
       480,
@@ -399,12 +399,12 @@
         "1280": "/img/projects/poseidonia-1280.webp"
       }
     },
-    "lqip": "data:image/webp;base64,UklGRnoAAABXRUJQVlA4IG4AAABwAwCdASoYAA4APu1iqU2ppaOiMAgBMB2JZwAAW9K6fNkNN4AA/rqHgegRzXzony6jrtcJ3B2MmAheyB6Ta97SBTdD7RGB7Ps70oUngreBq3U+umCmPKsp0MWfhes6Xm4N6ggQqmSnHVRyCawAAA=="
+    "lqip": "data:image/webp;base64,UklGRmIAAABXRUJQVlA4IFYAAABwAwCdASoYAA4APu1iqk4ppaQiMAgBMB2JaQAAXFoT9uyxZ4AA/trTrg6cAxatm3Suot/crJVJHcns3ANO56IsorNHQu+QrAsNxItR+UK08g1RwoAAAA=="
   },
   "projects/riviera-bay": {
-    "hash": "a5a76567b350",
-    "width": 2560,
-    "height": 1440,
+    "hash": "5452c52fc397",
+    "width": 1280,
+    "height": 720,
     "aspect": 1.7778,
     "widths": [
       480,
@@ -423,7 +423,7 @@
         "1280": "/img/projects/riviera-bay-1280.webp"
       }
     },
-    "lqip": "data:image/webp;base64,UklGRpwAAABXRUJQVlA4IJAAAADwAwCdASoYAA4APu1iqU2ppaOiMAgBMB2JYwCsABu1TgNPHm6oVtScAPuh7sOjarbNIHs+rDT8E0nJi/Qt1uwfxoZQQZUkKDuHjAAGiJB1zu+p3LmwWnEa8OyBSslxEPzIo3f4seh0KeOB7xWoZoM26Qqg7/H1+W18W1Cwv4dO4QlJ1MxywF3VVID0WrcGAAA="
+    "lqip": "data:image/webp;base64,UklGRpwAAABXRUJQVlA4IJAAAABQBACdASoYAA4APu1iqU2ppaOiMAgBMB2JZwDMHCKkm1NZ6GmBoXUICn4AAP7LWXRdQTTG4wP5kkJFZ95xHGsz2mEewkI9aDva8a3tFZyv1NBsj1CBgqIP+XawsNNlQFnCSv/Zdt1oNgFS2Zeh3Ph+e06Fx7VXpMh6s8TVEFCFqS5mxkIgE3BpfwATVUYY8AA="
   },
   "projects/torre-alpha": {
     "hash": "071b7c87cfbc",
