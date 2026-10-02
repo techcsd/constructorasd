@@ -55,7 +55,10 @@ for (const file of walk(APP_DIR, ['.scss', '.html'])) {
     const m = line.match(ACCENT);
     if (m) accentCount += m.length;
   });
-  if (accentCount > ACCENT_MAX) {
+  // The "accent is rare" rule is a public-marketing constraint; the private /admin tool uses accent
+  // freely for its controls. Raw-hex / primitive checks above still apply to admin.
+  const isAdmin = rel.startsWith('src/app/admin/');
+  if (accentCount > ACCENT_MAX && !isAdmin) {
     violations.push({
       rel,
       line: 0,

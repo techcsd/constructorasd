@@ -1,0 +1,26 @@
+<div class="adm">
+  <aside class="adm__side">
+    <div class="adm__brand">
+      <span class="adm__mark" aria-hidden="true"></span>
+      <span class="adm__brand-txt">Panel CSD</span>
+    </div>
+
+    <nav class="adm__nav">
+      <a class="adm__nav-link" routerLink="/admin/notas" routerLinkActive="is-active">
+        <span class="adm__dot"></span> Dev notes
+      </a>
+      @for (m of soon; track m) {
+        <span class="adm__nav-soon">{{ m }} <em>pronto</em></span>
+      }
+    </nav>
+
+    <div class="adm__foot">
+      <span class="adm__user" [title]="email() || ''">{{ email() || '—' }}</span>
+      <button class="adm-btn adm-btn--ghost" type="button" (click)="logout()">Salir</button>
+    </div>
+  </aside>
+
+  <main class="adm__main">
+    <router-outlet />
+  </main>
+</div>

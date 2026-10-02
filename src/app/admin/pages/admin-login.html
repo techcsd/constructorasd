@@ -1,0 +1,49 @@
+<div class="adm-auth">
+  @if (recovery()) {
+    <!-- Invite / reset link → set a password -->
+    <form class="adm-auth__card" (ngSubmit)="setPassword()" novalidate>
+      <span class="adm-auth__mark" aria-hidden="true"></span>
+      <h1 class="adm-auth__title">Define tu contraseña</h1>
+      <p class="adm-auth__sub">Para tu acceso al panel</p>
+
+      <label class="adm-field">
+        <span>Nueva contraseña</span>
+        <input type="password" name="new-password" autocomplete="new-password" required
+          [ngModel]="newPassword()" (ngModelChange)="newPassword.set($event)" />
+      </label>
+
+      @if (error()) {
+        <p class="adm-auth__err" role="alert">{{ error() }}</p>
+      }
+
+      <button class="adm-btn adm-btn--primary" type="submit" [disabled]="busy()">
+        {{ busy() ? 'Guardando…' : 'Guardar y entrar' }}
+      </button>
+    </form>
+  } @else {
+    <form class="adm-auth__card" (ngSubmit)="submit()" novalidate>
+      <span class="adm-auth__mark" aria-hidden="true"></span>
+      <h1 class="adm-auth__title">Panel CSD</h1>
+      <p class="adm-auth__sub">Acceso privado</p>
+
+      <label class="adm-field">
+        <span>Correo</span>
+        <input type="email" name="email" autocomplete="username" required
+          [ngModel]="email()" (ngModelChange)="email.set($event)" />
+      </label>
+      <label class="adm-field">
+        <span>Contraseña</span>
+        <input type="password" name="password" autocomplete="current-password" required
+          [ngModel]="password()" (ngModelChange)="password.set($event)" />
+      </label>
+
+      @if (error()) {
+        <p class="adm-auth__err" role="alert">{{ error() }}</p>
+      }
+
+      <button class="adm-btn adm-btn--primary" type="submit" [disabled]="busy()">
+        {{ busy() ? 'Entrando…' : 'Entrar' }}
+      </button>
+    </form>
+  }
+</div>

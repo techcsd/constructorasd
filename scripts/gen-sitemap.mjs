@@ -44,8 +44,8 @@ function walk(dir) {
     else if (name === 'index.html') {
       let rel = relative(browser, dir).replace(/\\/g, '/');
       rel = rel === '.' ? '' : rel;
-      // Skip the noindex styleguide from the sitemap.
-      if (rel === 'styleguide') continue;
+      // Skip noindex routes (styleguide + the private /admin area) from the sitemap.
+      if (rel === 'styleguide' || rel === 'admin' || rel.startsWith('admin/')) continue;
       routes.set('/' + rel, s.mtime.toISOString().slice(0, 10));
     }
   }
@@ -67,7 +67,7 @@ const { envName } = readEnv();
 const robotsPath = join(browser, 'robots.txt');
 const robots =
   envName === 'prod'
-    ? `User-agent: *\nAllow: /\n\nSitemap: ${base}/sitemap.xml\n`
+    ? `User-agent: *\nAllow: /\nDisallow: /admin\n\nSitemap: ${base}/sitemap.xml\n`
     : `# Non-production (preview) deployment — keep it out of search.\nUser-agent: *\nDisallow: /\n`;
 writeFileSync(robotsPath, robots, 'utf8');
 

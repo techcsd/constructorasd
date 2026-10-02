@@ -146,6 +146,8 @@ export function buildRoutes(): Routes {
   ];
 
   return [
+    // Private admin area (hidden; not localized, auth-gated, noindex, excluded from the sitemap).
+    { path: 'admin', loadChildren: () => import('../../admin/admin.routes').then((m) => m.ADMIN_ROUTES) },
     { path: 'en', children: enChildren },
     ...esChildren,
     {

@@ -1,14 +1,16 @@
-<a class="skip-link" href="#main">{{ 'Ir al contenido' | t }}</a>
-
-@if (isDev) {
-  <div class="dev-ribbon" aria-hidden="true">DEV</div>
+@if (!isAdmin()) {
+  <a class="skip-link" href="#main">{{ 'Ir al contenido' | t }}</a>
+  @if (isDev) {
+    <div class="dev-ribbon" aria-hidden="true">DEV</div>
+  }
+  <app-header />
 }
-
-<app-header />
 
 <main id="main" tabindex="-1">
   <router-outlet />
 </main>
 
-<app-footer />
-<app-whatsapp-fab />
+@if (!isAdmin()) {
+  <app-footer />
+  <app-whatsapp-fab />
+}

@@ -3,6 +3,17 @@
 All notable changes to this project. Versioning is simple (CLAUDE.md / WB9): a `CHANGELOG.md` entry plus a
 `package.json` bump per release. Not tracked in `sgc.app_versiones`.
 
+## 1.3.0 — admin panel (/admin) + Dev notes module (2026-10-02)
+
+- **Private admin panel at `/admin`** — Supabase email+password login; fully hidden (auth-gated, noindex via
+  meta + `X-Robots-Tag`, `Disallow` in robots.txt, excluded from the sitemap, unlinked; standalone layout
+  with no public header/footer). Lazy-loaded so supabase-js stays out of the public bundle.
+- **Dev notes module** — create/edit/delete notes with a markdown body, status (open/done), priority and
+  tags; list with status filters + search. Stored in Supabase `web.dev_notes`, **locked to the admin email
+  via RLS** (safe on the shared BU1 projects — "any authenticated" is never granted).
+- Scaffolded for future modules (Contenido, Apariencia, Leads). Applied + verified end-to-end on sgc-dev.
+  Prod rollout (csd-core migration + auth) is gated on Xaviel's OK.
+
 ## 1.2.3 — polished client wall (2026-10-02)
 
 - Redesigned the clients wall (staying text-based — no logos available): larger confident names, clean

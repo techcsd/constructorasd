@@ -4,6 +4,7 @@ import {
   DOCUMENT,
   afterNextRender,
   inject,
+  signal,
 } from '@angular/core';
 import { NavigationStart, Router, RouterOutlet } from '@angular/router';
 import { filter } from 'rxjs';
@@ -31,6 +32,8 @@ export class App {
   private doc = inject<Document>(DOCUMENT);
 
   readonly isDev = environment.envName !== 'prod';
+  // The private /admin area has its own full-screen chrome — hide the public header/footer/FAB there.
+  readonly isAdmin = signal(this.router.url.startsWith('/admin'));
 
   constructor() {
     // Set locale from the URL on EVERY navigation start — before the page component is created, so
@@ -38,7 +41,10 @@ export class App {
     this.applyLocale(this.router.url);
     this.router.events
       .pipe(filter((e): e is NavigationStart => e instanceof NavigationStart))
-      .subscribe((e) => this.applyLocale(e.url));
+      .subscribe((e) => {
+        this.applyLocale(e.url);
+        this.isAdmin.set(e.url.split('?')[0].startsWith('/admin'));
+      });
 
     this.seo.setOrganizationJsonLd();
 
