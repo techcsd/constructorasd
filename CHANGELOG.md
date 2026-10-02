@@ -3,6 +3,16 @@
 All notable changes to this project. Versioning is simple (CLAUDE.md / WB9): a `CHANGELOG.md` entry plus a
 `package.json` bump per release. Not tracked in `sgc.app_versiones`.
 
+## 1.2.3 — polished client wall (2026-10-02)
+
+- Redesigned the clients wall (staying text-based — no logos available): larger confident names, clean
+  hairline cells with a subtle hover, and no grey placeholder blocks on partial rows. Reads as an
+  intentional "trusted by" grid rather than a table. (Logo support stays wired for when official logos arrive.)
+
+## 1.2.2 — founding year confirmed (2026-10-02)
+
+- `COMPANY.founded = 2014` (confirmed). "Volares" photo confirmed as the Elements Volare project cover.
+
 ## 1.2.1 — styled file-upload button (2026-10-02)
 
 - Styled the CV upload button (`::file-selector-button`) to match the control aesthetic (bordered chip)
