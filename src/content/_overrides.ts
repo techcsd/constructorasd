@@ -5,7 +5,16 @@ import overrides from './_overrides.json';
 
 const OV = (overrides ?? {}) as Record<string, unknown>;
 
+function isPlainObject(x: unknown): x is Record<string, unknown> {
+  return typeof x === 'object' && x !== null && !Array.isArray(x);
+}
+
 export function ov<T>(key: string, seed: T): T {
   const v = OV[key];
-  return v === undefined || v === null ? seed : (v as T);
+  if (v === undefined || v === null) return seed;
+  // Shallow-merge object seeds so a field added to the seed after the DB override was saved (e.g.
+  // company.offices, WD2) still appears — the DB wins only for the fields it actually carries. Arrays
+  // and primitives replace wholesale (that is the CMS's intent for lists like projects/clients).
+  if (isPlainObject(seed) && isPlainObject(v)) return { ...seed, ...v } as T;
+  return v as T;
 }
