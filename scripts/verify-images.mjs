@@ -86,6 +86,29 @@ if (existsSync(IMG_DIR)) {
   }
 }
 
+// ── 4) every project cover must have a ≥1600 w variant (WF2) ──
+const MANIFEST = join(SRC, 'content', 'image-manifest.json');
+const PROJECTS = join(SRC, 'content', 'projects.ts');
+if (existsSync(MANIFEST) && existsSync(PROJECTS)) {
+  const manifest = JSON.parse(readFileSync(MANIFEST, 'utf8'));
+  const txt = readFileSync(PROJECTS, 'utf8');
+  const covers = new Set();
+  for (const m of txt.matchAll(/cover:\s*\{\s*src:\s*'([^']+)'/g)) covers.add(m[1]);
+  for (const key of covers) {
+    const e = manifest[key];
+    if (!e) {
+      violations.push({ rel: 'src/content/projects.ts', line: 0, kind: 'cover-missing', text: `${key} not in image-manifest` });
+    } else if (Math.max(...e.widths) < 1600) {
+      violations.push({
+        rel: 'src/content/image-manifest.json',
+        line: 0,
+        kind: 'cover-lowres',
+        text: `${key} max width ${Math.max(...e.widths)} < 1600 — upscale (scripts/upscale-images.mjs) then npm run images`,
+      });
+    }
+  }
+}
+
 if (violations.length) {
   console.error(
     `\n[verify-images] ✗ ${violations.length} image issue(s):\n` +

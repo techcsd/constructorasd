@@ -28,13 +28,20 @@ const OUT_DIR = join(ROOT, 'public', 'img');
 // AVIF/WebP files live in public/img/ and are served statically.
 const MANIFEST = join(ROOT, 'src', 'content', 'image-manifest.json');
 
-// Cap at 1280w: the container is 1320px and these detailed drone/site photos compress poorly past that;
-// 1280 keeps every served image within the 250 kB budget (hero AVIF well under 180 kB).
-const WIDTHS = [480, 960, 1280];
+// Widths: 1600 added (WF2) so every cover has a ≥1600 w variant for 2× DPR. 2400 is intentionally
+// omitted — at q42 a 2400 AVIF of these detailed drone/site photos blows the 250 kB budget (CLAUDE.md
+// rule 8: budget is correctness); 1600 within budget covers the 1320 container at ~1.2× DPR and cards
+// (50vw) at 2×. `withoutEnlargement` means 1600 only appears when the (possibly upscaled) source allows.
+const WIDTHS = [480, 960, 1280, 1600];
 const AVIF = { quality: 42, effort: 6 };
+// The 1600 tier of a dense aerial photo can edge past the 250 kB budget at q42; drop it a few points
+// so every served AVIF stays under budget (imperceptible at that size).
+const AVIF_LARGE = { quality: 36, effort: 6 };
 const WEBP = { quality: 46, effort: 5 };
-// Staging folders under assets-src/ that are NOT optimized/committed (raw PPTX dump).
-const SKIP_DIRS = new Set(['pptx']);
+// Staging folders under assets-src/ that are NOT walked as sources: raw PPTX dump + the upscaled/
+// mirror (which is read on demand below as a preferred source for its matching original).
+const SKIP_DIRS = new Set(['pptx', 'upscaled']);
+const UPSCALED_DIR = join(SRC_DIR, 'upscaled');
 
 if (!existsSync(SRC_DIR)) {
   console.log(`[optimize-images] ⏭  no assets-src/ — nothing to optimize.`);
@@ -63,7 +70,11 @@ let built = 0,
 for (const src of sources) {
   const rel = relative(SRC_DIR, src).replace(/\\/g, '/');
   const key = rel.replace(/\.(jpe?g|png)$/i, '');
-  const buf = readFileSync(src);
+  // Prefer an upscaled copy (assets-src/upscaled/<rel>) when present (WF2) so the 1600 w variant comes
+  // from the enlarged source, not from enlarging a small original.
+  const upPath = join(UPSCALED_DIR, rel);
+  const usedUpscaled = existsSync(upPath);
+  const buf = readFileSync(usedUpscaled ? upPath : src);
   const hash = createHash('sha1').update(buf).digest('hex').slice(0, 12);
 
   if (manifest[key] && manifest[key].hash === hash) {
@@ -88,7 +99,7 @@ for (const src of sources) {
     const resized = sharp(buf).rotate().resize({ width: w, withoutEnlargement: true });
     const avifPath = join(OUT_DIR, `${key}-${w}.avif`);
     const webpPath = join(OUT_DIR, `${key}-${w}.webp`);
-    await resized.clone().avif(AVIF).toFile(avifPath);
+    await resized.clone().avif(w >= 1600 ? AVIF_LARGE : AVIF).toFile(avifPath);
     await resized.clone().webp(WEBP).toFile(webpPath);
     variants.avif[w] = `/img/${key}-${w}.avif`;
     variants.webp[w] = `/img/${key}-${w}.webp`;
@@ -100,7 +111,7 @@ for (const src of sources) {
 
   manifest[key] = { hash, width: srcW, height: srcH, aspect, widths, variants, lqip };
   built++;
-  console.log(`  ✓ ${rel}  (${srcW}×${srcH}, ${widths.length} widths)`);
+  console.log(`  ✓ ${rel}  (${srcW}×${srcH}, ${widths.length} widths)${usedUpscaled ? ' [upscaled]' : ''}`);
 }
 
 writeFileSync(MANIFEST, JSON.stringify(manifest, null, 2) + '\n', 'utf8');

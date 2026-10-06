@@ -22,7 +22,8 @@
     "og": "node scripts/gen-og.mjs",
     "extract:pptx": "node scripts/extract-pptx-media.mjs",
     "lighthouse": "node scripts/lighthouse.mjs",
-    "serve:ssr:constructorasd": "node dist/constructorasd/server/server.mjs"
+    "serve:ssr:constructorasd": "node dist/constructorasd/server/server.mjs",
+    "upscale": "node scripts/upscale-images.mjs --min-width 1600"
   },
   "private": true,
   "packageManager": "npm@10.9.8",

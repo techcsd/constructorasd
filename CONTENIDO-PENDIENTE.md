@@ -92,3 +92,16 @@ El sitio está **publicado en https://constructorasd.com** (v1.0.0). Todo lo de 
   alertas Telegram). Es un cambio en el repo de SGC, no aquí.
 - **Vista "Web → Solicitudes"**: exponer `web.leads` / `web.job_applications` en SGC (con sus propias
   políticas de lectura) para gestionar los leads y las candidaturas desde el ERP.
+
+## Fotos (ronda 06-oct-2026)
+
+- **Plaza Roque**: la única foto disponible es de **768×487 px**. Se subió con upscaling (×4, sharp) para
+  cumplir el mínimo de 1600 w, pero el resultado es **blando**. *Hace falta una foto real de mayor
+  resolución de Plaza Roque* (Punta Cana) para la portada y la galería.
+- **Etapa 05** (servicios/home): fuente de 768×487 px, mismo caso — foto real de mayor resolución deseable.
+- **Lopesan Costa Bávaro — galería**: hay **116 fotos** en el archivo (`Constructora SD\CSD alt\01_PROYECTOS\
+  02_PROYECTO ACTUAL\…\HOTEL LOPESAN BAVARO`). Esta ronda se curó a 3 fotos estructurales de las 9 que
+  estaban en `assets-src/lopesan/`. Para una galería más rica (8–10), seleccionar más tomas de estructura/
+  encofrado/fachada/vistas amplias del archivo y añadirlas a `assets-src/lopesan/`.
+- **WG1 — dirección de oficina** para el pin del mapa (hoy: centro de Santo Domingo y Punta Cana). Al
+  tenerla, editar `src/content/company.ts → offices[].query` (o desde /admin › Contenido).

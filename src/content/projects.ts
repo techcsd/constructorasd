@@ -27,15 +27,13 @@ const PROJECTS_SEED: Project[] = [
     },
     scope: ['etapa-03', 'etapa-04', 'etapa-05'],
     cover: { src: 'lopesan/hero', alt: { es: 'Estructura y encofrado de gran altura — Lopesan Costa Bávaro Bloque F', en: 'High structure and formwork — Lopesan Costa Bávaro Block F' } },
+    // WE7 — curated to structure / formwork-in-place / façade; the material-stack and mis-oriented
+    // photos (componentes, encofrado-vertical, puntales, losas, obra) were dropped. A richer set can be
+    // pulled from the 116-photo Lopesan archive later (see CONTENIDO-PENDIENTE.md).
     gallery: [
-      { src: 'lopesan/estructura', alt: { es: 'Estructura vertical y encofrado de losas', en: 'Vertical structure and slab formwork' } },
+      { src: 'lopesan/estructura', alt: { es: 'Estructura vertical y encofrado de losas en obra', en: 'Vertical structure and slab formwork on site' } },
       { src: 'lopesan/apuntalamiento', alt: { es: 'Apuntalamiento de losas de gran altura', en: 'Shoring of high-rise slabs' } },
-      { src: 'lopesan/losas', alt: { es: 'Losas de hormigón en ejecución', en: 'Concrete slabs under execution' } },
-      { src: 'lopesan/encofrado-vertical', alt: { es: 'Encofrado vertical de muros', en: 'Vertical wall formwork' } },
-      { src: 'lopesan/puntales', alt: { es: 'Puntales y apuntalamiento en obra', en: 'Props and shoring on site' } },
-      { src: 'lopesan/obra', alt: { es: 'Vista general de la obra', en: 'General site view' } },
-      { src: 'lopesan/componentes', alt: { es: 'Componentes de encofrado almacenados', en: 'Stored formwork components' } },
-      { src: 'lopesan/fachada', alt: { es: 'Avance de fachada del bloque', en: 'Block façade progress' } },
+      { src: 'lopesan/fachada', alt: { es: 'Avance de fachada y encofrado del bloque', en: 'Block façade and formwork progress' } },
     ],
     featured: true,
     order: 1,
