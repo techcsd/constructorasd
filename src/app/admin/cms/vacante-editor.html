@@ -1,0 +1,52 @@
+<header class="cms-head">
+  <div>
+    <a class="small cms-back" routerLink="/admin/contenido/vacantes">← Vacantes</a>
+    <h1 class="cms-title">{{ isNew ? 'Nueva vacante' : (j().title_es || 'Editar vacante') }}</h1>
+  </div>
+  <button type="button" class="adm-btn" [disabled]="saving()" (click)="save()">{{ saving() ? 'Guardando…' : 'Guardar' }}</button>
+</header>
+
+@if (error()) { <p class="cms-error">{{ error() }}</p> }
+@if (loading()) { <p class="small">Cargando…</p> }
+@else {
+  <div class="cms-form">
+    <div class="cms-bi">
+      <div class="cms-field"><label>Título (ES)</label><input class="adm-input" type="text" [value]="j().title_es || ''" (input)="onTitle($any($event.target).value)" /></div>
+      <div class="cms-field"><label>Title (EN)</label><input class="adm-input" type="text" [value]="j().title_en || ''" (input)="set('title_en', $any($event.target).value)" /></div>
+    </div>
+    <div class="cms-grid2">
+      <div class="cms-field"><label>Slug</label><input class="adm-input" type="text" [value]="j().slug || ''" (input)="onSlug($any($event.target).value)" /></div>
+      <div class="cms-field">
+        <label>Tipo</label>
+        <select class="adm-input" (change)="set('type', $any($event.target).value)">
+          <option value="tiempo_completo" [selected]="j().type === 'tiempo_completo'">Tiempo completo</option>
+          <option value="por_proyecto" [selected]="j().type === 'por_proyecto'">Por proyecto</option>
+        </select>
+      </div>
+    </div>
+    <div class="cms-bi">
+      <div class="cms-field"><label>Área (ES)</label><input class="adm-input" type="text" [value]="j().area_es || ''" (input)="set('area_es', $any($event.target).value)" /></div>
+      <div class="cms-field"><label>Area (EN)</label><input class="adm-input" type="text" [value]="j().area_en || ''" (input)="set('area_en', $any($event.target).value)" /></div>
+    </div>
+    <div class="cms-bi">
+      <div class="cms-field"><label>Ubicación (ES)</label><input class="adm-input" type="text" [value]="j().location_es || ''" (input)="set('location_es', $any($event.target).value)" /></div>
+      <div class="cms-field"><label>Location (EN)</label><input class="adm-input" type="text" [value]="j().location_en || ''" (input)="set('location_en', $any($event.target).value)" /></div>
+    </div>
+    <div class="cms-bi">
+      <div class="cms-field"><label>Resumen (ES)</label><textarea class="adm-input" rows="3" [value]="j().summary_es || ''" (input)="set('summary_es', $any($event.target).value)"></textarea></div>
+      <div class="cms-field"><label>Summary (EN)</label><textarea class="adm-input" rows="3" [value]="j().summary_en || ''" (input)="set('summary_en', $any($event.target).value)"></textarea></div>
+    </div>
+    <div class="cms-bi">
+      <div class="cms-field"><label>Requisitos (ES) — uno por línea</label><textarea class="adm-input" rows="5" [value]="reqEs()" (input)="reqEs.set($any($event.target).value)"></textarea></div>
+      <div class="cms-field"><label>Requirements (EN) — one per line</label><textarea class="adm-input" rows="5" [value]="reqEn()" (input)="reqEn.set($any($event.target).value)"></textarea></div>
+    </div>
+    <div class="cms-toggles">
+      <label class="cms-check"><input type="checkbox" [checked]="!!j().open" (change)="set('open', $any($event.target).checked)" /> Abierta</label>
+      <label class="cms-check"><input type="checkbox" [checked]="!!j().published" (change)="set('published', $any($event.target).checked)" /> Publicado</label>
+    </div>
+    <div class="cms-save-bar">
+      <button type="button" class="adm-btn" [disabled]="saving()" (click)="save()">{{ saving() ? 'Guardando…' : 'Guardar vacante' }}</button>
+      <a class="adm-btn adm-btn--ghost" routerLink="/admin/contenido/vacantes">Cancelar</a>
+    </div>
+  </div>
+}

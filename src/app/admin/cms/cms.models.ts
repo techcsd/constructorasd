@@ -68,6 +68,45 @@ export interface ProjectImageRow {
   caption_en: string;
 }
 
+export interface PostRow {
+  id: string;
+  slug: string;
+  title_es: string;
+  title_en: string;
+  excerpt_es: string;
+  excerpt_en: string;
+  body_es: string;
+  body_en: string;
+  cover_media_id?: string | null;
+  published_at?: string | null;
+  published: boolean;
+  sort_order: number;
+  deleted_at?: string | null;
+  updated_at?: string;
+}
+
+export interface JobRow {
+  id: string;
+  slug: string;
+  title_es: string;
+  title_en: string;
+  area_es: string;
+  area_en: string;
+  location_es: string;
+  location_en: string;
+  type?: 'tiempo_completo' | 'por_proyecto' | null;
+  summary_es: string;
+  summary_en: string;
+  requirements_es: string[];
+  requirements_en: string[];
+  open: boolean;
+  published: boolean;
+  sort_order: number;
+  published_at?: string | null;
+  deleted_at?: string | null;
+  updated_at?: string;
+}
+
 export const SECTORS = [
   { key: 'hotelero', label: 'Hotelero y turístico' },
   { key: 'institucional', label: 'Institucional y comercial' },

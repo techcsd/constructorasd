@@ -1,0 +1,40 @@
+<header class="cms-head">
+  <div>
+    <a class="small cms-back" routerLink="/admin/contenido/noticias">← Noticias</a>
+    <h1 class="cms-title">{{ isNew ? 'Nueva noticia' : (p().title_es || 'Editar noticia') }}</h1>
+  </div>
+  <button type="button" class="adm-btn" [disabled]="saving()" (click)="save()">{{ saving() ? 'Guardando…' : 'Guardar' }}</button>
+</header>
+
+@if (error()) { <p class="cms-error">{{ error() }}</p> }
+@if (loading()) { <p class="small">Cargando…</p> }
+@else {
+  <div class="cms-form">
+    <div class="cms-bi">
+      <div class="cms-field"><label>Título (ES)</label><input class="adm-input" type="text" [value]="p().title_es || ''" (input)="onTitle($any($event.target).value)" /></div>
+      <div class="cms-field"><label>Title (EN)</label><input class="adm-input" type="text" [value]="p().title_en || ''" (input)="set('title_en', $any($event.target).value)" /></div>
+    </div>
+    <div class="cms-grid2">
+      <div class="cms-field"><label>Slug</label><input class="adm-input" type="text" [value]="p().slug || ''" (input)="onSlug($any($event.target).value)" /></div>
+      <div class="cms-field"><label>Fecha de publicación</label><input class="adm-input" type="date" [value]="p().published_at || ''" (input)="set('published_at', $any($event.target).value)" /></div>
+    </div>
+    <div class="cms-bi">
+      <div class="cms-field"><label>Extracto (ES)</label><textarea class="adm-input" rows="2" [value]="p().excerpt_es || ''" (input)="set('excerpt_es', $any($event.target).value)"></textarea></div>
+      <div class="cms-field"><label>Excerpt (EN)</label><textarea class="adm-input" rows="2" [value]="p().excerpt_en || ''" (input)="set('excerpt_en', $any($event.target).value)"></textarea></div>
+    </div>
+    <div class="cms-bi">
+      <div class="cms-field"><label>Cuerpo (ES, markdown)</label><textarea class="adm-input" rows="8" [value]="p().body_es || ''" (input)="set('body_es', $any($event.target).value)"></textarea></div>
+      <div class="cms-field"><label>Body (EN, markdown)</label><textarea class="adm-input" rows="8" [value]="p().body_en || ''" (input)="set('body_en', $any($event.target).value)"></textarea></div>
+    </div>
+    <div class="cms-field">
+      <label>Portada (opcional)</label>
+      @if (coverUrl(); as url) { <div class="cms-cover"><img [src]="url" alt="" images-allow /><button type="button" class="adm-btn adm-btn--ghost" (click)="cover.set(null)">Quitar</button></div> }
+      <app-media-uploader [label]="coverUrl() ? 'Reemplazar portada' : 'Subir portada'" (uploaded)="onCover($event)" />
+    </div>
+    <label class="cms-check"><input type="checkbox" [checked]="!!p().published" (change)="set('published', $any($event.target).checked)" /> Publicado</label>
+    <div class="cms-save-bar">
+      <button type="button" class="adm-btn" [disabled]="saving()" (click)="save()">{{ saving() ? 'Guardando…' : 'Guardar noticia' }}</button>
+      <a class="adm-btn adm-btn--ghost" routerLink="/admin/contenido/noticias">Cancelar</a>
+    </div>
+  </div>
+}

@@ -19,6 +19,12 @@ export const ADMIN_ROUTES: Routes = [
       { path: 'contenido', loadComponent: () => import('./pages/contenido-page').then((m) => m.ContenidoPage) },
       { path: 'contenido/proyectos', loadComponent: () => import('./cms/proyectos-list').then((m) => m.ProyectosList) },
       { path: 'contenido/proyectos/editar', loadComponent: () => import('./cms/proyecto-editor').then((m) => m.ProyectoEditor) },
+      { path: 'contenido/clientes', loadComponent: () => import('./cms/clientes-list').then((m) => m.ClientesList) },
+      { path: 'contenido/clientes/editar', loadComponent: () => import('./cms/cliente-editor').then((m) => m.ClienteEditor) },
+      { path: 'contenido/noticias', loadComponent: () => import('./cms/noticias-list').then((m) => m.NoticiasList) },
+      { path: 'contenido/noticias/editar', loadComponent: () => import('./cms/noticia-editor').then((m) => m.NoticiaEditor) },
+      { path: 'contenido/vacantes', loadComponent: () => import('./cms/vacantes-list').then((m) => m.VacantesList) },
+      { path: 'contenido/vacantes/editar', loadComponent: () => import('./cms/vacante-editor').then((m) => m.VacanteEditor) },
     ],
   },
 ];

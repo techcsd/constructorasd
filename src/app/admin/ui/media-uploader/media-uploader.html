@@ -9,7 +9,7 @@
 
   @for (p of pending(); track p.previewUrl) {
     <div class="mu__item" [class.is-error]="p.error">
-      <img class="mu__thumb" [src]="p.previewUrl" alt="" />
+      <img class="mu__thumb" [src]="p.previewUrl" alt="" images-allow />
       <div class="mu__fields">
         <div class="mu__meta small">{{ p.file.name }} @if (p.width) {· {{ p.width }}×{{ p.height }}}</div>
         @if (p.error) { <p class="mu__err small">{{ p.error }}</p> }
