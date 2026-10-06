@@ -141,4 +141,13 @@ export interface Company {
   whatsapp: string; // E.164 digits for wa.me
   presence: L;
   founded?: number;
+  offices?: Office[];
+}
+
+/** An office/presence pin for the contact map (WD2/WG1). `query` is what Google Maps geocodes. */
+export interface Office {
+  city: L;
+  query: string; // e.g. "Santo Domingo, República Dominicana" — city center until an exact address (WG1)
+  addressLine?: L; // optional exact street line, once confirmed
+  directionsUrl: string; // "Cómo llegar" deep link
 }

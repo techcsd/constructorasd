@@ -39,6 +39,15 @@
   --text-on-accent: var(--white);
   --focus: var(--oxide-500);
 
+  // ── Secondary button over a dark surface / hero photo (WD1 / WE10) ─────────
+  // Constant across tones: these describe a control sitting on dark pixels (bone ink + border +
+  // translucent bone fill), applied by the button when a [data-tone="dark"] or .home-hero ancestor
+  // is present. bone-50 over ink-900 ≈ 16:1 (verify-contrast guards the pair).
+  --btn-ondark-text: var(--bone-50);
+  --btn-ondark-border: rgba(250, 248, 244, 0.55);
+  --btn-ondark-fill: rgba(250, 248, 244, 0.08);
+  --btn-ondark-fill-hover: rgba(250, 248, 244, 0.16);
+
   // ── Spacing scale (px): 1..16 ──────────────────────────────────────────────
   --space-1: 4px;
   --space-2: 8px;

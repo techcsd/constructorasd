@@ -1,7 +1,7 @@
 // Server-side (authoritative) validators — mirror of src/shared/lead-validation.ts. Keep in sync.
 export const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 export const MIN_FILL_MS = 3000;
-export const MSG_MIN = 20;
+export const MSG_MIN = 10; // WF3 — keep equal to src/shared/lead-validation.ts (asserted in lead-validation.spec.ts)
 export const MSG_MAX = 3000;
 export const MAX_LINKS = 3;
 
@@ -9,26 +9,28 @@ export function countLinks(s: string): number {
   return (s.match(/https?:\/\/|www\./gi) ?? []).length;
 }
 
+// Bracket access throughout: this file is also imported by the vitest suite (to assert MSG_MIN parity
+// with the client), where the strict Angular tsconfig forbids dotted access on an index signature.
 export function validateContact(d: Record<string, unknown>): { ok: boolean; errors: string[] } {
   const e: string[] = [];
-  const name = String(d.name ?? '');
-  const email = String(d.email ?? '');
-  const message = String(d.message ?? '');
+  const name = String(d['name'] ?? '');
+  const email = String(d['email'] ?? '');
+  const message = String(d['message'] ?? '');
   if (!name.trim()) e.push('name');
   if (!EMAIL_RE.test(email)) e.push('email');
   if (message.trim().length < MSG_MIN) e.push('message_short');
   if (message.length > MSG_MAX) e.push('message_long');
-  if (d.consent !== true) e.push('consent');
-  if (d.locale !== 'es' && d.locale !== 'en') e.push('locale');
+  if (d['consent'] !== true) e.push('consent');
+  if (d['locale'] !== 'es' && d['locale'] !== 'en') e.push('locale');
   return { ok: e.length === 0, errors: e };
 }
 
 export function validateApplication(d: Record<string, unknown>): { ok: boolean; errors: string[] } {
   const e: string[] = [];
-  if (!String(d.name ?? '').trim()) e.push('name');
-  if (!EMAIL_RE.test(String(d.email ?? ''))) e.push('email');
-  if (d.consent !== true) e.push('consent');
-  if (d.locale !== 'es' && d.locale !== 'en') e.push('locale');
+  if (!String(d['name'] ?? '').trim()) e.push('name');
+  if (!EMAIL_RE.test(String(d['email'] ?? ''))) e.push('email');
+  if (d['consent'] !== true) e.push('consent');
+  if (d['locale'] !== 'es' && d['locale'] !== 'en') e.push('locale');
   return { ok: e.length === 0, errors: e };
 }
 

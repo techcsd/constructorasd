@@ -58,3 +58,34 @@ Poseidonia and Hospital Barahona as neutral placeholders), and 12 real client na
 ### Deviations to carry into later prompts
 - Per-project `sector`/`city` are only set where confirmed (Lopesan, Hospital Barahona). The rest await
   Prompt 2 — see `CONTENIDO-PENDIENTE.md`.
+
+## Round 06-oct-2026 (v1.6.0)
+
+### AI upscaling via the pipeline (WD5 / WF2 — brief §8 updated)
+Xaviel authorized AI upscaling (previously "no AI upscaling") to lift low-res covers to the ≥1600 w
+target. `scripts/upscale-images.mjs` uses **Real-ESRGAN** when the portable binary is present, else a
+**sharp lanczos3 + mild sharpen** fallback (no GPU/binary on this machine → fallback was used this
+round, logged at runtime). Upscaled copies live in `assets-src/upscaled/`; `optimize-images.mjs` prefers
+them. Never beyond ×4. `verify-images.mjs` now fails the build if any project cover lacks a ≥1600 w
+variant. **2400 w was intentionally not added**: at q42 a 2400 AVIF of these dense aerial photos exceeds
+the 250 kB budget (rule 8); the 1600 tier uses AVIF q36 to stay under budget.
+
+**Files upscaled this round** (source → factor → one-line verdict):
+- `projects/city-place` 1280 → ×2 — OK (mild 1.25× to the 1600 variant, clean).
+- `projects/elements-volare` 1280 → ×2 — OK.
+- `projects/monterezzo` 1280 → ×2 — OK.
+- `projects/olea` 1280 → ×2 — OK.
+- `projects/poseidonia` 1280 → ×2 — OK.
+- `projects/riviera-bay` 1280 → ×2 — OK.
+- `projects/plaza-roque` 768 → ×4 — acceptable (sharp, soft but natural, sharper than the 768 original);
+  **real hi-res photo still wanted** — logged in CONTENIDO-PENDIENTE.
+- `stages/etapa-01` 1169 → ×2 — OK.
+- `stages/etapa-04` 1217 → ×2 — OK.
+- `stages/etapa-05` 768 → ×4 — acceptable but low source; real photo wanted (logged).
+- `stages/etapa-07` 1280 → ×2 — OK.
+
+### Lopesan gallery curation (WE7)
+From the 9 available Lopesan photos the gallery was cut to the structural / façade shots
+(`estructura`, `apuntalamiento`, `fachada`; cover `hero`). Dropped the material-stack and mis-oriented
+photos (`componentes`, `encofrado-vertical`, `puntales`, `losas`, `obra`). A richer 8–10 photo set can
+be pulled from the 116-photo Lopesan archive later (logged in CONTENIDO-PENDIENTE).

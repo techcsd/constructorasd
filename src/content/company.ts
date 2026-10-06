@@ -92,6 +92,23 @@ const COMPANY_SEED: Company = {
   whatsapp: '18096925906',
   presence: { es: 'Santo Domingo · Punta Cana', en: 'Santo Domingo · Punta Cana' },
   founded: 2014,
+  // Map pins (WD2 / WG1). Editable from /admin › Contenido (company → offices). `query` feeds the
+  // Google Maps Embed (a "lat,lng" pins exactly; a place name centers on the city); `directionsUrl` is
+  // the "Cómo llegar" link. Santo Domingo = the exact Oficina Central CSD (Bodega Central, from SGC);
+  // Punta Cana = city center until an exact address is set here.
+  offices: [
+    {
+      city: { es: 'Santo Domingo', en: 'Santo Domingo' },
+      query: '18.4564337877422,-69.9702340364456',
+      addressLine: { es: 'Oficina Central CSD, Santo Domingo', en: 'CSD Head Office, Santo Domingo' },
+      directionsUrl: 'https://www.google.com/maps/search/?api=1&query=18.4564337877422%2C-69.9702340364456',
+    },
+    {
+      city: { es: 'Punta Cana', en: 'Punta Cana' },
+      query: 'Punta Cana, República Dominicana',
+      directionsUrl: 'https://www.google.com/maps/search/?api=1&query=Punta+Cana%2C+Rep%C3%BAblica+Dominicana',
+    },
+  ],
 };
 
 export const COMPANY: Company = ov('company', COMPANY_SEED);

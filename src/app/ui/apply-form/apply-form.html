@@ -1,8 +1,11 @@
 @if (submitted()) {
   <div class="apply-form__success" role="status">
     <span class="apply-form__check"><app-icon name="check" [size]="22" /></span>
-    <p class="h3">{{ 'Gracias. Hemos recibido tu postulación.' | t }}</p>
+    <p class="h3" #successHeading tabindex="-1">{{ 'Gracias. Hemos recibido tu postulación.' | t }}</p>
     <p class="body">{{ 'Revisaremos tu CV y te contactaremos si hay una oportunidad acorde.' | t }}</p>
+    <app-button variant="ghost" type="button" [icon]="'arrow-right'" (click)="resetForm()">
+      {{ 'Enviar otra postulación' | t }}
+    </app-button>
   </div>
 } @else {
   <form class="apply-form" (ngSubmit)="onSubmit()" [formGroup]="form" novalidate>
@@ -27,7 +30,7 @@
       </div>
       <div class="app-field">
         <label for="af-telefono">{{ 'Teléfono' | t }}</label>
-        <input id="af-telefono" type="tel" formControlName="telefono" autocomplete="tel" />
+        <input id="af-telefono" type="tel" formControlName="telefono" appPhoneFormat />
       </div>
     </div>
 
@@ -41,7 +44,19 @@
 
     <div class="app-field">
       <label for="af-mensaje">{{ 'Mensaje (opcional)' | t }}</label>
-      <textarea id="af-mensaje" rows="4" formControlName="mensaje"></textarea>
+      <textarea id="af-mensaje" rows="4" formControlName="mensaje" [attr.maxlength]="maxLen"
+        [attr.aria-invalid]="showError('mensaje')"
+        [attr.aria-describedby]="showError('mensaje') ? 'af-mensaje-err' : null"></textarea>
+      <div class="app-field__meta">
+        @if (mensajeError(); as err) {
+          <p id="af-mensaje-err" class="app-field__err small" role="alert">{{ err | t: { max: maxLen } }}</p>
+        } @else {
+          <span></span>
+        }
+        @if (showCounter()) {
+          <span class="app-field__counter small" aria-hidden="true">{{ mensajeLen() }} / {{ maxLen }}</span>
+        }
+      </div>
     </div>
 
     <div class="apply-form__hp" aria-hidden="true">
@@ -50,7 +65,7 @@
 
     <div class="app-field app-field--check">
       <label class="apply-form__consent">
-        <input type="checkbox" formControlName="consent" [attr.aria-invalid]="showError('consent')"
+        <input id="af-consent" type="checkbox" formControlName="consent" [attr.aria-invalid]="showError('consent')"
           [attr.aria-describedby]="showError('consent') ? 'af-consent-err' : null" />
         <span class="small">
           {{ 'Acepto la' | t }}
@@ -64,7 +79,11 @@
       {{ 'Enviar postulación' | t }}
     </app-button>
 
-    @if (submitError()) {
+    @if (errorKind() === 'rate') {
+      <p class="app-field__err small" role="alert">
+        {{ 'Has enviado varios mensajes seguidos. Inténtalo en unos minutos o escríbenos por WhatsApp.' | t }}
+      </p>
+    } @else if (errorKind() === 'generic') {
       <p class="app-field__err small" role="alert">
         {{ 'No pudimos enviar tu postulación. Inténtalo de nuevo o escríbenos a info@constructorasd.com.' | t }}
       </p>

@@ -34,7 +34,7 @@ export interface ValidationResult {
 
 export const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 export const MIN_FILL_MS = 3000; // must take ≥ 3s to fill (bot guard, WB5)
-export const MSG_MIN = 20;
+export const MSG_MIN = 10; // WF3 — was 20; mirrored in supabase/functions/_shared/validate.ts
 export const MSG_MAX = 3000;
 export const MAX_LINKS = 3;
 

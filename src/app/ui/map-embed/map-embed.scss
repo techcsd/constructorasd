@@ -1,0 +1,99 @@
+.map-embed {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  margin-top: var(--space-4);
+}
+
+// Tabs
+.map-embed__tabs {
+  display: inline-flex;
+  gap: var(--space-2);
+}
+.map-embed__tab {
+  appearance: none;
+  background: transparent;
+  border: 1px solid var(--line-control);
+  border-radius: var(--r-sm);
+  padding: var(--space-2) var(--space-4);
+  font: inherit;
+  font-size: var(--fs-small);
+  color: var(--text-2);
+  cursor: pointer;
+  transition:
+    color var(--dur-fast) var(--ease-out),
+    border-color var(--dur-fast) var(--ease-out),
+    background var(--dur-fast) var(--ease-out);
+}
+.map-embed__tab:hover {
+  color: var(--text);
+  border-color: var(--text);
+}
+.map-embed__tab.is-active {
+  color: var(--text);
+  border-color: var(--accent);
+}
+
+// Iframe — bone hairline border, no shadow, reserved ratio (no CLS).
+.map-embed__frame {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+}
+
+// Fallback card (no key): mirrors the old static presence card.
+.map-embed__fallback {
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+  overflow: hidden;
+}
+.map-embed__fallback-svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.map-embed__fallback-bg {
+  fill: var(--bg-sunken);
+}
+.map-embed__fallback-grid {
+  stroke: var(--line-strong);
+}
+.map-embed__fallback-pin {
+  fill: var(--accent);
+}
+.map-embed__fallback-label {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-4);
+  border-top: 1px solid var(--line);
+  color: var(--text-2);
+}
+
+// Directions
+.map-embed__directions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+.map-embed__directions-label {
+  color: var(--text-3);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.map-embed__cities {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+}
+.map-embed__cities a {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  color: var(--text);
+}
+.map-embed__cities a:hover {
+  color: var(--accent-hover);
+}

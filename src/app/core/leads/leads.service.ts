@@ -7,6 +7,7 @@ export interface ContactPayload {
   company?: string;
   email: string;
   phone?: string;
+  phoneE164?: string | null; // normalized E.164 when deducible (WD3/WF4)
   projectType?: string;
   message: string;
   consent: boolean;

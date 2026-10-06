@@ -80,6 +80,9 @@ export function generateEnvironment(envName) {
     supabaseUrl: pick('SUPABASE_URL'),
     supabaseAnonKey: pick('SUPABASE_ANON_KEY'),
     siteUrl: pick('SITE_URL', siteUrlFallback),
+    // Public, referrer-restricted Google Maps Embed key (WF1). Empty → the contact map falls back to the
+    // static card. Same public-key model as SGC's browser key; see docs/MAPS-EMBED-KEY.md.
+    mapsEmbedKey: pick('MAPS_EMBED_KEY'),
   };
 
   const banner =

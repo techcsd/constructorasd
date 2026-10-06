@@ -3,6 +3,30 @@
 All notable changes to this project. Versioning is simple (CLAUDE.md / WB9): a `CHANGELOG.md` entry plus a
 `package.json` bump per release. Not tracked in `sgc.app_versiones`.
 
+## 1.6.0 — round 06-oct: contact-form fixes, real map, image upscaling, UI bugs (2026-10-06)
+
+Fixes from Xaviel's 06-oct notes (WD) and the live audit (WE); defaults per WF.
+
+- **Contact form (WD4/WD3/WE9/WF3/WF4/WF8)** — the real send bug: `MSG_MIN` lowered 20 → 10 on both the
+  client and the edge function, so short messages like "Garage de autos." now send (verified 200 on dev
+  and prod). Server `errors[]` map to per-field errors; rate-limit (429) shows specific copy; the generic
+  banner never hides a field error. Live phone mask (`809-692-5906`, international grouping) via
+  `appPhoneFormat`; `phone_e164` stored (new column, dev + prod). Message min/max validators + counter.
+  Success state offers "Enviar otro mensaje" and scrolls/focuses the confirmation.
+- **Real map on /contacto (WD2/WF1)** — Google Maps Embed with Santo Domingo / Punta Cana tabs; falls back
+  to a static card until the referrer-restricted `MAPS_EMBED_KEY` is created (steps in
+  `docs/MAPS-EMBED-KEY.md`). CSP allows `frame-src https://www.google.com`.
+- **Images (WD5/WF2/WE5/WE7)** — AI-upscaling pipeline (`upscale-images.mjs`, Real-ESRGAN with sharp
+  fallback) lifts low-res covers to a ≥1600 w variant (guarded). LQIP blur resolves on decode. Lopesan
+  gallery curated to structural/façade shots.
+- **UI bugs** — invisible hero "Hablemos" button → on-dark secondary variant (WD1/WE10); reveal no longer
+  leaves the viewport blank on navigation (WE2/WF5); quote measure fixed (WE1); project-detail hero with
+  title/client over a scrim (WE3/WF6); horizontal scroll removed (WE4); WhatsApp FAB stays visible over
+  dark sections (WE6/WF7); redesigned prev/next row (WE8); placeholder location hidden on cards (WE12).
+- **Guards/tests** — new e2e (`layout`, `map`), unit tests (phone formatter, `buildEmbedSrc`, `MSG_MIN`
+  parity), `verify-contrast` button pairs, `verify-images` ≥1600 cover rule, `verify-sin-ref-hardcodeado`
+  Google-key literal check, `find-overflow.mjs`.
+
 ## 1.5.0 — admin: Contenido (full content CMS) (2026-10-02)
 
 - **Contenido module** — edit all site content (company, projects, clients, sectors, stages, equipment,
