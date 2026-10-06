@@ -3,6 +3,28 @@
 All notable changes to this project. Versioning is simple (CLAUDE.md / WB9): a `CHANGELOG.md` entry plus a
 `package.json` bump per release. Not tracked in `sgc.app_versiones`.
 
+## 1.8.0 — round 06-oct: real content management from /admin (WH1/WJ1–WJ7) (2026-10-06)
+
+Replaces the raw-JSON content editor with a real CMS. **Not yet merged to main** — lives on `dev`/preview.
+
+- **Data model** (`sql/2026-10-06-cms-schema.sql`, dev+prod): `web.admins` + `is_admin()` (every policy
+  uses it); normalized tables `media, clients, projects, project_images, posts, jobs` + `slug_redirects,
+  publish_log, site_state`; RLS (admin-all / anon-published); `v_public_*` views; `web-media` storage
+  bucket. `site_content` kept for the singletons.
+- **Migration** (`scripts/cms/migrate-site-content.mjs`, dev+prod): your content + 20 images → Storage
+  (42 clients, 12 projects, 8 gallery).
+- **Build pipeline** (`gen-content` v2): the static site builds from the CMS tables (DB → `v_public_*` →
+  downloaded/optimized images under `public/img/cms`), prod-strict fallback; committed CMS images so
+  rebuilds skip re-encoding (publish ~2 min, not ~20).
+- **Admin UI** (`/admin`, lazy, brand design system): CRUD editors for **Proyectos** (cover+gallery
+  upload, focal-ready, drag-reorder, etapas, SEO, trash), **Clientes, Noticias, Vacantes**, a structured
+  **Empresa** form (incl. map offices), a **Biblioteca** (media library, usage counts), and a
+  **Publish bar** (deploy state via `/version.json`). Human validation in Spanish.
+- **Tests/docs:** `e2e/admin-cms.spec.ts` (login, create+trash project, empresa, biblioteca, publish);
+  `docs/CMS-ARCHITECTURE.md`, `docs/ADMIN-GUIDE.md` (Spanish).
+- Pending within this round: dedicated forms for Etapas/Sectores/Equipos/Páginas (editable meanwhile via
+  “Otros (JSON)”), and the client-side draft preview.
+
 ## 1.7.0 — round 06-oct: full UI/UX sweep (WD6/WE11) (2026-10-06)
 
 Systematic audit across both languages × 390/768/1440 × Chromium + WebKit (`scripts/audit-shots.mjs`
