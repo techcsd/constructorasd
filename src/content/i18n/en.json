@@ -116,5 +116,10 @@
   "Visión": "Vision",
   "Vista": "View",
   "No pudimos enviar tu mensaje. Inténtalo de nuevo o escríbenos a info@constructorasd.com.": "We couldn't send your message. Please try again or email us at info@constructorasd.com.",
-  "No pudimos enviar tu postulación. Inténtalo de nuevo o escríbenos a info@constructorasd.com.": "We couldn't send your application. Please try again or email us at info@constructorasd.com."
+  "No pudimos enviar tu postulación. Inténtalo de nuevo o escríbenos a info@constructorasd.com.": "We couldn't send your application. Please try again or email us at info@constructorasd.com.",
+  "Enviar otro mensaje": "Send another message",
+  "Enviar otra postulación": "Send another application",
+  "Mínimo 10 caracteres": "Minimum 10 characters",
+  "El mensaje supera los {max} caracteres.": "The message exceeds {max} characters.",
+  "Has enviado varios mensajes seguidos. Inténtalo en unos minutos o escríbenos por WhatsApp.": "You've sent several messages in a row. Try again in a few minutes or message us on WhatsApp."
 }

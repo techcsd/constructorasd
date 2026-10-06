@@ -5,7 +5,9 @@ import {
   isLikelySpam,
   countLinks,
   MIN_FILL_MS,
+  MSG_MIN,
 } from './lead-validation';
+import { MSG_MIN as EDGE_MSG_MIN } from '../../supabase/functions/_shared/validate';
 
 const okContact = {
   locale: 'es',
@@ -18,6 +20,16 @@ const okContact = {
 describe('lead validation', () => {
   it('accepts a valid contact', () => {
     expect(validateContact(okContact).ok).toBe(true);
+  });
+
+  it('keeps MSG_MIN in sync between the client and the edge function (WD4/WF3)', () => {
+    expect(MSG_MIN).toBe(10);
+    expect(EDGE_MSG_MIN).toBe(MSG_MIN);
+  });
+
+  it('accepts a 10-char message but rejects a 9-char one', () => {
+    expect(validateContact({ ...okContact, message: '1234567890' }).ok).toBe(true);
+    expect(validateContact({ ...okContact, message: '123456789' }).errors).toContain('message_short');
   });
 
   it('rejects missing/invalid fields', () => {

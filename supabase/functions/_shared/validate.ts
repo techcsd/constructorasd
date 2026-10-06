@@ -1,7 +1,7 @@
 // Server-side (authoritative) validators — mirror of src/shared/lead-validation.ts. Keep in sync.
 export const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 export const MIN_FILL_MS = 3000;
-export const MSG_MIN = 20;
+export const MSG_MIN = 10; // WF3 — keep equal to src/shared/lead-validation.ts (asserted in lead-validation.spec.ts)
 export const MSG_MAX = 3000;
 export const MAX_LINKS = 3;
 

@@ -68,6 +68,23 @@
 .app-field__err {
   color: var(--accent);
 }
+// Row under the message textarea: field error on the left, live counter on the right.
+.app-field__meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: var(--space-3);
+
+  .app-field__err {
+    margin: 0;
+  }
+}
+.app-field__counter {
+  margin-left: auto;
+  color: var(--text-2);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
 .app-field--check {
   gap: var(--space-2);
 }

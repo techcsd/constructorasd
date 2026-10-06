@@ -1,8 +1,11 @@
 @if (submitted()) {
   <div class="app-contact-form__success" role="status">
     <span class="app-contact-form__check"><app-icon name="check" [size]="22" /></span>
-    <p class="h3">{{ 'Gracias. Hemos recibido tu mensaje.' | t }}</p>
+    <p class="h3" #successHeading tabindex="-1">{{ 'Gracias. Hemos recibido tu mensaje.' | t }}</p>
     <p class="body">{{ 'Te responderemos a la brevedad.' | t }}</p>
+    <app-button variant="ghost" type="button" [icon]="'arrow-right'" (click)="resetForm()">
+      {{ 'Enviar otro mensaje' | t }}
+    </app-button>
   </div>
 } @else {
   <form class="app-contact-form" (ngSubmit)="onSubmit()" [formGroup]="form" novalidate>
@@ -34,7 +37,7 @@
       </div>
       <div class="app-field">
         <label for="cf-telefono">{{ 'Teléfono' | t }}</label>
-        <input id="cf-telefono" type="tel" formControlName="telefono" autocomplete="tel" />
+        <input id="cf-telefono" type="tel" formControlName="telefono" appPhoneFormat />
       </div>
     </div>
 
@@ -54,12 +57,19 @@
 
     <div class="app-field">
       <label for="cf-mensaje">{{ 'Mensaje' | t }}</label>
-      <textarea id="cf-mensaje" rows="5" formControlName="mensaje"
+      <textarea id="cf-mensaje" rows="5" formControlName="mensaje" [attr.maxlength]="maxLen"
         [attr.aria-invalid]="showError('mensaje')"
         [attr.aria-describedby]="showError('mensaje') ? 'cf-mensaje-err' : null"></textarea>
-      @if (showError('mensaje')) {
-        <p id="cf-mensaje-err" class="app-field__err small" role="alert">{{ 'Este campo es obligatorio.' | t }}</p>
-      }
+      <div class="app-field__meta">
+        @if (mensajeError(); as err) {
+          <p id="cf-mensaje-err" class="app-field__err small" role="alert">{{ err | t: { max: maxLen } }}</p>
+        } @else {
+          <span></span>
+        }
+        @if (showCounter()) {
+          <span class="app-field__counter small" aria-hidden="true">{{ mensajeLen() }} / {{ maxLen }}</span>
+        }
+      </div>
     </div>
 
     <!-- honeypot: hidden from users + assistive tech -->
@@ -69,7 +79,7 @@
 
     <div class="app-field app-field--check">
       <label class="app-contact-form__consent">
-        <input type="checkbox" formControlName="consent" [attr.aria-invalid]="showError('consent')"
+        <input id="cf-consent" type="checkbox" formControlName="consent" [attr.aria-invalid]="showError('consent')"
           [attr.aria-describedby]="showError('consent') ? 'cf-consent-err' : null" />
         <span class="small">
           {{ 'Acepto la' | t }}
@@ -85,7 +95,11 @@
       {{ 'Enviar mensaje' | t }}
     </app-button>
 
-    @if (submitError()) {
+    @if (errorKind() === 'rate') {
+      <p class="app-field__err small" role="alert">
+        {{ 'Has enviado varios mensajes seguidos. Inténtalo en unos minutos o escríbenos por WhatsApp.' | t }}
+      </p>
+    } @else if (errorKind() === 'generic') {
       <p class="app-field__err small" role="alert">
         {{ 'No pudimos enviar tu mensaje. Inténtalo de nuevo o escríbenos a info@constructorasd.com.' | t }}
       </p>

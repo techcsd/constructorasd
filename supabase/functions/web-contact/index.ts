@@ -34,6 +34,7 @@ Deno.serve(async (req: Request) => {
     company: d.company ? String(d.company).trim() : null,
     email: String(d.email).trim(),
     phone: d.phone ? String(d.phone).trim() : null,
+    phone_e164: d.phoneE164 ? String(d.phoneE164).trim() : null,
     project_type: d.projectType ? String(d.projectType) : null,
     message: String(d.message).trim(),
     consent: d.consent === true,
