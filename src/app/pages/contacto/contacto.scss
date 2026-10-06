@@ -27,6 +27,7 @@
   display: inline-flex;
   align-items: center;
   gap: var(--space-3);
+  min-height: 44px; // comfortable tap target for the contact actions on mobile
   color: var(--text);
   font-size: var(--fs-body);
 }

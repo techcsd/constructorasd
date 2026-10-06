@@ -53,6 +53,15 @@
 .app-footer__group a:hover {
   color: var(--text);
 }
+// Comfortable thumb targets for the footer nav on mobile (tighten the gap so the column stays compact).
+@media (max-width: 768px) {
+  .app-footer__group ul {
+    gap: var(--space-1);
+  }
+  .app-footer__group a {
+    min-height: 44px;
+  }
+}
 .app-footer__group app-icon {
   color: var(--text-3);
 }

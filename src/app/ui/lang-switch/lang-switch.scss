@@ -7,6 +7,11 @@
   letter-spacing: 0.04em;
 }
 .app-lang-switch__opt {
+  // ≥44px tap target (WCAG 2.5.5) without changing the visual type size — the text centers in the box.
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding-inline: var(--space-1);
   color: var(--text-3);
   transition: color var(--dur-fast) var(--ease-out);
 }
