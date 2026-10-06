@@ -109,6 +109,19 @@ if (existsSync(MANIFEST) && existsSync(PROJECTS)) {
   }
 }
 
+// ── 5) required static brand/icon assets must exist (regression guard) ──
+// These are committed assets NOT produced by optimize-images; a wholesale `rm -rf public/img` would
+// drop them and 404 the logo mask on every page. Fail the build if any is missing.
+const REQUIRED_STATIC = [
+  'img/logo-full.png', 'img/logo-mono.png', 'img/logo-mark.svg',
+  'img/logo-dark.svg', 'img/logo-light.svg', 'img/icon-192.png', 'img/icon-512.png',
+];
+for (const rel of REQUIRED_STATIC) {
+  if (!existsSync(join(ROOT, 'public', rel))) {
+    violations.push({ rel: `public/${rel}`, line: 0, kind: 'static-missing', text: 'required brand asset missing (restore from git)' });
+  }
+}
+
 if (violations.length) {
   console.error(
     `\n[verify-images] ✗ ${violations.length} image issue(s):\n` +

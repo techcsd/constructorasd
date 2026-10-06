@@ -3,6 +3,23 @@
 All notable changes to this project. Versioning is simple (CLAUDE.md / WB9): a `CHANGELOG.md` entry plus a
 `package.json` bump per release. Not tracked in `sgc.app_versiones`.
 
+## 1.7.0 — round 06-oct: full UI/UX sweep (WD6/WE11) (2026-10-06)
+
+Systematic audit across both languages × 390/768/1440 × Chromium + WebKit (`scripts/audit-shots.mjs`
+→ `lighthouse/audit/REPORT.md`), then fixes with permanent guards.
+
+- **Site-wide 404 fixed (regression from v1.6.0):** the v1.6.0 image rebuild (`rm -rf public/img`) had
+  deleted committed brand assets (`logo-full.png` + 6 logo/icon files), 404-ing the logo mask on every
+  page. Restored all 7; `verify-images` now fails if any required static asset is missing, and an e2e
+  test asserts no route requests a 4xx/5xx asset.
+- **Tap targets (mobile, WCAG 2.5.5):** `ES/EN` language switch, footer nav links, ghost-button CTAs,
+  the logo link and the contact-detail links are now ≥ 44 px; e2e guards the primary ones.
+- **Map on /contacto** now points at the exact Santo Domingo office (from SGC) and is admin-editable
+  (shipped in v1.6.x).
+- Re-verified across the whole site: no horizontal scroll, no reveal leftovers, quote intact,
+  on-dark buttons/FAB visible, sitemap excludes `/admin` + `/styleguide`, hreflang pairs present,
+  admin code stays in lazy chunks.
+
 ## 1.6.0 — round 06-oct: contact-form fixes, real map, image upscaling, UI bugs (2026-10-06)
 
 Fixes from Xaviel's 06-oct notes (WD) and the live audit (WE); defaults per WF.

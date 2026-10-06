@@ -24,6 +24,19 @@ Lighthouse budgets.
 | **WE12** repeated location | "República Dominicana" on 7 cards | Placeholder omitted from card meta (kept in detail facts) | `e2e/layout` no placeholder in card meta |
 | **WD5/WF2** low-res photos | Plaza Roque only 480w; several covers < 1600 | Covers upscaled to ≥1600w (sharp fallback); budget held | `verify-images` ≥1600 cover rule; `upscale-images.mjs` |
 
+## Sweep (WD6, v1.7.0)
+
+Full audit across both languages × 390/768/1440 × Chromium + WebKit (`scripts/audit-shots.mjs` →
+`lighthouse/audit/REPORT.md`). The mechanical pass collapsed to two real issues; the rest of the site
+was verified clean.
+
+| Item | Before | After | Guarded by |
+|---|---|---|---|
+| **Site-wide 404 (regression)** | v1.6.0's `rm -rf public/img` deleted `logo-full.png` + 6 logo/icon assets → the logo mask 404'd on every page | all 7 restored; logo renders | `verify-images` static-asset check + `e2e/audit` no-4xx on key routes |
+| **Mobile tap targets < 44px** | `ES/EN` switch (~18px), ghost CTAs (~20px), logo (37px), footer + contact links (<24px) | all ≥ 44px (type size unchanged, text centered in the box) | `e2e/audit` tap-target assertions (lang switch, logo, ghost) |
+| Stage/project images "blurry" in full-page shots | — | verified a capture artifact (lazy decode mid-scroll); images load at opacity 1 when scrolled | `e2e/audit` no reveal leftovers |
+| Horizontal scroll / reveal / quote / on-dark / sitemap / hreflang / admin-lazy | (from v1.6.0) | re-verified clean | existing e2e + `verify-*` |
+
 ## Verification summary
 
 - `npm run build` — green (all `verify-*` guards; 53 routes prerendered in both languages).

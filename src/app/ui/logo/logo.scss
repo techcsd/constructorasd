@@ -5,6 +5,7 @@
 .app-logo {
   display: inline-flex;
   align-items: center;
+  min-height: 44px; // tap target (the lockup image stays 2.3em, centered in the box)
 }
 .app-logo__img {
   // The REAL brand lockup (monogram + two-line wordmark + CONSTRUCTORA), painted in currentColor

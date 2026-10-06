@@ -61,6 +61,7 @@
 
 :host([data-variant='ghost']) .app-button {
   padding-inline: 0;
+  min-height: 44px; // tap target (WCAG 2.5.5) — text+arrow still read as a link, centered in the box
   height: auto;
   color: var(--text);
   background: transparent;

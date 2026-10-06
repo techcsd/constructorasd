@@ -12,6 +12,9 @@
 }
 .map-embed__tab {
   appearance: none;
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px; // tap target
   background: transparent;
   border: 1px solid var(--line-control);
   border-radius: var(--r-sm);
@@ -92,6 +95,7 @@
   display: inline-flex;
   align-items: center;
   gap: var(--space-1);
+  min-height: 44px; // tap target
   color: var(--text);
 }
 .map-embed__cities a:hover {

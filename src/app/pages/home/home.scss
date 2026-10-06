@@ -197,8 +197,14 @@
 }
 .home-cta__phones {
   display: flex;
-  gap: var(--space-4);
+  flex-wrap: wrap;
+  gap: var(--space-2) var(--space-4);
   color: var(--text-2);
+}
+.home-cta__phones a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px; // tap target for the tel: links on the dark CTA band
 }
 .home-cta__phones a:hover {
   color: var(--text);
