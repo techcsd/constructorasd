@@ -17,6 +17,21 @@
   object-fit: cover;
   display: block;
 }
+// Blur-up (WE5): once armed in the browser the real image starts transparent over the LQIP and fades
+// in when it has decoded. SSR / no-JS keeps the image visible (no .is-armed → opacity 1).
+@media (prefers-reduced-motion: no-preference) {
+  .app-image-figure.is-armed .app-image-figure__pic img {
+    opacity: 0;
+    transition: opacity 0.25s var(--ease-out);
+  }
+  .app-image-figure.is-armed.is-loaded .app-image-figure__pic img {
+    opacity: 1;
+  }
+}
+// Drop the blurred LQIP backdrop once the sharp image is in, so nothing shows through its edges.
+.app-image-figure.is-loaded .app-image-figure__pic {
+  background-image: none !important;
+}
 .app-image-figure__placeholder {
   width: 100%;
   display: flex;

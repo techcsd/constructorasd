@@ -37,12 +37,26 @@
 }
 
 :host([data-variant='secondary']) .app-button {
-  border-color: var(--line-strong);
+  border-color: var(--line-control);
   color: var(--text);
   background: transparent;
 }
 :host([data-variant='secondary']) .app-button:hover {
   border-color: var(--text);
+}
+
+// Secondary over a dark surface (a [data-tone="dark"] section) or the hero photo (WD1 / WE10):
+// bone text + border + a translucent bone fill so it reads against dark pixels instead of vanishing.
+:host-context([data-tone='dark']):host([data-variant='secondary']) .app-button,
+:host-context(.home-hero):host([data-variant='secondary']) .app-button {
+  color: var(--btn-ondark-text);
+  border-color: var(--btn-ondark-border);
+  background: var(--btn-ondark-fill);
+}
+:host-context([data-tone='dark']):host([data-variant='secondary']) .app-button:hover,
+:host-context(.home-hero):host([data-variant='secondary']) .app-button:hover {
+  border-color: var(--btn-ondark-text);
+  background: var(--btn-ondark-fill-hover);
 }
 
 :host([data-variant='ghost']) .app-button {

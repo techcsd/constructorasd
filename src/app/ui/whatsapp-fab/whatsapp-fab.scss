@@ -17,3 +17,11 @@
 .app-wa-fab:hover {
   transform: translateY(-3px);
 }
+
+// Over a dark section / footer (WE6/WF7): invert to a bone disc with an ink glyph + hairline so the
+// circle stays visible instead of merging into the dark pixels behind it.
+.app-wa-fab--on-dark {
+  background: var(--bone-50); // tokens-allow (fixed brand chrome, mirrors the dark default)
+  color: var(--ink-900); // tokens-allow
+  border: 1px solid var(--ink-900); // tokens-allow
+}

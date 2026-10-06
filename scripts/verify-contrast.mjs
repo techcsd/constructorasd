@@ -86,6 +86,16 @@ const PAIRS = [
   ['--text-on-accent', '--accent', 4.5, 'label on accent (CTA)'],
   ['--accent-hover', '--bg', 3.0, 'accent as text/underline (UI)'],
   ['--text', '--line', 3.0, 'hairline visibility (UI)'],
+  // Buttons (WD1/WE10): primary label on accent already above; secondary on light = --text/--bg.
+  ['--text', '--bg', 4.5, 'secondary button label on light'],
+];
+
+// Pairs that only make sense over a dark surface (the on-dark secondary button lives only inside a
+// [data-tone="dark"] section or the hero scrim). Checked in the dark tone only — bone-on-bone would
+// wrongly fail in light.
+const DARK_ONLY = [
+  ['--btn-ondark-text', '--bg', 4.5, 'secondary button label on dark (WD1)'],
+  ['--btn-ondark-border', '--bg', 3.0, 'secondary button border on dark (WD1)'],
 ];
 
 let failed = 0;
@@ -94,7 +104,8 @@ for (const tone of ['light', 'dark']) {
   const canvas = toRgb(map['--bg'], map) ?? { r: 255, g: 255, b: 255, a: 1 };
   console.log(`\n  ${tone.toUpperCase()}`);
   console.log('  ' + '─'.repeat(66));
-  for (const [fgT, bgT, thr, label] of PAIRS) {
+  const pairs = tone === 'dark' ? [...PAIRS, ...DARK_ONLY] : PAIRS;
+  for (const [fgT, bgT, thr, label] of pairs) {
     const bg0 = toRgb(map[bgT], map);
     const bg = bg0 ? over(bg0, canvas) : canvas;
     const fg = over(toRgb(map[fgT], map) ?? { r: 0, g: 0, b: 0, a: 1 }, bg);

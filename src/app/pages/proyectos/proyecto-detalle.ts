@@ -11,6 +11,7 @@ import { Eyebrow } from '../../ui/eyebrow/eyebrow';
 import { ImageFigure } from '../../ui/image-figure/image-figure';
 import { Gallery, GalleryImage } from '../../ui/gallery/gallery';
 import { Button } from '../../ui/button/button';
+import { Icon } from '../../ui/icon/icon';
 import { RevealDirective } from '../../core/reveal.directive';
 import { TPipe } from '../../core/i18n/t.pipe';
 
@@ -18,7 +19,7 @@ import { TPipe } from '../../core/i18n/t.pipe';
   selector: 'app-proyecto-detalle',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterLink, Eyebrow, ImageFigure, Gallery, Button, RevealDirective, TPipe],
+  imports: [RouterLink, Eyebrow, ImageFigure, Gallery, Button, Icon, RevealDirective, TPipe],
   templateUrl: './proyecto-detalle.html',
   styleUrl: './proyecto-detalle.scss',
 })
@@ -33,6 +34,7 @@ export class ProyectoDetalle {
   readonly project = computed(() => PROJECTS.find((p) => p.slug === this.slug));
 
   readonly name = computed(() => this.project()?.name ?? '');
+  readonly client = computed(() => this.project()?.client ?? '');
   readonly coverSrc = computed(() => this.project()?.cover.src ?? '');
   readonly coverAlt = computed(() => this.pick(this.project()?.cover.alt) ?? '');
   readonly summary = computed(() => this.pick(this.project()?.summary) ?? '');
@@ -57,8 +59,13 @@ export class ProyectoDetalle {
     return out;
   });
 
+  // Exclude the cover from the gallery so it isn't shown twice; if nothing else remains the whole
+  // gallery section is hidden (WF6 — a single-photo project uses it only as the hero).
   readonly gallery = computed<GalleryImage[]>(
-    () => this.project()?.gallery.map((g) => ({ src: g.src, alt: this.pick(g.alt)! })) ?? [],
+    () =>
+      this.project()
+        ?.gallery.filter((g) => g.src !== this.coverSrc())
+        .map((g) => ({ src: g.src, alt: this.pick(g.alt)! })) ?? [],
   );
 
   readonly proyectosPath = computed(() => pathFor('proyectos', this.i18n.locale()) ?? '/proyectos');

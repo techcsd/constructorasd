@@ -1,12 +1,62 @@
+@use '../../../styles/mixins' as *;
+
+// Hero (WF6) — full-width cover with the title + client over a bottom scrim. Mirrors .home-hero's
+// full-bleed approach (position:relative, no `width:100vw`) which was the source of the horizontal
+// scroll on this page (WE4 — 100vw counts the scrollbar, overflowing by its width).
 .pd-hero {
-  width: 100vw;
-  margin-inline: calc(50% - 50vw);
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  overflow: hidden;
+  color: var(--bone-50); // tokens-allow (text over a dark photo is fixed chrome)
+  aspect-ratio: 4 / 3; // mobile
+}
+@media (min-width: 768px) {
+  .pd-hero {
+    aspect-ratio: 21 / 9;
+  }
+}
+.pd-hero__media {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
 }
 .pd-hero__media :is(app-image-figure, figure, picture) {
-  border-radius: 0;
+  display: block;
+  height: 100%;
+  width: 100%;
 }
 .pd-hero__media picture {
+  aspect-ratio: auto !important; // fill the hero box, not the 21:9 intrinsic ratio
   border-radius: 0;
+  height: 100%;
+}
+.pd-hero__media img {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+}
+.pd-hero__scrim {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  @include photo-scrim; // scrim
+}
+.pd-hero__content {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-2);
+  padding-block: var(--space-7) var(--space-6);
+}
+.pd-hero__title {
+  max-width: 20ch;
+}
+.pd-hero__client {
+  color: inherit;
+  opacity: 0.85;
 }
 
 .pd-top {
@@ -51,11 +101,12 @@
   margin-top: var(--space-5);
 }
 
+// Prev / all / next (WE8) — three columns; empty columns keep the alignment when an edge is missing.
 .pd-nav {
   display: grid;
   grid-template-columns: 1fr auto 1fr;
   align-items: center;
-  gap: var(--space-4);
+  gap: var(--space-5);
   border-top: 1px solid var(--line);
   padding-top: var(--space-6);
 }
@@ -63,19 +114,34 @@
   display: flex;
   flex-direction: column;
   gap: var(--space-1);
+  min-width: 0;
 }
-.pd-nav__link .small {
+.pd-nav__link .h3 {
+  overflow-wrap: anywhere;
+}
+.pd-nav__dir {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
   color: var(--text-3);
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
 }
 .pd-nav__link--next {
   text-align: right;
+  align-items: flex-end;
 }
 .pd-nav__all {
-  color: var(--text-3);
+  justify-self: center;
   white-space: nowrap;
 }
-.pd-nav__all:hover {
-  color: var(--text);
+
+@media (max-width: 600px) {
+  .pd-nav {
+    grid-template-columns: 1fr 1fr;
+    row-gap: var(--space-5);
+  }
+  // keep prev left / next right; the "all" button spans both columns underneath
+  .pd-nav__all {
+    grid-column: 1 / -1;
+    grid-row: 2;
+  }
 }

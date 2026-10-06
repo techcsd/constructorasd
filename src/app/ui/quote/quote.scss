@@ -2,12 +2,15 @@
   margin: 0;
   padding-left: var(--space-5);
   border-left: 1px solid var(--line-strong);
-  max-width: 24ch;
 }
 .app-quote__text {
   font-size: var(--fs-h2);
   line-height: 1.12;
   color: var(--text);
+  // WE1 — the measure belongs on the h2-sized text, not the 16px host (24ch there was ~215px and
+  // broke the quote to one word per line). min(100%, 42rem) gives a comfortable large-type measure
+  // that still fills ≥ half the container on desktop (guarded in e2e/layout.spec.ts).
+  max-width: min(100%, 42rem);
 }
 .app-quote__cite {
   display: block;

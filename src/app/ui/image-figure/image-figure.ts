@@ -1,4 +1,16 @@
-import { ChangeDetectionStrategy, Component, DOCUMENT, computed, effect, inject, input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  DOCUMENT,
+  ElementRef,
+  afterNextRender,
+  computed,
+  effect,
+  inject,
+  input,
+  signal,
+  viewChild,
+} from '@angular/core';
 import manifestJson from '../../../content/image-manifest.json';
 
 interface ImageEntry {
@@ -36,6 +48,38 @@ export class ImageFigure {
   readonly sizes = input<string>('(min-width: 1024px) 50vw, 100vw');
 
   readonly entry = computed<ImageEntry | undefined>(() => MANIFEST[this.image()]);
+
+  // Blur-up state (WE5). SSR / no-JS: the <img> is fully visible (armed stays false). In the browser we
+  // "arm" the figure so the real image starts transparent over the LQIP, then fades in (≤250 ms) the
+  // moment it has decoded — removing the lingering blur the IntersectionObserver-less lazy path left.
+  private readonly imgRef = viewChild<ElementRef<HTMLImageElement>>('img');
+  readonly armed = signal(false);
+  readonly loaded = signal(false);
+
+  constructor() {
+    afterNextRender(() => {
+      const img = this.imgRef()?.nativeElement;
+      // Cached / already-complete images (common for priority/eager) → reveal without a transition.
+      if (img?.complete && img.naturalWidth > 0) {
+        this.loaded.set(true);
+        return;
+      }
+      this.armed.set(true);
+      // Only force a decode for priority (above-the-fold) images — calling decode() on a lazy,
+      // off-screen <img> would trigger its fetch early and defeat loading="lazy". Lazy images fade in
+      // via their (load) handler instead.
+      if (this.priority()) {
+        img
+          ?.decode?.()
+          .then(() => this.loaded.set(true))
+          .catch(() => this.loaded.set(true));
+      }
+    });
+  }
+
+  onLoad(): void {
+    this.loaded.set(true);
+  }
 
   // Blur-up: paint the tiny LQIP (a webp data-URI) as the <picture> background so there's a blurred
   // preview while the real image loads — then the opaque <img> covers it. No JS, no extra request.

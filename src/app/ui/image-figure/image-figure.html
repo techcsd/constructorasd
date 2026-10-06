@@ -1,9 +1,10 @@
 @if (entry()) {
-  <figure class="app-image-figure">
+  <figure class="app-image-figure" [class.is-armed]="armed()" [class.is-loaded]="loaded()">
     <picture class="app-image-figure__pic" [style.aspect-ratio]="aspect()" [style.background-image]="lqipBg()">
       <source type="image/avif" [attr.srcset]="avifSrcset()" [attr.sizes]="sizes()" />
       <source type="image/webp" [attr.srcset]="webpSrcset()" [attr.sizes]="sizes()" />
       <img
+        #img
         [src]="fallbackSrc()"
         [alt]="alt()"
         [attr.width]="entry()!.width"
@@ -11,6 +12,7 @@
         [attr.loading]="priority() ? 'eager' : 'lazy'"
         [attr.fetchpriority]="priority() ? 'high' : null"
         [attr.decoding]="priority() ? 'sync' : 'async'"
+        (load)="onLoad()"
       />
     </picture>
     @if (caption()) {

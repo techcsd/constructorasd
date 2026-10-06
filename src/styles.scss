@@ -20,6 +20,10 @@
 html {
   -webkit-text-size-adjust: 100%;
   scroll-behavior: smooth;
+  // Guard only (WE4) — root causes (e.g. full-bleed `width:100vw`) are fixed at the source; this keeps
+  // a stray overflow from ever showing a horizontal scrollbar. `clip` doesn't create a scroll container
+  // (unlike `hidden`), so sticky/anchored scrolling still works.
+  overflow-x: clip;
 }
 @media (prefers-reduced-motion: reduce) {
   html {
