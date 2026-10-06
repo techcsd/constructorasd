@@ -2,12 +2,13 @@ import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { RouterLink, RouterLinkActive, RouterOutlet, Router } from '@angular/router';
 import { Meta, Title } from '@angular/platform-browser';
 import { AdminAuthService } from '../admin-auth.service';
+import { PublishBar } from '../ui/publish-bar/publish-bar';
 
 @Component({
   selector: 'app-admin-shell',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterOutlet, RouterLink, RouterLinkActive],
+  imports: [RouterOutlet, RouterLink, RouterLinkActive, PublishBar],
   templateUrl: './admin-shell.html',
   styleUrl: './admin.scss',
 })

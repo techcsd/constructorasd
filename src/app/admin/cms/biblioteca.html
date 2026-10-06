@@ -1,0 +1,28 @@
+<header class="cms-head">
+  <div><h1 class="cms-title">Biblioteca</h1><p class="cms-sub small">{{ media().length }} imagen(es)</p></div>
+</header>
+
+@if (error()) { <p class="cms-error">{{ error() }}</p> }
+
+<div class="cms-field" style="margin-bottom:var(--space-4)">
+  <app-media-uploader [multiple]="true" label="Subir imágenes a la biblioteca" (uploaded)="onUploaded()" />
+</div>
+
+<input class="adm-input cms-search" type="search" [value]="query()" (input)="query.set($any($event.target).value)" placeholder="Buscar por nombre o alt…" />
+
+@if (loading()) { <p class="small">Cargando…</p> }
+@else {
+  <div class="cms-media-grid">
+    @for (m of filtered(); track m.id) {
+      <div class="cms-media-card">
+        <img [src]="url(m)" alt="" images-allow />
+        <div class="cms-media-card__body">
+          <span class="cms-media-card__alt" [title]="m.alt_es">{{ m.alt_es || m.original_name || '(sin alt)' }}</span>
+          <span class="cms-media-card__use">{{ uses(m) }} uso(s) · {{ m.width }}×{{ m.height }}</span>
+          <button type="button" class="adm-btn adm-btn--ghost" [disabled]="uses(m) > 0" (click)="remove(m)">{{ uses(m) > 0 ? 'En uso' : 'Borrar' }}</button>
+        </div>
+      </div>
+    }
+    @if (!filtered().length) { <p class="small">Sin imágenes.</p> }
+  </div>
+}

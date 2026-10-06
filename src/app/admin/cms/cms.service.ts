@@ -1,4 +1,5 @@
 import { Injectable, PLATFORM_ID, inject } from '@angular/core';
+import { environment } from '@env';
 import { getSupabase } from '../admin.supabase';
 import type { MediaRow, ProjectImageRow } from './cms.models';
 
@@ -95,6 +96,23 @@ export class CmsService {
     return data as MediaRow;
   }
 
+  /** Count how many records reference each media id (covers, logos, gallery). */
+  async mediaUsage(): Promise<Record<string, number>> {
+    const usage: Record<string, number> = {};
+    const bump = (id?: string | null) => { if (id) usage[id] = (usage[id] ?? 0) + 1; };
+    const [proj, cli, post, gal] = await Promise.all([
+      this.db.from('projects').select('cover_media_id').is('deleted_at', null),
+      this.db.from('clients').select('logo_media_id').is('deleted_at', null),
+      this.db.from('posts').select('cover_media_id').is('deleted_at', null),
+      this.db.from('project_images').select('media_id'),
+    ]);
+    (proj.data ?? []).forEach((r: { cover_media_id?: string | null }) => bump(r.cover_media_id));
+    (cli.data ?? []).forEach((r: { logo_media_id?: string | null }) => bump(r.logo_media_id));
+    (post.data ?? []).forEach((r: { cover_media_id?: string | null }) => bump(r.cover_media_id));
+    (gal.data ?? []).forEach((r: { media_id?: string | null }) => bump(r.media_id));
+    return usage;
+  }
+
   async updateMediaAlt(id: string, alt: { es: string; en: string }, focal?: { x: number; y: number }): Promise<void> {
     const patch: Record<string, unknown> = { alt_es: alt.es, alt_en: alt.en };
     if (focal) { patch['focal_x'] = focal.x; patch['focal_y'] = focal.y; }
@@ -121,6 +139,36 @@ export class CmsService {
     const rows = items.map((it, i) => ({ project_id: projectId, media_id: it.media_id, sort_order: i, caption_es: it.caption_es ?? '', caption_en: it.caption_en ?? '' }));
     const { error } = await this.db.from('project_images').insert(rows);
     if (error) throw new Error(error.message);
+  }
+
+  // ── publish ──
+  /** Trigger a rebuild (web-publish → Vercel deploy hook). Returns null on success, else an error string. */
+  async publish(): Promise<string | null> {
+    const { data: sess } = await this.db.auth.getSession();
+    const token = sess.session?.access_token;
+    const base = (environment.supabaseUrl || '').replace(/\/$/, '');
+    try {
+      const res = await fetch(`${base}/functions/v1/web-publish`, {
+        method: 'POST', headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
+      });
+      if (!res.ok) return `${res.status}: ${(await res.text()).slice(0, 140)}`;
+      await this.markPublished();
+      return null;
+    } catch (e) { return (e as Error).message; }
+  }
+
+  /** Stamp site_state.last_published_at so the "cambios sin publicar" counter resets. */
+  async markPublished(): Promise<void> {
+    await this.db.from('site_state').upsert({ key: 'last_published_at', value: new Date().toISOString() }, { onConflict: 'key' });
+  }
+
+  /** Current built revision from /version.json (for the degraded deploy-detection path). */
+  async siteVersion(): Promise<string | null> {
+    try {
+      const r = await fetch('/version.json?ts=' + Date.now(), { cache: 'no-store' });
+      if (!r.ok) return null;
+      return (await r.json()).rev ?? null;
+    } catch { return null; }
   }
 
   /** Count of unpublished changes vs last publish (max updated_at across content tables vs site_state). */

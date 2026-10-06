@@ -25,6 +25,8 @@ export const ADMIN_ROUTES: Routes = [
       { path: 'contenido/noticias/editar', loadComponent: () => import('./cms/noticia-editor').then((m) => m.NoticiaEditor) },
       { path: 'contenido/vacantes', loadComponent: () => import('./cms/vacantes-list').then((m) => m.VacantesList) },
       { path: 'contenido/vacantes/editar', loadComponent: () => import('./cms/vacante-editor').then((m) => m.VacanteEditor) },
+      { path: 'contenido/empresa', loadComponent: () => import('./cms/empresa-editor').then((m) => m.EmpresaEditor) },
+      { path: 'contenido/biblioteca', loadComponent: () => import('./cms/biblioteca').then((m) => m.Biblioteca) },
     ],
   },
 ];

@@ -1,0 +1,106 @@
+<header class="cms-head">
+  <div><h1 class="cms-title">Empresa</h1><p class="cms-sub small">Datos de la empresa, misión/visión, contacto y oficinas del mapa</p></div>
+  <div class="cms-head__actions">
+    @if (saved()) { <span class="small cms-dirty" style="color:var(--text)">Guardado</span> }
+    <button type="button" class="adm-btn" [disabled]="saving()" (click)="save()">{{ saving() ? 'Guardando…' : 'Guardar' }}</button>
+  </div>
+</header>
+
+@if (error()) { <p class="cms-error">{{ error() }}</p> }
+@if (loading()) { <p class="small">Cargando…</p> }
+@else {
+  <div class="cms-form">
+    <div class="cms-grid2">
+      <div class="cms-field"><label>Nombre</label><input class="adm-input" [(ngModel)]="model.name" /></div>
+      <div class="cms-field"><label>Nombre corto</label><input class="adm-input" [(ngModel)]="model.shortName" /></div>
+    </div>
+    <div class="cms-bi">
+      <div class="cms-field"><label>Tagline (ES)</label><input class="adm-input" [(ngModel)]="model.tagline.es" /></div>
+      <div class="cms-field"><label>Tagline (EN)</label><input class="adm-input" [(ngModel)]="model.tagline.en" /></div>
+    </div>
+    <div class="cms-bi">
+      <div class="cms-field"><label>Descripción (ES)</label><textarea class="adm-input" rows="4" [(ngModel)]="model.description.es"></textarea></div>
+      <div class="cms-field"><label>Description (EN)</label><textarea class="adm-input" rows="4" [(ngModel)]="model.description.en"></textarea></div>
+    </div>
+    <div class="cms-bi">
+      <div class="cms-field"><label>Misión (ES)</label><textarea class="adm-input" rows="3" [(ngModel)]="model.mission.es"></textarea></div>
+      <div class="cms-field"><label>Mission (EN)</label><textarea class="adm-input" rows="3" [(ngModel)]="model.mission.en"></textarea></div>
+    </div>
+    <div class="cms-bi">
+      <div class="cms-field"><label>Visión (ES)</label><textarea class="adm-input" rows="3" [(ngModel)]="model.vision.es"></textarea></div>
+      <div class="cms-field"><label>Vision (EN)</label><textarea class="adm-input" rows="3" [(ngModel)]="model.vision.en"></textarea></div>
+    </div>
+
+    <!-- Values -->
+    <div class="cms-field">
+      <label>Valores</label>
+      @for (v of model.values; track trackByIndex($index); let i = $index) {
+        <div class="cms-bi" style="margin-bottom:var(--space-2)">
+          <input class="adm-input" placeholder="Valor (ES)" [(ngModel)]="v.es" />
+          <div style="display:flex;gap:var(--space-2)"><input class="adm-input" placeholder="Value (EN)" [(ngModel)]="v.en" /><button type="button" class="adm-btn adm-btn--ghost" (click)="removeValue(i)">✕</button></div>
+        </div>
+      }
+      <button type="button" class="adm-btn adm-btn--ghost" (click)="addValue()">+ Añadir valor</button>
+    </div>
+
+    <!-- Quote -->
+    <div class="cms-bi">
+      <div class="cms-field"><label>Cita de filosofía (ES)</label><input class="adm-input" [(ngModel)]="model.philosophyQuote.es" /></div>
+      <div class="cms-field"><label>Philosophy quote (EN)</label><input class="adm-input" [(ngModel)]="model.philosophyQuote.en" /></div>
+    </div>
+    <div class="cms-bi">
+      <div class="cms-field"><label>Atribución (ES)</label><input class="adm-input" [(ngModel)]="model.philosophyAttribution.es" /></div>
+      <div class="cms-field"><label>Attribution (EN)</label><input class="adm-input" [(ngModel)]="model.philosophyAttribution.en" /></div>
+    </div>
+
+    <!-- Stats -->
+    <div class="cms-field">
+      <label>Estadísticas</label>
+      @for (s of model.stats; track trackByIndex($index); let i = $index) {
+        <div class="cms-grid2" style="margin-bottom:var(--space-2);grid-template-columns:120px 1fr 1fr auto">
+          <input class="adm-input" placeholder="45+" [(ngModel)]="s.value" />
+          <input class="adm-input" placeholder="Etiqueta (ES)" [(ngModel)]="s.label.es" />
+          <input class="adm-input" placeholder="Label (EN)" [(ngModel)]="s.label.en" />
+          <button type="button" class="adm-btn adm-btn--ghost" (click)="removeStat(i)">✕</button>
+        </div>
+      }
+      <button type="button" class="adm-btn adm-btn--ghost" (click)="addStat()">+ Añadir estadística</button>
+    </div>
+
+    <!-- Contact -->
+    <div class="cms-field">
+      <label>Teléfonos</label>
+      @for (ph of model.phones; track trackByIndex($index); let i = $index) {
+        <div style="display:flex;gap:var(--space-2);margin-bottom:var(--space-2)"><input class="adm-input" [(ngModel)]="model.phones[i]" placeholder="809-692-5906" /><button type="button" class="adm-btn adm-btn--ghost" (click)="removePhone(i)">✕</button></div>
+      }
+      <button type="button" class="adm-btn adm-btn--ghost" (click)="addPhone()">+ Añadir teléfono</button>
+    </div>
+    <div class="cms-grid2">
+      <div class="cms-field"><label>Email</label><input class="adm-input" [(ngModel)]="model.email" /></div>
+      <div class="cms-field"><label>Instagram (usuario)</label><input class="adm-input" [(ngModel)]="model.instagram" /></div>
+      <div class="cms-field"><label>WhatsApp (E.164, sin +)</label><input class="adm-input" [(ngModel)]="model.whatsapp" placeholder="18096925906" /></div>
+      <div class="cms-field"><label>Fundación (año)</label><input class="adm-input" type="number" [(ngModel)]="model.founded" /></div>
+    </div>
+
+    <!-- Offices (map) -->
+    <div class="cms-field">
+      <label>Oficinas (pines del mapa)</label>
+      @for (o of model.offices; track trackByIndex($index); let i = $index) {
+        <div class="cms-office">
+          <div class="cms-bi">
+            <input class="adm-input" placeholder="Ciudad (ES)" [(ngModel)]="o.city.es" />
+            <input class="adm-input" placeholder="City (EN)" [(ngModel)]="o.city.en" />
+          </div>
+          <input class="adm-input" placeholder="Consulta del mapa: &quot;18.4564,-69.9702&quot; o &quot;Punta Cana, RD&quot;" [(ngModel)]="o.query" />
+          <input class="adm-input" placeholder="URL Cómo llegar" [(ngModel)]="o.directionsUrl" />
+          <button type="button" class="adm-btn adm-btn--ghost" (click)="removeOffice(i)">Quitar oficina</button>
+        </div>
+      }
+      <button type="button" class="adm-btn adm-btn--ghost" (click)="addOffice()">+ Añadir oficina</button>
+    </div>
+
+    <div class="cms-save-bar">
+      <button type="button" class="adm-btn" [disabled]="saving()" (click)="save()">{{ saving() ? 'Guardando…' : 'Guardar empresa' }}</button>
+    </div>
+  </div>
+}
