@@ -121,5 +121,6 @@
   "Enviar otra postulación": "Send another application",
   "Mínimo 10 caracteres": "Minimum 10 characters",
   "El mensaje supera los {max} caracteres.": "The message exceeds {max} characters.",
-  "Has enviado varios mensajes seguidos. Inténtalo en unos minutos o escríbenos por WhatsApp.": "You've sent several messages in a row. Try again in a few minutes or message us on WhatsApp."
+  "Has enviado varios mensajes seguidos. Inténtalo en unos minutos o escríbenos por WhatsApp.": "You've sent several messages in a row. Try again in a few minutes or message us on WhatsApp.",
+  "Mapa": "Map"
 }

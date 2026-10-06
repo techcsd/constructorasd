@@ -92,6 +92,20 @@ const COMPANY_SEED: Company = {
   whatsapp: '18096925906',
   presence: { es: 'Santo Domingo · Punta Cana', en: 'Santo Domingo · Punta Cana' },
   founded: 2014,
+  // Map pins (WD2). City-center until Xaviel confirms the exact office address (WG1) — editable here
+  // or from /admin › Contenido. `query` feeds the Google Maps Embed; `directionsUrl` is "Cómo llegar".
+  offices: [
+    {
+      city: { es: 'Santo Domingo', en: 'Santo Domingo' },
+      query: 'Santo Domingo, República Dominicana',
+      directionsUrl: 'https://www.google.com/maps/search/?api=1&query=Santo+Domingo%2C+Rep%C3%BAblica+Dominicana',
+    },
+    {
+      city: { es: 'Punta Cana', en: 'Punta Cana' },
+      query: 'Punta Cana, República Dominicana',
+      directionsUrl: 'https://www.google.com/maps/search/?api=1&query=Punta+Cana%2C+Rep%C3%BAblica+Dominicana',
+    },
+  ],
 };
 
 export const COMPANY: Company = ov('company', COMPANY_SEED);

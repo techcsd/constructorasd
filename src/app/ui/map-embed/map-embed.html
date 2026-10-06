@@ -1,0 +1,47 @@
+<div class="map-embed">
+  <div class="map-embed__tabs" role="tablist" [attr.aria-label]="'Ubicación' | t">
+    @for (o of offices; track o.query; let i = $index) {
+      <button type="button" class="map-embed__tab" role="tab" [class.is-active]="active() === i"
+        [attr.aria-selected]="active() === i" (click)="select(i)">
+        {{ cityName(o) }}
+      </button>
+    }
+  </div>
+
+  @if (src(); as s) {
+    <iframe
+      class="map-embed__frame"
+      [src]="s"
+      [attr.title]="title()"
+      loading="lazy"
+      referrerpolicy="no-referrer-when-downgrade"
+      allowfullscreen
+    ></iframe>
+  } @else {
+    <!-- Fallback (no key configured yet): the previous static presence card so the page never breaks -->
+    <div class="map-embed__fallback" role="img" [attr.aria-label]="presence()">
+      <svg viewBox="0 0 320 180" class="map-embed__fallback-svg" aria-hidden="true">
+        <rect width="320" height="180" class="map-embed__fallback-bg" />
+        <g class="map-embed__fallback-grid" stroke-width="1" fill="none">
+          <path d="M0 54 H320 M0 108 H320 M64 0 V180 M160 0 V180 M240 0 V180" />
+        </g>
+        <g class="map-embed__fallback-pin">
+          <circle cx="112" cy="72" r="5" />
+          <circle cx="232" cy="116" r="5" />
+        </g>
+      </svg>
+      <span class="small map-embed__fallback-label"><app-icon name="map-pin" [size]="16" /> {{ presence() }}</span>
+    </div>
+  }
+
+  <div class="map-embed__directions">
+    <span class="small map-embed__directions-label">{{ 'Cómo llegar' | t }}</span>
+    <div class="map-embed__cities">
+      @for (o of offices; track o.query) {
+        <a class="small" [href]="o.directionsUrl" target="_blank" rel="noopener noreferrer">
+          {{ cityName(o) }} <app-icon name="arrow-up-right" [size]="14" />
+        </a>
+      }
+    </div>
+  </div>
+</div>

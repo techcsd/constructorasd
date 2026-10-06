@@ -14,6 +14,7 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(__dirname, '..');
 
 const PROD_REF = 'jeeqhgccqefbqilntcpu'; // CSD prod (csd-core). dev is fzfrnrvndzrjwyvdpkgg (allowed).
+const GOOGLE_KEY_RE = /\bAIza[0-9A-Za-z_-]{35}\b/; // Google API key literal (WF1 — must stay out of src/)
 const SCOPES = ['src', 'scripts', 'sql', 'supabase/functions'];
 const EXTS = ['.ts', '.tsx', '.js', '.mjs', '.cjs', '.html', '.scss', '.json', '.sql', '.md'];
 
@@ -48,6 +49,7 @@ for (const scope of SCOPES) {
       continue;
     }
     if (txt.includes(PROD_REF)) offenders.push(rel);
+    if (GOOGLE_KEY_RE.test(txt)) offenders.push(`${rel} (Google API key literal)`);
   }
 }
 
