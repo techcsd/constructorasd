@@ -6,10 +6,11 @@ from our domains — the same model as SGC's browser key. **No key is ever commi
 lives only in `MAPS_EMBED_KEY` (`.env.local` locally, Vercel env in CI) and is injected into the
 generated, gitignored `environment.ts` as `mapsEmbedKey`.
 
-> **Status (06-oct-2026):** `gcloud` was not authenticated on this machine, so Claude Code could not
-> create the key automatically. Until the key exists, the map **falls back to the static presence
-> card** — the page is not broken and the rest of the round is unaffected. Do the steps below once and
-> the real map turns on automatically on the next deploy.
+> **Status (06-oct-2026 — DONE):** per Xaviel's instruction, the map reuses the **existing SGC GCP key**
+> (`sgc.parametros.google_maps_browser_key`), verified to work for the Maps Embed API from `localhost`,
+> `*.vercel.app` and `constructorasd.com`. It is set as `MAPS_EMBED_KEY` in `.env.local` and in Vercel
+> (preview + production), so the real map is live. The steps below are kept only for **rotating** the key
+> or moving to a dedicated `constructorasd-web-embed` key later.
 
 ## Create the key (Google Cloud Console)
 

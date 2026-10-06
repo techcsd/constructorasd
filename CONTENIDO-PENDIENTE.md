@@ -103,5 +103,7 @@ El sitio está **publicado en https://constructorasd.com** (v1.0.0). Todo lo de 
   02_PROYECTO ACTUAL\…\HOTEL LOPESAN BAVARO`). Esta ronda se curó a 3 fotos estructurales de las 9 que
   estaban en `assets-src/lopesan/`. Para una galería más rica (8–10), seleccionar más tomas de estructura/
   encofrado/fachada/vistas amplias del archivo y añadirlas a `assets-src/lopesan/`.
-- **WG1 — dirección de oficina** para el pin del mapa (hoy: centro de Santo Domingo y Punta Cana). Al
-  tenerla, editar `src/content/company.ts → offices[].query` (o desde /admin › Contenido).
+- **WG1 — dirección de oficina (resuelto):** Santo Domingo usa la ubicación exacta de la **Oficina
+  Central CSD / Bodega Central** (de SGC: `18.4564338, -69.9702340`); Punta Cana apunta al centro de la
+  ciudad hasta tener una dirección exacta. Editable desde **/admin › Contenido → Empresa** (campo
+  `offices`) o en `src/content/company.ts`.
