@@ -1,0 +1,59 @@
+<header class="cms-head">
+  <div>
+    <h1 class="cms-title">Proyectos</h1>
+    <p class="cms-sub small">{{ rows().length }} proyecto(s) · arrastra para reordenar</p>
+  </div>
+  <div class="cms-head__actions">
+    <button type="button" class="adm-btn adm-btn--ghost" (click)="toggleTrash()">
+      {{ showTrash() ? 'Ocultar papelera' : 'Papelera' }}
+    </button>
+    <a class="adm-btn" routerLink="/admin/contenido/proyectos/editar">+ Nuevo proyecto</a>
+  </div>
+</header>
+
+@if (error()) { <p class="cms-error">{{ error() }}</p> }
+
+@if (showTrash()) {
+  <section class="cms-trash">
+    <h2 class="cms-h2">Papelera</h2>
+    @if (!trash().length) { <p class="small">Vacía.</p> }
+    @for (p of trash(); track p.id) {
+      <div class="cms-row">
+        <span class="cms-row__name">{{ p.name }}</span>
+        <button type="button" class="adm-btn adm-btn--ghost" (click)="restore(p)">Restaurar</button>
+      </div>
+    }
+  </section>
+}
+
+<input class="adm-input cms-search" type="search" [value]="query()" (input)="query.set($any($event.target).value)"
+  placeholder="Buscar por nombre o cliente…" />
+
+@if (loading()) { <p class="small">Cargando…</p> }
+@else {
+  <div class="cms-list" cdkDropList (cdkDropListDropped)="drop($event)">
+    @for (p of filtered(); track p.id) {
+      <div class="cms-row" cdkDrag [cdkDragDisabled]="!!query()">
+        <button type="button" class="cms-row__grip" cdkDragHandle aria-label="Reordenar">⋮⋮</button>
+        <div class="cms-row__thumb">
+          @if (cover(p); as url) { <img [src]="url" alt="" /> } @else { <span class="cms-row__noimg">—</span> }
+        </div>
+        <div class="cms-row__main">
+          <a class="cms-row__name" [routerLink]="'/admin/contenido/proyectos/editar'" [queryParams]="{ id: p.id }">{{ p.name }}</a>
+          <span class="small cms-row__meta">{{ p.client_name || '—' }} · {{ sectorLabel(p.sector_key) }}</span>
+        </div>
+        <div class="cms-row__badges">
+          @if (p.featured) { <span class="cms-badge cms-badge--accent">Destacado</span> }
+          <span class="cms-badge" [class.cms-badge--on]="p.published">{{ p.published ? 'Publicado' : 'Borrador' }}</span>
+        </div>
+        <div class="cms-row__actions">
+          <button type="button" class="adm-btn adm-btn--ghost" (click)="toggleFeatured(p)">{{ p.featured ? 'Quitar destacado' : 'Destacar' }}</button>
+          <button type="button" class="adm-btn adm-btn--ghost" (click)="togglePublished(p)">{{ p.published ? 'Despublicar' : 'Publicar' }}</button>
+          <a class="adm-btn adm-btn--ghost" [routerLink]="'/admin/contenido/proyectos/editar'" [queryParams]="{ id: p.id }">Editar</a>
+          <button type="button" class="adm-btn adm-btn--ghost" (click)="remove(p)">Eliminar</button>
+        </div>
+      </div>
+    }
+    @if (!filtered().length) { <p class="small">Sin resultados.</p> }
+  </div>
+}

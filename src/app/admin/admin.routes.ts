@@ -17,6 +17,8 @@ export const ADMIN_ROUTES: Routes = [
       { path: 'leads', loadComponent: () => import('./pages/leads-page').then((m) => m.LeadsPage) },
       { path: 'apariencia', loadComponent: () => import('./pages/apariencia-page').then((m) => m.ApparienciaPage) },
       { path: 'contenido', loadComponent: () => import('./pages/contenido-page').then((m) => m.ContenidoPage) },
+      { path: 'contenido/proyectos', loadComponent: () => import('./cms/proyectos-list').then((m) => m.ProyectosList) },
+      { path: 'contenido/proyectos/editar', loadComponent: () => import('./cms/proyecto-editor').then((m) => m.ProyectoEditor) },
     ],
   },
 ];
