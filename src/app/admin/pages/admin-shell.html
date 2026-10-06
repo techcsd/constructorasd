@@ -12,8 +12,26 @@
       <a class="adm__nav-link" routerLink="/admin/leads" routerLinkActive="is-active">
         <span class="adm__dot"></span> Leads
       </a>
+      <a class="adm__nav-link" routerLink="/admin/contenido/proyectos" routerLinkActive="is-active">
+        <span class="adm__dot"></span> Proyectos
+      </a>
+      <a class="adm__nav-link" routerLink="/admin/contenido/clientes" routerLinkActive="is-active">
+        <span class="adm__dot"></span> Clientes
+      </a>
+      <a class="adm__nav-link" routerLink="/admin/contenido/noticias" routerLinkActive="is-active">
+        <span class="adm__dot"></span> Noticias
+      </a>
+      <a class="adm__nav-link" routerLink="/admin/contenido/vacantes" routerLinkActive="is-active">
+        <span class="adm__dot"></span> Vacantes
+      </a>
+      <a class="adm__nav-link" routerLink="/admin/contenido/empresa" routerLinkActive="is-active">
+        <span class="adm__dot"></span> Empresa
+      </a>
+      <a class="adm__nav-link" routerLink="/admin/contenido/biblioteca" routerLinkActive="is-active">
+        <span class="adm__dot"></span> Biblioteca
+      </a>
       <a class="adm__nav-link" routerLink="/admin/contenido" routerLinkActive="is-active">
-        <span class="adm__dot"></span> Contenido
+        <span class="adm__dot"></span> Otros (JSON)
       </a>
       <a class="adm__nav-link" routerLink="/admin/apariencia" routerLinkActive="is-active">
         <span class="adm__dot"></span> Apariencia
@@ -27,6 +45,9 @@
   </aside>
 
   <main class="adm__main">
-    <router-outlet />
+    <app-publish-bar />
+    <div class="adm__content">
+      <router-outlet />
+    </div>
   </main>
 </div>

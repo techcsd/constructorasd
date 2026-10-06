@@ -1,0 +1,65 @@
+.mu {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+.mu__drop {
+  display: block;
+  padding: var(--space-5);
+  border: 1px dashed var(--line-control);
+  border-radius: var(--r-sm);
+  text-align: center;
+  color: var(--text-2);
+  cursor: pointer;
+  transition: border-color var(--dur-fast) var(--ease-out), background var(--dur-fast) var(--ease-out);
+}
+.mu__drop.is-over {
+  border-color: var(--accent);
+  background: var(--bg-elevated);
+}
+.mu__pick {
+  background: none;
+  border: none;
+  color: var(--accent);
+  cursor: pointer;
+  text-decoration: underline;
+  font: inherit;
+}
+.mu__item {
+  display: grid;
+  grid-template-columns: 72px 1fr auto;
+  gap: var(--space-3);
+  align-items: start;
+  padding: var(--space-3);
+  border: 1px solid var(--line);
+  border-radius: var(--r-sm);
+}
+.mu__item.is-error {
+  border-color: var(--accent);
+}
+.mu__thumb {
+  width: 72px;
+  height: 72px;
+  object-fit: cover;
+  border-radius: var(--r-sm);
+}
+.mu__fields {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  min-width: 0;
+}
+.mu__meta {
+  color: var(--text-3);
+}
+.mu__err {
+  color: var(--accent);
+}
+.mu__warn {
+  color: var(--text-2);
+}
+.mu__actions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}

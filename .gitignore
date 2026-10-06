@@ -56,3 +56,7 @@ lighthouse/
 test-results/
 playwright-report/
 scratchpad-serve.log
+
+
+# build-stamped version marker (admin publish-bar deploy detection)
+public/version.json

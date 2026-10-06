@@ -212,6 +212,10 @@
 .adm__main {
   flex: 1;
   min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+.adm__content {
   padding: var(--space-7);
   @media (max-width: 640px) {
     padding: var(--space-5);

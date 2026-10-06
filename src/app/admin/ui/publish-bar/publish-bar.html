@@ -1,0 +1,25 @@
+<div class="pb" [class.pb--changes]="state() === 'changes'" [class.pb--done]="state() === 'done'">
+  <span class="pb__txt">
+    @switch (state()) {
+      @case ('loading') { Comprobando… }
+      @case ('clean') { ✓ Todo publicado }
+      @case ('changes') { Hay cambios sin publicar }
+      @case ('publishing') { Publicando… (~2 min) }
+      @case ('slow') { Está tardando más de lo normal }
+      @case ('done') { ✓ Publicado — ya está en vivo }
+      @case ('error') { {{ error() }} }
+    }
+  </span>
+  <span class="pb__actions">
+    @if (state() === 'changes' || state() === 'error') {
+      <button type="button" class="adm-btn adm-btn--primary" (click)="publish()">Publicar</button>
+    }
+    @if (state() === 'slow') {
+      <button type="button" class="adm-btn" (click)="check()">Comprobar</button>
+    }
+    @if (state() === 'done') {
+      <a class="adm-btn adm-btn--ghost" href="/" target="_blank" rel="noopener">Ver sitio</a>
+      <button type="button" class="adm-btn adm-btn--ghost" (click)="refresh()">Cerrar</button>
+    }
+  </span>
+</div>

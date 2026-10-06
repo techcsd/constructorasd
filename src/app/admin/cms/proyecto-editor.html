@@ -1,0 +1,133 @@
+<header class="cms-head">
+  <div>
+    <a class="small cms-back" routerLink="/admin/contenido/proyectos">← Proyectos</a>
+    <h1 class="cms-title">{{ isNew ? 'Nuevo proyecto' : (p().name || 'Editar proyecto') }}</h1>
+  </div>
+  <div class="cms-head__actions">
+    @if (dirty()) { <span class="small cms-dirty">Cambios sin guardar</span> }
+    <button type="button" class="adm-btn" [disabled]="saving()" (click)="save()">{{ saving() ? 'Guardando…' : 'Guardar' }}</button>
+  </div>
+</header>
+
+@if (error()) { <p class="cms-error">{{ error() }}</p> }
+@if (loading()) { <p class="small">Cargando…</p> }
+@else {
+  <div class="cms-form">
+    <!-- Name + slug -->
+    <div class="cms-field">
+      <label>Nombre del proyecto</label>
+      <input class="adm-input" type="text" [value]="p().name || ''" (input)="onNameInput($any($event.target).value)" placeholder="Lopesan Costa Bávaro — Bloque F" />
+    </div>
+    <div class="cms-field">
+      <label>Slug (URL)</label>
+      <input class="adm-input" type="text" [value]="p().slug || ''" (input)="onSlugInput($any($event.target).value)" placeholder="lopesan-costa-bavaro-bloque-f" />
+      <span class="small cms-hint">/proyectos/{{ p().slug || '…' }}</span>
+    </div>
+
+    <!-- Client / sector / status / year -->
+    <div class="cms-grid2">
+      <div class="cms-field">
+        <label>Cliente (nombre)</label>
+        <input class="adm-input" type="text" [value]="p().client_name || ''" (input)="setField('client_name', $any($event.target).value)" placeholder="Arenacal PRO" />
+      </div>
+      <div class="cms-field">
+        <label>Sector</label>
+        <select class="adm-input" (change)="setField('sector_key', $any($event.target).value)">
+          <option value="" [selected]="!p().sector_key">— Elegir —</option>
+          @for (s of sectors; track s.key) { <option [value]="s.key" [selected]="s.key === p().sector_key">{{ s.label }}</option> }
+        </select>
+      </div>
+      <div class="cms-field">
+        <label>Estado</label>
+        <select class="adm-input" (change)="setField('status', $any($event.target).value)">
+          <option value="" [selected]="!p().status">— Elegir —</option>
+          <option value="ejecutado" [selected]="p().status === 'ejecutado'">Ejecutado</option>
+          <option value="en_ejecucion" [selected]="p().status === 'en_ejecucion'">En ejecución</option>
+        </select>
+      </div>
+      <div class="cms-field">
+        <label>Año</label>
+        <input class="adm-input" type="number" [value]="p().year || ''" (input)="setField('year', +$any($event.target).value || null)" placeholder="2024" />
+      </div>
+    </div>
+
+    <!-- Location bilingual -->
+    <div class="cms-bi">
+      <div class="cms-field"><label>Ubicación (ES)</label><input class="adm-input" type="text" [value]="p().location_es || ''" (input)="setField('location_es', $any($event.target).value)" placeholder="Bávaro, Punta Cana" /></div>
+      <div class="cms-field"><label>Location (EN)</label><input class="adm-input" type="text" [value]="p().location_en || ''" (input)="setField('location_en', $any($event.target).value)" placeholder="Bávaro, Punta Cana" /></div>
+    </div>
+
+    <!-- Summary bilingual -->
+    <div class="cms-bi">
+      <div class="cms-field"><label>Resumen (ES)</label><textarea class="adm-input" rows="3" [value]="p().summary_es || ''" (input)="setField('summary_es', $any($event.target).value)"></textarea></div>
+      <div class="cms-field"><label>Summary (EN)</label><textarea class="adm-input" rows="3" [value]="p().summary_en || ''" (input)="setField('summary_en', $any($event.target).value)"></textarea></div>
+    </div>
+
+    <!-- Body bilingual (markdown) -->
+    <div class="cms-bi">
+      <div class="cms-field"><label>Cuerpo / narrativa (ES, markdown)</label><textarea class="adm-input" rows="5" [value]="p().body_es || ''" (input)="setField('body_es', $any($event.target).value)"></textarea></div>
+      <div class="cms-field"><label>Body (EN, markdown)</label><textarea class="adm-input" rows="5" [value]="p().body_en || ''" (input)="setField('body_en', $any($event.target).value)"></textarea></div>
+    </div>
+
+    <!-- Scope checklist -->
+    <div class="cms-field">
+      <label>Etapas ejecutadas</label>
+      <div class="cms-checks">
+        @for (s of stages; track s.id) {
+          <label class="cms-check"><input type="checkbox" [checked]="hasScope(s.id)" (change)="toggleScope(s.id)" /> {{ s.label }}</label>
+        }
+      </div>
+    </div>
+
+    <!-- Cover -->
+    <div class="cms-field">
+      <label>Portada</label>
+      @if (coverUrl(); as url) {
+        <div class="cms-cover"><img [src]="url" alt="" images-allow /><button type="button" class="adm-btn adm-btn--ghost" (click)="cover.set(null)">Quitar portada</button></div>
+      }
+      <app-media-uploader [label]="coverUrl() ? 'Reemplazar portada' : 'Subir portada'" (uploaded)="onCoverUploaded($event)" />
+    </div>
+
+    <!-- Gallery -->
+    <div class="cms-field">
+      <label>Galería</label>
+      <div class="cms-gallery" cdkDropList (cdkDropListDropped)="galleryDrop($event)">
+        @for (g of gallery(); track g.media.id; let i = $index) {
+          <div class="cms-gitem" cdkDrag>
+            <button type="button" class="cms-row__grip" cdkDragHandle aria-label="Reordenar">⋮⋮</button>
+            <img [src]="galleryUrl(g.media)" alt="" images-allow />
+            <div class="cms-gitem__actions">
+              <button type="button" class="adm-btn adm-btn--ghost" (click)="makeCover(i)">Portada</button>
+              <button type="button" class="adm-btn adm-btn--ghost" (click)="removeGallery(i)">Quitar</button>
+            </div>
+          </div>
+        }
+      </div>
+      <app-media-uploader [multiple]="true" label="Añadir a la galería" (uploaded)="onGalleryUploaded($event)" />
+    </div>
+
+    <!-- SEO -->
+    <details class="cms-seo">
+      <summary>SEO (opcional)</summary>
+      <div class="cms-bi">
+        <div class="cms-field"><label>Título SEO (ES)</label><input class="adm-input" type="text" [value]="p().seo_title_es || ''" (input)="setField('seo_title_es', $any($event.target).value)" /></div>
+        <div class="cms-field"><label>SEO title (EN)</label><input class="adm-input" type="text" [value]="p().seo_title_en || ''" (input)="setField('seo_title_en', $any($event.target).value)" /></div>
+      </div>
+      <div class="cms-bi">
+        <div class="cms-field"><label>Descripción SEO (ES)</label><textarea class="adm-input" rows="2" [value]="p().seo_description_es || ''" (input)="setField('seo_description_es', $any($event.target).value)"></textarea></div>
+        <div class="cms-field"><label>SEO description (EN)</label><textarea class="adm-input" rows="2" [value]="p().seo_description_en || ''" (input)="setField('seo_description_en', $any($event.target).value)"></textarea></div>
+      </div>
+    </details>
+
+    <!-- Toggles -->
+    <div class="cms-toggles">
+      <label class="cms-check"><input type="checkbox" [checked]="!!p().featured" (change)="setField('featured', $any($event.target).checked)" /> Destacado</label>
+      <label class="cms-check"><input type="checkbox" [checked]="!!p().published" (change)="setField('published', $any($event.target).checked)" /> Publicado</label>
+    </div>
+
+    <div class="cms-save-bar">
+      <button type="button" class="adm-btn" [disabled]="saving()" (click)="save()">{{ saving() ? 'Guardando…' : 'Guardar proyecto' }}</button>
+      <a class="adm-btn adm-btn--ghost" routerLink="/admin/contenido/proyectos">Cancelar</a>
+    </div>
+  </div>
+}

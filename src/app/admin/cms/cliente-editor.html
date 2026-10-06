@@ -1,0 +1,32 @@
+<header class="cms-head">
+  <div>
+    <a class="small cms-back" routerLink="/admin/contenido/clientes">← Clientes</a>
+    <h1 class="cms-title">{{ isNew ? 'Nuevo cliente' : (c().name || 'Editar cliente') }}</h1>
+  </div>
+  <button type="button" class="adm-btn" [disabled]="saving()" (click)="save()">{{ saving() ? 'Guardando…' : 'Guardar' }}</button>
+</header>
+
+@if (error()) { <p class="cms-error">{{ error() }}</p> }
+@if (loading()) { <p class="small">Cargando…</p> }
+@else {
+  <div class="cms-form">
+    <div class="cms-field"><label>Nombre</label><input class="adm-input" type="text" [value]="c().name || ''" (input)="onName($any($event.target).value)" /></div>
+    <div class="cms-field"><label>Slug</label><input class="adm-input" type="text" [value]="c().slug || ''" (input)="onSlug($any($event.target).value)" /></div>
+    <div class="cms-field">
+      <label>Grupo</label>
+      <select class="adm-input" (change)="set('group_key', $any($event.target).value)">
+        @for (g of groups; track g.key) { <option [value]="g.key" [selected]="g.key === c().group_key">{{ g.label }}</option> }
+      </select>
+    </div>
+    <div class="cms-field">
+      <label>Logo (opcional)</label>
+      @if (logoUrl(); as url) { <div class="cms-cover"><img [src]="url" alt="" images-allow /><button type="button" class="adm-btn adm-btn--ghost" (click)="logo.set(null)">Quitar</button></div> }
+      <app-media-uploader [label]="logoUrl() ? 'Reemplazar logo' : 'Subir logo'" (uploaded)="onLogo($event)" />
+    </div>
+    <label class="cms-check"><input type="checkbox" [checked]="!!c().published" (change)="set('published', $any($event.target).checked)" /> Publicado</label>
+    <div class="cms-save-bar">
+      <button type="button" class="adm-btn" [disabled]="saving()" (click)="save()">{{ saving() ? 'Guardando…' : 'Guardar cliente' }}</button>
+      <a class="adm-btn adm-btn--ghost" routerLink="/admin/contenido/clientes">Cancelar</a>
+    </div>
+  </div>
+}

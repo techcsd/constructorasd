@@ -1,0 +1,37 @@
+<header class="cms-head">
+  <div>
+    <h1 class="cms-title">Clientes</h1>
+    <p class="cms-sub small">{{ rows().length }} cliente(s) · arrastra para reordenar</p>
+  </div>
+  <a class="adm-btn" routerLink="/admin/contenido/clientes/editar">+ Nuevo cliente</a>
+</header>
+
+@if (error()) { <p class="cms-error">{{ error() }}</p> }
+<input class="adm-input cms-search" type="search" [value]="query()" (input)="query.set($any($event.target).value)" placeholder="Buscar cliente…" />
+
+@if (loading()) { <p class="small">Cargando…</p> }
+@else {
+  <div class="cms-list" cdkDropList (cdkDropListDropped)="drop($event)">
+    @for (c of filtered(); track c.id) {
+      <div class="cms-row" cdkDrag [cdkDragDisabled]="!!query()">
+        <button type="button" class="cms-row__grip" cdkDragHandle aria-label="Reordenar">⋮⋮</button>
+        <div class="cms-row__thumb">
+          @if (logo(c); as url) { <img [src]="url" alt="" images-allow /> } @else { <span class="cms-row__noimg">—</span> }
+        </div>
+        <div class="cms-row__main">
+          <a class="cms-row__name" [routerLink]="'/admin/contenido/clientes/editar'" [queryParams]="{ id: c.id }">{{ c.name }}</a>
+          <span class="small cms-row__meta">{{ groupLabel(c.group_key) }}</span>
+        </div>
+        <div class="cms-row__badges">
+          <span class="cms-badge" [class.cms-badge--on]="c.published">{{ c.published ? 'Publicado' : 'Borrador' }}</span>
+        </div>
+        <div class="cms-row__actions">
+          <button type="button" class="adm-btn adm-btn--ghost" (click)="togglePublished(c)">{{ c.published ? 'Despublicar' : 'Publicar' }}</button>
+          <a class="adm-btn adm-btn--ghost" [routerLink]="'/admin/contenido/clientes/editar'" [queryParams]="{ id: c.id }">Editar</a>
+          <button type="button" class="adm-btn adm-btn--ghost" (click)="remove(c)">Eliminar</button>
+        </div>
+      </div>
+    }
+    @if (!filtered().length) { <p class="small">Sin resultados.</p> }
+  </div>
+}

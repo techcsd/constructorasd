@@ -1,0 +1,29 @@
+<header class="cms-head">
+  <div>
+    <h1 class="cms-title">Noticias</h1>
+    <p class="cms-sub small">{{ rows().length }} noticia(s)</p>
+  </div>
+  <a class="adm-btn" routerLink="/admin/contenido/noticias/editar">+ Nueva noticia</a>
+</header>
+
+@if (error()) { <p class="cms-error">{{ error() }}</p> }
+@if (loading()) { <p class="small">Cargando…</p> }
+@else {
+  <div class="cms-list">
+    @for (p of rows(); track p.id) {
+      <div class="cms-row" style="grid-template-columns: 1fr auto auto;">
+        <div class="cms-row__main">
+          <a class="cms-row__name" [routerLink]="'/admin/contenido/noticias/editar'" [queryParams]="{ id: p.id }">{{ p.title_es || '(sin título)' }}</a>
+          <span class="small cms-row__meta">{{ fmt(p.published_at) }}</span>
+        </div>
+        <span class="cms-badge" [class.cms-badge--on]="p.published">{{ p.published ? 'Publicado' : 'Borrador' }}</span>
+        <div class="cms-row__actions">
+          <button type="button" class="adm-btn adm-btn--ghost" (click)="togglePublished(p)">{{ p.published ? 'Despublicar' : 'Publicar' }}</button>
+          <a class="adm-btn adm-btn--ghost" [routerLink]="'/admin/contenido/noticias/editar'" [queryParams]="{ id: p.id }">Editar</a>
+          <button type="button" class="adm-btn adm-btn--ghost" (click)="remove(p)">Eliminar</button>
+        </div>
+      </div>
+    }
+    @if (!rows().length) { <p class="small">Aún no hay noticias. Crea la primera.</p> }
+  </div>
+}

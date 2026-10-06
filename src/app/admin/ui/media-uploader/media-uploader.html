@@ -1,0 +1,32 @@
+<div class="mu">
+  <label class="mu__drop" [class.is-over]="dragOver()"
+    (dragover)="$event.preventDefault(); dragOver.set(true)"
+    (dragleave)="dragOver.set(false)" (drop)="onDrop($event)">
+    <input type="file" accept="image/jpeg,image/png,image/webp,image/svg+xml" [multiple]="multiple()"
+      (change)="onFiles($any($event.target).files); $any($event.target).value=''" hidden #fileInput />
+    <span class="mu__drop-txt">{{ label() }} — arrastra aquí o <button type="button" class="mu__pick" (click)="fileInput.click()">elige archivo</button></span>
+  </label>
+
+  @for (p of pending(); track p.previewUrl) {
+    <div class="mu__item" [class.is-error]="p.error">
+      <img class="mu__thumb" [src]="p.previewUrl" alt="" images-allow />
+      <div class="mu__fields">
+        <div class="mu__meta small">{{ p.file.name }} @if (p.width) {· {{ p.width }}×{{ p.height }}}</div>
+        @if (p.error) { <p class="mu__err small">{{ p.error }}</p> }
+        @else {
+          @if (p.warn) { <p class="mu__warn small">{{ p.warn }}</p> }
+          <input class="adm-input" type="text" [(ngModel)]="p.altEs" placeholder="Texto alternativo (ES) — obligatorio" />
+          <input class="adm-input" type="text" [(ngModel)]="p.altEn" placeholder="Alt text (EN) — required" />
+        }
+      </div>
+      <div class="mu__actions">
+        @if (!p.error) {
+          <button type="button" class="adm-btn" [disabled]="!canUpload(p)" (click)="upload(p)">
+            {{ p.uploading ? 'Subiendo…' : 'Subir' }}
+          </button>
+        }
+        <button type="button" class="adm-btn adm-btn--ghost" (click)="remove(p)">Quitar</button>
+      </div>
+    </div>
+  }
+</div>
