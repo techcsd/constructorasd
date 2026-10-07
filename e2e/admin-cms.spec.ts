@@ -88,4 +88,32 @@ test.describe('admin CMS', () => {
     await page.goto('/admin/contenido/proyectos', { waitUntil: 'networkidle' });
     await page.locator('.cms-row', { hasText: name }).getByRole('button', { name: 'Eliminar' }).click();
   });
+
+  test('dev notes autosave persists after reload + highlights code (WH3)', async ({ page }) => {
+    await login(page);
+    await page.goto('/admin/notas', { waitUntil: 'networkidle' });
+    await page.getByRole('button', { name: '+ Nueva' }).click();
+    await page.waitForTimeout(1000);
+    const marker = 'QA nota ' + Date.now().toString(36);
+    await page.locator('.dn__title').fill(marker);
+    await page.locator('.md__ta').fill('# t\n```ts\nconst x=1;\n```');
+    await expect(page.locator('.dn__state')).toContainText(/Guardado/, { timeout: 8000 });
+    await expect(page.locator('.md__preview .hljs-keyword').first()).toBeVisible();
+    await page.reload({ waitUntil: 'networkidle' });
+    await expect(page.locator('.dn__item-title', { hasText: marker }).first()).toBeVisible({ timeout: 15000 });
+  });
+
+  test('leads inbox: list, detail, internal note, unread title (WJ8)', async ({ page }) => {
+    await login(page);
+    await page.goto('/admin/leads', { waitUntil: 'networkidle' });
+    await expect(page.locator('.lead-row').first()).toBeVisible({ timeout: 15000 });
+    await page.locator('.lead-row').first().click();
+    await expect(page.locator('.lead-fields')).toBeVisible({ timeout: 15000 });
+    const note = 'nota e2e ' + Date.now().toString(36);
+    const noteInput = page.locator('.lead-detail .adm-input[placeholder*="nota"]');
+    await noteInput.waitFor({ state: 'visible', timeout: 15000 });
+    await noteInput.fill(note);
+    await page.locator('.lead-actions button', { hasText: 'Añadir' }).first().click();
+    await expect(page.locator('.lead-note').filter({ hasText: note })).toBeVisible({ timeout: 10000 });
+  });
 });

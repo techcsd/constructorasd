@@ -1,102 +1,86 @@
 <div class="dn">
-  <!-- ===== Editor ===== -->
-  @if (editingId(); as mode) {
-    <div class="dn__head">
-      <h1 class="dn__title">{{ mode === 'new' ? 'Nueva nota' : 'Editar nota' }}</h1>
-      <div class="dn__head-actions">
-        <button class="adm-btn adm-btn--ghost" type="button" (click)="preview.set(!preview())">
-          {{ preview() ? 'Editar' : 'Vista previa' }}
-        </button>
-        <button class="adm-btn adm-btn--ghost" type="button" (click)="cancel()">Cancelar</button>
-        <button class="adm-btn adm-btn--primary" type="button" [disabled]="saving()" (click)="save()">
-          {{ saving() ? 'Guardando…' : 'Guardar' }}
-        </button>
+  <!-- List -->
+  <aside class="dn__list">
+    <div class="dn__list-head">
+      <input class="adm-input" type="search" placeholder="Buscar…" [value]="query()" (input)="query.set($any($event.target).value)" />
+      <div class="dn__new">
+        <button type="button" class="adm-btn" (click)="newNote()">+ Nueva</button>
+        @for (t of templates; track t) { <button type="button" class="adm-btn adm-btn--ghost" (click)="newNote(t)">{{ t }}</button> }
       </div>
+      <label class="dn__arch small"><input type="checkbox" [checked]="showArchived()" (change)="showArchived.set($any($event.target).checked)" /> Archivadas</label>
     </div>
+    @if (loading()) { <p class="small" style="padding:var(--space-3)">Cargando…</p> }
+    <ul class="dn__items">
+      @for (n of filtered(); track n.id) {
+        <li class="dn__item" [class.is-active]="selected()?.id === n.id" (click)="select(n)">
+          <div class="dn__item-main">
+            <span class="dn__item-title" [class.is-pinned]="n.pinned">{{ n.title || '(sin título)' }}</span>
+            <span class="small dn__item-meta">{{ n.status === 'done' ? 'hecha' : 'abierta' }} · {{ n.priority }} @if (n.tags.length) {· {{ n.tags.join(', ') }}}</span>
+          </div>
+          <div class="dn__item-actions">
+            <button type="button" (click)="$event.stopPropagation(); pin(n)">{{ n.pinned ? 'Desfijar' : 'Fijar' }}</button>
+            <button type="button" (click)="$event.stopPropagation(); archive(n)">Arch.</button>
+            <button type="button" (click)="$event.stopPropagation(); del(n)">×</button>
+          </div>
+        </li>
+      }
+      @if (!filtered().length) { <li class="small" style="padding:var(--space-3)">Sin notas.</li> }
+    </ul>
+  </aside>
 
-    @if (error()) { <p class="dn__error" role="alert">{{ error() }}</p> }
+  <!-- Editor -->
+  <section class="dn__editor">
+    @if (!selected()) {
+      <p class="small" style="padding:var(--space-5)">Elige una nota o crea una nueva. El guardado es automático.</p>
+    } @else {
+      <div class="dn__editor-head">
+        <input class="adm-input dn__title" placeholder="Título (o se toma de la primera línea)" [(ngModel)]="title" (ngModelChange)="onField()" />
+        <span class="dn__state small">
+          @switch (saveState()) {
+            @case ('saving') { Guardando… }
+            @case ('saved') { Guardado · {{ savedAgo() }} }
+            @case ('offline') { Sin conexión — borrador en este equipo }
+            @case ('error') { Error al guardar — reintentando }
+          }
+        </span>
+      </div>
 
-    <div class="dn__editor">
-      <label class="adm-field">
-        <span>Título</span>
-        <input type="text" [ngModel]="draft().title" (ngModelChange)="patch('title', $event)" placeholder="Título de la nota" />
-      </label>
-
-      @if (!preview()) {
-        <label class="adm-field">
-          <span>Contenido (markdown)</span>
-          <textarea rows="14" [ngModel]="draft().body" (ngModelChange)="patch('body', $event)"
-            placeholder="Escribe en markdown: **negrita**, listas, `código`, [enlaces](url)…"></textarea>
-        </label>
-      } @else {
-        <div class="dn__preview markdown" [innerHTML]="previewHtml()"></div>
+      @if (conflict(); as s) {
+        <div class="dn__conflict">
+          Esta nota cambió en otra pestaña.
+          <button type="button" class="adm-btn adm-btn--ghost" (click)="resolveConflict('mine')">Mantener la mía</button>
+          <button type="button" class="adm-btn adm-btn--ghost" (click)="resolveConflict('server')">Usar la del servidor</button>
+        </div>
       }
 
-      <div class="dn__editor-row">
-        <label class="adm-field">
-          <span>Estado</span>
-          <select [ngModel]="draft().status" (ngModelChange)="patch('status', $event)">
-            <option value="open">Abierto</option>
-            <option value="done">Hecho</option>
-          </select>
+      <div class="dn__meta">
+        <label class="small">Estado
+          <select class="adm-input" [(ngModel)]="status" (ngModelChange)="onField()"><option value="open">Abierta</option><option value="done">Hecha</option></select>
         </label>
-        <label class="adm-field">
-          <span>Prioridad</span>
-          <select [ngModel]="draft().priority" (ngModelChange)="patch('priority', $event)">
-            <option value="high">Alta</option>
-            <option value="medium">Media</option>
-            <option value="low">Baja</option>
-          </select>
+        <label class="small">Prioridad
+          <select class="adm-input" [(ngModel)]="priority" (ngModelChange)="onField()"><option value="low">Baja</option><option value="medium">Media</option><option value="high">Alta</option></select>
         </label>
-        <label class="adm-field dn__tags-field">
-          <span>Etiquetas (separadas por coma)</span>
-          <input type="text" [ngModel]="draft().tags" (ngModelChange)="patch('tags', $event)" placeholder="bug, idea, contenido" />
+        <label class="small dn__tags">Tags
+          <input class="adm-input" placeholder="coma, separados" [(ngModel)]="tags" (ngModelChange)="onField()" />
         </label>
+        <div class="dn__tools">
+          <button type="button" class="adm-btn adm-btn--ghost" (click)="forceSave()" title="Ctrl+S">Guardar (Ctrl+S)</button>
+          <button type="button" class="adm-btn adm-btn--ghost" (click)="toggleVersions()">Versiones</button>
+          <button type="button" class="adm-btn adm-btn--ghost" (click)="exportMd()">.md</button>
+        </div>
       </div>
-    </div>
-  } @else {
-    <!-- ===== List ===== -->
-    <div class="dn__head">
-      <h1 class="dn__title">Dev notes</h1>
-      <button class="adm-btn adm-btn--primary" type="button" (click)="newNote()">+ Nueva nota</button>
-    </div>
 
-    <div class="dn__toolbar">
-      <div class="dn__filters">
-        <button type="button" class="dn__chip" [class.is-active]="filterStatus() === 'all'" (click)="filterStatus.set('all')">Todas <em>{{ counts().all }}</em></button>
-        <button type="button" class="dn__chip" [class.is-active]="filterStatus() === 'open'" (click)="filterStatus.set('open')">Abiertas <em>{{ counts().open }}</em></button>
-        <button type="button" class="dn__chip" [class.is-active]="filterStatus() === 'done'" (click)="filterStatus.set('done')">Hechas <em>{{ counts().done }}</em></button>
-      </div>
-      <input class="dn__search" type="search" placeholder="Buscar…" [ngModel]="search()" (ngModelChange)="search.set($event)" />
-    </div>
+      @if (showVersions()) {
+        <div class="dn__versions">
+          <h3 class="small">Versiones</h3>
+          @for (v of versions(); track v.id) {
+            <div class="dn__version"><span class="small">{{ v.saved_at | date:'short' }} · {{ v.bytes }} car.</span><button type="button" class="adm-btn adm-btn--ghost" (click)="restore(v)">Restaurar</button></div>
+          }
+          @if (!versions().length) { <p class="small">Aún no hay versiones.</p> }
+        </div>
+      }
 
-    @if (error()) { <p class="dn__error" role="alert">{{ error() }}</p> }
-
-    @if (loading()) {
-      <p class="dn__muted">Cargando…</p>
-    } @else if (!filtered().length) {
-      <p class="dn__muted">No hay notas{{ search() ? ' que coincidan' : '' }}. Crea la primera con «+ Nueva nota».</p>
-    } @else {
-      <ul class="dn__list">
-        @for (n of filtered(); track n.id) {
-          <li class="dn__item" [class.is-done]="n.status === 'done'">
-            <button class="dn__check" type="button" [attr.aria-label]="n.status === 'open' ? 'Marcar como hecho' : 'Reabrir'" (click)="toggleStatus(n)">
-              <span class="dn__check-box"></span>
-            </button>
-            <div class="dn__item-body" (click)="edit(n)">
-              <div class="dn__item-top">
-                <span class="dn__item-title">{{ n.title }}</span>
-                <span class="dn__prio dn__prio--{{ n.priority }}">{{ n.priority === 'high' ? 'Alta' : n.priority === 'medium' ? 'Media' : 'Baja' }}</span>
-              </div>
-              <div class="dn__item-meta">
-                @for (t of n.tags; track t) { <span class="dn__tag">{{ t }}</span> }
-                <span class="dn__date">{{ fmtDate(n.updated_at) }}</span>
-              </div>
-            </div>
-            <button class="dn__del" type="button" aria-label="Borrar" (click)="remove(n)"><app-icon name="close" [size]="16" /></button>
-          </li>
-        }
-      </ul>
+      <app-markdown-editor [value]="body" (valueChange)="body = $event; onField()" />
     }
-  }
+  </section>
 </div>

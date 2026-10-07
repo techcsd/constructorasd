@@ -1,99 +1,92 @@
-<div class="dn">
-  <div class="dn__head">
-    <h1 class="dn__title">Leads</h1>
-    <button class="adm-btn adm-btn--ghost" type="button" (click)="load()">Actualizar</button>
+@if (toast(); as t) { <div class="lead-toast" role="status">{{ t }}</div> }
+
+<header class="cms-head">
+  <h1 class="cms-title">Leads</h1>
+  <div class="cms-head__actions">
+    <button type="button" class="adm-btn adm-btn--ghost" [class.is-active]="tab()==='mensajes'" (click)="tab.set('mensajes'); close()">Mensajes @if (unread()) {· {{ unread() }} nuevos}</button>
+    <button type="button" class="adm-btn adm-btn--ghost" [class.is-active]="tab()==='postulaciones'" (click)="tab.set('postulaciones'); close()">Postulaciones @if (newApps()) {· {{ newApps() }}}</button>
   </div>
-
-  <div class="dn__filters" style="margin-bottom: var(--space-5)">
-    <button type="button" class="dn__chip" [class.is-active]="tab() === 'mensajes'" (click)="tab.set('mensajes')">
-      Mensajes <em>{{ leads().length }}</em>
-    </button>
-    <button type="button" class="dn__chip" [class.is-active]="tab() === 'postulaciones'" (click)="tab.set('postulaciones')">
-      Postulaciones <em>{{ apps().length }}</em>
-    </button>
-  </div>
-
-  @if (error()) { <p class="dn__error" role="alert">{{ error() }}</p> }
-
-  @if (loading()) {
-    <p class="dn__muted">Cargando…</p>
-  } @else if (tab() === 'mensajes') {
-    @if (!leads().length) {
-      <p class="dn__muted">Todavía no hay mensajes de contacto.</p>
-    } @else {
-      <ul class="dn__list">
-        @for (l of leads(); track l.id) {
-          <li class="dn__item" style="flex-direction: column; align-items: stretch">
-            <div class="lead__row" (click)="toggle(l.id)">
-              <div class="lead__main">
-                <span class="dn__item-title">{{ l.name }}</span>
-                <span class="dn__item-meta">
-                  {{ l.email }}@if (l.company) { · {{ l.company }} }@if (l.project_type) { · {{ l.project_type }} }
-                </span>
-              </div>
-              <span class="lead__status lead__status--{{ l.status }}">{{ l.status }}</span>
-              <span class="dn__date">{{ fmt(l.created_at) }}</span>
-            </div>
-            @if (openId() === l.id) {
-              <div class="lead__detail">
-                <p class="lead__msg">{{ l.message }}</p>
-                <div class="lead__facts">
-                  @if (l.phone) { <span>Tel: {{ l.phone }}</span> }
-                  <span>Idioma: {{ l.locale }}</span>
-                  @if (l.page) { <span>Página: {{ l.page }}</span> }
-                  <span>Correo: {{ l.emailed_at ? 'enviado' : (l.email_error ? 'error' : '—') }}</span>
-                </div>
-                <div class="lead__actions">
-                  <a class="adm-btn adm-btn--ghost" [href]="'mailto:' + l.email">Responder</a>
-                  <label class="lead__set">Estado:
-                    <select [ngModel]="l.status" (ngModelChange)="setLead(l, $event)">
-                      @for (s of leadStatuses; track s) { <option [value]="s">{{ s }}</option> }
-                    </select>
-                  </label>
-                </div>
-              </div>
-            }
-          </li>
+</header>
+@if (error()) { <p class="cms-error">{{ error() }}</p> }
+@if (loading()) { <p class="small">Cargando…</p> }
+@else {
+  <div class="lead-inbox">
+    <!-- LIST -->
+    <div class="lead-list">
+      @if (tab()==='mensajes') {
+        <div class="lead-filters">
+          <input class="adm-input" type="search" placeholder="Buscar…" [value]="fQuery()" (input)="fQuery.set($any($event.target).value)" />
+          <select class="adm-input" (change)="fStatus.set($any($event.target).value)"><option value="">Todos los estados</option>@for (s of leadStatuses; track s) {<option [value]="s">{{ s }}</option>}</select>
+          <select class="adm-input" (change)="fType.set($any($event.target).value)"><option value="">Todo tipo</option>@for (t of projectTypes(); track t) {<option [value]="t">{{ t }}</option>}</select>
+          <select class="adm-input" (change)="fLocale.set($any($event.target).value)"><option value="">Idioma</option><option value="es">ES</option><option value="en">EN</option></select>
+          <button type="button" class="adm-btn adm-btn--ghost" (click)="exportCsv()">Exportar CSV</button>
+        </div>
+        @for (l of filteredLeads(); track l.id) {
+          <button type="button" class="lead-row" [class.is-unread]="!l.read_at" [class.is-open]="openId()===l.id" (click)="openMessage(l)">
+            <span class="lead-row__name">{{ l.name }}</span>
+            <span class="small lead-row__meta">{{ l.company || '—' }} · {{ l.project_type || '—' }} · {{ fmt(l.created_at) }}</span>
+            <span class="cms-badge">{{ l.status }}</span>
+          </button>
         }
-      </ul>
-    }
-  } @else {
-    @if (!apps().length) {
-      <p class="dn__muted">Todavía no hay postulaciones.</p>
-    } @else {
-      <ul class="dn__list">
+        @if (!filteredLeads().length) { <p class="small" style="padding:var(--space-3)">Sin mensajes.</p> }
+      } @else {
         @for (a of apps(); track a.id) {
-          <li class="dn__item" style="flex-direction: column; align-items: stretch">
-            <div class="lead__row" (click)="toggle(a.id)">
-              <div class="lead__main">
-                <span class="dn__item-title">{{ a.name }}</span>
-                <span class="dn__item-meta">{{ a.email }} · {{ a.job_slug || 'Candidatura espontánea' }}</span>
-              </div>
-              <span class="lead__status lead__status--{{ a.status }}">{{ a.status }}</span>
-              <span class="dn__date">{{ fmt(a.created_at) }}</span>
-            </div>
-            @if (openId() === a.id) {
-              <div class="lead__detail">
-                @if (a.message) { <p class="lead__msg">{{ a.message }}</p> }
-                <div class="lead__facts">
-                  @if (a.phone) { <span>Tel: {{ a.phone }}</span> }
-                  <span>Idioma: {{ a.locale }}</span>
-                  @if (a.cv_size) { <span>CV: {{ (a.cv_size / 1024 / 1024).toFixed(1) }} MB</span> }
-                </div>
-                <div class="lead__actions">
-                  <button class="adm-btn adm-btn--primary" type="button" (click)="downloadCv(a)">Descargar CV</button>
-                  <a class="adm-btn adm-btn--ghost" [href]="'mailto:' + a.email">Responder</a>
-                  <label class="lead__set">Estado:
-                    <select [ngModel]="a.status" (ngModelChange)="setApp(a, $event)">
-                      @for (s of appStatuses; track s) { <option [value]="s">{{ s }}</option> }
-                    </select>
-                  </label>
-                </div>
-              </div>
-            }
-          </li>
+          <button type="button" class="lead-row" [class.is-open]="openId()===a.id" (click)="openApplication(a)">
+            <span class="lead-row__name">{{ a.name }}</span>
+            <span class="small lead-row__meta">{{ a.job_slug || 'Espontánea' }} · {{ fmt(a.created_at) }}</span>
+            <span class="cms-badge">{{ a.status }}</span>
+          </button>
         }
-      </ul>
-    }
-  }
-</div>
+        @if (!apps().length) { <p class="small" style="padding:var(--space-3)">Sin postulaciones.</p> }
+      }
+    </div>
+
+    <!-- DETAIL -->
+    <div class="lead-detail">
+      @if (tab()==='mensajes' && openLead(); as l) {
+        <h2 class="cms-h2">{{ l.name }}</h2>
+        <dl class="lead-fields">
+          <div><dt>Empresa</dt><dd>{{ l.company || '—' }}</dd></div>
+          <div><dt>Email</dt><dd><a [href]="'mailto:'+l.email">{{ l.email }}</a></dd></div>
+          <div><dt>Teléfono</dt><dd>{{ l.phone || '—' }} @if (l.phone_e164) {· <a [href]="'tel:'+l.phone_e164">{{ l.phone_e164 }}</a>}</dd></div>
+          <div><dt>Tipo</dt><dd>{{ l.project_type || '—' }}</dd></div>
+          <div><dt>Idioma</dt><dd>{{ l.locale }}</dd></div>
+          <div><dt>Página</dt><dd>{{ l.page || '—' }}</dd></div>
+          <div><dt>Email enviado</dt><dd>{{ l.emailed_at ? fmt(l.emailed_at) : (l.email_error || '—') }}</dd></div>
+        </dl>
+        <p class="lead-message">{{ l.message }}</p>
+        <div class="lead-actions">
+          <select class="adm-input" (change)="setLeadStatus(l, $any($event.target).value)">@for (s of leadStatuses; track s) {<option [value]="s" [selected]="l.status===s">{{ s }}</option>}</select>
+          <a class="adm-btn adm-btn--ghost" [href]="replyMailto(l)">Responder</a>
+          @if (waUrl(l); as w) { <a class="adm-btn adm-btn--ghost" [href]="w" target="_blank" rel="noopener">WhatsApp</a> }
+        </div>
+
+        <h3 class="cms-h2">Historial</h3>
+        @for (h of history(); track h.id) { <p class="small">{{ fmt(h.changed_at) }}: {{ h.from_status || '—' }} → {{ h.to_status }}</p> }
+        @if (!history().length) { <p class="small">Sin cambios.</p> }
+
+        <h3 class="cms-h2">Notas internas</h3>
+        @for (n of notes(); track n.id) { <p class="lead-note">{{ n.body }} <span class="small">· {{ fmt(n.created_at) }}</span></p> }
+        <div class="lead-actions">
+          <input class="adm-input" placeholder="Añadir nota interna…" [(ngModel)]="noteDraft" (keydown.enter)="addNote('lead')" />
+          <button type="button" class="adm-btn" (click)="addNote('lead')">Añadir</button>
+        </div>
+      } @else if (tab()==='postulaciones' && openApp(); as a) {
+        <h2 class="cms-h2">{{ a.name }}</h2>
+        <dl class="lead-fields">
+          <div><dt>Email</dt><dd><a [href]="'mailto:'+a.email">{{ a.email }}</a></dd></div>
+          <div><dt>Teléfono</dt><dd>{{ a.phone || '—' }}</dd></div>
+          <div><dt>Vacante</dt><dd>{{ a.job_slug || 'Espontánea' }}</dd></div>
+        </dl>
+        @if (a.message) { <p class="lead-message">{{ a.message }}</p> }
+        <div class="lead-actions">
+          <select class="adm-input" (change)="setAppStatus(a, $any($event.target).value)">@for (s of appStatuses; track s) {<option [value]="s" [selected]="a.status===s">{{ s }}</option>}</select>
+          @if (cvSignedUrl(); as url) { <a class="adm-btn adm-btn--ghost" [href]="url" target="_blank" rel="noopener">Descargar CV</a> }
+        </div>
+        @if (cvSafe() && isPdf(a)) { <iframe class="lead-cv" [src]="cvSafe()" title="CV"></iframe> }
+      } @else {
+        <p class="small" style="padding:var(--space-5)">Elige un mensaje para ver el detalle.</p>
+      }
+    </div>
+  </div>
+}

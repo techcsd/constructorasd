@@ -1,153 +1,187 @@
-import { ChangeDetectionStrategy, Component, SecurityContext, computed, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostListener, OnDestroy, computed, inject, signal } from '@angular/core';
+import { DatePipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { DomSanitizer } from '@angular/platform-browser';
-import { marked } from 'marked';
-import { Icon } from '../../ui/icon/icon';
-import { DevNote, DevNoteInput, DevNotesService, NotePriority, NoteStatus } from '../dev-notes.service';
+import { DevNotesService, DevNote, NoteVersion } from '../dev-notes.service';
+import { MarkdownEditor } from '../ui/markdown-editor/markdown-editor';
 
-interface Draft {
-  title: string;
-  body: string;
-  status: NoteStatus;
-  priority: NotePriority;
-  tags: string;
-}
-const EMPTY: Draft = { title: '', body: '', status: 'open', priority: 'medium', tags: '' };
+type SaveState = 'idle' | 'saving' | 'saved' | 'offline' | 'error';
+const DRAFT_KEY = (id: string) => `csd-admin:note-draft:${id}`;
+
+const TEMPLATES: Record<string, string> = {
+  HANDOFF: '## Hecho\n- \n\n## Pendiente\n- \n\n## Bloqueos\n- \n\n## Próximos pasos\n- \n',
+  'Decisión': '## Contexto\n\n## Opciones\n1. \n2. \n\n## Decisión\n\n## Consecuencias\n',
+  Bug: '## Pasos\n1. \n\n## Esperado\n\n## Actual\n\n## Causa\n\n## Fix\n',
+};
 
 @Component({
-  selector: 'app-dev-notes-page',
+  selector: 'app-admin-dev-notes',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [FormsModule, Icon],
+  imports: [FormsModule, MarkdownEditor, DatePipe],
   templateUrl: './dev-notes-page.html',
   styleUrl: './admin.scss',
 })
-export class DevNotesPage {
+export class DevNotesPage implements OnDestroy {
   private svc = inject(DevNotesService);
-  private sanitizer = inject(DomSanitizer);
 
   readonly notes = signal<DevNote[]>([]);
+  readonly selected = signal<DevNote | null>(null);
   readonly loading = signal(true);
   readonly error = signal<string | null>(null);
+  readonly query = signal('');
+  readonly showArchived = signal(false);
+  readonly saveState = signal<SaveState>('idle');
+  readonly savedAt = signal<number>(0);
+  readonly conflict = signal<DevNote | null>(null);
+  readonly versions = signal<NoteVersion[]>([]);
+  readonly showVersions = signal(false);
+  readonly templates = Object.keys(TEMPLATES);
 
-  readonly filterStatus = signal<'all' | NoteStatus>('all');
-  readonly search = signal('');
-
-  readonly editingId = signal<string | 'new' | null>(null); // null = list; otherwise editor open
-  readonly draft = signal<Draft>({ ...EMPTY });
-  readonly preview = signal(false);
-  readonly saving = signal(false);
-
-  readonly priorities: NotePriority[] = ['high', 'medium', 'low'];
-
-  readonly counts = computed(() => {
-    const n = this.notes();
-    return { all: n.length, open: n.filter((x) => x.status === 'open').length, done: n.filter((x) => x.status === 'done').length };
-  });
+  // editor fields
+  title = ''; body = ''; tags = ''; status: DevNote['status'] = 'open'; priority: DevNote['priority'] = 'medium';
+  private loadedUpdatedAt = '';
+  private debounce?: ReturnType<typeof setTimeout>;
+  private retry = 0;
+  private lastSnapshotLen = 0;
+  private lastSnapshotAt = 0;
 
   readonly filtered = computed(() => {
-    const s = this.search().toLowerCase().trim();
-    const st = this.filterStatus();
-    const rank = { high: 0, medium: 1, low: 2 };
+    const q = this.query().toLowerCase().trim();
     return this.notes()
-      .filter((n) => (st === 'all' || n.status === st))
-      .filter((n) => !s || n.title.toLowerCase().includes(s) || n.body.toLowerCase().includes(s) || n.tags.some((t) => t.toLowerCase().includes(s)))
-      .sort((a, b) => rank[a.priority] - rank[b.priority]);
+      .filter((n) => n.archived === this.showArchived())
+      .filter((n) => !q || n.title.toLowerCase().includes(q) || n.body.toLowerCase().includes(q) || n.tags.join(' ').toLowerCase().includes(q))
+      .sort((a, b) => Number(b.pinned) - Number(a.pinned) || b.updated_at.localeCompare(a.updated_at));
   });
 
-  readonly previewHtml = computed(() => {
-    const html = marked.parse(this.draft().body || '*(vacío)*', { async: false }) as string;
-    return this.sanitizer.sanitize(SecurityContext.HTML, html) ?? '';
-  });
-
-  constructor() {
-    this.load();
-  }
+  constructor() { void this.load(); }
+  ngOnDestroy(): void { clearTimeout(this.debounce); }
 
   async load(): Promise<void> {
     this.loading.set(true);
-    this.error.set(null);
+    try { this.notes.set(await this.svc.list()); } catch (e) { this.error.set((e as Error).message); } finally { this.loading.set(false); }
+  }
+
+  select(n: DevNote): void {
+    void this.flush();
+    this.selected.set(n);
+    this.title = n.title; this.body = n.body; this.tags = n.tags.join(', '); this.status = n.status; this.priority = n.priority;
+    this.loadedUpdatedAt = n.updated_at;
+    this.saveState.set('idle'); this.conflict.set(null); this.showVersions.set(false);
+    this.lastSnapshotLen = n.body.length; this.lastSnapshotAt = Date.now();
+    // restore a newer local draft if present
     try {
-      this.notes.set(await this.svc.list());
-    } catch (e) {
-      this.error.set((e as Error).message);
-    } finally {
-      this.loading.set(false);
-    }
+      const raw = localStorage.getItem(DRAFT_KEY(n.id));
+      if (raw) {
+        const d = JSON.parse(raw);
+        if (d.updated_at && d.updated_at > n.updated_at && confirm('Hay un borrador local más reciente de esta nota. ¿Restaurarlo?')) {
+          this.title = d.title; this.body = d.body; this.tags = d.tags;
+        }
+      }
+    } catch { /* ignore */ }
   }
 
-  newNote(): void {
-    this.draft.set({ ...EMPTY });
-    this.preview.set(false);
-    this.editingId.set('new');
-  }
-
-  edit(n: DevNote): void {
-    this.draft.set({ title: n.title, body: n.body, status: n.status, priority: n.priority, tags: n.tags.join(', ') });
-    this.preview.set(false);
-    this.editingId.set(n.id);
-  }
-
-  cancel(): void {
-    this.editingId.set(null);
-    this.error.set(null);
-  }
-
-  patch<K extends keyof Draft>(k: K, v: Draft[K]): void {
-    this.draft.update((d) => ({ ...d, [k]: v }));
-  }
-
-  private toInput(d: Draft): DevNoteInput {
-    return {
-      title: d.title.trim(),
-      body: d.body,
-      status: d.status,
-      priority: d.priority,
-      tags: d.tags.split(',').map((t) => t.trim()).filter(Boolean),
-    };
-  }
-
-  async save(): Promise<void> {
-    const d = this.draft();
-    if (!d.title.trim()) {
-      this.error.set('El título es obligatorio.');
-      return;
-    }
-    this.saving.set(true);
-    this.error.set(null);
+  async newNote(template?: string): Promise<void> {
+    const body = template ? TEMPLATES[template] ?? '' : '';
     try {
-      const id = this.editingId();
-      if (id === 'new') await this.svc.create(this.toInput(d));
-      else if (id) await this.svc.update(id, this.toInput(d));
-      this.editingId.set(null);
-      await this.load();
-    } catch (e) {
-      this.error.set((e as Error).message);
-    } finally {
-      this.saving.set(false);
-    }
+      const n = await this.svc.create({ title: '', body, status: 'open', priority: 'medium', tags: [], template: template ?? null });
+      this.notes.set([n, ...this.notes()]);
+      this.select(n);
+    } catch (e) { this.error.set((e as Error).message); }
   }
 
-  async toggleStatus(n: DevNote): Promise<void> {
+  onField(): void {
+    this.backupLocal();
+    this.saveState.set('saving');
+    clearTimeout(this.debounce);
+    this.debounce = setTimeout(() => void this.doSave(), 700);
+  }
+
+  private patch(): Partial<DevNote> {
+    return { title: this.title || this.body.split('\n')[0].slice(0, 80) || 'Sin título', body: this.body, tags: this.tags.split(',').map((t) => t.trim()).filter(Boolean), status: this.status, priority: this.priority };
+  }
+  private backupLocal(): void {
+    const n = this.selected(); if (!n) return;
+    try { localStorage.setItem(DRAFT_KEY(n.id), JSON.stringify({ title: this.title, body: this.body, tags: this.tags, updated_at: new Date().toISOString() })); } catch { /* quota */ }
+  }
+
+  private async doSave(): Promise<void> {
+    const n = this.selected(); if (!n) return;
+    if (!navigator.onLine) { this.saveState.set('offline'); return; }
     try {
-      await this.svc.update(n.id, { status: n.status === 'open' ? 'done' : 'open' });
-      await this.load();
-    } catch (e) {
-      this.error.set((e as Error).message);
+      const res = await this.svc.save(n.id, this.patch(), this.loadedUpdatedAt);
+      if (res.ok) {
+        this.loadedUpdatedAt = res.updated_at; this.retry = 0;
+        this.saveState.set('saved'); this.savedAt.set(Date.now());
+        this.maybeSnapshot();
+        localStorage.removeItem(DRAFT_KEY(n.id));
+        // reflect in the list
+        this.notes.set(this.notes().map((x) => x.id === n.id ? { ...x, ...this.patch(), updated_at: res.updated_at } as DevNote : x));
+      } else {
+        this.conflict.set(res.server); this.saveState.set('error');
+      }
+    } catch {
+      this.saveState.set('error');
+      if (this.retry < 10) { this.retry++; setTimeout(() => void this.doSave(), Math.min(30000, 1000 * 2 ** this.retry)); }
     }
   }
 
-  async remove(n: DevNote): Promise<void> {
-    if (typeof window !== 'undefined' && !window.confirm(`¿Borrar "${n.title}"?`)) return;
-    try {
-      await this.svc.remove(n.id);
-      await this.load();
-    } catch (e) {
-      this.error.set((e as Error).message);
+  private maybeSnapshot(): void {
+    const n = this.selected(); if (!n) return;
+    if (Math.abs(this.body.length - this.lastSnapshotLen) > 40 && Date.now() - this.lastSnapshotAt > 5 * 60 * 1000) {
+      void this.svc.saveVersion(n.id, this.title, this.body);
+      this.lastSnapshotLen = this.body.length; this.lastSnapshotAt = Date.now();
     }
   }
 
-  fmtDate(iso: string): string {
-    return new Date(iso).toLocaleDateString('es-DO', { day: '2-digit', month: 'short', year: 'numeric' });
+  async flush(): Promise<void> { clearTimeout(this.debounce); if (this.selected() && this.saveState() === 'saving') await this.doSave(); }
+
+  @HostListener('window:keydown', ['$event'])
+  onKey(e: KeyboardEvent): void {
+    if ((e.ctrlKey || e.metaKey) && e.key === 's') { e.preventDefault(); void this.forceSave(); }
+    else if ((e.ctrlKey || e.metaKey) && e.key === 'n' && e.target instanceof HTMLElement && !/INPUT|TEXTAREA/.test(e.target.tagName)) { e.preventDefault(); void this.newNote(); }
+  }
+  @HostListener('window:beforeunload')
+  onUnload(): void { this.backupLocal(); }
+
+  async forceSave(): Promise<void> {
+    const n = this.selected(); if (!n) return;
+    await this.doSave();
+    await this.svc.saveVersion(n.id, this.title, this.body);
+    this.lastSnapshotLen = this.body.length; this.lastSnapshotAt = Date.now();
+  }
+
+  async toggleVersions(): Promise<void> {
+    const n = this.selected(); if (!n) return;
+    this.showVersions.set(!this.showVersions());
+    if (this.showVersions()) this.versions.set(await this.svc.listVersions(n.id));
+  }
+  async restore(v: NoteVersion): Promise<void> {
+    const n = this.selected(); if (!n) return;
+    await this.svc.saveVersion(n.id, this.title, this.body); // snapshot current first
+    this.title = v.title; this.body = v.body; this.onField();
+    this.showVersions.set(false);
+  }
+
+  resolveConflict(keep: 'mine' | 'server'): void {
+    const s = this.conflict(); if (!s) return;
+    if (keep === 'server') { this.title = s.title; this.body = s.body; this.tags = s.tags.join(', '); this.status = s.status; this.priority = s.priority; }
+    this.loadedUpdatedAt = s.updated_at;
+    this.conflict.set(null);
+    this.onField();
+  }
+
+  async pin(n: DevNote): Promise<void> { await this.svc.setFlags(n.id, { pinned: !n.pinned }); n.pinned = !n.pinned; this.notes.set([...this.notes()]); }
+  async archive(n: DevNote): Promise<void> { await this.svc.setFlags(n.id, { archived: !n.archived }); n.archived = !n.archived; this.notes.set([...this.notes()]); if (this.selected()?.id === n.id) this.selected.set(null); }
+  async del(n: DevNote): Promise<void> { if (!confirm('¿Eliminar esta nota?')) return; await this.svc.remove(n.id); this.notes.set(this.notes().filter((x) => x.id !== n.id)); if (this.selected()?.id === n.id) this.selected.set(null); }
+
+  exportMd(): void {
+    const n = this.selected(); if (!n) return;
+    const blob = new Blob([`# ${this.title}\n\n${this.body}`], { type: 'text/markdown' });
+    const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = `${this.title || 'nota'}.md`; a.click();
+  }
+
+  savedAgo(): string {
+    const s = Math.round((Date.now() - this.savedAt()) / 1000);
+    return s < 5 ? 'hace un momento' : s < 60 ? `hace ${s} s` : `hace ${Math.round(s / 60)} min`;
   }
 }
