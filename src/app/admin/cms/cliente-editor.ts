@@ -46,7 +46,7 @@ export class ClienteEditor {
   onSlug(v: string): void { this.slugEdited = true; this.c.update((x) => ({ ...x, slug: slugify(v) })); }
   set<K extends keyof ClientRow>(k: K, v: ClientRow[K]): void { this.c.update((x) => ({ ...x, [k]: v })); }
   onLogo(m: MediaRow): void { this.logo.set(m); }
-  logoUrl(): string | null { return this.logo() ? this.cms.publicUrl(this.logo()!.path) : null; }
+  logoUrl(): string | null { return this.logo() ? this.cms.thumbUrl(this.logo()!.path, 240) : null; }
 
   async save(): Promise<void> {
     const c = this.c();

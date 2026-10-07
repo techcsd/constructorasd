@@ -47,7 +47,7 @@ export class NoticiaEditor {
   onSlug(v: string): void { this.slugEdited = true; this.p.update((x) => ({ ...x, slug: slugify(v) })); }
   set<K extends keyof PostRow>(k: K, v: PostRow[K]): void { this.p.update((x) => ({ ...x, [k]: v })); }
   onCover(m: MediaRow): void { this.cover.set(m); }
-  coverUrl(): string | null { return this.cover() ? this.cms.publicUrl(this.cover()!.path) : null; }
+  coverUrl(): string | null { return this.cover() ? this.cms.thumbUrl(this.cover()!.path, 480) : null; }
 
   async save(): Promise<void> {
     const p = this.p();

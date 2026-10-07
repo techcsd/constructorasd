@@ -34,7 +34,7 @@ export class Biblioteca {
       this.usage.set(usage);
     } catch (e) { this.error.set((e as Error).message); } finally { this.loading.set(false); }
   }
-  url(m: MediaRow): string { return this.cms.publicUrl(m.path); }
+  url(m: MediaRow): string { return this.cms.thumbUrl(m.path, 320); }
   uses(m: MediaRow): number { return this.usage()[m.id] ?? 0; }
 
   onUploaded(): void { void this.load(); }

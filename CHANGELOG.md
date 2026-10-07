@@ -3,6 +3,13 @@
 All notable changes to this project. Versioning is simple (CLAUDE.md / WB9): a `CHANGELOG.md` entry plus a
 `package.json` bump per release. Not tracked in `sgc.app_versiones`.
 
+## 2.0.3 — miniaturas del admin rápidas (2026-10-07)
+
+Las miniaturas del admin cargaban los **originales de 4 MB (4000×3000)** desde Storage — una por una y lento.
+Ahora usan **Supabase image transform** (`/render/image/...`): 160–480 px según el sitio donde se muestran
+(~7 KB cada una, ~580× menos) y `loading="lazy"` + `decoding="async"` para no pedir todas a la vez. Nuevo
+`CmsService.thumbUrl(path, width)`; los SVG (sin transform) devuelven el original. El sitio público no cambia.
+
 ## 2.0.2 — fixes del admin en vivo (2026-10-07)
 
 - **Previsualizaciones de imagen en /admin** (miniaturas de lista, portada, galería, biblioteca) salían en

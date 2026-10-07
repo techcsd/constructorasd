@@ -144,6 +144,6 @@ export class ProyectoEditor {
     }
   }
 
-  coverUrl(): string | null { return this.cover() ? this.cms.publicUrl(this.cover()!.path) : null; }
-  galleryUrl(m: MediaRow): string { return this.cms.publicUrl(m.path); }
+  coverUrl(): string | null { return this.cover() ? this.cms.thumbUrl(this.cover()!.path, 480) : null; }
+  galleryUrl(m: MediaRow): string { return this.cms.thumbUrl(m.path, 240); }
 }
