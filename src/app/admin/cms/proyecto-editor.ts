@@ -4,6 +4,7 @@ import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { CdkDragDrop, DragDropModule, moveItemInArray } from '@angular/cdk/drag-drop';
 import { CmsService } from './cms.service';
 import { MediaUploader } from '../ui/media-uploader/media-uploader';
+import { AdminThumb } from '../ui/admin-thumb/admin-thumb';
 import type { ProjectRow, MediaRow, ProjectImageRow } from './cms.models';
 import { SECTORS, STAGES } from './cms.models';
 
@@ -17,7 +18,7 @@ const slugify = (s: string) =>
   selector: 'app-cms-proyecto-editor',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [FormsModule, RouterLink, DragDropModule, MediaUploader],
+  imports: [FormsModule, RouterLink, DragDropModule, MediaUploader, AdminThumb],
   templateUrl: './proyecto-editor.html',
   styleUrl: './admin-cms.scss',
 })

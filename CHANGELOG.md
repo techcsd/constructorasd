@@ -3,6 +3,14 @@
 All notable changes to this project. Versioning is simple (CLAUDE.md / WB9): a `CHANGELOG.md` entry plus a
 `package.json` bump per release. Not tracked in `sgc.app_versiones`.
 
+## 2.0.4 — estado de carga en miniaturas del admin (2026-10-07)
+
+Nuevo componente reutilizable `app-admin-thumb` (admin/ui): mientras carga la imagen muestra un **esqueleto
+con shimmer**, hace **fade-in** al cargar, y un "—" neutro si no hay imagen o falla. Reemplaza los `<img>`
+sueltos en lista de proyectos, lista de clientes, portada/galería de proyecto, portada de noticia, logo de
+cliente y Biblioteca. `fit="contain"` para logos (sin recorte). Así ya no se ven cajas vacías mientras
+cargan. El shimmer respeta `prefers-reduced-motion`.
+
 ## 2.0.3 — miniaturas del admin rápidas (2026-10-07)
 
 Las miniaturas del admin cargaban los **originales de 4 MB (4000×3000)** desde Storage — una por una y lento.

@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@a
 import { RouterLink } from '@angular/router';
 import { CdkDragDrop, DragDropModule, moveItemInArray } from '@angular/cdk/drag-drop';
 import { CmsService } from './cms.service';
+import { AdminThumb } from '../ui/admin-thumb/admin-thumb';
 import type { ProjectRow, MediaRow } from './cms.models';
 import { SECTORS } from './cms.models';
 
@@ -9,7 +10,7 @@ import { SECTORS } from './cms.models';
   selector: 'app-cms-proyectos',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterLink, DragDropModule],
+  imports: [RouterLink, DragDropModule, AdminThumb],
   templateUrl: './proyectos-list.html',
   styleUrl: './admin-cms.scss',
 })

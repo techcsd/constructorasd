@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import { CmsService } from './cms.service';
 import { MediaUploader } from '../ui/media-uploader/media-uploader';
+import { AdminThumb } from '../ui/admin-thumb/admin-thumb';
 import type { MediaRow } from './cms.models';
 
 /** Biblioteca de medios (WJ2 §2): lista, búsqueda, conteo de uso y borrado solo si no se usa. */
@@ -8,7 +9,7 @@ import type { MediaRow } from './cms.models';
   selector: 'app-cms-biblioteca',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [MediaUploader],
+  imports: [MediaUploader, AdminThumb],
   templateUrl: './biblioteca.html',
   styleUrl: './admin-cms.scss',
 })

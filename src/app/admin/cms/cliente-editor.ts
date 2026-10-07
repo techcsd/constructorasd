@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@a
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { CmsService } from './cms.service';
 import { MediaUploader } from '../ui/media-uploader/media-uploader';
+import { AdminThumb } from '../ui/admin-thumb/admin-thumb';
 import type { ClientRow, MediaRow } from './cms.models';
 import { CLIENT_GROUPS } from './cms.models';
 
@@ -12,7 +13,7 @@ const slugify = (s: string) => s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]
   selector: 'app-cms-cliente-editor',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterLink, MediaUploader],
+  imports: [RouterLink, MediaUploader, AdminThumb],
   templateUrl: './cliente-editor.html',
   styleUrl: './admin-cms.scss',
 })

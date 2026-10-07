@@ -71,7 +71,7 @@ textarea.adm-input {
   align-items: center;
   justify-content: center;
 }
-.cms-row__thumb img { width: 100%; height: 100%; object-fit: cover; }
+.cms-row__thumb app-admin-thumb { width: 100%; height: 100%; }
 .cms-row__noimg { color: var(--text-3); }
 .cms-row__main { display: flex; flex-direction: column; min-width: 0; }
 .cms-row__name { font-weight: 500; color: var(--text); }
@@ -101,7 +101,7 @@ textarea.adm-input {
 .cms-check { display: inline-flex; align-items: center; gap: var(--space-2); font-size: var(--fs-small); color: var(--text); }
 .cms-toggles { display: flex; gap: var(--space-5); }
 .cms-cover { display: flex; align-items: flex-start; gap: var(--space-3); margin-bottom: var(--space-3); }
-.cms-cover img { width: 220px; max-width: 40vw; border-radius: var(--r-sm); border: 1px solid var(--line); }
+.cms-cover app-admin-thumb { width: 220px; max-width: 40vw; height: 140px; flex: none; border-radius: var(--r-sm); border: 1px solid var(--line); }
 .cms-gallery { display: flex; flex-wrap: wrap; gap: var(--space-3); margin-bottom: var(--space-3); }
 .cms-gitem {
   position: relative;
@@ -111,7 +111,7 @@ textarea.adm-input {
   overflow: hidden;
   background: var(--bg-elevated);
 }
-.cms-gitem img { width: 100%; height: 100px; object-fit: cover; display: block; }
+.cms-gitem app-admin-thumb { display: block; height: 100px; }
 .cms-gitem__actions { display: flex; gap: 2px; padding: var(--space-1); }
 .cms-gitem .cms-row__grip { position: absolute; top: 2px; left: 2px; background: var(--bg); border-radius: var(--r-sm); }
 .cms-seo { border: 1px solid var(--line); border-radius: var(--r-sm); padding: var(--space-3) var(--space-4); }
@@ -124,7 +124,7 @@ textarea.adm-input {
 // Biblioteca (media library)
 .cms-media-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: var(--space-3); }
 .cms-media-card { border: 1px solid var(--line); border-radius: var(--r-sm); overflow: hidden; background: var(--bg-elevated); }
-.cms-media-card img { width: 100%; height: 120px; object-fit: cover; display: block; background: var(--bg-sunken); }
+.cms-media-card app-admin-thumb { display: block; height: 120px; }
 .cms-media-card__body { padding: var(--space-2) var(--space-3); display: flex; flex-direction: column; gap: var(--space-1); }
 .cms-media-card__alt { font-size: var(--fs-small); color: var(--text); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .cms-media-card__use { font-size: var(--fs-eyebrow); color: var(--text-3); }

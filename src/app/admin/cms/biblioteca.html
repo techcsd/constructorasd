@@ -15,7 +15,7 @@
   <div class="cms-media-grid">
     @for (m of filtered(); track m.id) {
       <div class="cms-media-card">
-        <img [src]="url(m)" alt="" loading="lazy" decoding="async" images-allow />
+        <app-admin-thumb [src]="url(m)" [alt]="m.alt_es" />
         <div class="cms-media-card__body">
           <span class="cms-media-card__alt" [title]="m.alt_es">{{ m.alt_es || m.original_name || '(sin alt)' }}</span>
           <span class="cms-media-card__use">{{ uses(m) }} uso(s) · {{ m.width }}×{{ m.height }}</span>

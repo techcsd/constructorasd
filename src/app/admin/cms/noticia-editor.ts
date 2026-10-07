@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/cor
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { CmsService } from './cms.service';
 import { MediaUploader } from '../ui/media-uploader/media-uploader';
+import { AdminThumb } from '../ui/admin-thumb/admin-thumb';
 import type { PostRow, MediaRow } from './cms.models';
 
 type Editable = Partial<PostRow>;
@@ -11,7 +12,7 @@ const slugify = (s: string) => s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]
   selector: 'app-cms-noticia-editor',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterLink, MediaUploader],
+  imports: [RouterLink, MediaUploader, AdminThumb],
   templateUrl: './noticia-editor.html',
   styleUrl: './admin-cms.scss',
 })
