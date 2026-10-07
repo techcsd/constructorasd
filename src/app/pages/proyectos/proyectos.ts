@@ -6,6 +6,7 @@ import { applyPageSeo } from '../../core/seo/page-seo';
 import { detailPathFor } from '../../core/i18n/localized-routes';
 import { PROJECTS } from '../../../content/projects';
 import { SECTORS } from '../../../content/sectors';
+import { PreviewService } from '../../core/preview.service';
 import { SectorId } from '../../../content/types';
 import { PageHeader } from '../../ui/page-header/page-header';
 import { ProjectCard } from '../../ui/project-card/project-card';
@@ -24,6 +25,7 @@ export class Proyectos {
   private route = inject(ActivatedRoute);
   private router = inject(Router);
   private i18n = inject(I18nService);
+  private preview = inject(PreviewService);
 
   constructor() {
     applyPageSeo('proyectos');
@@ -45,7 +47,8 @@ export class Proyectos {
   readonly projects = computed(() => {
     const sec = this.sector();
     const locale = this.i18n.locale();
-    return PROJECTS.filter((p) => !sec || p.sector === sec)
+    const source = this.preview.projects() ?? PROJECTS; // drafts in preview, static otherwise
+    return source.filter((p) => !sec || p.sector === sec)
       .slice()
       .sort((a, b) => a.order - b.order)
       .map((p) => ({

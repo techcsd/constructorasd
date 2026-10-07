@@ -19,6 +19,15 @@
       <figcaption class="small app-image-figure__cap">{{ caption() }}</figcaption>
     }
   </figure>
+} @else if (directUrl(); as src) {
+  <figure class="app-image-figure">
+    <picture class="app-image-figure__pic" [style.aspect-ratio]="aspect()">
+      <img [src]="src" [alt]="alt()" loading="lazy" />
+    </picture>
+    @if (caption()) {
+      <figcaption class="small app-image-figure__cap">{{ caption() }}</figcaption>
+    }
+  </figure>
 } @else {
   <figure class="app-image-figure">
     <div class="app-image-figure__placeholder" [style.aspect-ratio]="aspect()">

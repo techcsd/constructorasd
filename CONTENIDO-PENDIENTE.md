@@ -110,4 +110,3 @@ El sitio está **publicado en https://constructorasd.com** (v1.0.0). Todo lo de 
 
 ## CMS (06-oct)
 - Formularios dedicados para **Etapas / Sectores / Equipos / Páginas (SEO)** (hoy editables desde /admin › Otros (JSON)).
-- **Vista previa de borrador** en cliente (`?preview=1`).
