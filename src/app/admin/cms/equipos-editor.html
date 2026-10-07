@@ -1,0 +1,22 @@
+<header class="cms-head">
+  <div><h1 class="cms-title">Equipos</h1><p class="cms-sub small">Lista de equipos propios</p></div>
+  <div class="cms-head__actions">
+    @if (saved()) { <span class="small" style="color:var(--text)">Guardado</span> }
+    <button type="button" class="adm-btn" [disabled]="saving()" (click)="save()">{{ saving() ? 'Guardando…' : 'Guardar' }}</button>
+  </div>
+</header>
+@if (error()) { <p class="cms-error">{{ error() }}</p> }
+@if (loading()) { <p class="small">Cargando…</p> }
+@else {
+  <div class="cms-form">
+    @for (e of items; track trackByIndex($index); let i = $index) {
+      <div class="cms-grid2" style="grid-template-columns:1fr 1fr auto">
+        <input class="adm-input" placeholder="Nombre (ES)" [(ngModel)]="e.name.es" />
+        <input class="adm-input" placeholder="Name (EN)" [(ngModel)]="e.name.en" />
+        <button type="button" class="adm-btn adm-btn--ghost" (click)="removeAt(i)">✕</button>
+      </div>
+    }
+    <button type="button" class="adm-btn adm-btn--ghost" (click)="add()">+ Añadir equipo</button>
+    <div class="cms-save-bar"><button type="button" class="adm-btn" [disabled]="saving()" (click)="save()">{{ saving() ? 'Guardando…' : 'Guardar equipos' }}</button></div>
+  </div>
+}

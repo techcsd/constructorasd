@@ -1,0 +1,55 @@
+<header class="cms-head">
+  <div><h1 class="cms-title">Etapas (Servicios)</h1><p class="cms-sub small">Las 7 etapas del ciclo constructivo · las imágenes se mantienen</p></div>
+  <div class="cms-head__actions">
+    @if (saved()) { <span class="small" style="color:var(--text)">Guardado</span> }
+    <button type="button" class="adm-btn" [disabled]="saving()" (click)="save()">{{ saving() ? 'Guardando…' : 'Guardar' }}</button>
+  </div>
+</header>
+@if (error()) { <p class="cms-error">{{ error() }}</p> }
+@if (loading()) { <p class="small">Cargando…</p> }
+@else {
+  <div class="cms-form">
+    @for (s of items; track trackById($index, s)) {
+      <details class="cms-seo">
+        <summary><strong>{{ s.index }} · {{ s.title.es || s.id }}</strong></summary>
+        <div style="display:flex;flex-direction:column;gap:var(--space-3);margin-top:var(--space-3)">
+          <div class="cms-bi">
+            <div class="cms-field"><label>Título (ES)</label><input class="adm-input" [(ngModel)]="s.title.es" /></div>
+            <div class="cms-field"><label>Title (EN)</label><input class="adm-input" [(ngModel)]="s.title.en" /></div>
+          </div>
+          <div class="cms-bi">
+            <div class="cms-field"><label>Tagline (ES)</label><input class="adm-input" [(ngModel)]="s.tagline.es" /></div>
+            <div class="cms-field"><label>Tagline (EN)</label><input class="adm-input" [(ngModel)]="s.tagline.en" /></div>
+          </div>
+          <div class="cms-bi">
+            <div class="cms-field"><label>Descripción (ES)</label><textarea class="adm-input" rows="3" [(ngModel)]="s.description.es"></textarea></div>
+            <div class="cms-field"><label>Description (EN)</label><textarea class="adm-input" rows="3" [(ngModel)]="s.description.en"></textarea></div>
+          </div>
+          <div class="cms-field">
+            <label>Capacidades</label>
+            @for (c of s.capabilities; track $index; let i = $index) {
+              <div class="cms-bi" style="margin-bottom:var(--space-2)">
+                <input class="adm-input" placeholder="Capacidad (ES)" [(ngModel)]="c.es" />
+                <div style="display:flex;gap:var(--space-2)"><input class="adm-input" placeholder="Capability (EN)" [(ngModel)]="c.en" /><button type="button" class="adm-btn adm-btn--ghost" (click)="removeCap(s, i)">✕</button></div>
+              </div>
+            }
+            <button type="button" class="adm-btn adm-btn--ghost" (click)="addCap(s)">+ Añadir capacidad</button>
+          </div>
+          <div class="cms-field">
+            <label>Datos (facts)</label>
+            @for (f of s.facts; track $index; let i = $index) {
+              <div class="cms-grid2" style="grid-template-columns:1fr 1fr 1fr auto;margin-bottom:var(--space-2)">
+                <input class="adm-input" placeholder="Etiqueta (ES)" [(ngModel)]="f.label.es" />
+                <input class="adm-input" placeholder="Label (EN)" [(ngModel)]="f.label.en" />
+                <input class="adm-input" placeholder="Valor" [(ngModel)]="f.value" />
+                <button type="button" class="adm-btn adm-btn--ghost" (click)="removeFact(s, i)">✕</button>
+              </div>
+            }
+            <button type="button" class="adm-btn adm-btn--ghost" (click)="addFact(s)">+ Añadir dato</button>
+          </div>
+        </div>
+      </details>
+    }
+    <div class="cms-save-bar"><button type="button" class="adm-btn" [disabled]="saving()" (click)="save()">{{ saving() ? 'Guardando…' : 'Guardar etapas' }}</button></div>
+  </div>
+}
