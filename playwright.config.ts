@@ -12,8 +12,10 @@ if (existsSync('.env.local')) {
 
 /**
  * Playwright smoke config. Serves the prerendered build (run `npm run build` first).
- * Chromium only (headless shell installed in CI).
+ * Chromium by default; add WebKit with PW_WEBKIT=1 (second-engine cross-browser pass) once
+ * `npx playwright install webkit` has run. CI keeps Chromium-only for speed.
  */
+const withWebkit = process.env.PW_WEBKIT === '1';
 export default defineConfig({
   testDir: './e2e',
   timeout: 30_000,
@@ -31,5 +33,11 @@ export default defineConfig({
     reuseExistingServer: true,
     timeout: 60_000,
   },
-  projects: [{ name: 'chromium', use: { ...devices['Desktop Chrome'] } }],
+  projects: [
+    { name: 'chromium', use: { ...devices['Desktop Chrome'] } },
+    // WebKit covers the PUBLIC site (cross-engine rendering/layout). The admin CMS is Chromium-only: it's a
+    // private single-browser tool, its logic is engine-agnostic, and running its DB mutations on two engines
+    // against the shared dev database would race. Evidence capture is Chromium-only too.
+    ...(withWebkit ? [{ name: 'webkit', use: { ...devices['Desktop Safari'] }, testIgnore: [/admin-cms\.spec\.ts/, /evidence\.spec\.ts/] }] : []),
+  ],
 });

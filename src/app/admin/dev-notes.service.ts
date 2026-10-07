@@ -1,4 +1,5 @@
 import { Injectable, PLATFORM_ID, inject } from '@angular/core';
+import { environment } from '@env';
 import { getSupabase } from './admin.supabase';
 
 export type NoteStatus = 'open' | 'done';
@@ -27,6 +28,7 @@ export type DevNoteInput = Pick<DevNote, 'title' | 'body' | 'status' | 'priority
 export class DevNotesService {
   private sb = getSupabase(inject(PLATFORM_ID));
   private get db() { if (!this.sb) throw new Error('offline'); return this.sb; }
+  private lastToken = '';
 
   async list(): Promise<DevNote[]> {
     if (!this.sb) return [];
@@ -44,6 +46,8 @@ export class DevNotesService {
   /** Conflict-aware update: only writes if updated_at still matches what the editor loaded. Returns the
    *  new updated_at on success, or the server row (conflict) when someone else changed it meanwhile. */
   async save(id: string, patch: Partial<DevNote>, loadedUpdatedAt: string): Promise<{ ok: true; updated_at: string } | { ok: false; server: DevNote }> {
+    // cache the admin JWT so an unload-save (which can't await getSession) can still authenticate
+    try { this.lastToken = (await this.db.auth.getSession()).data.session?.access_token ?? this.lastToken; } catch { /* ignore */ }
     const { data, error } = await this.db.from('dev_notes').update(patch).eq('id', id).eq('updated_at', loadedUpdatedAt).select().single();
     if (!error && data) return { ok: true, updated_at: (data as DevNote).updated_at };
     // 0 rows (conflict) or error → fetch the current server copy
@@ -59,6 +63,30 @@ export class DevNotesService {
   async remove(id: string): Promise<void> {
     const { error } = await this.db.from('dev_notes').delete().eq('id', id);
     if (error) throw new Error(error.message);
+  }
+
+  /**
+   * Fire-and-forget save that survives page unload (`fetch` with `keepalive`). Writes directly to
+   * PostgREST with the cached admin JWT so RLS still applies — a simpler, lower-surface replacement for a
+   * dedicated unload beacon function. Best-effort; the localStorage draft remains the guaranteed backup.
+   */
+  unloadSave(id: string, patch: Partial<DevNote>): void {
+    if (!this.lastToken || typeof fetch === 'undefined') return;
+    const url = `${environment.supabaseUrl.replace(/\/$/, '')}/rest/v1/dev_notes?id=eq.${encodeURIComponent(id)}`;
+    try {
+      void fetch(url, {
+        method: 'PATCH',
+        keepalive: true,
+        headers: {
+          apikey: environment.supabaseAnonKey,
+          Authorization: `Bearer ${this.lastToken}`,
+          'Content-Type': 'application/json',
+          'Content-Profile': 'web',
+          Prefer: 'return=minimal',
+        },
+        body: JSON.stringify(patch),
+      });
+    } catch { /* best effort */ }
   }
 
   async saveVersion(noteId: string, title: string, body: string): Promise<void> {

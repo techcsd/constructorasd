@@ -28,6 +28,8 @@ export class NoticiaEditor {
   readonly saving = signal(false);
   readonly error = signal<string | null>(null);
   private slugEdited = false;
+  private originalSlug = '';
+  private originalPublished = false;
 
   constructor() { this.load(); }
   async load(): Promise<void> {
@@ -36,6 +38,7 @@ export class NoticiaEditor {
         const row = await this.cms.get<PostRow>('posts', this.id!);
         if (!row) { this.error.set('Noticia no encontrada.'); return; }
         this.p.set({ ...row, published_at: row.published_at?.slice(0, 10) ?? '' }); this.slugEdited = true;
+        this.originalSlug = row.slug; this.originalPublished = !!row.published;
         if (row.cover_media_id) { const m = await this.cms.listMedia(); this.cover.set(m.find((x) => x.id === row.cover_media_id) ?? null); }
       }
     } catch (e) { this.error.set((e as Error).message); } finally { this.loading.set(false); }
@@ -57,7 +60,10 @@ export class NoticiaEditor {
         excerpt_es: p.excerpt_es ?? '', excerpt_en: p.excerpt_en ?? '', body_es: p.body_es ?? '', body_en: p.body_en ?? '',
         cover_media_id: this.cover()?.id ?? null, published_at: p.published_at || null, published: !!p.published,
       };
-      await this.cms.upsert<Editable>('posts', row);
+      const saved = await this.cms.upsert<Editable>('posts', row);
+      if (!this.isNew && this.originalPublished && this.originalSlug && saved.slug && this.originalSlug !== saved.slug) {
+        try { await this.cms.recordSlugRedirect('noticias', this.originalSlug, saved.slug); } catch { /* non-fatal */ }
+      }
       this.router.navigate(['/admin/contenido/noticias']);
     } catch (e) {
       const msg = (e as Error).message;

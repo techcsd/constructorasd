@@ -35,6 +35,7 @@ export class DevNotesPage implements OnDestroy {
   readonly conflict = signal<DevNote | null>(null);
   readonly versions = signal<NoteVersion[]>([]);
   readonly showVersions = signal(false);
+  readonly fullscreen = signal(false);
   readonly templates = Object.keys(TEMPLATES);
 
   // editor fields
@@ -139,9 +140,17 @@ export class DevNotesPage implements OnDestroy {
   onKey(e: KeyboardEvent): void {
     if ((e.ctrlKey || e.metaKey) && e.key === 's') { e.preventDefault(); void this.forceSave(); }
     else if ((e.ctrlKey || e.metaKey) && e.key === 'n' && e.target instanceof HTMLElement && !/INPUT|TEXTAREA/.test(e.target.tagName)) { e.preventDefault(); void this.newNote(); }
+    else if (e.key === 'Escape' && this.fullscreen()) { this.fullscreen.set(false); }
   }
   @HostListener('window:beforeunload')
-  onUnload(): void { this.backupLocal(); }
+  onUnload(): void {
+    this.backupLocal();
+    // flush the latest edit server-side too (survives unload via fetch keepalive)
+    const n = this.selected();
+    if (n && (this.saveState() === 'saving' || this.saveState() === 'error')) this.svc.unloadSave(n.id, this.patch());
+  }
+
+  toggleFullscreen(): void { this.fullscreen.update((v) => !v); }
 
   async forceSave(): Promise<void> {
     const n = this.selected(); if (!n) return;

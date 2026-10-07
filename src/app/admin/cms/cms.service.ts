@@ -69,9 +69,49 @@ export class CmsService {
     await Promise.all(ids.map((id, i) => this.db.from(table).update({ sort_order: i }).eq('id', id)));
   }
 
+  // ── slug redirects (A03b) ──
+  // Localized detail-route bases — MUST match core/i18n/localized-routes.ts (ES ↔ EN segments).
+  private static readonly DETAIL_BASES: Record<string, { es: string; en: string }> = {
+    proyectos: { es: 'proyectos', en: 'projects' },
+    noticias: { es: 'noticias', en: 'news' },
+    vacantes: { es: 'vacantes', en: 'careers' },
+  };
+
+  /**
+   * Record 301-equivalent redirects (both languages) when a PUBLISHED detail slug changes, so the old
+   * URL keeps working. The build (gen-content → gen-redirects) turns web.slug_redirects into static
+   * redirect stubs in the prerendered output. Also repoints existing chains (A→B then B→C ⇒ A→C) and
+   * clears any stale redirect that would shadow the newly-reused slug.
+   */
+  async recordSlugRedirect(entity: 'proyectos' | 'noticias' | 'vacantes', oldSlug: string, newSlug: string): Promise<void> {
+    if (!oldSlug || !newSlug || oldSlug === newSlug) return;
+    const b = CmsService.DETAIL_BASES[entity];
+    const rows = [
+      { from_path: `/${b.es}/${oldSlug}`, to_path: `/${b.es}/${newSlug}` },
+      { from_path: `/en/${b.en}/${oldSlug}`, to_path: `/en/${b.en}/${newSlug}` },
+    ];
+    for (const r of rows) {
+      // repoint any redirect that pointed at the slug we're vacating
+      await this.db.from('slug_redirects').update({ to_path: r.to_path }).eq('to_path', r.from_path);
+    }
+    const { error } = await this.db.from('slug_redirects').upsert(rows, { onConflict: 'from_path' });
+    if (error) throw new Error(error.message);
+    // a live page now owns the new path — it must not be shadowed by an old redirect
+    await this.db.from('slug_redirects').delete().in('from_path', rows.map((r) => r.to_path));
+  }
+
   // ── media ──
   publicUrl(path: string): string {
     return this.db.storage.from('web-media').getPublicUrl(path).data.publicUrl;
+  }
+
+  /** Upload a pasted/inline image to web-media/notes/<uuid>.<ext> (no media row); returns its public URL. */
+  async uploadInline(file: File): Promise<string> {
+    const ext = (file.name.split('.').pop() || 'png').toLowerCase();
+    const path = `notes/${crypto.randomUUID()}.${ext}`;
+    const up = await this.db.storage.from('web-media').upload(path, file, { contentType: file.type, upsert: false });
+    if (up.error) throw new Error(up.error.message);
+    return this.publicUrl(path);
   }
 
   async listMedia(): Promise<MediaRow[]> {

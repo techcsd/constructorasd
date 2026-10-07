@@ -1,4 +1,4 @@
-<div class="dn">
+<div class="dn" [class.dn--fullscreen]="fullscreen()">
   <!-- List -->
   <aside class="dn__list">
     <div class="dn__list-head">
@@ -66,6 +66,7 @@
         <div class="dn__tools">
           <button type="button" class="adm-btn adm-btn--ghost" (click)="forceSave()" title="Ctrl+S">Guardar (Ctrl+S)</button>
           <button type="button" class="adm-btn adm-btn--ghost" (click)="toggleVersions()">Versiones</button>
+          <button type="button" class="adm-btn adm-btn--ghost" (click)="toggleFullscreen()" title="Pantalla completa (Esc para salir)">{{ fullscreen() ? 'Salir' : 'Pantalla completa' }}</button>
           <button type="button" class="adm-btn adm-btn--ghost" (click)="exportMd()">.md</button>
         </div>
       </div>

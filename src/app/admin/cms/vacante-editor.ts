@@ -28,6 +28,8 @@ export class VacanteEditor {
   readonly saving = signal(false);
   readonly error = signal<string | null>(null);
   private slugEdited = false;
+  private originalSlug = '';
+  private originalPublished = false;
 
   constructor() { this.load(); }
   async load(): Promise<void> {
@@ -36,6 +38,7 @@ export class VacanteEditor {
         const row = await this.cms.get<JobRow>('jobs', this.id!);
         if (!row) { this.error.set('Vacante no encontrada.'); return; }
         this.j.set(row); this.slugEdited = true;
+        this.originalSlug = row.slug; this.originalPublished = !!row.published;
         this.reqEs.set((row.requirements_es ?? []).join('\n'));
         this.reqEn.set((row.requirements_en ?? []).join('\n'));
       }
@@ -59,7 +62,10 @@ export class VacanteEditor {
         requirements_es: lines(this.reqEs()), requirements_en: lines(this.reqEn()),
         open: !!j.open, published: !!j.published, published_at: j.published_at || new Date().toISOString().slice(0, 10),
       };
-      await this.cms.upsert<Editable>('jobs', row);
+      const saved = await this.cms.upsert<Editable>('jobs', row);
+      if (!this.isNew && this.originalPublished && this.originalSlug && saved.slug && this.originalSlug !== saved.slug) {
+        try { await this.cms.recordSlugRedirect('vacantes', this.originalSlug, saved.slug); } catch { /* non-fatal */ }
+      }
       this.router.navigate(['/admin/contenido/vacantes']);
     } catch (e) {
       const msg = (e as Error).message;

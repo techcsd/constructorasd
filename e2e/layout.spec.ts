@@ -6,7 +6,7 @@ for (const width of [390, 768, 1440]) {
   test(`no horizontal scroll @${width} (WE4)`, async ({ page }) => {
     await page.setViewportSize({ width, height: 900 });
     for (const route of ROUTES) {
-      await page.goto(route, { waitUntil: 'networkidle' });
+      await page.goto(route, { waitUntil: 'load' });
       const overflow = await page.evaluate(
         () => document.documentElement.scrollWidth - document.documentElement.clientWidth,
       );
@@ -18,7 +18,7 @@ for (const width of [390, 768, 1440]) {
 // WE1 — the philosophy quote spans a real measure, not one word per line (≥ 50% of its container).
 test('quote text fills ≥ 50% of the container on desktop (WE1)', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
-  await page.goto('/', { waitUntil: 'networkidle' });
+  await page.goto('/', { waitUntil: 'load' });
   const text = page.locator('.app-quote__text').first();
   await text.scrollIntoViewIfNeeded();
   const t = await text.boundingBox();
@@ -28,7 +28,7 @@ test('quote text fills ≥ 50% of the container on desktop (WE1)', async ({ page
 
 // WE2 — navigating to a project detail must not leave the hero title invisible (reveal regression).
 test('project detail H1 is visible immediately after navigation (WE2)', async ({ page }) => {
-  await page.goto('/proyectos', { waitUntil: 'networkidle' });
+  await page.goto('/proyectos', { waitUntil: 'load' });
   await page.locator('.app-project-card a, a.app-project-card').first().click();
   await page.waitForURL(/\/proyectos\/.+/);
   const h1 = page.locator('h1').first();
@@ -39,7 +39,7 @@ test('project detail H1 is visible immediately after navigation (WE2)', async ({
 
 // WE12 — a project whose location is the neutral country placeholder hides it from the card meta.
 test('placeholder location is omitted from project cards (WE12)', async ({ page }) => {
-  await page.goto('/proyectos', { waitUntil: 'networkidle' });
+  await page.goto('/proyectos', { waitUntil: 'load' });
   const metas = await page.locator('.app-project-card__meta').allInnerTexts();
   expect(metas.some((m) => /República Dominicana|Dominican Republic/.test(m))).toBe(false);
 });
