@@ -4,6 +4,7 @@
     <p class="cms-sub small">{{ rows().length }} proyecto(s) · arrastra para reordenar</p>
   </div>
   <div class="cms-head__actions">
+    <a class="adm-btn adm-btn--ghost" href="/proyectos?preview=1" target="_blank" rel="noopener">Ver borrador</a>
     <button type="button" class="adm-btn adm-btn--ghost" (click)="toggleTrash()">
       {{ showTrash() ? 'Ocultar papelera' : 'Papelera' }}
     </button>

@@ -48,6 +48,11 @@ export class ImageFigure {
   readonly sizes = input<string>('(min-width: 1024px) 50vw, 100vw');
 
   readonly entry = computed<ImageEntry | undefined>(() => MANIFEST[this.image()]);
+  // Draft preview (WJ5): a Storage URL isn't in the optimized manifest — render it directly as-is.
+  readonly directUrl = computed(() => {
+    const i = this.image();
+    return !MANIFEST[i] && (i.startsWith('http') || i.startsWith('/storage')) ? i : null;
+  });
 
   // Blur-up state (WE5). SSR / no-JS: the <img> is fully visible (armed stays false). In the browser we
   // "arm" the figure so the real image starts transparent over the LQIP, then fades in (≤250 ms) the

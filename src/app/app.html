@@ -6,6 +6,14 @@
   <app-header />
 }
 
+@if (preview.enabled()) {
+  <div class="preview-banner" role="status">
+    Vista previa de borrador — así se verá al publicar (no indexado).
+    @if (preview.loading()) { <span>· cargando…</span> }
+    <a href="/proyectos">Salir de la vista previa</a>
+  </div>
+}
+
 <main id="main" tabindex="-1">
   <router-outlet />
 </main>

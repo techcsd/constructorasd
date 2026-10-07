@@ -63,4 +63,29 @@ test.describe('admin CMS', () => {
     await login(page);
     await expect(page.locator('.pb__txt')).toContainText(/publicad|cambios|Comprobando/i);
   });
+
+  test('draft preview shows an unpublished project that the public list hides (WJ5)', async ({ page }) => {
+    await login(page);
+    const name = 'QA preview ' + Date.now().toString(36);
+    await page.goto('/admin/contenido/proyectos/editar', { waitUntil: 'networkidle' });
+    await page.locator('input').first().fill(name);
+    await page.locator('select').first().selectOption('industrial');
+    await page.locator('select').nth(1).selectOption('ejecutado');
+    await page.locator('textarea').nth(0).fill('Borrador.');
+    await page.locator('textarea').nth(1).fill('Draft.');
+    await page.getByRole('button', { name: /Guardar proyecto/ }).click(); // published OFF by default
+    await page.waitForURL('**/admin/contenido/proyectos');
+
+    // public list (static, published only) hides it; preview (admin session) shows it
+    await page.goto('/proyectos', { waitUntil: 'networkidle' });
+    await expect(page.locator('.app-project-card', { hasText: name })).toHaveCount(0);
+    await page.goto('/proyectos?preview=1', { waitUntil: 'networkidle' });
+    await expect(page.locator('.preview-banner')).toBeVisible();
+    await expect(page.locator('.app-project-card', { hasText: name })).toHaveCount(1, { timeout: 15000 });
+
+    // cleanup → trash
+    page.on('dialog', (d) => d.accept());
+    await page.goto('/admin/contenido/proyectos', { waitUntil: 'networkidle' });
+    await page.locator('.cms-row', { hasText: name }).getByRole('button', { name: 'Eliminar' }).click();
+  });
 });

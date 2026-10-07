@@ -13,6 +13,7 @@ import { Gallery, GalleryImage } from '../../ui/gallery/gallery';
 import { Button } from '../../ui/button/button';
 import { Icon } from '../../ui/icon/icon';
 import { RevealDirective } from '../../core/reveal.directive';
+import { PreviewService } from '../../core/preview.service';
 import { TPipe } from '../../core/i18n/t.pipe';
 
 @Component({
@@ -27,11 +28,13 @@ export class ProyectoDetalle {
   private route = inject(ActivatedRoute);
   private i18n = inject(I18nService);
   private seo = inject(SeoService);
+  private preview = inject(PreviewService);
   private pick = <T>(f: { es: T; en: T } | undefined) => this.i18n.pick(f);
 
   readonly slug = this.route.snapshot.paramMap.get('slug') ?? '';
-  private sorted = [...PROJECTS].sort((a, b) => a.order - b.order);
-  readonly project = computed(() => PROJECTS.find((p) => p.slug === this.slug));
+  private source = () => this.preview.projects() ?? PROJECTS; // drafts in preview, static otherwise
+  private sorted = computed(() => [...this.source()].sort((a, b) => a.order - b.order));
+  readonly project = computed(() => this.source().find((p) => p.slug === this.slug));
 
   readonly name = computed(() => this.project()?.name ?? '');
   readonly client = computed(() => this.project()?.client ?? '');
@@ -70,13 +73,14 @@ export class ProyectoDetalle {
 
   readonly proyectosPath = computed(() => pathFor('proyectos', this.i18n.locale()) ?? '/proyectos');
   readonly nav = computed(() => {
-    const idx = this.sorted.findIndex((p) => p.slug === this.slug);
+    const sorted = this.sorted();
+    const idx = sorted.findIndex((p) => p.slug === this.slug);
     if (idx < 0) return { prev: null, next: null };
     const mk = (p: (typeof PROJECTS)[number] | undefined) =>
       p ? { name: p.name, href: detailPathFor('proyecto', p.slug, this.i18n.locale())! } : null;
     return {
-      prev: mk(this.sorted[idx - 1]),
-      next: mk(this.sorted[idx + 1]),
+      prev: mk(sorted[idx - 1]),
+      next: mk(sorted[idx + 1]),
     };
   });
 

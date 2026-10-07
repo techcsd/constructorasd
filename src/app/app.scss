@@ -6,3 +6,22 @@
 main {
   flex: 1 0 auto;
 }
+
+// Draft preview banner (WJ5)
+.preview-banner {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-2) var(--pad-inline);
+  background: var(--accent);
+  color: var(--text-on-accent);
+  font-size: var(--fs-small);
+}
+.preview-banner a {
+  color: inherit;
+  text-decoration: underline;
+  margin-left: auto;
+}

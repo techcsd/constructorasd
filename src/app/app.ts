@@ -12,6 +12,7 @@ import { environment } from '@env';
 import { I18nService } from './core/i18n/i18n.service';
 import { resolveUrl } from './core/i18n/localized-routes';
 import { SeoService } from './core/seo/seo.service';
+import { PreviewService } from './core/preview.service';
 import { TPipe } from './core/i18n/t.pipe';
 import { Header } from './ui/header/header';
 import { Footer } from './ui/footer/footer';
@@ -30,6 +31,7 @@ export class App {
   private i18n = inject(I18nService);
   private seo = inject(SeoService);
   private doc = inject<Document>(DOCUMENT);
+  readonly preview = inject(PreviewService);
 
   readonly isDev = environment.envName !== 'prod';
   // The private /admin area has its own full-screen chrome — hide the public header/footer/FAB there.
@@ -62,6 +64,14 @@ export class App {
       }
       this.installErrorReporter();
       this.applyAppearance();
+      // Draft preview (WJ5) — only activates with ?preview=1 + an admin session; noindex when active.
+      this.preview.init();
+      if (this.preview.enabled()) this.doc.querySelector('meta[name=robots]')?.remove();
+      if (this.preview.enabled()) {
+        const m = this.doc.createElement('meta');
+        m.name = 'robots'; m.content = 'noindex, nofollow';
+        this.doc.head.appendChild(m);
+      }
     });
   }
 
