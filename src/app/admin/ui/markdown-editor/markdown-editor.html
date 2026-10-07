@@ -9,9 +9,9 @@
   </div>
   <div class="md__panes" [attr.data-mode]="mode()">
     @if (mode()!=='preview') {
-      <textarea class="md__ta" spellcheck="false" [value]="value()"
-        (input)="onInput($any($event.target).value)" (keydown)="onKeydown($event)"
-        placeholder="Escribe en markdown…"></textarea>
+      <textarea #ta class="md__ta" spellcheck="false" [value]="value()"
+        (input)="onInput($any($event.target).value)" (keydown)="onKeydown($event)" (paste)="onPaste($event)"
+        placeholder="Escribe en markdown… (pega una imagen para subirla)"></textarea>
     }
     @if (mode()!=='edit') {
       <div #preview class="md__preview" [innerHTML]="html()"></div>

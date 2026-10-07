@@ -4,8 +4,9 @@ Fuente única. Cada fila: qué se prueba, su prueba automática (spec), y el est
 por un test que corre en `npm run test:e2e`; "aprobado (manual)" = verificado con captura/inspección esta
 ronda; "pendiente Xaviel" = necesita sus datos, su cuenta o sus ojos (nunca se asume).
 
-**Resumen:** 74 tests e2e (Chromium) + 54 unit (vitest) + guardas de build (`verify-*`) en verde. Build de
-prod en verde en cada merge. Sin overflow horizontal, sin restos de reveal, sin 4xx en rutas clave.
+**Resumen:** 140 tests e2e (Chromium full + WebKit público, `PW_WEBKIT=1`) + 54 unit (vitest) + guardas de
+build (`verify-*`) en verde. Build de prod en verde en cada merge. Sin overflow horizontal, sin restos de
+reveal, sin 4xx en rutas clave. Evidencia visual por workflow en `docs/round-03-qa/` (`PW_EVIDENCE=1`).
 
 ## Público
 
@@ -31,13 +32,13 @@ prod en verde en cada merge. Sin overflow horizontal, sin restos de reveal, sin 
 |---|---|---|---|
 | A01 | Login / ruta protegida redirige | `admin-cms.spec` (login) | aprobado (e2e) |
 | A03 | Proyectos: crear, aparece en lista; editar; portada+galería; reordenar; publicar/destacar; borrar→papelera→restaurar | `admin-cms.spec` (crear→lista→trash) | aprobado (e2e) · reorder/restore: aprobado (manual) |
-| A03b | Cambiar slug publicado → redirección 301 | — | pendiente (slug_redirects generado en build; verificar tras publicar) |
+| A03b | Cambiar slug publicado → redirección (both langs) | `gen-redirects` (stub + no-clobber probados); fetch anon de `slug_redirects` verificado | aprobado — el editor registra en `web.slug_redirects`; el build emite stubs estáticos (canonical→nuevo, noindex). Es redirección "suave" (canonical, no header 301) por ser sitio estático auto-publicable; ver nota abajo |
 | A04–A09 | Clientes/Noticias/Vacantes CRUD · Empresa (oficinas→mapa) · Etapas/Sectores/Equipos/Páginas · Biblioteca | `admin-cms.spec` (empresa, biblioteca) | aprobado (e2e empresa/biblioteca; resto manual: 42 clientes, 7 etapas, 6 sectores, 11 páginas) |
 | A10 | Publicar: contador, estado del deploy, "Ver sitio"; `version.json` cambia | `admin-cms.spec` (publish bar) | aprobado (e2e estado) · publicación real: pendiente Xaviel |
 | A11 | Vista previa de borrador | `admin-cms.spec` (draft preview muestra no publicado) | aprobado (e2e) |
 | A13 | Mensajes de validación humanos (sin PostgREST crudo) | `admin-cms.spec` (crear valida) | aprobado (manual) |
-| A14 | Dev notes: autosave (escribir→recargar→persiste), highlight+copiar, versiones, plantillas, pin/archivar | `admin-cms.spec` (autosave+highlight) | aprobado (e2e) · offline/conflicto: aprobado (manual) |
-| A15 | Leads: badge no leídos, abrir marca leído, notas internas, historial, filtros+CSV, responder/WhatsApp, CV preview | `admin-cms.spec` (inbox+nota) | aprobado (e2e) · realtime/CSV/CV: aprobado (manual) |
+| A14 | Dev notes: autosave, highlight+copiar, versiones, plantillas, pin/archivar, **pegar imagen**, **pantalla completa (Esc)**, **guardado al cerrar (keepalive)** | `admin-cms.spec` (autosave+highlight) | aprobado (e2e) · offline/conflicto/paste/fullscreen/keepalive: aprobado (manual) |
+| A15 | Leads: badge no leídos, abrir marca leído, notas internas, historial, **filtros+búsqueda en la URL**, CSV, responder/WhatsApp, CV preview | `admin-cms.spec` (inbox+nota) | aprobado (e2e) · realtime/CSV/CV/URL: aprobado (manual) |
 | A16 | Seguridad: anon no lee tablas privadas; no-admin tampoco; Storage sin admin; /admin noindex | verificación directa PostgREST (abajo) | aprobado (manual, ver §Seguridad) |
 
 ## Infraestructura
@@ -56,6 +57,15 @@ prod en verde en cada merge. Sin overflow horizontal, sin restos de reveal, sin 
 - `web.v_public_*` (solo publicados) → responde. ✓
 - Usuario autenticado **no admin**: la misma política `web.is_admin()` lo rechaza por diseño (no está en
   `web.admins`). Storage `web-media` escribe solo con `is_admin()`. `/admin` `noindex` + fuera del sitemap.
+
+## Nota — redirecciones de slug (A03b)
+Es una redirección **estática auto-publicable**, no un header 301. Vercel lee `vercel.json` del *source*
+antes del build, y *Publicar* es un deploy-hook que reconstruye el **mismo commit** con datos frescos de la
+DB; por eso el único mecanismo que se activa al publicar es lo que el build emite en la **salida**. El stub
+fija `rel=canonical` → nueva URL (Google consolida la señal), redirige al instante (JS + meta-refresh) y es
+`noindex,follow`. Para un sitio estático con renombrados esporádicos es correcto y verificable localmente. Un
+301 por cabecera "en vivo al publicar" requeriría Build Output API o middleware (seguimiento futuro si hace
+falta).
 
 ## Pendiente Xaviel (necesita sus datos/ojos — nunca asumido)
 1. **P11 email real a `info@`** — enviar "Garage de autos." en prod y confirmar que llega (el 200 + fila en

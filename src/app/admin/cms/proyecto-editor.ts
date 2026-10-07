@@ -39,6 +39,8 @@ export class ProyectoEditor {
   readonly error = signal<string | null>(null);
   readonly slugEdited = signal(false);
   private initial = '';
+  private originalSlug = '';
+  private originalPublished = false;
 
   readonly dirty = computed(() => JSON.stringify(this.snapshot()) !== this.initial);
 
@@ -55,6 +57,8 @@ export class ProyectoEditor {
         if (!row) { this.error.set('Proyecto no encontrado.'); return; }
         this.p.set(row);
         this.slugEdited.set(true);
+        this.originalSlug = row.slug;
+        this.originalPublished = !!row.published;
         const media = await this.cms.listMedia();
         const byId = Object.fromEntries(media.map((m) => [m.id, m]));
         if (row.cover_media_id) this.cover.set(byId[row.cover_media_id] ?? null);
@@ -124,6 +128,12 @@ export class ProyectoEditor {
       };
       const saved = await this.cms.upsert<Editable>('projects', row);
       await this.cms.setGallery(saved.id!, this.gallery().map((g) => ({ media_id: g.media.id, caption_es: g.caption_es, caption_en: g.caption_en })));
+      // A published project that changed slug keeps its old URL alive (301 stub, both languages).
+      if (!this.isNew && this.originalPublished && this.originalSlug && saved.slug && this.originalSlug !== saved.slug) {
+        try { await this.cms.recordSlugRedirect('proyectos', this.originalSlug, saved.slug); } catch { /* non-fatal */ }
+      }
+      this.originalSlug = saved.slug ?? this.originalSlug;
+      this.originalPublished = !!row.published;
       this.initial = JSON.stringify(this.snapshot());
       this.router.navigate(['/admin/contenido/proyectos']);
     } catch (e) {

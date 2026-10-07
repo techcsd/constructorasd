@@ -1,4 +1,5 @@
-import { ChangeDetectionStrategy, Component, ElementRef, afterRenderEffect, computed, input, output, signal, viewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, afterRenderEffect, computed, inject, input, output, signal, viewChild } from '@angular/core';
+import { CmsService } from '../../cms/cms.service';
 import { marked } from 'marked';
 import DOMPurify from 'dompurify';
 import hljs from 'highlight.js/lib/core';
@@ -31,10 +32,12 @@ marked.setOptions({ gfm: true, breaks: true });
   styleUrl: './markdown-editor.scss',
 })
 export class MarkdownEditor {
+  private cms = inject(CmsService);
   readonly value = input('');
   readonly valueChange = output<string>();
   readonly mode = signal<'split' | 'edit' | 'preview'>('split');
   private previewEl = viewChild<ElementRef<HTMLElement>>('preview');
+  private taEl = viewChild<ElementRef<HTMLTextAreaElement>>('ta');
 
   readonly html = computed(() => DOMPurify.sanitize(marked.parse(this.value() || '', { async: false }) as string));
   readonly chars = computed(() => this.value().length);
@@ -63,6 +66,33 @@ export class MarkdownEditor {
   }
 
   onInput(v: string): void { this.valueChange.emit(v); }
+
+  /** Paste an image from the clipboard → upload to web-media/notes and insert a markdown link. */
+  async onPaste(e: ClipboardEvent): Promise<void> {
+    const items = e.clipboardData?.items;
+    if (!items) return;
+    const entry = Array.from(items).find((it) => it.kind === 'file' && it.type.startsWith('image/'));
+    const file = entry?.getAsFile();
+    if (!file) return;
+    e.preventDefault();
+    const marker = `![subiendo imagen…](#${crypto.randomUUID()})`;
+    const ta = this.taEl()?.nativeElement;
+    const pos = ta ? ta.selectionStart : this.value().length;
+    const v = this.value();
+    this.valueChange.emit(v.slice(0, pos) + marker + v.slice(pos));
+    try {
+      const url = await this.cms.uploadInline(file);
+      this.replaceMarker(marker, `![imagen](${url})`);
+    } catch (err) {
+      this.replaceMarker(marker, `*(no se pudo subir la imagen: ${(err as Error).message})*`);
+    }
+  }
+  private replaceMarker(marker: string, repl: string): void {
+    const v = this.value();
+    const i = v.indexOf(marker);
+    if (i < 0) return;
+    this.valueChange.emit(v.slice(0, i) + repl + v.slice(i + marker.length));
+  }
 
   onKeydown(e: KeyboardEvent): void {
     const ta = e.target as HTMLTextAreaElement;

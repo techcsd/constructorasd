@@ -136,6 +136,18 @@ async function main() {
     console.log(`[gen-content] ⚠ CMS fetch failed (${e.message}) — collections fall back to TS seeds.`);
   }
 
+  // 3) slug redirects (A03b) → separate generated file consumed by the postbuild gen-redirects.mjs
+  const REDIR_OUT = join(ROOT, 'src', 'content', '_redirects.generated.json');
+  try {
+    const reds = await fetchJson(url, anon, 'slug_redirects?select=from_path,to_path');
+    writeFileSync(REDIR_OUT, JSON.stringify(reds) + '\n');
+    console.log(`[gen-content] ✓ redirects: ${reds.length}`);
+  } catch (e) {
+    if (strict) { console.error(`[gen-content] ✗ STRICT redirects (prod): ${e.message}`); process.exit(1); }
+    writeFileSync(REDIR_OUT, '[]\n');
+    console.log(`[gen-content] ⚠ redirects: ${e.message} — none.`);
+  }
+
   writeFileSync(OUT, JSON.stringify(out) + '\n');
 }
 

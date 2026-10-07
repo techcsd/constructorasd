@@ -1,5 +1,7 @@
-import { ChangeDetectionStrategy, Component, OnDestroy, computed, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy, PLATFORM_ID, computed, effect, inject, signal } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
 import { DomSanitizer, SafeResourceUrl, Title } from '@angular/platform-browser';
 import { Application, AppStatus, Lead, LeadStatus, LeadsAdminService, InboxNote, StatusChange } from '../leads.service';
 
@@ -15,6 +17,9 @@ export class LeadsPage implements OnDestroy {
   private svc = inject(LeadsAdminService);
   private title = inject(Title);
   private sanitizer = inject(DomSanitizer);
+  private router = inject(Router);
+  private route = inject(ActivatedRoute);
+  private isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
 
   readonly tab = signal<'mensajes' | 'postulaciones'>('mensajes');
   readonly leads = signal<Lead[]>([]);
@@ -57,7 +62,27 @@ export class LeadsPage implements OnDestroy {
   readonly openLead = computed(() => this.leads().find((l) => l.id === this.openId()) ?? null);
   readonly openApp = computed(() => this.apps().find((a) => a.id === this.openId()) ?? null);
 
-  constructor() { void this.load(); }
+  constructor() {
+    // Seed filters from the URL so a filtered view is shareable/bookmarkable…
+    const qp = this.route.snapshot.queryParamMap;
+    if (qp.get('tab') === 'postulaciones') this.tab.set('postulaciones');
+    this.fStatus.set(qp.get('status') ?? '');
+    this.fType.set(qp.get('type') ?? '');
+    this.fLocale.set(qp.get('locale') ?? '');
+    this.fQuery.set(qp.get('q') ?? '');
+    // …and mirror any change back to the URL (replace, no history spam). Browser-only (not during prerender).
+    effect(() => {
+      const params = {
+        tab: this.tab() === 'mensajes' ? null : this.tab(),
+        status: this.fStatus() || null,
+        type: this.fType() || null,
+        locale: this.fLocale() || null,
+        q: this.fQuery() || null,
+      };
+      if (this.isBrowser) void this.router.navigate([], { relativeTo: this.route, queryParams: params, replaceUrl: true });
+    });
+    void this.load();
+  }
   ngOnDestroy(): void { this.unsub(); }
 
   async load(): Promise<void> {

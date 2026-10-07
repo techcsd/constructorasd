@@ -60,3 +60,10 @@ scratchpad-serve.log
 
 # build-stamped version marker (admin publish-bar deploy detection)
 public/version.json
+
+# generated at build (DB-driven redirect map)
+src/content/_redirects.generated.json
+
+# session scratch + regenerable QA evidence (PW_EVIDENCE=1)
+scratchpad/
+docs/round-03-qa/

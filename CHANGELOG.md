@@ -3,6 +3,34 @@
 All notable changes to this project. Versioning is simple (CLAUDE.md / WB9): a `CHANGELOG.md` entry plus a
 `package.json` bump per release. Not tracked in `sgc.app_versiones`.
 
+## 2.0.1 — cierre de brechas de la ronda (2026-10-07)
+
+Cierre honesto de los sub-ítems que habían quedado fuera de la v2.0.0:
+
+- **Redirecciones 301 al cambiar un slug publicado (A03b).** Al renombrar el slug de un proyecto / noticia /
+  vacante **publicado**, el editor registra la URL vieja en `web.slug_redirects` (ambos idiomas, con
+  re-encadenado A→B→C y sin sombrear un slug reutilizado). El build genera stubs estáticos de redirección
+  (`canonical` → nueva URL, redirección instantánea, `noindex,follow`) en la salida prerenderizada vía el
+  nuevo `scripts/gen-redirects.mjs` (postbuild) alimentado por `gen-content` → `_redirects.generated.json`.
+  Mecanismo puro-estático: funciona en cada *Publicar* (el rebuild del deploy-hook los regenera desde la DB)
+  sin depender de `vercel.json`, que Vercel lee del *source* antes del build. Nunca pisa una página real.
+- **Pegar imágenes en el editor markdown** (dev notes): al pegar una imagen se sube a `web-media/notes/` y se
+  inserta `![imagen](url)` (marcador "subiendo…" mientras tanto).
+- **Guardado al cerrar la pestaña** (dev notes): además del respaldo en localStorage, se envía la última
+  edición con `fetch` + `keepalive` (reemplaza con menor superficie a la función beacon planificada; respeta
+  RLS con el JWT de admin en caché).
+- **Pantalla completa** en el editor de notas (botón + `Esc`).
+- **Filtros de la bandeja (leads) en la URL** — vista filtrada compartible/marcable.
+- **E2E en segundo motor (WebKit)** para el sitio público, además de Chromium: `PW_WEBKIT=1`. El panel admin
+  queda en Chromium (herramienta privada de un solo navegador; mutaría en carrera la DB dev si corriera en
+  dos motores). Specs de ruta-no-interactiva migradas de `networkidle` → `load` (networkidle cuelga bajo
+  WebKit/Windows); guard de *reveal* ahora sondea hasta opacidad estable (determinista entre motores).
+- **Evidencia visual** por workflow en `docs/round-03-qa/` (12 rutas × móvil/escritorio) vía
+  `PW_EVIDENCE=1` (`e2e/evidence.spec.ts`).
+
+Verificado: `npm run build` verde (67 rutas, gen-redirects OK, sin-clobber probado), 54 unit + 140 e2e
+(Chromium full + WebKit público) en verde. Sigue pendiente de Xaviel: Lighthouse en preview.
+
 ## 2.0.0 — round 06-oct: admin CMS + dev notes v2 + leads v2 + QA total (WH5/WJ9) (2026-10-07)
 
 Culminación de la ronda. Matriz de workflows en docs/QA-WORKFLOWS.md: 74 e2e + 54 unit + guardas de build
