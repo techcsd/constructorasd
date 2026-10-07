@@ -83,7 +83,7 @@
     <div class="cms-field">
       <label>Portada</label>
       @if (coverUrl(); as url) {
-        <div class="cms-cover"><img [src]="url" alt="" loading="lazy" decoding="async" images-allow /><button type="button" class="adm-btn adm-btn--ghost" (click)="cover.set(null)">Quitar portada</button></div>
+        <div class="cms-cover"><app-admin-thumb [src]="url" /><button type="button" class="adm-btn adm-btn--ghost" (click)="cover.set(null)">Quitar portada</button></div>
       }
       <app-media-uploader [label]="coverUrl() ? 'Reemplazar portada' : 'Subir portada'" (uploaded)="onCoverUploaded($event)" />
     </div>
@@ -95,7 +95,7 @@
         @for (g of gallery(); track g.media.id; let i = $index) {
           <div class="cms-gitem" cdkDrag>
             <button type="button" class="cms-row__grip" cdkDragHandle aria-label="Reordenar">⋮⋮</button>
-            <img [src]="galleryUrl(g.media)" alt="" loading="lazy" decoding="async" images-allow />
+            <app-admin-thumb [src]="galleryUrl(g.media)" />
             <div class="cms-gitem__actions">
               <button type="button" class="adm-btn adm-btn--ghost" (click)="makeCover(i)">Portada</button>
               <button type="button" class="adm-btn adm-btn--ghost" (click)="removeGallery(i)">Quitar</button>

@@ -16,7 +16,7 @@
       <div class="cms-row" cdkDrag [cdkDragDisabled]="!!query()">
         <button type="button" class="cms-row__grip" cdkDragHandle aria-label="Reordenar">⋮⋮</button>
         <div class="cms-row__thumb">
-          @if (logo(c); as url) { <img [src]="url" alt="" loading="lazy" decoding="async" images-allow /> } @else { <span class="cms-row__noimg">—</span> }
+          <app-admin-thumb [src]="logo(c)" fit="contain" />
         </div>
         <div class="cms-row__main">
           <a class="cms-row__name" [routerLink]="'/admin/contenido/clientes/editar'" [queryParams]="{ id: c.id }">{{ c.name }}</a>

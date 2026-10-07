@@ -28,7 +28,7 @@
     </div>
     <div class="cms-field">
       <label>Portada (opcional)</label>
-      @if (coverUrl(); as url) { <div class="cms-cover"><img [src]="url" alt="" loading="lazy" decoding="async" images-allow /><button type="button" class="adm-btn adm-btn--ghost" (click)="cover.set(null)">Quitar</button></div> }
+      @if (coverUrl(); as url) { <div class="cms-cover"><app-admin-thumb [src]="url" /><button type="button" class="adm-btn adm-btn--ghost" (click)="cover.set(null)">Quitar</button></div> }
       <app-media-uploader [label]="coverUrl() ? 'Reemplazar portada' : 'Subir portada'" (uploaded)="onCover($event)" />
     </div>
     <label class="cms-check"><input type="checkbox" [checked]="!!p().published" (change)="set('published', $any($event.target).checked)" /> Publicado</label>

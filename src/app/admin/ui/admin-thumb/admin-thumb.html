@@ -1,0 +1,9 @@
+@if (src(); as s) {
+  <img [src]="s" [alt]="alt()" [style.object-fit]="fit()" [class.is-ready]="state() === 'ready'"
+    loading="lazy" decoding="async" images-allow
+    (load)="state.set('ready')" (error)="state.set('error')" />
+  @if (state() === 'loading') { <span class="athumb__sk" aria-hidden="true"></span> }
+  @if (state() === 'error') { <span class="athumb__none" aria-hidden="true">—</span> }
+} @else {
+  <span class="athumb__none" aria-hidden="true">—</span>
+}
