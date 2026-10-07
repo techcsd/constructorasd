@@ -211,16 +211,32 @@ export class CmsService {
     } catch { return null; }
   }
 
-  /** Count of unpublished changes vs last publish (max updated_at across content tables vs site_state). */
+  /**
+   * Is any content newer than what's live? The "published watermark" is the LATER of the live build time
+   * (`version.json` builtAt — refreshed by ANY deploy, git push or admin Publicar) and the last admin
+   * publish stamp (set the instant you click, before the rebuild finishes). This auto-clears after any
+   * deploy, so it never gets stuck on "cambios sin publicar" just because a deploy went out via git.
+   * Timestamps are parsed (not string-compared): Postgres returns `…+00:00`, JS emits `…Z`.
+   */
   async unpublishedChanges(): Promise<boolean> {
+    const ms = (s: string | null | undefined): number | null => { const t = s ? Date.parse(s) : NaN; return Number.isNaN(t) ? null : t; };
+    let builtAt: string | null = null;
+    try {
+      const r = await fetch('/version.json?ts=' + Date.now(), { cache: 'no-store' });
+      if (r.ok) builtAt = (await r.json()).builtAt ?? null;
+    } catch { /* ignore */ }
     const { data } = await this.db.from('site_state').select('value').eq('key', 'last_published_at').maybeSingle();
-    const last = (data?.value as string | null) ?? null;
+    const stamp = (data?.value as string | null) ?? null;
+    const watermark = Math.max(ms(builtAt) ?? 0, ms(stamp) ?? 0);
     const tables = ['projects', 'clients', 'posts', 'jobs', 'media', 'site_content'];
+    let newest = 0;
     for (const t of tables) {
       const { data: rows } = await this.db.from(t).select('updated_at').order('updated_at', { ascending: false }).limit(1);
-      const u = rows?.[0]?.updated_at as string | undefined;
-      if (u && (!last || u > last)) return true;
+      const u = ms(rows?.[0]?.updated_at as string | undefined);
+      if (u && u > newest) newest = u;
     }
-    return false;
+    if (!newest) return false;
+    if (!watermark) return true;
+    return newest > watermark + 5000; // 5s grace for build/DB clock skew
   }
 }
