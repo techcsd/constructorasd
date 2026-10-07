@@ -46,7 +46,7 @@ export class ProyectosList {
 
   cover(p: ProjectRow): string | null {
     const m = p.cover_media_id ? this.mediaById()[p.cover_media_id] : null;
-    return m ? this.cms.publicUrl(m.path) : null;
+    return m ? this.cms.thumbUrl(m.path, 160) : null;
   }
   sectorLabel(key: string | null | undefined): string {
     return SECTORS.find((s) => s.key === key)?.label ?? '—';

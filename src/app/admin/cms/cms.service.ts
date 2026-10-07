@@ -105,6 +105,18 @@ export class CmsService {
     return this.db.storage.from('web-media').getPublicUrl(path).data.publicUrl;
   }
 
+  /**
+   * Small, on-the-fly resized thumbnail via Supabase image transform — so the admin never downloads the
+   * 4 MB originals just to show a 160 px thumb (both csd projects have transforms enabled). `resize: cover`
+   * crops to the box. SVGs can't be transformed, so they return the (tiny) original.
+   */
+  thumbUrl(path: string, width = 240, height?: number): string {
+    if (/\.svg$/i.test(path)) return this.publicUrl(path);
+    return this.db.storage.from('web-media').getPublicUrl(path, {
+      transform: { width, height: height ?? width, resize: 'cover', quality: 70 },
+    }).data.publicUrl;
+  }
+
   /** Upload a pasted/inline image to web-media/notes/<uuid>.<ext> (no media row); returns its public URL. */
   async uploadInline(file: File): Promise<string> {
     const ext = (file.name.split('.').pop() || 'png').toLowerCase();

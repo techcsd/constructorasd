@@ -38,7 +38,7 @@ export class ClientesList {
   }
   logo(c: ClientRow): string | null {
     const m = c.logo_media_id ? this.mediaById()[c.logo_media_id] : null;
-    return m ? this.cms.publicUrl(m.path) : null;
+    return m ? this.cms.thumbUrl(m.path, 120) : null;
   }
   groupLabel(k: string): string { return this.groups.find((g) => g.key === k)?.label ?? k; }
 
