@@ -3,6 +3,14 @@
 All notable changes to this project. Versioning is simple (CLAUDE.md / WB9): a `CHANGELOG.md` entry plus a
 `package.json` bump per release. Not tracked in `sgc.app_versiones`.
 
+## 2.0.0 — round 06-oct: admin CMS + dev notes v2 + leads v2 + QA total (WH5/WJ9) (2026-10-07)
+
+Culminación de la ronda. Matriz de workflows en docs/QA-WORKFLOWS.md: 74 e2e + 54 unit + guardas de build
+en verde; sin overflow; seguridad verificada (anon bloqueado de las tablas privadas; borradores no
+expuestos). Incluye el CMS real (1.8.0), dev notes v2 con autosave y leads v2 (1.9.0), y el barrido UI/UX
+(1.7.0) — todo re-verificado. Pendiente de Xaviel: Lighthouse, email real a info@, publicar desde prod,
+foto de Plaza Roque (ver QA-WORKFLOWS §Pendiente).
+
 ## 1.9.0 — round 06-oct: Dev notes v2 (autosave) + Leads v2 (WH2/WH3/WH4/WJ6/WJ8) (2026-10-07)
 
 - **Dev notes v2:** split markdown editor (marked GFM + DOMPurify + highlight.js subset, Tab, copy-code),
