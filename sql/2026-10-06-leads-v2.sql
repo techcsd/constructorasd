@@ -54,8 +54,12 @@ do $$ declare t text; begin
   end loop;
 end $$;
 
-grant update (read_at) on web.leads to authenticated;
-grant update (read_at) on web.job_applications to authenticated;
+-- the original grant was column-level select (missing read_at/phone_e164); widen to the whole row so
+-- the admin can read every field it shows (RLS still restricts WHICH rows via is_admin).
+grant select on web.leads to authenticated;
+grant select on web.job_applications to authenticated;
+grant update (status, read_at) on web.leads to authenticated;
+grant update (status, read_at) on web.job_applications to authenticated;
 
 -- Realtime: add to the supabase_realtime publication (ignore if already present)
 do $$ begin

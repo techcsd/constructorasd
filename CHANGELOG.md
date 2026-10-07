@@ -3,6 +3,17 @@
 All notable changes to this project. Versioning is simple (CLAUDE.md / WB9): a `CHANGELOG.md` entry plus a
 `package.json` bump per release. Not tracked in `sgc.app_versiones`.
 
+## 1.9.0 — round 06-oct: Dev notes v2 (autosave) + Leads v2 (WH2/WH3/WH4/WJ6/WJ8) (2026-10-07)
+
+- **Dev notes v2:** split markdown editor (marked GFM + DOMPurify + highlight.js subset, Tab, copy-code),
+  **real-time autosave** (debounce + blur/switch/hide/unload, state indicator, localStorage backup,
+  conflict guard on `updated_at`), version history (max 50, restore), templates (HANDOFF/Decisión/Bug),
+  pin/archive/tags/search, `Ctrl+S`/`Ctrl+N`, export `.md`. Schema `sql/2026-10-06-dev-notes-v2.sql`.
+- **Leads v2:** unread badge (menu + tab title), inbox list + detail, internal notes, status history
+  (trigger), filters + search + CSV export, `tel:`/WhatsApp/Reply actions, **Realtime** new-lead toast,
+  CV preview for applications. Schema `sql/2026-10-06-leads-v2.sql` (both dev+prod).
+- `docs/DEV-NOTES-REFERENCE.md`; `ADMIN-GUIDE.md` chapters 8–9.
+
 ## 1.8.0 — round 06-oct: real content management from /admin (WH1/WJ1–WJ7) (2026-10-06)
 
 Replaces the raw-JSON content editor with a real CMS. **Not yet merged to main** — lives on `dev`/preview.
