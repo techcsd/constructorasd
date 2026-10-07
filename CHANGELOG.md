@@ -3,6 +3,22 @@
 All notable changes to this project. Versioning is simple (CLAUDE.md / WB9): a `CHANGELOG.md` entry plus a
 `package.json` bump per release. Not tracked in `sgc.app_versiones`.
 
+## 2.0.2 — fixes del admin en vivo (2026-10-07)
+
+- **Previsualizaciones de imagen en /admin** (miniaturas de lista, portada, galería, biblioteca) salían en
+  blanco: cargan desde URLs públicas de Supabase Storage, pero el CSP era `img-src 'self' data: blob:` (sin
+  host de Supabase) → el navegador las bloqueaba. Se añadió `https://*.supabase.co` a `img-src` (ya estaba en
+  `connect-src`). El sitio público no cambia (sirve `/img/cms/*` propio). Verificado: cabecera CSP nueva en
+  prod + una imagen real de Storage responde 200.
+- **"Hay cambios sin publicar" falso** (sin editar nada): `unpublishedChanges()` comparaba contra
+  `site_state.last_published_at`, que solo se sella con el botón Publicar — los despliegues por git nunca lo
+  limpiaban. Ahora compara contra la hora del build en vivo (`version.json` builtAt, que refresca **cualquier**
+  despliegue) o el sello de publicación, el más reciente; con `Date.parse` (Postgres da `+00:00`, JS da `Z`) y
+  5 s de gracia por desfase de reloj. Se auto-limpia tras cualquier deploy.
+
+> Nota: tras desplegar, hacer **recarga forzada** del admin (Ctrl+Shift+R) — el navegador cachea la cabecera
+> CSP y el JS del panel; el hard refresh toma el deploy nuevo.
+
 ## 2.0.1 — cierre de brechas de la ronda (2026-10-07)
 
 Cierre honesto de los sub-ítems que habían quedado fuera de la v2.0.0:
