@@ -1,0 +1,93 @@
+.md {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--line);
+  border-radius: var(--r-sm);
+  overflow: hidden;
+  background: var(--bg);
+}
+.md__bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--space-2) var(--space-3);
+  border-bottom: 1px solid var(--line);
+  background: var(--bg-elevated);
+}
+.md__modes { display: flex; gap: var(--space-1); }
+.md__modes button {
+  background: none;
+  border: 1px solid transparent;
+  border-radius: var(--r-sm);
+  padding: 4px var(--space-3);
+  font: inherit;
+  font-size: var(--fs-small);
+  color: var(--text-2);
+  cursor: pointer;
+}
+.md__modes button.is-active { border-color: var(--line-control); color: var(--text); }
+.md__count { color: var(--text-3); }
+
+.md__panes { display: grid; min-height: 320px; }
+.md__panes[data-mode='split'] { grid-template-columns: 1fr 1fr; }
+.md__panes[data-mode='edit'],
+.md__panes[data-mode='preview'] { grid-template-columns: 1fr; }
+@media (max-width: 760px) { .md__panes[data-mode='split'] { grid-template-columns: 1fr; } }
+
+.md__ta {
+  border: none;
+  border-right: 1px solid var(--line);
+  resize: vertical;
+  padding: var(--space-4);
+  font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+  font-size: 0.85rem;
+  line-height: 1.6;
+  color: var(--text);
+  background: var(--bg);
+  outline: none;
+  min-height: 320px;
+}
+.md__preview {
+  padding: var(--space-4);
+  overflow: auto;
+  font-size: var(--fs-small);
+  line-height: 1.65;
+  color: var(--text);
+}
+.md__preview :is(h1, h2, h3) { line-height: 1.2; margin: var(--space-4) 0 var(--space-2); }
+.md__preview p { margin: 0 0 var(--space-3); }
+.md__preview a { color: var(--accent-hover); }
+.md__preview ul, .md__preview ol { padding-left: var(--space-5); }
+.md__preview code { background: var(--bg-sunken); padding: 1px 4px; border-radius: var(--r-sm); font-size: 0.85em; }
+.md__preview pre {
+  position: relative;
+  background: var(--ink-900); // tokens-allow (dark code block)
+  color: var(--bone-50); // tokens-allow
+  padding: var(--space-4);
+  border-radius: var(--r-sm);
+  overflow: auto;
+}
+.md__preview pre code { background: none; padding: 0; color: inherit; }
+.md__preview blockquote { border-left: 2px solid var(--line-strong); padding-left: var(--space-4); color: var(--text-2); margin: 0 0 var(--space-3); }
+.md__preview table { border-collapse: collapse; font-size: 0.9em; }
+.md__preview th, .md__preview td { border: 1px solid var(--line); padding: var(--space-2) var(--space-3); }
+
+.md-copy {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  background: rgba(250, 248, 244, 0.1); // tokens-allow
+  border: 1px solid rgba(250, 248, 244, 0.2); // tokens-allow
+  color: var(--bone-50); // tokens-allow
+  border-radius: var(--r-sm);
+  font-size: var(--fs-eyebrow);
+  padding: 2px 8px;
+  cursor: pointer;
+}
+
+// highlight.js (minimal, on the dark block)
+.md__preview .hljs-keyword, .md__preview .hljs-selector-tag, .md__preview .hljs-built_in { color: #7cc5ff; } // tokens-allow
+.md__preview .hljs-string, .md__preview .hljs-attr { color: #b5e8a0; } // tokens-allow
+.md__preview .hljs-number, .md__preview .hljs-literal { color: #ffb86c; } // tokens-allow
+.md__preview .hljs-comment { color: #7a8290; } // tokens-allow
+.md__preview .hljs-title, .md__preview .hljs-section { color: #ffd479; } // tokens-allow
