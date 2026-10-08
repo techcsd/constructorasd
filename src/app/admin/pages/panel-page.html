@@ -26,11 +26,19 @@
       </a>
     }
     <a class="pnl__tile" routerLink="/admin/leads">
-      <span class="pnl__tile-num adm-num">{{ unread() === null ? '—' : unread() }}</span>
+      @if (loaded()) {
+        <span class="pnl__tile-num adm-num">{{ unread() }}</span>
+      } @else {
+        <span class="adm-skeleton adm-skeleton--num"></span>
+      }
       <span class="pnl__tile-label">Leads sin leer</span>
     </a>
     <a class="pnl__tile" routerLink="/admin/notas">
-      <span class="pnl__tile-num adm-num">{{ notesCount() === null ? '—' : notesCount() }}</span>
+      @if (loaded()) {
+        <span class="pnl__tile-num adm-num">{{ notesCount() }}</span>
+      } @else {
+        <span class="adm-skeleton adm-skeleton--num"></span>
+      }
       <span class="pnl__tile-label">Dev notes</span>
     </a>
   </section>
@@ -50,7 +58,11 @@
   <section class="pnl__recent">
     <div class="pnl__col">
       <h2 class="pnl__col-title">Notas recientes</h2>
-      @if (recentNotes().length) {
+      @if (!loaded()) {
+        <span class="adm-skeleton adm-skeleton--row"></span>
+        <span class="adm-skeleton adm-skeleton--row"></span>
+        <span class="adm-skeleton adm-skeleton--row"></span>
+      } @else if (recentNotes().length) {
         <ul class="pnl__feed">
           @for (n of recentNotes(); track n.id) {
             <li class="pnl__feed-row">
@@ -66,7 +78,11 @@
 
     <div class="pnl__col">
       <h2 class="pnl__col-title">Leads recientes</h2>
-      @if (recentLeads().length) {
+      @if (!loaded()) {
+        <span class="adm-skeleton adm-skeleton--row"></span>
+        <span class="adm-skeleton adm-skeleton--row"></span>
+        <span class="adm-skeleton adm-skeleton--row"></span>
+      } @else if (recentLeads().length) {
         <ul class="pnl__feed">
           @for (l of recentLeads(); track l.id) {
             <li class="pnl__feed-row" [class.is-unread]="!l.read_at">

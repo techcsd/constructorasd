@@ -38,6 +38,7 @@ export class PanelPage {
 
   readonly unread = signal<number | null>(null);
   readonly notesCount = signal<number | null>(null);
+  readonly loaded = signal(false);
   readonly publish = signal<'loading' | 'clean' | 'changes'>('loading');
   readonly recentNotes = signal<readonly DevNote[]>([]);
   readonly recentLeads = signal<readonly Lead[]>([]);
@@ -64,6 +65,7 @@ export class PanelPage {
     this.notesCount.set(noteList.filter((n) => !n.archived).length);
     this.recentNotes.set(noteList.filter((n) => !n.archived).slice(0, 5));
     this.publish.set(dirty ? 'changes' : 'clean');
+    this.loaded.set(true);
   }
 
   // Short Spanish relative time: "ahora", "hace 5 min", "hace 3 h", "hace 2 d", else a date.

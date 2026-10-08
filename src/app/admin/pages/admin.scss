@@ -1018,3 +1018,21 @@ a.adm-btn {
 }
 .pnl__empty { color: var(--text-3); font-size: var(--fs-small); }
 .pnl__ext { margin-left: var(--space-1); stroke: currentColor; fill: none; vertical-align: middle; }
+
+// ---- Loading skeleton (reusable) ----
+.adm-skeleton {
+  display: inline-block;
+  border-radius: var(--r-sm);
+  background: linear-gradient(100deg, var(--bg-sunken) 30%, var(--bg-elevated) 50%, var(--bg-sunken) 70%); // tropes-allow (functional loading shimmer, admin-only)
+  background-size: 200% 100%;
+  animation: adm-shimmer 1.3s ease-in-out infinite;
+}
+.adm-skeleton--num { width: 2.4ch; height: 1.6rem; vertical-align: middle; }
+.adm-skeleton--row { width: 100%; height: 1rem; margin: var(--space-3) 0; }
+@keyframes adm-shimmer {
+  from { background-position: 200% 0; }
+  to { background-position: -200% 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .adm-skeleton { animation: none !important; }
+}
