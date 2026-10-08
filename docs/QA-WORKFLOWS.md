@@ -8,10 +8,12 @@ entorno y estado. Convenciones de **Estado**:
 - **corregido → aprobado** — falló, se arregló en la ronda y se re-verificó (con hash).
 - **pendiente Xaviel** — necesita sus datos, su cuenta o sus ojos; **nunca se asume**.
 
-**Resumen (v2.0.6, rev prod `efc2e0d`):** **143 e2e** (Chromium full + WebKit público, `PW_WEBKIT=1`) + **54
-unit** (vitest) + guardas de build (`verify-*`) en verde. Build de prod verde en cada merge. Sin overflow
-horizontal, sin restos de reveal, sin 4xx en rutas clave. Evidencia visual por workflow en
-`docs/round-03-qa/` (generar con `PW_EVIDENCE=1 npx playwright test evidence`).
+**Resumen:** **143 e2e** (Chromium full + WebKit público, `PW_WEBKIT=1`) + **62 unit** (vitest) + guardas de
+build (`verify-*`) en verde, ahora también en **CI** (GitHub Actions: build+unit gate, Lighthouse, e2e
+opt-in). Verificaciones reproducibles: `npm run qa:security` (A16 — 7/7), `npm run db:diff` (I01 — dev↔prod en
+sync), `npm run psi` (Lighthouse vía PageSpeed sobre la URL en vivo). Build de prod verde en cada merge. Sin
+overflow horizontal, sin restos de reveal, sin 4xx. Evidencia visual: `docs/round-03-qa/` (generar con
+`PW_EVIDENCE=1 npx playwright test evidence`).
 
 > **Nota sobre WebKit:** la pasada cruzada (`PW_WEBKIT=1`) corre con **1 reintento** porque WebKit-en-Windows
 > agota de forma intermitente su espera de carga bajo carga de la máquina (los mismos specs pasan al reintento
@@ -56,25 +58,27 @@ horizontal, sin restos de reveal, sin 4xx en rutas clave. Evidencia visual por w
 | A13 | Mensajes de validación humanos (sin PostgREST crudo) | `admin-cms.spec` (crear valida) | dev | aprobado (manual) |
 | A14 | Dev notes: autosave, highlight+copiar, versiones, plantillas, pin/archivar, **pegar imagen**, **pantalla completa**, **keepalive**, **Ctrl+K**, **duplicar**, **copiar MD**, **↑/↓** | `admin-cms.spec` (autosave+highlight, **duplicar**) | dev | aprobado (e2e) · offline/conflicto/paste/fullscreen: manual |
 | A15 | Leads: badge no leídos, abrir marca leído, notas, historial, **en_seguimiento**, filtros+búsqueda en URL, CSV, responder/WhatsApp, CV preview, **acciones en lote** | `admin-cms.spec` (inbox+nota, **estado+lote**) | dev | aprobado (e2e) · realtime/CSV/CV: manual |
-| A16 | Seguridad: anon no lee tablas privadas; no-admin tampoco; Storage sin admin; `/admin` noindex | verificación directa PostgREST (abajo) | dev | aprobado (manual, ver §Seguridad) |
+| A16 | Seguridad: anon no lee tablas privadas; no-admin tampoco; Storage sin admin; `/admin` noindex | `qa:security` (verify-security.mjs: anon + usuario no-admin real) — 7/7 | dev | aprobado (script, ver §Seguridad) |
 
 ## Infraestructura
 
 | ID | Workflow | Estado |
 |---|---|---|
-| I01 | Migraciones y funciones iguales en dev y prod | aprobado — toda migración aplicada dev→prod y registrada en `web.migrations` (última: `2026-10-08-leads-en-seguimiento`) |
+| I01 | Migraciones y funciones iguales en dev y prod | aprobado — `npm run db:diff` (scripts/supabase/diff.mjs): **10 migraciones + 5 funciones `web-*` idénticas** en dev y prod |
 | I02 | Secrets en ambos (RESEND, GOOGLE/MAPS_EMBED, SUPABASE) | aprobado (dev+prod); `VERCEL_TOKEN` opcional pendiente (WK2) |
 | I03 | Build prod estricto falla si Supabase no responde | aprobado (gen-content v2 `ENV_NAME=prod` → exit 1) |
 | I04 | Caché de media en Vercel evita re-encode | aprobado — imágenes CMS commiteadas; build ~20 min → ~40 s |
 
-## Seguridad (A16) — verificado con la anon key directa (PostgREST, dev)
-- `web.leads`, `web.dev_notes`, `web.inbox_notes` → **42501 (permiso denegado)** para anon. ✓
-- `web.projects` con `published=false` → **`[]`** (los borradores no se exponen). ✓
-- `INSERT web.media` como anon → **42501**. ✓
-- `web.v_public_*` (solo publicados) → responde. ✓
-- Usuario autenticado **no admin**: la misma política `web.is_admin()` lo rechaza (no está en `web.admins`).
-  Storage `web-media` escribe solo con `is_admin()`. `/admin` `noindex` + fuera del sitemap. CSP sin
-  violaciones (incluye `*.supabase.co` en `img-src`/`connect-src` para miniaturas del admin).
+## Seguridad (A16) — `npm run qa:security` (verify-security.mjs, dev) · 7/7 en verde
+- anon SELECT `web.leads` / `web.dev_notes` / `web.inbox_notes` → **401/42501 (denegado)**. ✓
+- anon INSERT `web.media` → **401/42501**. ✓
+- anon SELECT `v_public_*` (solo publicados) → **200**. ✓
+- **Usuario autenticado no-admin** (se crea uno de prueba y se borra): este proyecto Supabase —compartido
+  con SGC— tiene un **auth hook** que **bloquea el inicio de sesión** de usuarios fuera del equipo de
+  Tecnología (**403 "Este entorno es solo para el equipo de Tecnología."**). Es decir, un no-admin ni
+  siquiera obtiene sesión; y aun con sesión, `web.is_admin()` filtra por pertenencia a `web.admins`. Storage
+  `web-media` escribe solo con `is_admin()`. `/admin` `noindex` + fuera del sitemap. CSP sin violaciones
+  (incluye `*.supabase.co` en `img-src`/`connect-src` para las miniaturas del admin).
 
 ## Notas
 - **A03b redirecciones de slug** — redirección estática auto-publicable, no header 301. Vercel lee

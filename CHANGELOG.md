@@ -3,6 +3,20 @@
 All notable changes to this project. Versioning is simple (CLAUDE.md / WB9): a `CHANGELOG.md` entry plus a
 `package.json` bump per release. Not tracked in `sgc.app_versiones`.
 
+## 2.0.11 — verificaciones reproducibles de QA (A16 + I01) (2026-10-08)
+
+Cierre fino de PROMPT-08 con scripts reutilizables que producen evidencia real:
+
+- **`npm run qa:security`** (`scripts/qa/verify-security.mjs`, A16, dev): comprueba que anon no accede a
+  `web.leads/dev_notes/inbox_notes` (401), no inserta en `web.media` (401), pero sí lee `v_public_*` (200);
+  y **crea un usuario autenticado NO-admin de prueba** para probar el caso que faltaba. Hallazgo: este
+  proyecto Supabase (compartido con SGC) tiene un **auth hook** que bloquea el login de usuarios fuera del
+  equipo de Tecnología (403) — un no-admin ni siquiera obtiene sesión. 7/7 en verde; limpia el usuario.
+- **`npm run db:diff`** (`scripts/supabase/diff.mjs`, I01): compara `web.migrations` + funciones `web-*`
+  entre dev y prod. Resultado: **10 migraciones + 5 funciones idénticas** — dev y prod en sync.
+- Matriz (`docs/QA-WORKFLOWS.md`) actualizada: A16/I01 pasan de "manual/asumido" a "verificado por script",
+  resumen con 62 unit + CI + las verificaciones reproducibles.
+
 ## 2.0.10 — estado real del deploy de Vercel (plumbing, inerte sin token) (2026-10-08)
 
 Infraestructura lista para el estado **real** del deploy (WK2), activable sin tocar código:
