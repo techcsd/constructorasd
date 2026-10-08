@@ -1,6 +1,6 @@
 {
   "name": "constructorasd",
-  "version": "2.0.10",
+  "version": "2.0.11",
   "description": "Corporate website of Constructora Scheker & Domínguez (CSD)",
   "scripts": {
     "ng": "ng",
@@ -10,6 +10,8 @@
     "build": "ng build",
     "qa:clean": "node scripts/qa/cleanup-dev.mjs --env dev",
     "psi": "node scripts/qa/psi.mjs",
+    "qa:security": "node scripts/qa/verify-security.mjs --env dev",
+    "db:diff": "node scripts/supabase/diff.mjs",
     "postbuild": "node scripts/gen-sitemap.mjs && node scripts/gen-redirects.mjs",
     "build:dev": "node scripts/build-env.mjs --env dev",
     "build:prod": "node scripts/build-env.mjs --env prod",
