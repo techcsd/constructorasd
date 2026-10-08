@@ -3,6 +3,7 @@
 // Everything here collapses under `prefers-reduced-motion: reduce` (the global block at the bottom).
 
 :root {
+  interpolate-size: allow-keywords; // lets height/0fr→auto animate (accordion); ignored where unsupported
   --m-ease-out: cubic-bezier(0.2, 0.7, 0.2, 1);
   --m-fast: 180ms;
   --m-base: 420ms;

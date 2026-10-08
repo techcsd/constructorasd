@@ -95,3 +95,24 @@
     grid-row: 1;
   }
 }
+
+// Accordion motion (WN3) — chevron rotates, body fades/scales, and the disclosure height animates where
+// ::details-content + interpolate-size are supported (instant, graceful fallback elsewhere). Reduced-motion = static.
+@media (prefers-reduced-motion: no-preference) {
+  .app-stage-row__chev { transition: transform var(--m-fast) var(--m-ease-out); }
+  .app-stage-row[open] .app-stage-row__chev { transform: rotate(180deg); }
+
+  .app-stage-row::details-content {
+    block-size: 0;
+    overflow: clip;
+    transition: block-size var(--m-base) var(--m-ease-out), content-visibility var(--m-base) allow-discrete;
+  }
+  .app-stage-row[open]::details-content { block-size: auto; }
+
+  .app-stage-row__body {
+    opacity: 0;
+    transform: scale(0.99);
+    transition: opacity var(--m-base) var(--m-ease-out), transform var(--m-base) var(--m-ease-out);
+  }
+  .app-stage-row[open] .app-stage-row__body { opacity: 1; transform: none; }
+}
