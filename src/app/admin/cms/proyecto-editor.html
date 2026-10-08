@@ -12,6 +12,7 @@
 @if (error()) { <p class="cms-error">{{ error() }}</p> }
 @if (loading()) { <p class="small">Cargando…</p> }
 @else {
+  <div class="cms-editor">
   <div class="cms-form">
     <!-- Name + slug -->
     <div class="cms-field">
@@ -130,5 +131,43 @@
       <button type="button" class="adm-btn" [disabled]="saving()" (click)="save()">{{ saving() ? 'Guardando…' : 'Guardar proyecto' }}</button>
       <a class="adm-btn adm-btn--ghost" routerLink="/admin/contenido/proyectos">Cancelar</a>
     </div>
+  </div>
+
+  <!-- Sticky live preview (brief §5): card + hero, updates as you edit; click the hero to set the focal point. -->
+  <aside class="cms-preview">
+    <div class="cms-preview__head">
+      <span class="cms-preview__title">Vista previa</span>
+      <div class="cms-seg" role="group" aria-label="Idioma de la vista previa">
+        <button type="button" class="cms-seg__btn" [class.is-active]="lang()==='es'" (click)="lang.set('es')">ES</button>
+        <button type="button" class="cms-seg__btn" [class.is-active]="lang()==='en'" (click)="lang.set('en')">EN</button>
+      </div>
+    </div>
+
+    @if (previewImg(); as img) {
+      <div class="cms-preview__hero" (click)="setFocalFromEvent($event)" title="Haz clic para elegir el punto focal">
+        <img [src]="img" [style.object-position]="coverObjPos()" alt="" images-allow />
+        <span class="cms-preview__focal" [style.left.%]="focal().x*100" [style.top.%]="focal().y*100" aria-hidden="true"></span>
+        <div class="cms-preview__hero-txt">
+          <span class="cms-preview__hero-name">{{ p().name || 'Nombre del proyecto' }}</span>
+          @if (previewCity()) { <span class="cms-preview__hero-city">{{ previewCity() }}</span> }
+        </div>
+      </div>
+      <p class="small cms-preview__hint">Punto focal {{ focalLabel() }} — haz clic en la imagen para moverlo.</p>
+    } @else {
+      <div class="cms-preview__empty">Sube una portada para ver la vista previa.</div>
+    }
+
+    <span class="cms-preview__label">Tarjeta en el listado</span>
+    <div class="cms-preview__card-wrap" aria-hidden="true">
+      <app-project-card
+        [name]="p().name || 'Proyecto'"
+        [client]="p().client_name || ''"
+        [sector]="previewSector()"
+        [city]="previewCity()"
+        [image]="previewImg()"
+        [featured]="!!p().featured"
+      />
+    </div>
+  </aside>
   </div>
 }

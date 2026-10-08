@@ -51,5 +51,19 @@ test.describe('admin dark theme shots', () => {
     await page.screenshot({ path: `${DIR}/admin-07-shortcuts.png`, fullPage: true });
     await page.keyboard.press('Escape');
     await expect(page.locator('.cmdk__help-list')).toBeHidden({ timeout: 5000 });
+
+    // Project editor with the sticky live preview — open the first published project's editor.
+    await page.goto('/admin/contenido/proyectos', { waitUntil: 'networkidle' });
+    // Prefer a row with a real cover image so the focal picker shows a photo; fall back to any row.
+    const withCover = page.locator('.cms-row:has(.cms-row__thumb img) a:has-text("Editar")').first();
+    const edit = (await withCover.count())
+      ? withCover
+      : page.locator('.cms-row a:has-text("Editar"), a.adm-btn:has-text("Editar")').first();
+    if (await edit.count()) {
+      await edit.click();
+      await expect(page.locator('.cms-editor')).toBeVisible({ timeout: 15000 });
+      await page.waitForTimeout(800);
+      await page.screenshot({ path: `${DIR}/admin-08-editor.png`, fullPage: true });
+    }
   });
 });
