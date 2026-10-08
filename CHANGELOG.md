@@ -3,6 +3,17 @@
 All notable changes to this project. Versioning is simple (CLAUDE.md / WB9): a `CHANGELOG.md` entry plus a
 `package.json` bump per release. Not tracked in `sgc.app_versiones`.
 
+## 2.0.8 — guard de CV (P10) + limpieza de datos de prueba en dev (2026-10-08)
+
+- **P10 — validación de CV con guard automático:** se extrajo la regla (PDF/DOC/DOCX, ≤ 5 MB) a
+  `src/app/ui/apply-form/cv-validation.ts` (puro, sin framework) y se añadieron 8 unit tests
+  (`cv-validation.spec.ts`): DOCX se acepta, tipo inválido y > 5 MB se rechazan, límite exacto de 5 MB se
+  acepta. El formulario usa esa función; el servidor (`web-apply`) sigue re-validando. **62 unit** en verde.
+- **Limpieza de dev:** nuevo `scripts/qa/cleanup-dev.mjs` (`npm run qa:clean`, **solo dev**) purga los
+  artefactos que deja la suite e2e del admin (proyectos `QA %`, notas `QA %`, notas internas `nota e2e%`).
+  Ejecutado: 39 proyectos + 25 notas + 17 notas internas eliminados. Los datos reales no se tocan (filtro por
+  prefijo `QA `). Útil antes/después de una corrida de QA.
+
 ## 2.0.7 — cierre de brechas PROMPT-08 (QA total) (2026-10-08)
 
 - **Matriz QA** (`docs/QA-WORKFLOWS.md`) reescrita al formato de la especificación: una fila por workflow

@@ -33,7 +33,7 @@ horizontal, sin restos de reveal, sin 4xx en rutas clave. Evidencia visual por w
 | P08 | Detalle: hero, datos, galería + lightbox (teclado), ant/sig, cover nítida, JSON-LD, hreflang | `projects.spec` (cover, lightbox teclado, lang) | — | dev+prod | aprobado (e2e) |
 | P08b | Plaza Roque nítida a 2× (WD5) | — | — | prod | aprobado (manual) · **foto real: pendiente Xaviel** |
 | P09 | Noticias lista + artículo | `smoke.spec` (/noticias 200) | `P09-noticias-*` | dev+prod | aprobado (e2e) · sin noticias aún (CMS listo) |
-| P10 | Vacantes lista + detalle + postulación con CV (PDF/DOCX; >5 MB y mime inválido rechazados) | `smoke.spec` (/vacantes) | `P10-vacantes-*` | dev | aprobado (e2e lista) · **validación CV (DOCX/>5MB/mime): pendiente Xaviel** (regla en `web-apply`; sin e2e de rechazo) |
+| P10 | Vacantes lista + detalle + postulación con CV (PDF/DOCX; >5 MB y mime inválido rechazados) | `smoke.spec` (/vacantes), `cv-validation.spec` (DOCX ok, tipo inválido y >5 MB rechazados) | `P10-vacantes-*` | dev | aprobado (e2e lista + unit CV) · prueba en el formulario real: pendiente Xaviel |
 | P11 | Contacto: mapa (WD2), máscara tel (WD3), mensaje 10+ se envía (WD4), errores por campo, rate-limit, éxito + reenviar | `contact.spec` (4), `map.spec` (tabs+iframe) | `P11-contacto-*` | dev+prod | aprobado (e2e) · **email real a `info@`: pendiente Xaviel** |
 | P12 | WhatsApp FAB (claro/oscuro, oculto en Contacto), enlace por idioma | `audit.spec`/`layout.spec` | — | dev+prod | aprobado (e2e+manual) |
 | P13 | Legales, 404, sitemap, robots, OG, `version.json` | `smoke.spec`, sitemap verificado en prod | `P13-404-*` | dev+prod | aprobado (e2e+manual) |
