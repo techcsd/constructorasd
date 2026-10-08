@@ -12,7 +12,7 @@
     <p class="lead home-hero__lead">{{ heroLead() }}</p>
     <div class="home-hero__actions">
       <app-button variant="primary" [routerLink]="proyectosPath()" [icon]="'arrow-right'">{{ 'Ver proyectos' | t }}</app-button>
-      <app-button variant="secondary" [routerLink]="contactoPath()" [icon]="null">{{ 'Hablemos' | t }}</app-button>
+      <app-button variant="secondary" tone="dark" [routerLink]="contactoPath()" [icon]="null">{{ 'Hablemos' | t }}</app-button>
     </div>
     <span class="eyebrow home-hero__eyebrow">{{ heroEyebrow() }}</span>
   </div>
@@ -129,7 +129,7 @@
   <div class="container home-cta" appReveal>
     <h2 class="h2 home-cta__title">{{ 'Construyamos juntos el próximo proyecto.' | t }}</h2>
     <div class="home-cta__actions">
-      <app-button variant="primary" [routerLink]="contactoPath()" [icon]="'arrow-right'">{{ 'Hablemos' | t }}</app-button>
+      <app-button variant="primary" tone="dark" [routerLink]="contactoPath()" [icon]="'arrow-right'">{{ 'Hablemos' | t }}</app-button>
       <div class="home-cta__phones small">
         @for (p of phoneLinks; track p.label) {<a [href]="p.href">{{ p.label }}</a>}
       </div>
