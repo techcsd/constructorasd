@@ -7,6 +7,12 @@
 @use 'styles/layout';
 @use 'styles/forms';
 @use 'styles/mixins' as *;
+@use 'styles/motion';
+
+// Admin "Dark studio console": make the whole page graphite when an admin shell/login is present, so no
+// light body shows behind short content. Only triggers on /admin (the rest of the admin palette is lazy).
+html:has(.adm),
+html:has(.adm-auth) { background-color: #0e1012; } // tokens-allow
 
 // ── Reset ─────────────────────────────────────────────────────────────────────
 *,
@@ -125,6 +131,20 @@ p {
   [data-reveal].is-revealed {
     opacity: 1;
     transform: none;
+  }
+
+  // Client wall (WN3): cells fade in with a per-cell stagger when the wall reveals.
+  [data-reveal] .app-client-wall__cell {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  [data-reveal].is-revealed .app-client-wall__cell {
+    opacity: 1;
+    transform: none;
+    transition:
+      opacity var(--m-base) var(--m-ease-out),
+      transform var(--m-base) var(--m-ease-out);
+    transition-delay: calc(var(--i, 0) * 20ms);
   }
 }
 

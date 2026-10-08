@@ -1,6 +1,6 @@
 <ul class="app-client-wall">
-  @for (c of clients(); track c.name) {
-    <li class="app-client-wall__cell">
+  @for (c of clients(); track c.name; let i = $index) {
+    <li class="app-client-wall__cell" [style.--i]="i">
       @if (c.logo) {
         <img class="app-client-wall__logo" [src]="c.logo" [alt]="c.name" loading="lazy" />
       } @else {

@@ -1,0 +1,65 @@
+<header class="cms-head">
+  <h1 class="cms-title">Ajustes</h1>
+  <p class="cms-row__meta small">Configuración global del sitio. Los <strong>correos destino</strong> se aplican en ~1 min sin publicar; el resto, al publicar.</p>
+</header>
+
+@if (error()) { <p class="cms-error">{{ error() }}</p> }
+@if (saved()) { <p class="cms-ok small">Guardado.</p> }
+@if (loading()) { <p class="small">Cargando…</p> } @else {
+<div class="cms-form">
+
+  <details class="cms-seo" open>
+    <summary>Correos destino de los formularios</summary>
+    <div class="cms-bi" style="margin-top:var(--space-3)">
+      <div class="cms-field"><label>Contacto → llega a</label><input class="adm-input" type="email" [(ngModel)]="model.emails.contact" placeholder="info@constructorasd.com" /></div>
+      <div class="cms-field"><label>Postulaciones (CV) → llega a</label><input class="adm-input" type="email" [(ngModel)]="model.emails.applications" placeholder="(si vacío, usa el de contacto)" /></div>
+      <div class="cms-field"><label>CC (copia)</label><input class="adm-input" type="email" [(ngModel)]="model.emails.cc" placeholder="opcional" /></div>
+    </div>
+    <p class="small cms-row__meta">Vacío = se usa el valor por defecto configurado en el servidor.</p>
+  </details>
+
+  <details class="cms-seo">
+    <summary>WhatsApp — mensaje prellenado</summary>
+    <div class="cms-bi" style="margin-top:var(--space-3)">
+      <div class="cms-field"><label>Mensaje (ES)</label><textarea class="adm-input" rows="2" [(ngModel)]="model.whatsappMessage.es" placeholder="Hola, me gustaría hablar sobre un proyecto…"></textarea></div>
+      <div class="cms-field"><label>Message (EN)</label><textarea class="adm-input" rows="2" [(ngModel)]="model.whatsappMessage.en" placeholder="Hi, I'd like to talk about a project…"></textarea></div>
+    </div>
+  </details>
+
+  <details class="cms-seo">
+    <summary>Redes sociales</summary>
+    <div class="cms-bi" style="margin-top:var(--space-3)">
+      <div class="cms-field"><label>Instagram (usuario)</label><input class="adm-input" [(ngModel)]="model.social.instagram" placeholder="constructorasd" /></div>
+      <div class="cms-field"><label>LinkedIn (URL)</label><input class="adm-input" [(ngModel)]="model.social.linkedin" placeholder="https://linkedin.com/company/…" /></div>
+      <div class="cms-field"><label>Facebook (URL)</label><input class="adm-input" [(ngModel)]="model.social.facebook" placeholder="https://facebook.com/…" /></div>
+    </div>
+  </details>
+
+  <details class="cms-seo">
+    <summary>Datos legales</summary>
+    <div class="cms-bi" style="margin-top:var(--space-3)">
+      <div class="cms-field"><label>Razón social</label><input class="adm-input" [(ngModel)]="model.legal.razonSocial" placeholder="Constructora Scheker & Domínguez, SRL" /></div>
+      <div class="cms-field"><label>RNC</label><input class="adm-input" [(ngModel)]="model.legal.rnc" placeholder="1-01-…" /></div>
+      <div class="cms-field"><label>Dirección fiscal</label><input class="adm-input" [(ngModel)]="model.legal.direccion" /></div>
+    </div>
+  </details>
+
+  <details class="cms-seo">
+    <summary>Banner de mantenimiento</summary>
+    <label class="cms-check" style="margin-top:var(--space-3)"><input type="checkbox" [(ngModel)]="model.maintenance.on" /> Mostrar banner de mantenimiento en el sitio</label>
+    <div class="cms-bi" style="margin-top:var(--space-2)">
+      <div class="cms-field"><label>Texto (ES)</label><input class="adm-input" [(ngModel)]="model.maintenance.message_es" /></div>
+      <div class="cms-field"><label>Text (EN)</label><input class="adm-input" [(ngModel)]="model.maintenance.message_en" /></div>
+    </div>
+  </details>
+
+  <details class="cms-seo">
+    <summary>Analítica</summary>
+    <label class="cms-check" style="margin-top:var(--space-3)"><input type="checkbox" [(ngModel)]="model.analytics" /> Activar analítica (Vercel Analytics)</label>
+  </details>
+
+  <div class="cms-save-bar">
+    <button type="button" class="adm-btn adm-btn--primary" [disabled]="saving()" (click)="save()">{{ saving() ? 'Guardando…' : 'Guardar ajustes' }}</button>
+  </div>
+</div>
+}

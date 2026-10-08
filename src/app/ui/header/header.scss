@@ -4,6 +4,7 @@
   z-index: 100;
   display: block;
   background: transparent;
+  view-transition-name: site-header; // WN3 — stays put across route transitions (no flash)
   transition:
     background var(--dur) var(--ease-out),
     border-color var(--dur) var(--ease-out);

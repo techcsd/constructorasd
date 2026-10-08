@@ -3,6 +3,7 @@ import {
   Component,
   DOCUMENT,
   afterNextRender,
+  computed,
   inject,
   signal,
 } from '@angular/core';
@@ -36,6 +37,14 @@ export class App {
   readonly isDev = environment.envName !== 'prod';
   // The private /admin area has its own full-screen chrome — hide the public header/footer/FAB there.
   readonly isAdmin = signal(this.router.url.startsWith('/admin'));
+
+  // Maintenance banner (Ajustes) — applied live from web.site_settings.data, no publish needed.
+  private maintData = signal<{ on?: boolean; message_es?: string; message_en?: string } | null>(null);
+  readonly maintenanceMsg = computed(() => {
+    const m = this.maintData();
+    if (!m?.on || this.isAdmin()) return '';
+    return this.i18n.locale() === 'en' ? (m.message_en || m.message_es || '') : (m.message_es || m.message_en || '');
+  });
 
   constructor() {
     // Set locale from the URL on EVERY navigation start — before the page component is created, so
@@ -81,13 +90,15 @@ export class App {
     const base = (environment.supabaseUrl || '').replace(/\/$/, '');
     const anon = environment.supabaseAnonKey || '';
     if (!base || !anon || typeof document === 'undefined') return;
-    fetch(`${base}/rest/v1/site_settings?select=accent&id=eq.1`, {
+    fetch(`${base}/rest/v1/site_settings?select=accent,data&id=eq.1`, {
       headers: { apikey: anon, Authorization: `Bearer ${anon}`, 'Accept-Profile': 'web' },
     })
       .then((r) => (r.ok ? r.json() : []))
       .then((rows) => {
         const accent = rows?.[0]?.accent;
         if (accent) document.documentElement.style.setProperty('--accent', accent);
+        const maint = rows?.[0]?.data?.maintenance;
+        if (maint) this.maintData.set(maint);
       })
       .catch(() => {});
   }

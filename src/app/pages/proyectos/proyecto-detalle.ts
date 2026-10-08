@@ -40,6 +40,7 @@ export class ProyectoDetalle {
   readonly client = computed(() => this.project()?.client ?? '');
   readonly coverSrc = computed(() => this.project()?.cover.src ?? '');
   readonly coverAlt = computed(() => this.pick(this.project()?.cover.alt) ?? '');
+  readonly coverFocal = computed(() => this.project()?.cover.focal);
   readonly summary = computed(() => this.pick(this.project()?.summary) ?? '');
   readonly body = computed(() => this.pick(this.project()?.body) ?? '');
 

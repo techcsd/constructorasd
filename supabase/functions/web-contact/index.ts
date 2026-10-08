@@ -1,7 +1,7 @@
 // web-contact (WA10 / WB5) — validate + anti-spam + persist the lead, then email via Resend.
 // Persist is the source of truth; on email failure we store email_error and still return 200.
 import { validateContact, isLikelySpam } from '../_shared/validate.ts';
-import { admin, clientIp, ipHash, json, rateLimit, sendEmail } from '../_shared/util.ts';
+import { admin, clientIp, ipHash, json, rateLimit, sendEmail, siteSettings } from '../_shared/util.ts';
 import { corsHeaders } from '../_shared/cors.ts';
 
 Deno.serve(async (req: Request) => {
@@ -48,7 +48,10 @@ Deno.serve(async (req: Request) => {
   if (error) return json({ ok: false, error: 'db' }, 500, origin);
 
   const tipo = row.project_type ?? '—';
+  const emails = (await siteSettings()).emails as { contact?: string; cc?: string } | undefined;
   const mail = await sendEmail({
+    to: emails?.contact,
+    cc: emails?.cc,
     subject: `[Web] Nueva solicitud — ${row.name} (${tipo})`,
     replyTo: row.email,
     text:

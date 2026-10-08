@@ -59,6 +59,11 @@ overflow horizontal, sin restos de reveal, sin 4xx. Evidencia visual: `docs/roun
 | A14 | Dev notes: autosave, highlight+copiar, versiones, plantillas, pin/archivar, **pegar imagen**, **pantalla completa**, **keepalive**, **Ctrl+K**, **duplicar**, **copiar MD**, **↑/↓** | `admin-cms.spec` (autosave+highlight, **duplicar**) | dev | aprobado (e2e) · offline/conflicto/paste/fullscreen: manual |
 | A15 | Leads: badge no leídos, abrir marca leído, notas, historial, **en_seguimiento**, filtros+búsqueda en URL, CSV, responder/WhatsApp, CV preview, **acciones en lote** | `admin-cms.spec` (inbox+nota, **estado+lote**) | dev | aprobado (e2e) · realtime/CSV/CV: manual |
 | A16 | Seguridad: anon no lee tablas privadas; no-admin tampoco; Storage sin admin; `/admin` noindex | `qa:security` (verify-security.mjs: anon + usuario no-admin real) — 7/7 | dev | aprobado (script, ver §Seguridad) |
+| A17 | **Inicio**: editar hero (foto + texto + botones), stats, intro, destacados, sectores, cita, clientes, ventajas, CTA | `admin-cms.spec` (A17 prefill) | dev | aprobado (e2e) · live preview pendiente |
+| A18 | **Etapas**: imagen de portada por etapa (subir/reemplazar/descargar) | — | dev | aprobado (manual) · galería /servicios pendiente |
+| A19 | **Textos del sitio**: catálogo editable (búsqueda, modificados, autosave, reset, CSV); cambios → `t()` | `admin-cms.spec` (A19) + round-trip verificado | dev | aprobado (e2e) |
+| A20 | **Ajustes**: correos destino (edge fns en vivo), banner de mantenimiento (runtime), WhatsApp/redes/legal | `admin-cms.spec` (A20) | dev+prod | aprobado (e2e) · correos+banner en vivo; resto público pendiente |
+| P16 | **Botón hero** "Hablemos" = bone (color computado), AA; motion (hero/stats/cards/rutas) colapsa bajo reduced-motion | `button-contrast.spec` (/, /en), `motion.spec` (reduced + count-up) | dev | aprobado (e2e) |
 
 ## Infraestructura
 

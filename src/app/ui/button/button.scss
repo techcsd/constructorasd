@@ -45,18 +45,24 @@
   border-color: var(--text);
 }
 
-// Secondary over a dark surface (a [data-tone="dark"] section) or the hero photo (WD1 / WE10):
-// bone text + border + a translucent bone fill so it reads against dark pixels instead of vanishing.
-:host-context([data-tone='dark']):host([data-variant='secondary']) .app-button,
-:host-context(.home-hero):host([data-variant='secondary']) .app-button {
+// Secondary over a dark surface (tone="dark" — hero photo, CTA band, footer): bone text + border + a
+// translucent bone fill so it reads against dark pixels instead of vanishing. Explicit host attribute
+// (WM1 fix) — the old `:host-context(...):host(...)` combo never compiled under emulated encapsulation.
+:host([data-tone='dark'][data-variant='secondary']) .app-button {
   color: var(--btn-ondark-text);
   border-color: var(--btn-ondark-border);
   background: var(--btn-ondark-fill);
 }
-:host-context([data-tone='dark']):host([data-variant='secondary']) .app-button:hover,
-:host-context(.home-hero):host([data-variant='secondary']) .app-button:hover {
+:host([data-tone='dark'][data-variant='secondary']) .app-button:hover {
   border-color: var(--btn-ondark-text);
   background: var(--btn-ondark-fill-hover);
+}
+// Ghost links on a dark surface read as bone too (e.g. footer).
+:host([data-tone='dark'][data-variant='ghost']) .app-button {
+  color: var(--btn-ondark-text);
+}
+:host([data-tone='dark'][data-variant='ghost']) .app-button:hover {
+  color: var(--btn-ondark-text);
 }
 
 :host([data-variant='ghost']) .app-button {

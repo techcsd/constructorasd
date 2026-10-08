@@ -25,6 +25,7 @@ export class ProjectCard {
   readonly sector = input<string>('');
   readonly city = input<string>('');
   readonly image = input<string>('');
+  readonly focal = input<{ x: number; y: number } | undefined>(undefined);
   readonly alt = input<string>('');
   readonly featured = input<boolean>(false);
   readonly priority = input<boolean>(false); // eager + fetchpriority for above-the-fold cards (WE5)

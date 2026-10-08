@@ -1,0 +1,101 @@
+<div class="pnl">
+  <header class="pnl__head">
+    <div>
+      <h1 class="pnl__title">Panel</h1>
+      <p class="pnl__sub">Resumen del sitio. Pulsa <kbd class="pnl__kbd">Ctrl</kbd><kbd class="pnl__kbd">K</kbd> para saltar a cualquier sección.</p>
+    </div>
+    <span
+      class="pnl__publish"
+      [class.is-clean]="publish() === 'clean'"
+      [class.is-changes]="publish() === 'changes'"
+    >
+      @switch (publish()) {
+        @case ('loading') { Comprobando… }
+        @case ('clean') { ✓ Todo publicado }
+        @case ('changes') { Cambios sin publicar }
+      }
+    </span>
+  </header>
+
+  <!-- Stat tiles -->
+  <section class="pnl__tiles" aria-label="Estadísticas">
+    @for (t of content; track t.label) {
+      <a class="pnl__tile" [routerLink]="t.href">
+        <span class="pnl__tile-num adm-num" appCountUp>{{ t.value }}</span>
+        <span class="pnl__tile-label">{{ t.label }}</span>
+      </a>
+    }
+    <a class="pnl__tile" routerLink="/admin/leads">
+      @if (loaded()) {
+        <span class="pnl__tile-num adm-num">{{ unread() }}</span>
+      } @else {
+        <span class="adm-skeleton adm-skeleton--num"></span>
+      }
+      <span class="pnl__tile-label">Leads sin leer</span>
+    </a>
+    <a class="pnl__tile" routerLink="/admin/notas">
+      @if (loaded()) {
+        <span class="pnl__tile-num adm-num">{{ notesCount() }}</span>
+      } @else {
+        <span class="adm-skeleton adm-skeleton--num"></span>
+      }
+      <span class="pnl__tile-label">Dev notes</span>
+    </a>
+  </section>
+
+  <!-- Quick actions -->
+  <section class="pnl__actions" aria-label="Acciones rápidas">
+    <a class="adm-btn adm-btn--primary" routerLink="/admin/contenido/inicio">Editar Inicio</a>
+    <a class="adm-btn adm-btn--ghost" routerLink="/admin/contenido/proyectos/editar">+ Nuevo proyecto</a>
+    <a class="adm-btn adm-btn--ghost" routerLink="/admin/textos">Textos del sitio</a>
+    <a class="adm-btn adm-btn--ghost" href="/" target="_blank" rel="noopener">
+      Ver el sitio
+      <svg class="pnl__ext" width="14" height="14" aria-hidden="true"><use href="/icons.svg#arrow-up-right" /></svg>
+    </a>
+  </section>
+
+  <!-- Recent activity -->
+  <section class="pnl__recent">
+    <div class="pnl__col">
+      <h2 class="pnl__col-title">Notas recientes</h2>
+      @if (!loaded()) {
+        <span class="adm-skeleton adm-skeleton--row"></span>
+        <span class="adm-skeleton adm-skeleton--row"></span>
+        <span class="adm-skeleton adm-skeleton--row"></span>
+      } @else if (recentNotes().length) {
+        <ul class="pnl__feed">
+          @for (n of recentNotes(); track n.id) {
+            <li class="pnl__feed-row">
+              <a routerLink="/admin/notas" class="pnl__feed-main">{{ n.title || 'Sin título' }}</a>
+              <span class="pnl__feed-time">{{ ago(n.updated_at) }}</span>
+            </li>
+          }
+        </ul>
+      } @else {
+        <p class="pnl__empty">Sin notas todavía.</p>
+      }
+    </div>
+
+    <div class="pnl__col">
+      <h2 class="pnl__col-title">Leads recientes</h2>
+      @if (!loaded()) {
+        <span class="adm-skeleton adm-skeleton--row"></span>
+        <span class="adm-skeleton adm-skeleton--row"></span>
+        <span class="adm-skeleton adm-skeleton--row"></span>
+      } @else if (recentLeads().length) {
+        <ul class="pnl__feed">
+          @for (l of recentLeads(); track l.id) {
+            <li class="pnl__feed-row" [class.is-unread]="!l.read_at">
+              <a routerLink="/admin/leads" class="pnl__feed-main">
+                {{ l.name }}@if (l.company) { <span class="pnl__feed-dim"> · {{ l.company }}</span> }
+              </a>
+              <span class="pnl__feed-time">{{ ago(l.created_at) }}</span>
+            </li>
+          }
+        </ul>
+      } @else {
+        <p class="pnl__empty">Sin leads todavía.</p>
+      }
+    </div>
+  </section>
+</div>

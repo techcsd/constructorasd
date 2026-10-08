@@ -46,6 +46,13 @@ export class ImageFigure {
   readonly priority = input<boolean>(false);
   readonly caption = input<string>('');
   readonly sizes = input<string>('(min-width: 1024px) 50vw, 100vw');
+  /** Crop centre 0..1 from the admin focal picker; maps to object-position so the subject stays in frame. */
+  readonly focal = input<{ x: number; y: number } | undefined>(undefined);
+
+  readonly objectPosition = computed(() => {
+    const f = this.focal();
+    return f ? `${Math.round(f.x * 100)}% ${Math.round(f.y * 100)}%` : null;
+  });
 
   readonly entry = computed<ImageEntry | undefined>(() => MANIFEST[this.image()]);
   // Draft preview (WJ5): a Storage URL isn't in the optimized manifest — render it directly as-is.

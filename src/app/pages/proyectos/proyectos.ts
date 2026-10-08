@@ -57,6 +57,7 @@ export class Proyectos {
         sector: this.sectorLabel(p.sector),
         city: this.i18n.pick(p.location)!,
         image: p.cover.src,
+        focal: p.cover.focal,
         alt: this.i18n.pick(p.cover.alt)!,
         featured: p.featured,
         href: detailPathFor('proyecto', p.slug, locale)!,

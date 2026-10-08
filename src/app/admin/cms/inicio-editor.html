@@ -1,0 +1,164 @@
+<header class="cms-head">
+  <h1 class="cms-title">Inicio</h1>
+  <p class="cms-row__meta small">Todo lo que aparece en la pantalla de inicio. Guarda y pulsa <strong>Publicar</strong> para verlo en el sitio.</p>
+</header>
+
+@if (error()) { <p class="cms-error">{{ error() }}</p> }
+@if (saved()) { <p class="cms-ok small">Guardado. Pulsa Publicar para verlo en vivo.</p> }
+@if (loading()) { <p class="small">Cargando…</p> } @else {
+<div class="cms-form">
+
+  <!-- Hero -->
+  <details class="cms-seo" open>
+    <summary>Hero (portada)</summary>
+    <div class="cms-bi" style="margin-top:var(--space-3)">
+      <div class="cms-field"><label>Título (ES)</label><input class="adm-input" [(ngModel)]="model.hero.title.es" /></div>
+      <div class="cms-field"><label>Title (EN)</label><input class="adm-input" [(ngModel)]="model.hero.title.en" /></div>
+      <div class="cms-field"><label>Palabra enfatizada (ES) — va en cursiva serif</label><input class="adm-input" [(ngModel)]="model.hero.emphasis.es" /></div>
+      <div class="cms-field"><label>Emphasised word (EN)</label><input class="adm-input" [(ngModel)]="model.hero.emphasis.en" /></div>
+      <div class="cms-field"><label>Bajada / lead (ES)</label><textarea class="adm-input" rows="2" [(ngModel)]="model.hero.lead.es"></textarea></div>
+      <div class="cms-field"><label>Lead (EN)</label><textarea class="adm-input" rows="2" [(ngModel)]="model.hero.lead.en"></textarea></div>
+      <div class="cms-field"><label>Eyebrow (ES)</label><input class="adm-input" [(ngModel)]="model.hero.eyebrow.es" /></div>
+      <div class="cms-field"><label>Eyebrow (EN)</label><input class="adm-input" [(ngModel)]="model.hero.eyebrow.en" /></div>
+    </div>
+
+    <label class="cms-field__label" style="margin-top:var(--space-3)">Foto del hero</label>
+    @if (heroThumb(); as url) {
+      <div class="cms-cover">
+        <app-admin-thumb [src]="url" />
+        <div class="cms-cover__actions">
+          <a class="adm-btn adm-btn--ghost" [href]="heroDownload()" download>Descargar original</a>
+          <button type="button" class="adm-btn adm-btn--ghost" (click)="clearHero()">Quitar (usar la de por defecto)</button>
+        </div>
+      </div>
+    } @else {
+      <p class="small">Sin imagen propia — se usa la foto de obra por defecto.</p>
+    }
+    <app-media-uploader [label]="heroThumb() ? 'Reemplazar foto del hero' : 'Subir foto del hero'" (uploaded)="onHeroMedia($event)" />
+    <div class="cms-bi">
+      <div class="cms-field"><label>Texto alternativo (ES)</label><input class="adm-input" [(ngModel)]="model.hero.alt.es" /></div>
+      <div class="cms-field"><label>Alt text (EN)</label><input class="adm-input" [(ngModel)]="model.hero.alt.en" /></div>
+    </div>
+
+    <div class="cms-bi">
+      <div class="cms-field"><label>Botón principal — texto (ES)</label><input class="adm-input" [(ngModel)]="model.hero.primary.label.es" /></div>
+      <div class="cms-field"><label>Primary button — text (EN)</label><input class="adm-input" [(ngModel)]="model.hero.primary.label.en" /></div>
+      <div class="cms-field"><label>Botón principal — enlace</label>
+        <input class="adm-input" list="route-list" [(ngModel)]="model.hero.primary.href" placeholder="proyectos / https://…" />
+      </div>
+      <div class="cms-field"><label>Botón secundario — texto (ES)</label><input class="adm-input" [(ngModel)]="model.hero.secondary.label.es" /></div>
+      <div class="cms-field"><label>Secondary button — text (EN)</label><input class="adm-input" [(ngModel)]="model.hero.secondary.label.en" /></div>
+      <div class="cms-field"><label>Botón secundario — enlace</label>
+        <input class="adm-input" list="route-list" [(ngModel)]="model.hero.secondary.href" placeholder="contacto / https://…" />
+      </div>
+    </div>
+  </details>
+
+  <!-- Stats -->
+  <details class="cms-seo" open>
+    <summary>Números (banda de stats)</summary>
+    @for (s of model.stats; track trackByIndex($index); let i = $index) {
+      <div class="cms-office">
+        <div class="cms-bi">
+          <div class="cms-field"><label>Valor</label><input class="adm-input" [(ngModel)]="s.value" /></div>
+          <div class="cms-field"><label>Sufijo (+, %, m…)</label><input class="adm-input" [(ngModel)]="s.suffix" /></div>
+          <div class="cms-field"><label>Etiqueta (ES)</label><input class="adm-input" [(ngModel)]="s.label.es" /></div>
+          <div class="cms-field"><label>Label (EN)</label><input class="adm-input" [(ngModel)]="s.label.en" /></div>
+        </div>
+        <div class="cms-gitem__actions">
+          <button type="button" class="adm-btn adm-btn--ghost" (click)="moveStat(i, -1)">↑</button>
+          <button type="button" class="adm-btn adm-btn--ghost" (click)="moveStat(i, 1)">↓</button>
+          <button type="button" class="adm-btn adm-btn--ghost" (click)="removeStat(i)">Quitar</button>
+        </div>
+      </div>
+    }
+    <button type="button" class="adm-btn adm-btn--ghost" (click)="addStat()">+ Añadir número</button>
+  </details>
+
+  <!-- Intro -->
+  <details class="cms-seo">
+    <summary>Bloque intro</summary>
+    <div class="cms-bi" style="margin-top:var(--space-3)">
+      <div class="cms-field"><label>Eyebrow (ES)</label><input class="adm-input" [(ngModel)]="model.intro.eyebrow.es" /></div>
+      <div class="cms-field"><label>Eyebrow (EN)</label><input class="adm-input" [(ngModel)]="model.intro.eyebrow.en" /></div>
+      <div class="cms-field"><label>Título (ES)</label><input class="adm-input" [(ngModel)]="model.intro.title.es" /></div>
+      <div class="cms-field"><label>Title (EN)</label><input class="adm-input" [(ngModel)]="model.intro.title.en" /></div>
+      <div class="cms-field"><label>Texto (ES)</label><textarea class="adm-input" rows="4" [(ngModel)]="model.intro.text.es"></textarea></div>
+      <div class="cms-field"><label>Text (EN)</label><textarea class="adm-input" rows="4" [(ngModel)]="model.intro.text.en"></textarea></div>
+      <div class="cms-field"><label>Enlace — texto (ES)</label><input class="adm-input" [(ngModel)]="model.intro.linkLabel.es" /></div>
+      <div class="cms-field"><label>Link — text (EN)</label><input class="adm-input" [(ngModel)]="model.intro.linkLabel.en" /></div>
+      <div class="cms-field"><label>Enlace — destino</label><input class="adm-input" list="route-list" [(ngModel)]="model.intro.href" /></div>
+    </div>
+  </details>
+
+  <!-- Featured + Clients selection -->
+  <details class="cms-seo">
+    <summary>Proyectos destacados y clientes en portada</summary>
+    <div class="cms-grid2" style="margin-top:var(--space-3)">
+      <div class="cms-field"><label>Proyectos destacados</label>
+        <select class="adm-input" [(ngModel)]="model.featuredProjects.mode">
+          <option value="auto">Automático (destacados por orden)</option>
+          <option value="manual">Manual (slugs separados por coma)</option>
+        </select>
+        @if (model.featuredProjects.mode === 'manual') {
+          <input class="adm-input" [ngModel]="model.featuredProjects.ids.join(', ')" (ngModelChange)="setFeaturedIds($event)" placeholder="slug-1, slug-2" style="margin-top:var(--space-2)" />
+        }
+      </div>
+      <div class="cms-field"><label>Clientes en portada — máximo</label>
+        <input class="adm-input" type="number" [(ngModel)]="model.clientsOnHome.max" min="4" max="24" />
+      </div>
+    </div>
+  </details>
+
+  <!-- Sectors / Quote -->
+  <details class="cms-seo">
+    <summary>Sectores y cita</summary>
+    <div class="cms-bi" style="margin-top:var(--space-3)">
+      <div class="cms-field"><label>Sectores — título (ES)</label><input class="adm-input" [(ngModel)]="model.sectors.title.es" /></div>
+      <div class="cms-field"><label>Sectors — title (EN)</label><input class="adm-input" [(ngModel)]="model.sectors.title.en" /></div>
+      <div class="cms-field"><label>Cita (ES)</label><textarea class="adm-input" rows="2" [(ngModel)]="model.quote.text.es"></textarea></div>
+      <div class="cms-field"><label>Quote (EN)</label><textarea class="adm-input" rows="2" [(ngModel)]="model.quote.text.en"></textarea></div>
+      <div class="cms-field"><label>Autor de la cita (ES)</label><input class="adm-input" [(ngModel)]="model.quote.author.es" /></div>
+      <div class="cms-field"><label>Quote author (EN)</label><input class="adm-input" [(ngModel)]="model.quote.author.en" /></div>
+    </div>
+  </details>
+
+  <!-- Advantages -->
+  <details class="cms-seo">
+    <summary>Ventajas</summary>
+    @for (a of model.advantages; track trackByIndex($index); let i = $index) {
+      <div class="cms-office">
+        <div class="cms-bi">
+          <div class="cms-field"><label>Título (ES)</label><input class="adm-input" [(ngModel)]="a.title.es" /></div>
+          <div class="cms-field"><label>Title (EN)</label><input class="adm-input" [(ngModel)]="a.title.en" /></div>
+          <div class="cms-field"><label>Texto (ES)</label><input class="adm-input" [(ngModel)]="a.text.es" /></div>
+          <div class="cms-field"><label>Text (EN)</label><input class="adm-input" [(ngModel)]="a.text.en" /></div>
+        </div>
+        <button type="button" class="adm-btn adm-btn--ghost" (click)="removeAdvantage(i)">Quitar</button>
+      </div>
+    }
+    <button type="button" class="adm-btn adm-btn--ghost" (click)="addAdvantage()">+ Añadir ventaja</button>
+  </details>
+
+  <!-- CTA -->
+  <details class="cms-seo">
+    <summary>Banda final (CTA)</summary>
+    <div class="cms-bi" style="margin-top:var(--space-3)">
+      <div class="cms-field"><label>Título (ES)</label><input class="adm-input" [(ngModel)]="model.cta.title.es" /></div>
+      <div class="cms-field"><label>Title (EN)</label><input class="adm-input" [(ngModel)]="model.cta.title.en" /></div>
+      <div class="cms-field"><label>Botón — texto (ES)</label><input class="adm-input" [(ngModel)]="model.cta.buttonLabel.es" /></div>
+      <div class="cms-field"><label>Button — text (EN)</label><input class="adm-input" [(ngModel)]="model.cta.buttonLabel.en" /></div>
+      <div class="cms-field"><label>Botón — enlace</label><input class="adm-input" list="route-list" [(ngModel)]="model.cta.href" /></div>
+    </div>
+    <label class="cms-check" style="margin-top:var(--space-2)"><input type="checkbox" [(ngModel)]="model.cta.showPhones" /> Mostrar los teléfonos junto al botón</label>
+  </details>
+
+  <datalist id="route-list">
+    @for (r of routes; track r) { <option [value]="r"></option> }
+  </datalist>
+
+  <div class="cms-save-bar">
+    <button type="button" class="adm-btn adm-btn--primary" [disabled]="saving()" (click)="save()">{{ saving() ? 'Guardando…' : 'Guardar' }}</button>
+  </div>
+</div>
+}

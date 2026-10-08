@@ -32,6 +32,11 @@
 
       <div class="servicios__media">
         <app-image-figure [image]="s.image" [alt]="s.imageAlt" aspect="4 / 5" />
+        @if (s.gallery.length) {
+          <div class="servicios__gallery">
+            @for (g of s.gallery; track g.src) { <app-image-figure [image]="g.src" [alt]="g.alt" aspect="4 / 3" /> }
+          </div>
+        }
       </div>
     </div>
   </section>

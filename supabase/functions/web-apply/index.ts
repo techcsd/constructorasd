@@ -1,7 +1,7 @@
 // web-apply (WA12 / WB6) — multipart CV upload (≤5 MB, pdf/doc/docx) → private web-cv bucket →
 // job_applications row → email info@ with a 7-day signed download link. Persist-first.
 import { validateApplication, isLikelySpam } from '../_shared/validate.ts';
-import { admin, clientIp, ipHash, json, rateLimit, sendEmail } from '../_shared/util.ts';
+import { admin, clientIp, ipHash, json, rateLimit, sendEmail, siteSettings } from '../_shared/util.ts';
 import { corsHeaders } from '../_shared/cors.ts';
 
 const MAX = 5 * 1024 * 1024;
@@ -86,7 +86,10 @@ Deno.serve(async (req: Request) => {
   const signed = await db.storage.from('web-cv').createSignedUrl(path, 7 * 24 * 60 * 60);
   const link = signed.data?.signedUrl ?? '(no link)';
 
+  const emails = (await siteSettings()).emails as { applications?: string; contact?: string; cc?: string } | undefined;
   await sendEmail({
+    to: emails?.applications || emails?.contact,
+    cc: emails?.cc,
     subject: `[Web] Nueva candidatura — ${row.name}${row.job_slug ? ` (${row.job_slug})` : ' (espontánea)'}`,
     replyTo: row.email,
     text:

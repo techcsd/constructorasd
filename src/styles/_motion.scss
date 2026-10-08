@@ -1,0 +1,60 @@
+// Motion system (WL5 / WN3) — tokens + keyframes + utilities. "Noticeable but tasteful": motion serves
+// reading order and hierarchy. No gradients/blobs/particles/cursor effects (verify-no-ai-tropes enforces).
+// Everything here collapses under `prefers-reduced-motion: reduce` (the global block at the bottom).
+
+:root {
+  interpolate-size: allow-keywords; // lets height/0fr→auto animate (accordion); ignored where unsupported
+  --m-ease-out: cubic-bezier(0.2, 0.7, 0.2, 1);
+  --m-fast: 180ms;
+  --m-base: 420ms;
+  --m-slow: 900ms;
+  --m-stagger: 40ms;
+  --m-kenburns: 18s;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  // Ken Burns on a hero/section photo — starts only after JS adds .is-playing (so LCP isn't measured
+  // mid-transform), pauses when the tab is hidden (.is-paused).
+  .m-kenburns img {
+    will-change: transform;
+    transform: scale(1);
+  }
+  .m-kenburns.is-playing img {
+    animation: m-kenburns var(--m-kenburns) ease-in-out forwards;
+  }
+  .m-kenburns.is-paused img {
+    animation-play-state: paused;
+  }
+  @keyframes m-kenburns {
+    from { transform: scale(1); }
+    to { transform: scale(1.06); }
+  }
+
+  // Count-up numerals get a tiny slide as they animate (the JS sets the value).
+  .m-countup {
+    display: inline-block;
+    transition: transform var(--m-slow) var(--m-ease-out);
+  }
+}
+
+// Route transitions (WN3) — the main content cross-fades + rises 8 px; the header is a named shared element
+// so it stays put (no flash). ~220 ms. Only the client-side nav is affected; prerendered HTML is untouched.
+@media (prefers-reduced-motion: no-preference) {
+  ::view-transition-old(root) { animation: m-vt-out 180ms var(--m-ease-out) both; }
+  ::view-transition-new(root) { animation: m-vt-in 220ms var(--m-ease-out) both; }
+  @keyframes m-vt-out { to { opacity: 0; } }
+  @keyframes m-vt-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+}
+
+// One global kill-switch — accessible, battery-friendly, and the no-JS/SSR state is already fully visible.
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-group(*),
+  ::view-transition-old(root),
+  ::view-transition-new(root) { animation: none !important; }
+  .m-kenburns img,
+  .m-kenburns.is-playing img {
+    animation: none !important;
+    transform: none !important;
+  }
+  .m-countup { transition: none !important; }
+}

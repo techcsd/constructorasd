@@ -1,13 +1,19 @@
 import { Injectable, signal } from '@angular/core';
 import es from '../../../content/i18n/es.json';
 import en from '../../../content/i18n/en.json';
+import overrides from '../../../content/_overrides.json';
 
 export type Locale = 'es' | 'en';
 export const LOCALES: Locale[] = ['es', 'en'];
 export const DEFAULT_LOCALE: Locale = 'es';
 
 type Dict = Record<string, string>;
-const DICTS: Record<Locale, Dict> = { es: es as Dict, en: en as Dict };
+// web.ui_strings edits (WL6) merged in at build via _overrides.json (gen-content), DB wins per key.
+const UI = ((overrides as { ui?: { es?: Dict; en?: Dict } }).ui) ?? {};
+const DICTS: Record<Locale, Dict> = {
+  es: { ...(es as Dict), ...(UI.es ?? {}) },
+  en: { ...(en as Dict), ...(UI.en ?? {}) },
+};
 
 /**
  * Runtime i18n (WB3 / CLAUDE.md rule 3). No `@angular/localize` (that would duplicate the Vercel build).
@@ -32,11 +38,8 @@ export class I18nService {
   /** Translate `key` (Spanish source text) to the active locale, interpolating `{name}` params. */
   t(key: string, params?: Record<string, string | number>): string {
     const locale = this._locale(); // reactive read
-    let out = key;
-    if (locale !== 'es') {
-      const hit = DICTS[locale][key];
-      if (hit) out = hit;
-    }
+    // The key is the ES source; a dict entry (ES override or EN translation) wins when present.
+    let out = DICTS[locale][key] ?? key;
     if (params) {
       for (const [k, v] of Object.entries(params)) {
         out = out.replace(new RegExp(`\\{${k}\\}`, 'g'), String(v));

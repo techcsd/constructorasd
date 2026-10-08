@@ -70,3 +70,6 @@ docs/round-03-qa/
 
 # supabase CLI scratch
 supabase/.temp/
+
+# round-04 QA evidence (regenerable)
+docs/round-04-qa/

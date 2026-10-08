@@ -5,7 +5,13 @@
   gap: var(--space-3);
   padding: var(--space-3) var(--space-5);
   border-bottom: 1px solid var(--line);
-  background: var(--bg-elevated);
+  // Glass top bar (WN4): sticks to the top of the content column, blurs what scrolls under it.
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background: var(--glass, var(--bg-elevated));
+  backdrop-filter: saturate(140%) blur(12px); // tropes-allow (admin glass top bar — brief WN4, admin-only)
+  -webkit-backdrop-filter: saturate(140%) blur(12px); // tropes-allow (admin glass top bar — brief WN4, admin-only)
   font-size: var(--fs-small);
   color: var(--text-2);
 }

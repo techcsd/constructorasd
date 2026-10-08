@@ -1,5 +1,86 @@
 // ===== Admin panel — shared styles (login + shell + modules). Lazy /admin chunk only. =====
-// Uses semantic tokens so it rides the same palette as the site; the sidebar opts into dark via tone-dark.
+// "Dark studio console" (WL7/WN4): the admin remaps the semantic tokens it already uses to a dark graphite
+// palette on its root, so every screen re-skins at once (custom properties inherit to all descendants).
+// These literals define the admin's own token sheet (like _tokens.scss), hence tokens-allow per line.
+
+.adm,
+.adm-auth {
+  --bg: #0e1012; // tokens-allow
+  --bg-elevated: #1a1d21; // tokens-allow
+  --bg-sunken: #141719; // tokens-allow
+  --text: #eceae4; // tokens-allow
+  --text-2: #a8abb2; // tokens-allow
+  --text-3: #6e7279; // tokens-allow
+  --line: rgba(255, 255, 255, 0.07); // tokens-allow
+  --line-control: rgba(255, 255, 255, 0.14); // tokens-allow
+  --line-strong: rgba(255, 255, 255, 0.2); // tokens-allow
+  --accent: #f08a4b; // tokens-allow
+  --accent-hover: #c2410c; // tokens-allow
+  --text-on-accent: #0e1012; // tokens-allow
+  --a-ok: #7fd1a9; // tokens-allow
+  --a-warn: #f2c14e; // tokens-allow
+  --a-danger: #f0665c; // tokens-allow
+  --a-surface-2: #22262b; // tokens-allow
+  --a-glow: 0 0 0 1px rgba(240, 138, 75, 0.16), 0 0 22px rgba(240, 138, 75, 0.22); // tokens-allow
+  --glass: rgba(20, 23, 25, 0.72); // tokens-allow — translucent elevated for the glass top bar
+  // Console numerals: system mono stack (no webfont shipped), tabular figures. JetBrains Mono first if present.
+  --font-mono: "JetBrains Mono", ui-monospace, "SF Mono", "Menlo", "Consolas", monospace;
+  background: var(--bg);
+  color: var(--text);
+}
+.adm { min-height: 100vh; }
+.adm-auth { min-height: 100vh; display: grid; place-items: center; }
+
+// Atmosphere (WN4): a single, very subtle ambient oxide glow fixed top-right, plus a faint grain so the
+// graphite never looks flat. Both are pointer-transparent and sit behind everything. Collapsed for reduced data.
+.adm,
+.adm-auth {
+  position: relative;
+  isolation: isolate;
+}
+.adm::before,
+.adm-auth::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(60rem 40rem at 100% -10%, rgba(240, 138, 75, 0.1), transparent 60%), // tokens-allow tropes-allow (admin ambient glow — brief WN4)
+    radial-gradient(50rem 50rem at -10% 110%, rgba(127, 209, 169, 0.05), transparent 60%); // tokens-allow tropes-allow (admin ambient glow — brief WN4)
+}
+.adm::after,
+.adm-auth::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  opacity: 0.035;
+  // Self-contained fractal grain (data-URI SVG) — no network asset, no AI-trope gradient wash.
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+// Console numerals — tabular mono figures for any element tagged .adm-num (stats, counts, prices).
+.adm-num {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.01em;
+}
+
+// Sidebar rail + active nav in oxide.
+.adm__side { background: var(--bg-sunken); }
+.adm__nav-link { border-radius: var(--r-sm); transition: background var(--dur-fast) var(--ease-out), color var(--dur-fast) var(--ease-out); }
+.adm__nav-link:hover { background: var(--bg-elevated); color: var(--text); }
+.adm__nav-link.is-active { color: var(--accent); }
+.adm__nav-link.is-active .adm__dot { background: var(--accent); box-shadow: var(--a-glow); }
+
+// Inputs: filled surface + accent focus ring.
+.adm-input:focus-visible,
+.adm-field input:focus-visible,
+.adm-field select:focus-visible,
+.adm-field textarea:focus-visible,
+textarea.adm-input:focus-visible { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px var(--a-surface-2); }
 
 // ---- Shared controls ----
 .adm-btn {
@@ -8,11 +89,14 @@
   font-weight: 600;
   padding: var(--space-2) var(--space-4);
   border-radius: var(--r-sm);
-  border: 1px solid transparent;
+  border: 1px solid var(--line-control);
+  background: var(--bg-elevated); // dark surface by default (no browser-light fallback on the dark theme)
+  color: var(--text);
   cursor: pointer;
   transition: all var(--dur-fast) var(--ease-out);
   white-space: nowrap;
 }
+.adm-btn:hover { border-color: var(--text-3); }
 .adm-btn--primary {
   background: var(--accent);
   color: var(--text-on-accent);
@@ -158,6 +242,42 @@ a.adm-btn {
   flex: none;
   color: currentColor;
 }
+// Sidebar command-palette launcher — looks like a search field, opens the Ctrl+K palette.
+.adm__cmdk-hint {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  width: 100%;
+  padding: var(--space-3);
+  border-radius: var(--r-sm);
+  border: 1px solid var(--line-control);
+  background: var(--bg-sunken);
+  color: var(--text-3);
+  font: inherit;
+  font-size: var(--fs-small);
+  cursor: pointer;
+  transition: all var(--dur-fast) var(--ease-out);
+}
+.adm__cmdk-hint:hover {
+  border-color: var(--line-strong);
+  color: var(--text-2);
+}
+.adm__cmdk-keys {
+  display: inline-flex;
+  gap: 2px;
+}
+.adm__cmdk-hint kbd {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  line-height: 1.5;
+  padding: 0 4px;
+  color: var(--text-2);
+  background: var(--bg-elevated);
+  border: 1px solid var(--line-control);
+  border-radius: 4px;
+}
+
 .adm__nav {
   display: flex;
   flex-direction: column;
@@ -165,6 +285,7 @@ a.adm-btn {
   flex: 1;
 }
 .adm__nav-link {
+  position: relative;
   display: flex;
   align-items: center;
   gap: var(--space-3);
@@ -174,13 +295,31 @@ a.adm-btn {
   font-weight: 500;
   transition: all var(--dur-fast) var(--ease-out);
 }
+// Oxide active-indicator bar on the left — scales in from the center with a springy ease.
+.adm__nav-link::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  width: 2px;
+  height: 0;
+  border-radius: 2px;
+  background: var(--accent);
+  transform: translateY(-50%);
+  transition: height 0.26s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
 .adm__nav-link:hover {
   color: var(--text);
   background: var(--bg-elevated);
+  transform: translateX(2px);
 }
 .adm__nav-link.is-active {
   color: var(--text);
   background: var(--bg-elevated);
+}
+.adm__nav-link.is-active::before {
+  height: 60%;
+  box-shadow: var(--a-glow);
 }
 .adm__dot {
   width: 7px;
@@ -227,6 +366,28 @@ a.adm-btn {
   @media (max-width: 640px) {
     padding: var(--space-5);
   }
+}
+
+// ---- Admin motion (WN4) — tasteful, honours prefers-reduced-motion via the global kill switch in styles.scss ----
+// Each routed screen rises + fades in on mount (client-side nav re-creates the component, so it re-runs).
+@media (prefers-reduced-motion: no-preference) {
+  .adm__content > *:not(router-outlet) {
+    animation: adm-rise 0.34s var(--ease-out) both;
+  }
+  @keyframes adm-rise {
+    from {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+}
+// Button press — a hair of travel so clicks feel physical.
+.adm-btn:active {
+  transform: translateY(1px);
 }
 
 // ---- Dev notes ----
@@ -730,3 +891,205 @@ a.adm-btn {
 .lead-note { padding: var(--space-2); border-bottom: 1px solid var(--line); font-size: var(--fs-small); }
 .lead-note .small { color: var(--text-3); }
 .lead-cv { width: 100%; height: 480px; border: 1px solid var(--line); border-radius: var(--r-sm); margin-top: var(--space-3); }
+
+// Textos del sitio (WL6)
+.txt-toolbar { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-3); margin-bottom: var(--space-3); }
+.txt-toolbar .adm-input { flex: 1; min-width: 160px; }
+.txt-toolbar label { display: inline-flex; align-items: center; gap: var(--space-2); white-space: nowrap; }
+.txt-list { display: flex; flex-direction: column; gap: var(--space-2); }
+.txt-row { display: grid; grid-template-columns: 220px 1fr auto; gap: var(--space-3); align-items: start; padding: var(--space-2) var(--space-3); border: 1px solid var(--line); border-radius: var(--r-sm); }
+.txt-row.is-modified { border-color: var(--accent); }
+.txt-row__key { display: flex; flex-direction: column; gap: var(--space-1); min-width: 0; word-break: break-word; }
+.txt-row__fields { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-2); }
+.txt-row__fields textarea { resize: vertical; }
+.txt-row__actions { display: flex; align-items: center; gap: var(--space-2); }
+@media (max-width: 860px) { .txt-row { grid-template-columns: 1fr; } .txt-row__fields { grid-template-columns: 1fr; } }
+
+// ---- Panel (dashboard, brief §6) ----
+.pnl { max-width: 1040px; }
+.pnl__head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: var(--space-4);
+  margin-bottom: var(--space-6);
+  flex-wrap: wrap;
+}
+.pnl__title { font-size: var(--fs-h2); font-weight: 700; margin: 0; }
+.pnl__sub { color: var(--text-3); font-size: var(--fs-small); margin-top: var(--space-1); }
+.pnl__kbd {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  padding: 0 4px;
+  color: var(--text-2);
+  background: var(--bg-sunken);
+  border: 1px solid var(--line-control);
+  border-radius: 4px;
+}
+.pnl__publish {
+  font-size: var(--fs-small);
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--r-sm);
+  border: 1px solid var(--line);
+  color: var(--text-2);
+  white-space: nowrap;
+}
+.pnl__publish.is-clean { color: var(--a-ok); border-color: color-mix(in srgb, var(--a-ok) 40%, transparent); }
+.pnl__publish.is-changes { color: var(--accent); border-color: color-mix(in srgb, var(--accent) 45%, transparent); }
+
+// Stat tiles
+.pnl__tiles {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: var(--space-4);
+  margin-bottom: var(--space-6);
+  @media (max-width: 900px) { grid-template-columns: repeat(3, 1fr); }
+  @media (max-width: 560px) { grid-template-columns: repeat(2, 1fr); }
+}
+.pnl__tile {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  padding: var(--space-5) var(--space-4);
+  background: var(--bg-elevated);
+  border: 1px solid var(--line);
+  border-radius: var(--r-img);
+  transition: all var(--dur-fast) var(--ease-out);
+}
+.pnl__tile:hover {
+  border-color: var(--line-control);
+  transform: translateY(-2px);
+  box-shadow: var(--a-glow);
+}
+.pnl__tile-num { font-size: 2rem; font-weight: 700; line-height: 1.1; color: var(--text); }
+.pnl__tile-label { font-size: var(--fs-small); color: var(--text-3); }
+
+// Quick actions
+.pnl__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  margin-bottom: var(--space-7);
+}
+
+// Recent activity
+.pnl__recent {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-5);
+  @media (max-width: 760px) { grid-template-columns: 1fr; }
+}
+.pnl__col {
+  background: var(--bg-elevated);
+  border: 1px solid var(--line);
+  border-radius: var(--r-img);
+  padding: var(--space-5);
+}
+.pnl__col-title {
+  font-size: var(--fs-small);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-3);
+  margin: 0 0 var(--space-3);
+}
+.pnl__feed { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; }
+.pnl__feed-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding: var(--space-3) 0;
+  border-top: 1px solid var(--line);
+}
+.pnl__feed-row:first-child { border-top: 0; }
+.pnl__feed-main { color: var(--text); min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.pnl__feed-main:hover { color: var(--accent); }
+.pnl__feed-dim { color: var(--text-3); }
+.pnl__feed-time { color: var(--text-3); font-size: var(--fs-small); white-space: nowrap; flex: none; }
+.pnl__feed-row.is-unread .pnl__feed-main { font-weight: 600; }
+.pnl__feed-row.is-unread::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--a-ok);
+  flex: none;
+  align-self: center;
+}
+.pnl__empty { color: var(--text-3); font-size: var(--fs-small); }
+.pnl__ext { margin-left: var(--space-1); stroke: currentColor; fill: none; vertical-align: middle; }
+
+// ---- Loading skeleton (reusable) ----
+.adm-skeleton {
+  display: inline-block;
+  border-radius: var(--r-sm);
+  background: linear-gradient(100deg, var(--bg-sunken) 30%, var(--bg-elevated) 50%, var(--bg-sunken) 70%); // tropes-allow (functional loading shimmer, admin-only)
+  background-size: 200% 100%;
+  animation: adm-shimmer 1.3s ease-in-out infinite;
+}
+.adm-skeleton--num { width: 2.4ch; height: 1.6rem; vertical-align: middle; }
+.adm-skeleton--row { width: 100%; height: 1rem; margin: var(--space-3) 0; }
+@keyframes adm-shimmer {
+  from { background-position: 200% 0; }
+  to { background-position: -200% 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .adm-skeleton { animation: none !important; }
+}
+
+// ---- Sidebar icons + collapsible rail (WN4) ----
+.adm__nav-ico {
+  width: 20px;
+  height: 20px;
+  flex: none;
+  stroke: currentColor;
+  fill: none;
+  color: var(--text-3);
+  transition: color var(--dur-fast) var(--ease-out);
+}
+.adm__nav-link:hover .adm__nav-ico,
+.adm__nav-link.is-active .adm__nav-ico { color: var(--accent); }
+.adm__nav-label { white-space: nowrap; overflow: hidden; }
+.adm__cmdk-ico { width: 16px; height: 16px; flex: none; stroke: currentColor; fill: none; color: var(--text-3); }
+.adm__cmdk-txt { margin-right: auto; }
+.adm__logout { display: flex; align-items: center; justify-content: center; gap: var(--space-2); }
+
+// Collapse toggle (bottom of the rail)
+.adm__collapse {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: var(--r-sm);
+  border: 1px solid var(--line-control);
+  background: var(--bg-elevated);
+  color: var(--text-2);
+  cursor: pointer;
+  align-self: flex-end;
+  transition: all var(--dur-fast) var(--ease-out);
+}
+.adm__collapse:hover { border-color: var(--text-3); color: var(--text); }
+.adm__collapse-ico { width: 16px; height: 16px; stroke: currentColor; fill: none; transition: transform var(--dur) var(--ease-out); }
+
+// Smooth width change
+.adm__side { transition: width var(--dur) var(--ease-out), padding var(--dur) var(--ease-out); }
+
+// ---- Collapsed rail state ----
+.adm.is-rail .adm__side {
+  width: 64px;
+  padding-left: var(--space-3);
+  padding-right: var(--space-3);
+  align-items: stretch;
+}
+.adm.is-rail .adm__brand-txt,
+.adm.is-rail .adm__nav-label,
+.adm.is-rail .adm__cmdk-txt,
+.adm.is-rail .adm__cmdk-keys,
+.adm.is-rail .adm__user { display: none; }
+.adm.is-rail .adm__brand { justify-content: center; }
+.adm.is-rail .adm__nav-link { justify-content: center; padding-left: 0; padding-right: 0; }
+.adm.is-rail .adm__cmdk-hint { justify-content: center; padding-left: 0; padding-right: 0; }
+.adm.is-rail .adm__collapse { align-self: center; }
+.adm.is-rail .adm__collapse-ico { transform: rotate(180deg); }
+.adm.is-rail .adm__logout { padding-left: 0; padding-right: 0; }

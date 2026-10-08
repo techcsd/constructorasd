@@ -16,7 +16,7 @@ const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const OUT = join(ROOT, 'src', 'content', '_overrides.json');
 const CMS_DIR = join(ROOT, 'assets-src', 'cms');
 
-const SINGLETONS = new Set(['company', 'stages', 'sectors', 'equipment', 'page_meta']);
+const SINGLETONS = new Set(['company', 'stages', 'sectors', 'equipment', 'page_meta', 'home']);
 
 function envFromGenerated() {
   try {
@@ -54,7 +54,10 @@ async function cacheMedia(url, m, byId) {
     if (!r.ok) throw new Error(`media ${media.path} → ${r.status}`);
     writeFileSync(file, Buffer.from(await r.arrayBuffer()));
   }
-  return { key, alt: { es: media.alt_es ?? '', en: media.alt_en ?? '' } };
+  // Carry the focal point only when it's off-centre, so centred images stay noise-free in the manifest.
+  const fx = media.focal_x, fy = media.focal_y;
+  const focal = fx != null && fy != null && (fx !== 0.5 || fy !== 0.5) ? { x: fx, y: fy } : undefined;
+  return { key, alt: { es: media.alt_es ?? '', en: media.alt_en ?? '' }, ...(focal ? { focal } : {}) };
 }
 
 async function main() {
@@ -89,6 +92,29 @@ async function main() {
     ]);
     const byId = new Map(mediaRows.map((m) => [m.id, m]));
 
+    // Home hero media (WL2): resolve home.hero.mediaId → optimized image key so a photo uploaded from
+    // /admin › Inicio actually appears on the hero (priority/LCP image).
+    if (out.home?.hero?.mediaId) {
+      const hero = await cacheMedia(url, out.home.hero.mediaId, byId);
+      if (hero) { out.home.hero.image = hero.key; if (!out.home.hero.alt?.es && !out.home.hero.alt?.en) out.home.hero.alt = hero.alt; }
+    }
+
+    // Stage cover media (WL4): resolve each stage's coverMediaId → its first image (home accordion / servicios).
+    if (Array.isArray(out.stages)) {
+      for (const st of out.stages) {
+        if (st?.coverMediaId) {
+          const c = await cacheMedia(url, st.coverMediaId, byId);
+          if (c) st.images = [{ src: c.key, alt: st.images?.[0]?.alt ?? c.alt }, ...(st.images ?? []).slice(1)];
+        }
+        // Gallery (WL4) → appended after the cover, for the /servicios strip.
+        if (Array.isArray(st?.galleryMediaIds) && st.galleryMediaIds.length) {
+          const extra = [];
+          for (const id of st.galleryMediaIds) { const g = await cacheMedia(url, id, byId); if (g) extra.push({ src: g.key, alt: g.alt }); }
+          if (extra.length) st.images = [...(st.images ?? []), ...extra];
+        }
+      }
+    }
+
     // clients
     out.clients = [];
     for (const c of clients) {
@@ -115,7 +141,7 @@ async function main() {
         location: { es: p.location_es ?? '', en: p.location_en ?? '' }, year: p.year ?? undefined,
         status: p.status, summary: { es: p.summary_es ?? '', en: p.summary_en ?? '' },
         ...(p.body_es || p.body_en ? { body: { es: p.body_es ?? '', en: p.body_en ?? '' } } : {}),
-        scope: p.scope ?? [], cover: cover ? { src: cover.key, alt: cover.alt } : { src: '', alt: { es: '', en: '' } },
+        scope: p.scope ?? [], cover: cover ? { src: cover.key, alt: cover.alt, ...(cover.focal ? { focal: cover.focal } : {}) } : { src: '', alt: { es: '', en: '' } },
         gallery, featured: !!p.featured, order: p.sort_order,
       });
     }
@@ -134,6 +160,23 @@ async function main() {
   } catch (e) {
     if (strict) { console.error(`[gen-content] ✗ STRICT (prod): ${e.message}`); process.exit(1); }
     console.log(`[gen-content] ⚠ CMS fetch failed (${e.message}) — collections fall back to TS seeds.`);
+  }
+
+  // 2b) ui_strings (WL6) → merge ONLY the changes over the committed i18n catalog into out.ui (kept small).
+  try {
+    const enBase = JSON.parse(readFileSync(join(ROOT, 'src', 'content', 'i18n', 'en.json'), 'utf8'));
+    const esBase = JSON.parse(readFileSync(join(ROOT, 'src', 'content', 'i18n', 'es.json'), 'utf8'));
+    const rows = await fetchJson(url, anon, 'ui_strings?select=key,es,en');
+    const uiEs = {}, uiEn = {};
+    for (const r of rows) {
+      if (r.es != null && r.es !== (esBase[r.key] ?? r.key)) uiEs[r.key] = r.es;
+      if (r.en != null && r.en !== enBase[r.key]) uiEn[r.key] = r.en;
+    }
+    if (Object.keys(uiEs).length || Object.keys(uiEn).length) out.ui = { es: uiEs, en: uiEn };
+    console.log(`[gen-content] ✓ ui_strings: ${Object.keys(uiEs).length} es + ${Object.keys(uiEn).length} en override(s)`);
+  } catch (e) {
+    if (strict) { console.error(`[gen-content] ✗ STRICT ui_strings (prod): ${e.message}`); process.exit(1); }
+    console.log(`[gen-content] ⚠ ui_strings: ${e.message} — using the committed catalog.`);
   }
 
   // 3) slug redirects (A03b) → separate generated file consumed by the postbuild gen-redirects.mjs

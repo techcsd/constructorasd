@@ -59,6 +59,36 @@ test.describe('admin CMS', () => {
     expect(href).toContain('download='); // attachment disposition
   });
 
+  test('inicio editor prefills the home content (A17)', async ({ page }) => {
+    await login(page);
+    await page.goto('/admin/contenido/inicio', { waitUntil: 'networkidle' });
+    await expect(page.locator('.cms-title', { hasText: 'Inicio' })).toBeVisible({ timeout: 15000 });
+    // hero title field is prefilled from the committed seed (or DB override)
+    await expect(page.locator('.cms-form input.adm-input').first()).toHaveValue(/.+/, { timeout: 10000 });
+    await expect(page.locator('summary', { hasText: 'Números' })).toBeVisible();
+  });
+
+  test('textos del sitio loads the UI string catalog (A19)', async ({ page }) => {
+    await login(page);
+    await page.goto('/admin/textos', { waitUntil: 'networkidle' });
+    await expect(page.locator('.cms-title', { hasText: 'Textos del sitio' })).toBeVisible({ timeout: 15000 });
+    await expect(page.locator('.txt-row').first()).toBeVisible({ timeout: 15000 });
+    // search narrows the list
+    await page.locator('.txt-toolbar input[type="search"]').fill('Hablemos');
+    await expect(page.locator('.txt-row').first()).toContainText('Hablemos');
+    const n = await page.locator('.txt-row').count();
+    expect(n).toBeGreaterThan(0);
+    expect(n).toBeLessThan(10);
+  });
+
+  test('ajustes editor loads global settings (A20)', async ({ page }) => {
+    await login(page);
+    await page.goto('/admin/ajustes', { waitUntil: 'networkidle' });
+    await expect(page.locator('.cms-title', { hasText: 'Ajustes' })).toBeVisible({ timeout: 15000 });
+    await expect(page.locator('summary', { hasText: 'Correos destino' })).toBeVisible();
+    await expect(page.locator('input[type="email"]').first()).toBeVisible();
+  });
+
   test('empresa form loads the company data', async ({ page }) => {
     await login(page);
     await page.goto('/admin/contenido/empresa', { waitUntil: 'networkidle' });

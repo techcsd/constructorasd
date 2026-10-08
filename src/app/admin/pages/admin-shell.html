@@ -1,58 +1,106 @@
-<div class="adm">
+<div class="adm" [class.is-rail]="collapsed()">
   <aside class="adm__side">
     <div class="adm__brand">
       <span class="adm__mark" aria-hidden="true"></span>
       <span class="adm__brand-txt">Panel CSD</span>
     </div>
 
+    <button class="adm__cmdk-hint" type="button" (click)="palette.openPalette()" aria-label="Abrir buscador de comandos">
+      <svg class="adm__cmdk-ico" aria-hidden="true"><use href="/admin-icons.svg#ai-search" /></svg>
+      <span class="adm__cmdk-txt">Buscar…</span>
+      <span class="adm__cmdk-keys"><kbd>Ctrl</kbd><kbd>K</kbd></span>
+    </button>
+
     <nav class="adm__nav">
-      <a class="adm__nav-link" routerLink="/admin/notas" routerLinkActive="is-active">
-        <span class="adm__dot"></span> Dev notes
+      <a class="adm__nav-link" routerLink="/admin/panel" routerLinkActive="is-active" title="Panel">
+        <svg class="adm__nav-ico" aria-hidden="true"><use href="/admin-icons.svg#ai-panel" /></svg>
+        <span class="adm__nav-label">Panel</span>
       </a>
-      <a class="adm__nav-link" routerLink="/admin/leads" routerLinkActive="is-active">
-        <span class="adm__dot"></span> Leads
+      <a class="adm__nav-link" routerLink="/admin/notas" routerLinkActive="is-active" title="Dev notes">
+        <svg class="adm__nav-ico" aria-hidden="true"><use href="/admin-icons.svg#ai-notes" /></svg>
+        <span class="adm__nav-label">Dev notes</span>
       </a>
-      <a class="adm__nav-link" routerLink="/admin/contenido/proyectos" routerLinkActive="is-active">
-        <span class="adm__dot"></span> Proyectos
+      <a class="adm__nav-link" routerLink="/admin/leads" routerLinkActive="is-active" title="Leads">
+        <svg class="adm__nav-ico" aria-hidden="true"><use href="/admin-icons.svg#ai-leads" /></svg>
+        <span class="adm__nav-label">Leads</span>
       </a>
-      <a class="adm__nav-link" routerLink="/admin/contenido/clientes" routerLinkActive="is-active">
-        <span class="adm__dot"></span> Clientes
+      <a class="adm__nav-link" routerLink="/admin/contenido/inicio" routerLinkActive="is-active" title="Inicio">
+        <svg class="adm__nav-ico" aria-hidden="true"><use href="/admin-icons.svg#ai-home" /></svg>
+        <span class="adm__nav-label">Inicio</span>
       </a>
-      <a class="adm__nav-link" routerLink="/admin/contenido/noticias" routerLinkActive="is-active">
-        <span class="adm__dot"></span> Noticias
+      <a class="adm__nav-link" routerLink="/admin/contenido/proyectos" routerLinkActive="is-active" title="Proyectos">
+        <svg class="adm__nav-ico" aria-hidden="true"><use href="/admin-icons.svg#ai-projects" /></svg>
+        <span class="adm__nav-label">Proyectos</span>
       </a>
-      <a class="adm__nav-link" routerLink="/admin/contenido/vacantes" routerLinkActive="is-active">
-        <span class="adm__dot"></span> Vacantes
+      <a class="adm__nav-link" routerLink="/admin/contenido/clientes" routerLinkActive="is-active" title="Clientes">
+        <svg class="adm__nav-ico" aria-hidden="true"><use href="/admin-icons.svg#ai-clients" /></svg>
+        <span class="adm__nav-label">Clientes</span>
       </a>
-      <a class="adm__nav-link" routerLink="/admin/contenido/empresa" routerLinkActive="is-active">
-        <span class="adm__dot"></span> Empresa
+      <a class="adm__nav-link" routerLink="/admin/contenido/noticias" routerLinkActive="is-active" title="Noticias">
+        <svg class="adm__nav-ico" aria-hidden="true"><use href="/admin-icons.svg#ai-news" /></svg>
+        <span class="adm__nav-label">Noticias</span>
       </a>
-      <a class="adm__nav-link" routerLink="/admin/contenido/etapas" routerLinkActive="is-active">
-        <span class="adm__dot"></span> Etapas
+      <a class="adm__nav-link" routerLink="/admin/contenido/vacantes" routerLinkActive="is-active" title="Vacantes">
+        <svg class="adm__nav-ico" aria-hidden="true"><use href="/admin-icons.svg#ai-jobs" /></svg>
+        <span class="adm__nav-label">Vacantes</span>
       </a>
-      <a class="adm__nav-link" routerLink="/admin/contenido/sectores" routerLinkActive="is-active">
-        <span class="adm__dot"></span> Sectores
+      <a class="adm__nav-link" routerLink="/admin/contenido/empresa" routerLinkActive="is-active" title="Empresa">
+        <svg class="adm__nav-ico" aria-hidden="true"><use href="/admin-icons.svg#ai-company" /></svg>
+        <span class="adm__nav-label">Empresa</span>
       </a>
-      <a class="adm__nav-link" routerLink="/admin/contenido/equipos" routerLinkActive="is-active">
-        <span class="adm__dot"></span> Equipos
+      <a class="adm__nav-link" routerLink="/admin/contenido/etapas" routerLinkActive="is-active" title="Etapas">
+        <svg class="adm__nav-ico" aria-hidden="true"><use href="/admin-icons.svg#ai-stages" /></svg>
+        <span class="adm__nav-label">Etapas</span>
       </a>
-      <a class="adm__nav-link" routerLink="/admin/contenido/paginas" routerLinkActive="is-active">
-        <span class="adm__dot"></span> Páginas (SEO)
+      <a class="adm__nav-link" routerLink="/admin/contenido/sectores" routerLinkActive="is-active" title="Sectores">
+        <svg class="adm__nav-ico" aria-hidden="true"><use href="/admin-icons.svg#ai-sectors" /></svg>
+        <span class="adm__nav-label">Sectores</span>
       </a>
-      <a class="adm__nav-link" routerLink="/admin/contenido/biblioteca" routerLinkActive="is-active">
-        <span class="adm__dot"></span> Biblioteca
+      <a class="adm__nav-link" routerLink="/admin/contenido/equipos" routerLinkActive="is-active" title="Equipos">
+        <svg class="adm__nav-ico" aria-hidden="true"><use href="/admin-icons.svg#ai-equipment" /></svg>
+        <span class="adm__nav-label">Equipos</span>
       </a>
-      <a class="adm__nav-link" routerLink="/admin/contenido" routerLinkActive="is-active">
-        <span class="adm__dot"></span> Export JSON
+      <a class="adm__nav-link" routerLink="/admin/contenido/paginas" routerLinkActive="is-active" title="Páginas (SEO)">
+        <svg class="adm__nav-ico" aria-hidden="true"><use href="/admin-icons.svg#ai-pages" /></svg>
+        <span class="adm__nav-label">Páginas (SEO)</span>
       </a>
-      <a class="adm__nav-link" routerLink="/admin/apariencia" routerLinkActive="is-active">
-        <span class="adm__dot"></span> Apariencia
+      <a class="adm__nav-link" routerLink="/admin/textos" routerLinkActive="is-active" title="Textos del sitio">
+        <svg class="adm__nav-ico" aria-hidden="true"><use href="/admin-icons.svg#ai-texts" /></svg>
+        <span class="adm__nav-label">Textos del sitio</span>
+      </a>
+      <a class="adm__nav-link" routerLink="/admin/contenido/biblioteca" routerLinkActive="is-active" title="Biblioteca">
+        <svg class="adm__nav-ico" aria-hidden="true"><use href="/admin-icons.svg#ai-library" /></svg>
+        <span class="adm__nav-label">Biblioteca</span>
+      </a>
+      <a class="adm__nav-link" routerLink="/admin/contenido" routerLinkActive="is-active" [routerLinkActiveOptions]="{ exact: true }" title="Export JSON">
+        <svg class="adm__nav-ico" aria-hidden="true"><use href="/admin-icons.svg#ai-export" /></svg>
+        <span class="adm__nav-label">Export JSON</span>
+      </a>
+      <a class="adm__nav-link" routerLink="/admin/ajustes" routerLinkActive="is-active" title="Ajustes">
+        <svg class="adm__nav-ico" aria-hidden="true"><use href="/admin-icons.svg#ai-settings" /></svg>
+        <span class="adm__nav-label">Ajustes</span>
+      </a>
+      <a class="adm__nav-link" routerLink="/admin/apariencia" routerLinkActive="is-active" title="Apariencia">
+        <svg class="adm__nav-ico" aria-hidden="true"><use href="/admin-icons.svg#ai-appearance" /></svg>
+        <span class="adm__nav-label">Apariencia</span>
       </a>
     </nav>
 
     <div class="adm__foot">
       <span class="adm__user" [title]="email() || ''">{{ email() || '—' }}</span>
-      <button class="adm-btn adm-btn--ghost" type="button" (click)="logout()">Salir</button>
+      <button class="adm-btn adm-btn--ghost adm__logout" type="button" (click)="logout()" title="Salir">
+        <svg class="adm__nav-ico" aria-hidden="true"><use href="/admin-icons.svg#ai-logout" /></svg>
+        <span class="adm__nav-label">Salir</span>
+      </button>
+      <button
+        class="adm__collapse"
+        type="button"
+        (click)="toggleRail()"
+        [attr.aria-label]="collapsed() ? 'Expandir menú' : 'Contraer menú'"
+        [attr.aria-pressed]="collapsed()"
+      >
+        <svg class="adm__collapse-ico" aria-hidden="true"><use href="/admin-icons.svg#ai-collapse" /></svg>
+      </button>
     </div>
   </aside>
 
@@ -62,4 +110,6 @@
       <router-outlet />
     </div>
   </main>
+
+  <app-command-palette #palette />
 </div>
