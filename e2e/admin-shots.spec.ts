@@ -28,5 +28,14 @@ test.describe('admin dark theme shots', () => {
     await page.goto('/admin/contenido/proyectos', { waitUntil: 'networkidle' });
     await page.waitForTimeout(600);
     await page.screenshot({ path: `${DIR}/admin-04-proyectos.png`, fullPage: true });
+
+    // Command palette: Ctrl+K opens, typing filters, Enter navigates.
+    await page.keyboard.press('Control+k');
+    await expect(page.locator('.cmdk__input')).toBeVisible({ timeout: 5000 });
+    await page.locator('.cmdk__input').fill('clien');
+    await page.waitForTimeout(250);
+    await page.screenshot({ path: `${DIR}/admin-05-palette.png`, fullPage: true });
+    await page.keyboard.press('Enter');
+    await expect(page).toHaveURL(/\/admin\/contenido\/clientes/, { timeout: 5000 });
   });
 });

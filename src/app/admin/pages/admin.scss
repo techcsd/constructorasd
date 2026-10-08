@@ -242,6 +242,42 @@ a.adm-btn {
   flex: none;
   color: currentColor;
 }
+// Sidebar command-palette launcher — looks like a search field, opens the Ctrl+K palette.
+.adm__cmdk-hint {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  width: 100%;
+  padding: var(--space-3);
+  border-radius: var(--r-sm);
+  border: 1px solid var(--line-control);
+  background: var(--bg-sunken);
+  color: var(--text-3);
+  font: inherit;
+  font-size: var(--fs-small);
+  cursor: pointer;
+  transition: all var(--dur-fast) var(--ease-out);
+}
+.adm__cmdk-hint:hover {
+  border-color: var(--line-strong);
+  color: var(--text-2);
+}
+.adm__cmdk-keys {
+  display: inline-flex;
+  gap: 2px;
+}
+.adm__cmdk-hint kbd {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  line-height: 1.5;
+  padding: 0 4px;
+  color: var(--text-2);
+  background: var(--bg-elevated);
+  border: 1px solid var(--line-control);
+  border-radius: 4px;
+}
+
 .adm__nav {
   display: flex;
   flex-direction: column;

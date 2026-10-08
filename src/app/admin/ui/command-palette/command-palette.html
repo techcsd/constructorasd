@@ -1,0 +1,48 @@
+@if (open()) {
+  <div class="cmdk" role="dialog" aria-modal="true" aria-label="Paleta de comandos" (click)="close()">
+    <div class="cmdk__panel" (click)="$event.stopPropagation()">
+      <div class="cmdk__search">
+        <span class="cmdk__search-icon" aria-hidden="true"></span>
+        <input
+          #input
+          class="cmdk__input"
+          type="text"
+          placeholder="Buscar sección o acción…"
+          [value]="query()"
+          (input)="onInput($any($event.target).value)"
+          autocomplete="off"
+          spellcheck="false"
+          aria-label="Buscar"
+        />
+        <kbd class="cmdk__kbd">Esc</kbd>
+      </div>
+
+      <ul class="cmdk__list" role="listbox">
+        @for (cmd of results(); track cmd.label; let i = $index) {
+          <li
+            class="cmdk__item"
+            role="option"
+            [class.is-active]="i === active()"
+            [attr.aria-selected]="i === active()"
+            (mouseenter)="active.set(i)"
+            (click)="exec(i)"
+          >
+            <span class="cmdk__item-label">{{ cmd.label }}</span>
+            @if (cmd.hint) {
+              <span class="cmdk__item-hint">{{ cmd.hint }}</span>
+            }
+            <span class="cmdk__item-kind">{{ cmd.kind }}</span>
+          </li>
+        } @empty {
+          <li class="cmdk__empty">Nada coincide con «{{ query() }}».</li>
+        }
+      </ul>
+
+      <div class="cmdk__foot">
+        <span><kbd class="cmdk__kbd">↑</kbd><kbd class="cmdk__kbd">↓</kbd> moverse</span>
+        <span><kbd class="cmdk__kbd">↵</kbd> abrir</span>
+        <span><kbd class="cmdk__kbd">Ctrl</kbd><kbd class="cmdk__kbd">K</kbd> alternar</span>
+      </div>
+    </div>
+  </div>
+}

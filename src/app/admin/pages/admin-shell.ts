@@ -3,12 +3,13 @@ import { RouterLink, RouterLinkActive, RouterOutlet, Router } from '@angular/rou
 import { Meta, Title } from '@angular/platform-browser';
 import { AdminAuthService } from '../admin-auth.service';
 import { PublishBar } from '../ui/publish-bar/publish-bar';
+import { CommandPalette } from '../ui/command-palette/command-palette';
 
 @Component({
   selector: 'app-admin-shell',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterOutlet, RouterLink, RouterLinkActive, PublishBar],
+  imports: [RouterOutlet, RouterLink, RouterLinkActive, PublishBar, CommandPalette],
   templateUrl: './admin-shell.html',
   styleUrl: './admin.scss',
 })

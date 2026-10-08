@@ -5,6 +5,11 @@
       <span class="adm__brand-txt">Panel CSD</span>
     </div>
 
+    <button class="adm__cmdk-hint" type="button" (click)="palette.openPalette()" aria-label="Abrir buscador de comandos">
+      <span>Buscar…</span>
+      <span class="adm__cmdk-keys"><kbd>Ctrl</kbd><kbd>K</kbd></span>
+    </button>
+
     <nav class="adm__nav">
       <a class="adm__nav-link" routerLink="/admin/notas" routerLinkActive="is-active">
         <span class="adm__dot"></span> Dev notes
@@ -71,4 +76,6 @@
       <router-outlet />
     </div>
   </main>
+
+  <app-command-palette #palette />
 </div>
