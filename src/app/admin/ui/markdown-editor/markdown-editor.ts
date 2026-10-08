@@ -110,6 +110,14 @@ export class MarkdownEditor {
       const v = ta.value.slice(0, s) + wrap + sel + wrap + ta.value.slice(en);
       this.valueChange.emit(v);
       queueMicrotask(() => ta.setSelectionRange(s + wrap.length, en + wrap.length));
+    } else if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+      e.preventDefault();
+      const s = ta.selectionStart, en = ta.selectionEnd;
+      const sel = ta.value.slice(s, en) || 'texto';
+      const v = ta.value.slice(0, s) + `[${sel}](url)` + ta.value.slice(en);
+      this.valueChange.emit(v);
+      const urlStart = s + sel.length + 3; // after "[sel]("
+      queueMicrotask(() => ta.setSelectionRange(urlStart, urlStart + 3)); // select "url"
     }
   }
 }

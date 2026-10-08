@@ -16,17 +16,28 @@
       @if (tab()==='mensajes') {
         <div class="lead-filters">
           <input class="adm-input" type="search" placeholder="Buscar…" [value]="fQuery()" (input)="fQuery.set($any($event.target).value)" />
-          <select class="adm-input" (change)="fStatus.set($any($event.target).value)"><option value="">Todos los estados</option>@for (s of leadStatuses; track s) {<option [value]="s">{{ s }}</option>}</select>
+          <select class="adm-input" (change)="fStatus.set($any($event.target).value)"><option value="">Todos los estados</option>@for (s of leadStatuses; track s) {<option [value]="s">{{ statusLabel(s) }}</option>}</select>
           <select class="adm-input" (change)="fType.set($any($event.target).value)"><option value="">Todo tipo</option>@for (t of projectTypes(); track t) {<option [value]="t">{{ t }}</option>}</select>
           <select class="adm-input" (change)="fLocale.set($any($event.target).value)"><option value="">Idioma</option><option value="es">ES</option><option value="en">EN</option></select>
           <button type="button" class="adm-btn adm-btn--ghost" (click)="exportCsv()">Exportar CSV</button>
         </div>
+        @if (selected().size) {
+          <div class="lead-bulk">
+            <span class="small">{{ selected().size }} seleccionados</span>
+            <button type="button" class="adm-btn adm-btn--ghost" (click)="bulkMarkRead()">Marcar leídas</button>
+            <button type="button" class="adm-btn adm-btn--ghost" (click)="bulkDiscard()">Descartar</button>
+            <button type="button" class="adm-btn adm-btn--ghost" (click)="clearSel()">Cancelar</button>
+          </div>
+        }
         @for (l of filteredLeads(); track l.id) {
-          <button type="button" class="lead-row" [class.is-unread]="!l.read_at" [class.is-open]="openId()===l.id" (click)="openMessage(l)">
-            <span class="lead-row__name">{{ l.name }}</span>
-            <span class="small lead-row__meta">{{ l.company || '—' }} · {{ l.project_type || '—' }} · {{ fmt(l.created_at) }}</span>
-            <span class="cms-badge">{{ l.status }}</span>
-          </button>
+          <div class="lead-row-wrap">
+            <input type="checkbox" class="lead-row__chk" [checked]="isSel(l.id)" (change)="toggleSel(l.id)" aria-label="Seleccionar mensaje" />
+            <button type="button" class="lead-row" [class.is-unread]="!l.read_at" [class.is-open]="openId()===l.id" (click)="openMessage(l)">
+              <span class="lead-row__name">{{ l.name }}</span>
+              <span class="small lead-row__meta">{{ l.company || '—' }} · {{ l.project_type || '—' }} · {{ fmt(l.created_at) }}</span>
+              <span class="cms-badge">{{ statusLabel(l.status) }}</span>
+            </button>
+          </div>
         }
         @if (!filteredLeads().length) { <p class="small" style="padding:var(--space-3)">Sin mensajes.</p> }
       } @else {
@@ -56,7 +67,7 @@
         </dl>
         <p class="lead-message">{{ l.message }}</p>
         <div class="lead-actions">
-          <select class="adm-input" (change)="setLeadStatus(l, $any($event.target).value)">@for (s of leadStatuses; track s) {<option [value]="s" [selected]="l.status===s">{{ s }}</option>}</select>
+          <select class="adm-input" (change)="setLeadStatus(l, $any($event.target).value)">@for (s of leadStatuses; track s) {<option [value]="s" [selected]="l.status===s">{{ statusLabel(s) }}</option>}</select>
           <a class="adm-btn adm-btn--ghost" [href]="replyMailto(l)">Responder</a>
           @if (waUrl(l); as w) { <a class="adm-btn adm-btn--ghost" [href]="w" target="_blank" rel="noopener">WhatsApp</a> }
         </div>

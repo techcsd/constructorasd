@@ -36,6 +36,7 @@ export class DevNotesPage implements OnDestroy {
   readonly versions = signal<NoteVersion[]>([]);
   readonly showVersions = signal(false);
   readonly fullscreen = signal(false);
+  readonly flash = signal('');
   readonly templates = Object.keys(TEMPLATES);
 
   // editor fields
@@ -138,9 +139,18 @@ export class DevNotesPage implements OnDestroy {
 
   @HostListener('window:keydown', ['$event'])
   onKey(e: KeyboardEvent): void {
+    const inField = e.target instanceof HTMLElement && /INPUT|TEXTAREA|SELECT/.test(e.target.tagName);
     if ((e.ctrlKey || e.metaKey) && e.key === 's') { e.preventDefault(); void this.forceSave(); }
-    else if ((e.ctrlKey || e.metaKey) && e.key === 'n' && e.target instanceof HTMLElement && !/INPUT|TEXTAREA/.test(e.target.tagName)) { e.preventDefault(); void this.newNote(); }
+    else if ((e.ctrlKey || e.metaKey) && e.key === 'n' && !inField) { e.preventDefault(); void this.newNote(); }
     else if (e.key === 'Escape' && this.fullscreen()) { this.fullscreen.set(false); }
+    else if ((e.key === 'ArrowDown' || e.key === 'ArrowUp') && !inField) {
+      const list = this.filtered();
+      if (!list.length) return;
+      e.preventDefault();
+      const i = list.findIndex((x) => x.id === this.selected()?.id);
+      const next = e.key === 'ArrowDown' ? Math.min(list.length - 1, i + 1) : Math.max(0, i - 1);
+      this.select(list[i < 0 ? 0 : next]);
+    }
   }
   @HostListener('window:beforeunload')
   onUnload(): void {
@@ -177,6 +187,24 @@ export class DevNotesPage implements OnDestroy {
     this.loadedUpdatedAt = s.updated_at;
     this.conflict.set(null);
     this.onField();
+  }
+
+  /** Duplicate a note (title + " (copia)"), select the copy. */
+  async duplicate(n: DevNote): Promise<void> {
+    void this.flush();
+    try {
+      const copy = await this.svc.create({ title: (n.title || 'Sin título') + ' (copia)', body: n.body, status: n.status, priority: n.priority, tags: n.tags, template: n.template });
+      this.notes.set([copy, ...this.notes()]);
+      this.select(copy);
+    } catch (e) { this.error.set((e as Error).message); }
+  }
+
+  /** Copy the current note as Markdown (# title + body) to the clipboard. */
+  copyMd(): void {
+    const n = this.selected(); if (!n) return;
+    void navigator.clipboard.writeText(`# ${this.title}\n\n${this.body}`);
+    this.flash.set('Copiado como Markdown');
+    setTimeout(() => this.flash.set(''), 1400);
   }
 
   async pin(n: DevNote): Promise<void> { await this.svc.setFlags(n.id, { pinned: !n.pinned }); n.pinned = !n.pinned; this.notes.set([...this.notes()]); }

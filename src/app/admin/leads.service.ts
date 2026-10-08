@@ -1,7 +1,7 @@
 import { Injectable, PLATFORM_ID, inject } from '@angular/core';
 import { getSupabase } from './admin.supabase';
 
-export type LeadStatus = 'nuevo' | 'contactado' | 'descartado';
+export type LeadStatus = 'nuevo' | 'contactado' | 'en_seguimiento' | 'descartado';
 export type AppStatus = 'nuevo' | 'revisado' | 'descartado';
 
 export interface Lead {
@@ -91,6 +91,18 @@ export class LeadsAdminService {
   async markRead(table: 'leads' | 'job_applications', id: string): Promise<void> {
     if (!this.sb) return;
     await this.sb.from(table).update({ read_at: new Date().toISOString() }).eq('id', id).is('read_at', null);
+  }
+  /** Bulk: mark the given leads read (only the still-unread ones). */
+  async markReadMany(ids: string[]): Promise<void> {
+    if (!this.sb || !ids.length) return;
+    const { error } = await this.sb.from('leads').update({ read_at: new Date().toISOString() }).in('id', ids).is('read_at', null);
+    if (error) throw new Error(error.message);
+  }
+  /** Bulk: set the status of the given leads (status-history trigger fires per row). */
+  async setLeadStatusMany(ids: string[], status: LeadStatus): Promise<void> {
+    if (!this.sb || !ids.length) return;
+    const { error } = await this.sb.from('leads').update({ status }).in('id', ids);
+    if (error) throw new Error(error.message);
   }
   async notes(kind: 'lead' | 'application', refId: string): Promise<InboxNote[]> {
     if (!this.sb) return [];

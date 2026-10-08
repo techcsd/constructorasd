@@ -19,6 +19,7 @@
           </div>
           <div class="dn__item-actions">
             <button type="button" (click)="$event.stopPropagation(); pin(n)">{{ n.pinned ? 'Desfijar' : 'Fijar' }}</button>
+            <button type="button" (click)="$event.stopPropagation(); duplicate(n)" title="Duplicar">Dupl.</button>
             <button type="button" (click)="$event.stopPropagation(); archive(n)">Arch.</button>
             <button type="button" (click)="$event.stopPropagation(); del(n)">×</button>
           </div>
@@ -67,7 +68,9 @@
           <button type="button" class="adm-btn adm-btn--ghost" (click)="forceSave()" title="Ctrl+S">Guardar (Ctrl+S)</button>
           <button type="button" class="adm-btn adm-btn--ghost" (click)="toggleVersions()">Versiones</button>
           <button type="button" class="adm-btn adm-btn--ghost" (click)="toggleFullscreen()" title="Pantalla completa (Esc para salir)">{{ fullscreen() ? 'Salir' : 'Pantalla completa' }}</button>
+          <button type="button" class="adm-btn adm-btn--ghost" (click)="copyMd()">Copiar MD</button>
           <button type="button" class="adm-btn adm-btn--ghost" (click)="exportMd()">.md</button>
+          @if (flash()) { <span class="small dn__flash">{{ flash() }}</span> }
         </div>
       </div>
 

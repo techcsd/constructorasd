@@ -93,20 +93,23 @@ Por ahora: publica a un momento de poco tráfico, o revisa primero en el *previe
 
 Notas de desarrollo con **autoguardado** — no hay botón "Guardar", se guarda solo mientras escribes.
 - **Nueva** nota (en blanco) o con plantilla **HANDOFF / Decisión / Bug**. `Ctrl+N` crea una.
-- Editor **markdown** con vista dividida (o Editar/Vista en móvil): negritas con `Ctrl+B`, código con
-  ``` ```, botón **copiar** en cada bloque de código.
+- Editor **markdown** con vista dividida (o Editar/Vista en móvil): negritas `Ctrl+B`, cursiva `Ctrl+I`,
+  enlace `Ctrl+K`, código con ``` ```, botón **copiar** en cada bloque. Pega una imagen y se sube sola.
 - Estado del guardado arriba: *Guardando… / Guardado · hace Ns / Sin conexión (borrador local)*.
 - `Ctrl+S` fuerza un guardado y crea una **versión**. **Versiones** → restaurar una anterior.
-- Lista: **buscar**, **fijar** (📌 arriba), **archivar**, tags, exportar `.md`.
+- Lista: **buscar**, moverte con `↑/↓`, **fijar** arriba, **Duplicar**, **archivar**, tags; **Copiar MD** /
+  exportar `.md`; **Pantalla completa** para escribir.
 - Si editas la misma nota en dos pestañas, te avisa del conflicto (mantener la tuya / usar la del servidor).
 
 ## 9. Leads (mensajes y postulaciones)
 
 Bandeja de los contactos que llegan por la web.
 - **Badge de no leídos** en el menú y en el título de la pestaña `(3) Admin — CSD`.
-- Lista con filtros (estado, tipo, idioma) + **buscar**; **Exportar CSV** del filtro actual (para Excel).
-- Clic en un mensaje → **detalle** (todos los campos, teléfono como `tel:`), cambiar **estado**,
-  **Responder** (abre el correo), **WhatsApp** si hay número; **notas internas** e **historial de estado**.
-  Abrir un mensaje lo marca como leído.
+- Lista con filtros (estado, tipo, idioma) + **buscar** (los filtros quedan en la URL, se puede compartir);
+  **Exportar CSV** del filtro actual (para Excel). **Selección múltiple** (casillas) → **Marcar leídas** /
+  **Descartar** en lote.
+- Clic en un mensaje → **detalle** (todos los campos, teléfono como `tel:`), cambiar **estado**
+  (*Nuevo / Contactado / En seguimiento / Descartado*), **Responder** (abre el correo), **WhatsApp** si hay
+  número; **notas internas** e **historial de estado**. Abrir un mensaje lo marca como leído.
 - **Tiempo real:** si llega un mensaje nuevo mientras tienes el panel abierto, aparece un aviso.
 - **Postulaciones:** mismo patrón; el CV se previsualiza (PDF) y se descarga con enlace temporal.

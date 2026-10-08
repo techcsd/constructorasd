@@ -3,6 +3,21 @@
 All notable changes to this project. Versioning is simple (CLAUDE.md / WB9): a `CHANGELOG.md` entry plus a
 `package.json` bump per release. Not tracked in `sgc.app_versiones`.
 
+## 2.0.6 — cierre de brechas PROMPT-07 (dev notes + leads) (2026-10-08)
+
+Completa los sub-ítems que faltaban del PROMPT-07 frente a su especificación detallada:
+
+- **Dev notes:** atajo `Ctrl+K` (insertar enlace) en el editor markdown; **Duplicar** nota (botón en la
+  lista → crea "<título> (copia)"); **Copiar como Markdown** (al portapapeles, con aviso); navegación de la
+  lista con `↑/↓`.
+- **Leads:** nuevo estado **`en_seguimiento`** ("En seguimiento") — incluye migración
+  `sql/2026-10-08-leads-en-seguimiento.sql` que amplía el CHECK de `web.leads.status` (aplicada dev→prod);
+  etiquetas legibles de estado en lista/filtro/detalle; **acciones en lote** (seleccionar con casillas →
+  "Marcar leídas" / "Descartar").
+
+Verificado: build verde, 54 unit + 11 e2e admin (añadidos WJ6 duplicar y WH4 estado+lote) en verde; el test
+de `en_seguimiento` confirma que el nuevo CHECK acepta el valor.
+
 ## 2.0.5 — descargar foto original desde el admin (2026-10-08)
 
 En el editor de proyectos ("obras") ahora se puede **descargar la foto original** (portada y cada imagen de
