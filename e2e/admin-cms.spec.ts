@@ -117,6 +117,35 @@ test.describe('admin CMS', () => {
     await expect(page.locator('.dn__item-title', { hasText: marker }).first()).toBeVisible({ timeout: 15000 });
   });
 
+  test('dev notes: duplicate a note (WJ6)', async ({ page }) => {
+    await login(page);
+    await page.goto('/admin/notas', { waitUntil: 'networkidle' });
+    await page.getByRole('button', { name: '+ Nueva' }).click();
+    await page.waitForTimeout(800);
+    const marker = 'QA dup ' + Date.now().toString(36);
+    await page.locator('.dn__title').fill(marker);
+    await expect(page.locator('.dn__state')).toContainText(/Guardado/, { timeout: 8000 });
+    const row = page.locator('.dn__item', { hasText: marker }).first();
+    await row.hover();
+    await row.getByRole('button', { name: 'Dupl.' }).click();
+    await expect(page.locator('.dn__item-title', { hasText: marker + ' (copia)' })).toBeVisible({ timeout: 10000 });
+  });
+
+  test('leads: en_seguimiento status + bulk mark read (WH4)', async ({ page }) => {
+    await login(page);
+    await page.goto('/admin/leads', { waitUntil: 'networkidle' });
+    await expect(page.locator('.lead-row').first()).toBeVisible({ timeout: 15000 });
+    await page.locator('.lead-row').first().click();
+    await page.locator('.lead-actions select').first().selectOption('en_seguimiento');
+    // history refreshes only on a successful DB write → the new CHECK value was accepted
+    await expect(page.locator('.lead-detail').getByText(/en_seguimiento/).first()).toBeVisible({ timeout: 8000 });
+    // bulk: select a row → bar appears → mark read → bar clears
+    await page.locator('.lead-row__chk').first().check();
+    await expect(page.locator('.lead-bulk')).toBeVisible();
+    await page.locator('.lead-bulk button', { hasText: 'Marcar leídas' }).click();
+    await expect(page.locator('.lead-bulk')).toBeHidden({ timeout: 8000 });
+  });
+
   test('leads inbox: list, detail, internal note, unread title (WJ8)', async ({ page }) => {
     await login(page);
     await page.goto('/admin/leads', { waitUntil: 'networkidle' });

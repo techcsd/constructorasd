@@ -29,8 +29,18 @@ export class LeadsPage implements OnDestroy {
   readonly openId = signal<string | null>(null);
   readonly toast = signal<string | null>(null);
 
-  readonly leadStatuses: LeadStatus[] = ['nuevo', 'contactado', 'descartado'];
+  readonly leadStatuses: LeadStatus[] = ['nuevo', 'contactado', 'en_seguimiento', 'descartado'];
   readonly appStatuses: AppStatus[] = ['nuevo', 'revisado', 'descartado'];
+  private readonly statusLabels: Record<string, string> = {
+    nuevo: 'Nuevo', contactado: 'Contactado', en_seguimiento: 'En seguimiento', descartado: 'Descartado', revisado: 'Revisado',
+  };
+  statusLabel(s: string): string { return this.statusLabels[s] ?? s; }
+
+  // bulk selection (mensajes)
+  readonly selected = signal<Set<string>>(new Set());
+  isSel(id: string): boolean { return this.selected().has(id); }
+  toggleSel(id: string): void { const s = new Set(this.selected()); s.has(id) ? s.delete(id) : s.add(id); this.selected.set(s); }
+  clearSel(): void { this.selected.set(new Set()); }
 
   // filters
   readonly fStatus = signal('');
@@ -128,6 +138,24 @@ export class LeadsPage implements OnDestroy {
   async setAppStatus(a: Application, status: AppStatus): Promise<void> {
     try { await this.svc.setAppStatus(a.id, status); a.status = status; this.apps.set([...this.apps()]); this.history.set(await this.svc.history(a.id)); }
     catch (e) { this.error.set((e as Error).message); }
+  }
+
+  async bulkMarkRead(): Promise<void> {
+    const ids = [...this.selected()]; if (!ids.length) return;
+    try {
+      await this.svc.markReadMany(ids);
+      const now = new Date().toISOString();
+      this.leads.set(this.leads().map((l) => ids.includes(l.id) && !l.read_at ? { ...l, read_at: now } : l));
+      this.refreshTitle(); this.clearSel();
+    } catch (e) { this.error.set((e as Error).message); }
+  }
+  async bulkDiscard(): Promise<void> {
+    const ids = [...this.selected()]; if (!ids.length) return;
+    try {
+      await this.svc.setLeadStatusMany(ids, 'descartado');
+      this.leads.set(this.leads().map((l) => ids.includes(l.id) ? { ...l, status: 'descartado' as LeadStatus } : l));
+      this.clearSel();
+    } catch (e) { this.error.set((e as Error).message); }
   }
 
   async addNote(kind: 'lead' | 'application'): Promise<void> {
