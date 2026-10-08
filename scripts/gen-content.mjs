@@ -153,6 +153,23 @@ async function main() {
     console.log(`[gen-content] ⚠ CMS fetch failed (${e.message}) — collections fall back to TS seeds.`);
   }
 
+  // 2b) ui_strings (WL6) → merge ONLY the changes over the committed i18n catalog into out.ui (kept small).
+  try {
+    const enBase = JSON.parse(readFileSync(join(ROOT, 'src', 'content', 'i18n', 'en.json'), 'utf8'));
+    const esBase = JSON.parse(readFileSync(join(ROOT, 'src', 'content', 'i18n', 'es.json'), 'utf8'));
+    const rows = await fetchJson(url, anon, 'ui_strings?select=key,es,en');
+    const uiEs = {}, uiEn = {};
+    for (const r of rows) {
+      if (r.es != null && r.es !== (esBase[r.key] ?? r.key)) uiEs[r.key] = r.es;
+      if (r.en != null && r.en !== enBase[r.key]) uiEn[r.key] = r.en;
+    }
+    if (Object.keys(uiEs).length || Object.keys(uiEn).length) out.ui = { es: uiEs, en: uiEn };
+    console.log(`[gen-content] ✓ ui_strings: ${Object.keys(uiEs).length} es + ${Object.keys(uiEn).length} en override(s)`);
+  } catch (e) {
+    if (strict) { console.error(`[gen-content] ✗ STRICT ui_strings (prod): ${e.message}`); process.exit(1); }
+    console.log(`[gen-content] ⚠ ui_strings: ${e.message} — using the committed catalog.`);
+  }
+
   // 3) slug redirects (A03b) → separate generated file consumed by the postbuild gen-redirects.mjs
   const REDIR_OUT = join(ROOT, 'src', 'content', '_redirects.generated.json');
   try {

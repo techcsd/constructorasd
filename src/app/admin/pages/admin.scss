@@ -730,3 +730,16 @@ a.adm-btn {
 .lead-note { padding: var(--space-2); border-bottom: 1px solid var(--line); font-size: var(--fs-small); }
 .lead-note .small { color: var(--text-3); }
 .lead-cv { width: 100%; height: 480px; border: 1px solid var(--line); border-radius: var(--r-sm); margin-top: var(--space-3); }
+
+// Textos del sitio (WL6)
+.txt-toolbar { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-3); margin-bottom: var(--space-3); }
+.txt-toolbar .adm-input { flex: 1; min-width: 160px; }
+.txt-toolbar label { display: inline-flex; align-items: center; gap: var(--space-2); white-space: nowrap; }
+.txt-list { display: flex; flex-direction: column; gap: var(--space-2); }
+.txt-row { display: grid; grid-template-columns: 220px 1fr auto; gap: var(--space-3); align-items: start; padding: var(--space-2) var(--space-3); border: 1px solid var(--line); border-radius: var(--r-sm); }
+.txt-row.is-modified { border-color: var(--accent); }
+.txt-row__key { display: flex; flex-direction: column; gap: var(--space-1); min-width: 0; word-break: break-word; }
+.txt-row__fields { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-2); }
+.txt-row__fields textarea { resize: vertical; }
+.txt-row__actions { display: flex; align-items: center; gap: var(--space-2); }
+@media (max-width: 860px) { .txt-row { grid-template-columns: 1fr; } .txt-row__fields { grid-template-columns: 1fr; } }
