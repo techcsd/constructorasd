@@ -116,8 +116,17 @@ uses the system stack (`"JetBrains Mono", ui-monospace, Menlo, Consolas, monospa
 via the `.adm-num` utility. This ships zero extra bytes and no CSP/network dependency; if the real font
 is wanted later, drop the woff2 in `public/fonts/` and it takes over (first in the stack).
 
-**Not done this round (deferred, logged):** the full bespoke component kit (sparkline stat tiles, tabs
-with sliding indicator, 3-pane Leads inbox, masonry Biblioteca), the collapsible 240/64 icon rail (needs
-a per-section icon set the public sprite doesn't yet have), and the rebuilt dashboard/editor from brief
-§6. The current re-skin delivers the approved visual direction + motion with no regression; these are
-polish on top and can be a follow-up round.
+**Also delivered this round, on top of the re-skin** (each its own verified commit): the **Panel
+dashboard** (brief §6 — count-up mono stat tiles, publish chip, quick actions, recent activity from
+existing services; now the `/admin` landing) with **skeleton loading states**; the **collapsible 240/64
+icon rail** (authored an admin-only `public/admin-icons.svg` 24px stroke sprite — one icon per section —
+since the public sprite had none; collapse remembered in `localStorage`, SSR-safe); and the **`?`
+keyboard-shortcuts help** overlay (reuses the palette overlay). Admin isolation verified: the sprite,
+dark palette and palette chunk never reach public prerendered HTML or the eager bundle.
+
+**Still deferred (logged):** sparkline on the stat tiles (needs time-series data we don't store), a
+bespoke tabs-with-sliding-indicator primitive, a hard 3-pane split of Leads (it's already a 2-pane inbox
+with notes + filters + bulk + unread + toast — the brief's intent is met), masonry Biblioteca (the shared
+thumb is fixed-height, so masonry adds little without reworking it), and the project-editor sticky live
+preview + focal picker. These are refinements to already-working, e2e-covered screens — best as a focused
+follow-up round with their own QA rather than a risky rewrite right before the WO2 merge gate.
