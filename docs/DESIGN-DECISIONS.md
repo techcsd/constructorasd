@@ -89,3 +89,35 @@ From the 9 available Lopesan photos the gallery was cut to the structural / faç
 (`estructura`, `apuntalamiento`, `fachada`; cover `hero`). Dropped the material-stack and mis-oriented
 photos (`componentes`, `encofrado-vertical`, `puntales`, `losas`, `obra`). A richer 8–10 photo set can
 be pulled from the 116-photo Lopesan archive later (logged in CONTENIDO-PENDIENTE).
+
+## Admin "Dark studio console" (PROMPT-11 / WN4) — 2026-10-08
+
+**WO1 self-approved.** Xaviel delegated the Part-A approval gate ("yes do all u want, do everything,
+do all the stuff"), so the mock was not paused for the 3 questions — the documented defaults were applied
+and the work continued straight through Part B.
+
+**Re-skin by token remap, not a ground-up rebuild.** The admin already consumed the semantic tokens
+(`--bg`, `--text`, `--accent`, …). Rather than rewrite every screen onto a new component kit, the dark
+palette is a token remap scoped to `.adm, .adm-auth` (in `admin.scss`); custom-property inheritance
+re-skins every descendant at once, keeping all existing behaviour and the full admin e2e suite green.
+Consequence: `admin-cms.scss` redefines the `.adm-btn` family locally, because Angular scopes component
+styles and the shell's button rules don't reach the lazy CMS-editor child components.
+
+**Signature layer added on top** (what makes it "studio console", all admin-only / lazy chunk, all
+collapsing under `prefers-reduced-motion`): a single fixed ambient oxide glow + faint self-contained SVG
+grain; a glass sticky top bar (`backdrop-filter`); an oxide sidebar active-indicator that springs in;
+per-screen route entrance motion; and a **Ctrl+K command palette** (fuzzy jump across every section +
+"Ver el sitio"/"Cerrar sesión"). The `tropes-allow` markers on the glow/glass are deliberate per the
+brief (WN4) and admin-only; the public anti-AI-trope rules are unchanged.
+
+**JetBrains Mono deferred → system mono stack.** The brief asks to self-host JetBrains Mono for console
+numerals. No licensed woff2 was available locally and a webfont can't be fetched safely, so `--font-mono`
+uses the system stack (`"JetBrains Mono", ui-monospace, Menlo, Consolas, monospace`) with `tabular-nums`
+via the `.adm-num` utility. This ships zero extra bytes and no CSP/network dependency; if the real font
+is wanted later, drop the woff2 in `public/fonts/` and it takes over (first in the stack).
+
+**Not done this round (deferred, logged):** the full bespoke component kit (sparkline stat tiles, tabs
+with sliding indicator, 3-pane Leads inbox, masonry Biblioteca), the collapsible 240/64 icon rail (needs
+a per-section icon set the public sprite doesn't yet have), and the rebuilt dashboard/editor from brief
+§6. The current re-skin delivers the approved visual direction + motion with no regression; these are
+polish on top and can be a follow-up round.
