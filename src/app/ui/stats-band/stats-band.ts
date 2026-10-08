@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
+import { CountUp } from '../../core/count-up.directive';
 
 export interface StatItem {
   value: string;
@@ -10,6 +11,7 @@ export interface StatItem {
   selector: 'app-stats-band',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [CountUp],
   templateUrl: './stats-band.html',
   styleUrl: './stats-band.scss',
   host: { 'data-tone': 'dark', class: 'tone-dark' },

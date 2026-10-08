@@ -22,6 +22,15 @@ test('reduced-motion: hero has no residual transform or animation', async ({ pag
   expect(kenburns).toBe('none');
 });
 
+test('stats count up and settle to their final value', async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: 'no-preference' });
+  await page.goto('/', { waitUntil: 'load' });
+  const first = page.locator('.app-stats-band__value').first();
+  await first.scrollIntoViewIfNeeded();
+  await page.waitForTimeout(1200); // past the 900ms count-up
+  await expect(first).toHaveText('45+'); // settled, not stuck at 0 / mid-count
+});
+
 test('normal motion: hero content is fully visible within 1s', async ({ page }) => {
   await page.emulateMedia({ reducedMotion: 'no-preference' });
   await page.goto('/', { waitUntil: 'load' });

@@ -12,10 +12,16 @@
 }
 .app-project-card__media app-image-figure {
   display: block;
-  transition: transform 0.6s var(--ease-out);
+  transition: transform 0.7s var(--m-ease-out);
 }
-a.app-project-card:hover .app-project-card__media app-image-figure {
-  transform: scale(1.02);
+a.app-project-card:hover .app-project-card__media app-image-figure,
+a.app-project-card:focus-visible .app-project-card__media app-image-figure {
+  transform: scale(1.03); // WN3 — keyboard focus gets the same state
+}
+@media (prefers-reduced-motion: reduce) {
+  .app-project-card__media app-image-figure { transition: none; }
+  a.app-project-card:hover .app-project-card__media app-image-figure,
+  a.app-project-card:focus-visible .app-project-card__media app-image-figure { transform: none; }
 }
 .app-project-card__info {
   display: flex;
