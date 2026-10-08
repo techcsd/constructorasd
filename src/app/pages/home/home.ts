@@ -19,13 +19,14 @@ import { ClientWall } from '../../ui/client-wall/client-wall';
 import { Quote } from '../../ui/quote/quote';
 import { ImageFigure } from '../../ui/image-figure/image-figure';
 import { RevealDirective } from '../../core/reveal.directive';
+import { HeroMotion } from '../../core/hero-motion.directive';
 import { TPipe } from '../../core/i18n/t.pipe';
 
 @Component({
   selector: 'app-home',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [Eyebrow, Button, SectionHeading, StatsBand, StageRow, ProjectCard, ClientWall, Quote, ImageFigure, RevealDirective, TPipe],
+  imports: [Eyebrow, Button, SectionHeading, StatsBand, StageRow, ProjectCard, ClientWall, Quote, ImageFigure, RevealDirective, HeroMotion, TPipe],
   templateUrl: './home.html',
   styleUrl: './home.scss',
 })

@@ -81,6 +81,23 @@ for (const file of walk(SRC, ['.scss'])) {
     if (BACKDROP.test(line)) {
       violations.push({ rel, line: i + 1, kind: 'backdrop-filter', text: line.trim().slice(0, 90) });
     }
+    // Motion anti-AI (WN3) — public styles only (the private admin has its own system). No animated hue,
+    // no animated gradient background-position, no blur animation outside the image LQIP, no transition/
+    // animation longer than 1200 ms (Ken Burns uses var(--m-kenburns), so no literal to catch).
+    if (!/[\\/]admin[\\/]/.test(rel)) {
+      if (/hue-rotate/i.test(line)) violations.push({ rel, line: i + 1, kind: 'animated-hue', text: line.trim().slice(0, 90) });
+      if (/background-position/i.test(line) && /@keyframes/i.test(enclosingSelector(lines, i))) {
+        violations.push({ rel, line: i + 1, kind: 'animated-bg-position', text: line.trim().slice(0, 90) });
+      }
+      if (/\bblur\s*\(/i.test(line) && /(transition|animation)\s*:/i.test(line) && !/image-figure\.scss$/.test(rel)) {
+        violations.push({ rel, line: i + 1, kind: 'blur-animation', text: line.trim().slice(0, 90) });
+      }
+      if (/(transition|animation)\s*:/i.test(line)) {
+        const over = [...line.matchAll(/(\d+(?:\.\d+)?)s\b/g)].some((m) => parseFloat(m[1]) > 1.2) ||
+          [...line.matchAll(/(\d{4,})ms\b/g)].some((m) => parseInt(m[1], 10) > 1200);
+        if (over) violations.push({ rel, line: i + 1, kind: 'too-slow', text: line.trim().slice(0, 90) });
+      }
+    }
     if (FORBIDDEN_COLOR.test(line) || FORBIDDEN_HEX.test(line)) {
       violations.push({ rel, line: i + 1, kind: 'forbidden-hue', text: line.trim().slice(0, 90) });
     }
