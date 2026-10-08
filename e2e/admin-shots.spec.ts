@@ -21,6 +21,13 @@ test.describe('admin dark theme shots', () => {
     await expect(page.locator('.pb__txt')).toBeVisible({ timeout: 15000 });
     await page.waitForTimeout(900); // let the route transition + entrance motion settle before the shot
     await page.screenshot({ path: `${DIR}/admin-02-panel.png`, fullPage: true });
+
+    // Collapsed icon rail
+    await page.locator('.adm__collapse').click();
+    await page.waitForTimeout(400);
+    await page.screenshot({ path: `${DIR}/admin-06-rail.png`, fullPage: true });
+    await page.locator('.adm__collapse').click(); // expand again for the rest of the shots
+    await page.waitForTimeout(400);
     await page.goto('/admin/contenido/inicio', { waitUntil: 'networkidle' });
     await expect(page.locator('.cms-title')).toBeVisible({ timeout: 15000 });
     await page.waitForTimeout(600);
