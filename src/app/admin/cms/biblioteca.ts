@@ -36,6 +36,7 @@ export class Biblioteca {
     } catch (e) { this.error.set((e as Error).message); } finally { this.loading.set(false); }
   }
   url(m: MediaRow): string { return this.cms.thumbUrl(m.path, 320); }
+  dl(m: MediaRow): string { return this.cms.downloadUrl(m.path, m.original_name || m.path.split('/').pop() || 'imagen'); }
   uses(m: MediaRow): number { return this.usage()[m.id] ?? 0; }
 
   onUploaded(): void { void this.load(); }

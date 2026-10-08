@@ -147,4 +147,13 @@ export class ProyectoEditor {
 
   coverUrl(): string | null { return this.cover() ? this.cms.thumbUrl(this.cover()!.path, 480) : null; }
   galleryUrl(m: MediaRow): string { return this.cms.thumbUrl(m.path, 240); }
+
+  private ext(path: string): string { return (path.split('.').pop() || 'jpg').toLowerCase(); }
+  coverDownloadUrl(): string | null {
+    const c = this.cover(); if (!c) return null;
+    return this.cms.downloadUrl(c.path, `${this.p().slug || 'proyecto'}-portada.${this.ext(c.path)}`);
+  }
+  galleryDownloadUrl(m: MediaRow, i: number): string {
+    return this.cms.downloadUrl(m.path, `${this.p().slug || 'proyecto'}-${i + 1}.${this.ext(m.path)}`);
+  }
 }

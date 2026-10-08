@@ -19,7 +19,10 @@
         <div class="cms-media-card__body">
           <span class="cms-media-card__alt" [title]="m.alt_es">{{ m.alt_es || m.original_name || '(sin alt)' }}</span>
           <span class="cms-media-card__use">{{ uses(m) }} uso(s) · {{ m.width }}×{{ m.height }}</span>
-          <button type="button" class="adm-btn adm-btn--ghost" [disabled]="uses(m) > 0" (click)="remove(m)">{{ uses(m) > 0 ? 'En uso' : 'Borrar' }}</button>
+          <div class="cms-media-card__actions">
+            <a class="adm-btn adm-btn--ghost" [href]="dl(m)" download>Descargar</a>
+            <button type="button" class="adm-btn adm-btn--ghost" [disabled]="uses(m) > 0" (click)="remove(m)">{{ uses(m) > 0 ? 'En uso' : 'Borrar' }}</button>
+          </div>
         </div>
       </div>
     }

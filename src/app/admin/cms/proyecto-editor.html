@@ -83,7 +83,7 @@
     <div class="cms-field">
       <label>Portada</label>
       @if (coverUrl(); as url) {
-        <div class="cms-cover"><app-admin-thumb [src]="url" /><button type="button" class="adm-btn adm-btn--ghost" (click)="cover.set(null)">Quitar portada</button></div>
+        <div class="cms-cover"><app-admin-thumb [src]="url" /><div class="cms-cover__actions"><a class="adm-btn adm-btn--ghost" [href]="coverDownloadUrl()" download>Descargar original</a><button type="button" class="adm-btn adm-btn--ghost" (click)="cover.set(null)">Quitar portada</button></div></div>
       }
       <app-media-uploader [label]="coverUrl() ? 'Reemplazar portada' : 'Subir portada'" (uploaded)="onCoverUploaded($event)" />
     </div>
@@ -98,6 +98,7 @@
             <app-admin-thumb [src]="galleryUrl(g.media)" />
             <div class="cms-gitem__actions">
               <button type="button" class="adm-btn adm-btn--ghost" (click)="makeCover(i)">Portada</button>
+              <a class="adm-btn adm-btn--ghost" [href]="galleryDownloadUrl(g.media, i)" download>Descargar</a>
               <button type="button" class="adm-btn adm-btn--ghost" (click)="removeGallery(i)">Quitar</button>
             </div>
           </div>

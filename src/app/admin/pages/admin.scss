@@ -32,6 +32,13 @@
   opacity: 0.55;
   cursor: default;
 }
+// Anchors styled as buttons (e.g. download links)
+a.adm-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+}
 
 .adm-field {
   display: flex;

@@ -45,6 +45,20 @@ test.describe('admin CMS', () => {
     await expect(page.locator('.cms-row', { hasText: 'QA e2e ' + slug })).toHaveCount(0);
   });
 
+  test('project editor lets you download the original photo', async ({ page }) => {
+    await login(page);
+    await page.goto('/admin/contenido/proyectos', { waitUntil: 'networkidle' });
+    // Open a project that actually has a cover (its thumb renders an <img>), not a cover-less draft.
+    const rowWithCover = page.locator('.cms-row', { has: page.locator('.cms-row__thumb img') }).first();
+    await rowWithCover.getByRole('link', { name: 'Editar' }).click();
+    await page.waitForURL('**/proyectos/editar**');
+    const dl = page.getByRole('link', { name: 'Descargar original' });
+    await expect(dl).toBeVisible({ timeout: 15000 });
+    const href = await dl.getAttribute('href');
+    expect(href).toContain('/storage/v1/object/public/web-media/'); // original object, not a thumbnail
+    expect(href).toContain('download='); // attachment disposition
+  });
+
   test('empresa form loads the company data', async ({ page }) => {
     await login(page);
     await page.goto('/admin/contenido/empresa', { waitUntil: 'networkidle' });

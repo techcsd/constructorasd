@@ -101,6 +101,7 @@ textarea.adm-input {
 .cms-check { display: inline-flex; align-items: center; gap: var(--space-2); font-size: var(--fs-small); color: var(--text); }
 .cms-toggles { display: flex; gap: var(--space-5); }
 .cms-cover { display: flex; align-items: flex-start; gap: var(--space-3); margin-bottom: var(--space-3); }
+.cms-cover__actions { display: flex; flex-direction: column; gap: var(--space-2); }
 .cms-cover app-admin-thumb { width: 220px; max-width: 40vw; height: 140px; flex: none; border-radius: var(--r-sm); border: 1px solid var(--line); }
 .cms-gallery { display: flex; flex-wrap: wrap; gap: var(--space-3); margin-bottom: var(--space-3); }
 .cms-gitem {
@@ -112,7 +113,7 @@ textarea.adm-input {
   background: var(--bg-elevated);
 }
 .cms-gitem app-admin-thumb { display: block; height: 100px; }
-.cms-gitem__actions { display: flex; gap: 2px; padding: var(--space-1); }
+.cms-gitem__actions { display: flex; flex-wrap: wrap; gap: 2px; padding: var(--space-1); }
 .cms-gitem .cms-row__grip { position: absolute; top: 2px; left: 2px; background: var(--bg); border-radius: var(--r-sm); }
 .cms-seo { border: 1px solid var(--line); border-radius: var(--r-sm); padding: var(--space-3) var(--space-4); }
 .cms-seo summary { cursor: pointer; font-size: var(--fs-small); color: var(--text-2); }
@@ -128,3 +129,4 @@ textarea.adm-input {
 .cms-media-card__body { padding: var(--space-2) var(--space-3); display: flex; flex-direction: column; gap: var(--space-1); }
 .cms-media-card__alt { font-size: var(--fs-small); color: var(--text); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .cms-media-card__use { font-size: var(--fs-eyebrow); color: var(--text-3); }
+.cms-media-card__actions { display: flex; flex-wrap: wrap; gap: var(--space-2); }
