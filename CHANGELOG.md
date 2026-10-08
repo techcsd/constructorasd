@@ -3,9 +3,31 @@
 All notable changes to this project. Versioning is simple (CLAUDE.md / WB9): a `CHANGELOG.md` entry plus a
 `package.json` bump per release. Not tracked in `sgc.app_versiones`.
 
-## 2.2.0 — ronda 04: todo editable + motion (en dev, sin merge a main) (2026-10-08)
+## 3.0.0 — ronda 04: todo editable + motion + admin "dark studio console" (2026-10-08)
 
-Ronda `csd imp 08102026`, PROMPT-09 + 10. Todo en `dev` (sin merge a `main` hasta WO2).
+Ronda `csd imp 08102026`, PROMPT-09 + 10 + 11. Merge `dev → main` (WO2, OK de Xaviel).
+
+**PROMPT-11 — admin "Dark studio console" (WN4)**
+- **Tema oscuro** en todo `/admin`: grafito + texto hueso cálido + acento óxido, por remapeo de tokens
+  semánticos en `.adm, .adm-auth` (hereda a todo descendiente). Sólo en el chunk lazy del admin — nada
+  oscuro llega al bundle público (verificado: sprite, paleta y chunk del palette ausentes del HTML público).
+- **Atmósfera + motion**: un glow óxido ambiental + grano SVG propio; **barra superior glass** (sticky,
+  backdrop-blur); indicador activo óxido con muelle en el sidebar; entrada por ruta; press de botones.
+- **Paleta de comandos `Ctrl+K`**: salto difuso a cualquier sección + "Ver el sitio"/"Cerrar sesión",
+  teclado-primero, modal glass; lanzador "Buscar… Ctrl K" en el sidebar.
+- **Panel** (dashboard, nuevo landing): tiles de stats con count-up y numerales mono, chip de publicación,
+  acciones rápidas, actividad reciente (notas + leads), con **skeletons** de carga.
+- **Rail de iconos colapsable** 240/64 recordado (`public/admin-icons.svg`, sprite 24px sólo-admin).
+- **Ayuda de atajos `?`** (overlay reutilizando el palette).
+- **Editor de proyecto §5**: layout 8/4 con **vista previa en vivo** pegajosa — hero que es a la vez
+  **selector de punto focal** (persiste en `focal_x/focal_y` de la portada), tarjeta de vista previa que
+  reutiliza `<app-project-card>`, y control segmentado ES/EN. El **punto focal llega al render público**
+  (`ImageRef.focal → object-position` en el hero y las tarjetas de proyecto).
+- Numerales mono (`.adm-num`) en los contadores de las listas.
+
+**PROMPT-09 + 10 (incluidos en esta release)** — antes en 2.2.0:
+
+Ronda `csd imp 08102026`, PROMPT-09 + 10.
 
 **PROMPT-09 — gestión total desde /admin (WL1–WL6, WN1–WN2)**
 - **Botón hero** "Hablemos" en bone, no tinta (WL1/WM1): input `tone` en `app-button` (reemplaza el
@@ -29,9 +51,10 @@ Ronda `csd imp 08102026`, PROMPT-09 + 10. Todo en `dev` (sin merge a `main` hast
   Transitions API, header como elemento compartido). Todo colapsa bajo reduced-motion; solo transform/opacity
   (CLS-safe).
 
-Verificado: build verde (todas las guardas), 62 unit + e2e (motion, button-contrast, A17/A19/A20, …) en verde.
-Migraciones dev→prod: `settings-data`, `ui-strings`, `leads-en-seguimiento`. **Pendiente de la ronda:** resto
-de motion (parallax/acordeón/lightbox), barrido de imágenes, admin redesign (PROMPT-11, gate WO1), merge WO2.
+Verificado (toda la release): build verde (todas las guardas), **62 unit + 86 e2e** (motion, button-contrast,
+admin-cms A17/A19/A20, paleta, rail, editor, …) en verde; aislamiento admin verificado. Migraciones dev→prod
+(P09): `settings-data`, `ui-strings`, `leads-en-seguimiento` — ya aplicadas a prod. Pendiente (marginal, no
+bloqueante): sparklines, masonry Biblioteca, 3-paneles Leads, tabs con indicador deslizante.
 
 ## 2.0.11 — verificaciones reproducibles de QA (A16 + I01) (2026-10-08)
 
