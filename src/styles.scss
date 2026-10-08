@@ -9,6 +9,11 @@
 @use 'styles/mixins' as *;
 @use 'styles/motion';
 
+// Admin "Dark studio console": make the whole page graphite when an admin shell/login is present, so no
+// light body shows behind short content. Only triggers on /admin (the rest of the admin palette is lazy).
+html:has(.adm),
+html:has(.adm-auth) { background-color: #0e1012; } // tokens-allow
+
 // ── Reset ─────────────────────────────────────────────────────────────────────
 *,
 *::before,

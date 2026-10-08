@@ -1,5 +1,46 @@
 // ===== Admin panel — shared styles (login + shell + modules). Lazy /admin chunk only. =====
-// Uses semantic tokens so it rides the same palette as the site; the sidebar opts into dark via tone-dark.
+// "Dark studio console" (WL7/WN4): the admin remaps the semantic tokens it already uses to a dark graphite
+// palette on its root, so every screen re-skins at once (custom properties inherit to all descendants).
+// These literals define the admin's own token sheet (like _tokens.scss), hence tokens-allow per line.
+
+.adm,
+.adm-auth {
+  --bg: #0e1012; // tokens-allow
+  --bg-elevated: #1a1d21; // tokens-allow
+  --bg-sunken: #141719; // tokens-allow
+  --text: #eceae4; // tokens-allow
+  --text-2: #a8abb2; // tokens-allow
+  --text-3: #6e7279; // tokens-allow
+  --line: rgba(255, 255, 255, 0.07); // tokens-allow
+  --line-control: rgba(255, 255, 255, 0.14); // tokens-allow
+  --line-strong: rgba(255, 255, 255, 0.2); // tokens-allow
+  --accent: #f08a4b; // tokens-allow
+  --accent-hover: #c2410c; // tokens-allow
+  --text-on-accent: #0e1012; // tokens-allow
+  --a-ok: #7fd1a9; // tokens-allow
+  --a-warn: #f2c14e; // tokens-allow
+  --a-danger: #f0665c; // tokens-allow
+  --a-surface-2: #22262b; // tokens-allow
+  --a-glow: 0 0 0 1px rgba(240, 138, 75, 0.16), 0 0 22px rgba(240, 138, 75, 0.22); // tokens-allow
+  background: var(--bg);
+  color: var(--text);
+}
+.adm { min-height: 100vh; }
+.adm-auth { min-height: 100vh; display: grid; place-items: center; }
+
+// Sidebar rail + active nav in oxide.
+.adm__side { background: var(--bg-sunken); }
+.adm__nav-link { border-radius: var(--r-sm); transition: background var(--dur-fast) var(--ease-out), color var(--dur-fast) var(--ease-out); }
+.adm__nav-link:hover { background: var(--bg-elevated); color: var(--text); }
+.adm__nav-link.is-active { color: var(--accent); }
+.adm__nav-link.is-active .adm__dot { background: var(--accent); box-shadow: var(--a-glow); }
+
+// Inputs: filled surface + accent focus ring.
+.adm-input:focus-visible,
+.adm-field input:focus-visible,
+.adm-field select:focus-visible,
+.adm-field textarea:focus-visible,
+textarea.adm-input:focus-visible { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px var(--a-surface-2); }
 
 // ---- Shared controls ----
 .adm-btn {
@@ -8,11 +49,14 @@
   font-weight: 600;
   padding: var(--space-2) var(--space-4);
   border-radius: var(--r-sm);
-  border: 1px solid transparent;
+  border: 1px solid var(--line-control);
+  background: var(--bg-elevated); // dark surface by default (no browser-light fallback on the dark theme)
+  color: var(--text);
   cursor: pointer;
   transition: all var(--dur-fast) var(--ease-out);
   white-space: nowrap;
 }
+.adm-btn:hover { border-color: var(--text-3); }
 .adm-btn--primary {
   background: var(--accent);
   color: var(--text-on-accent);

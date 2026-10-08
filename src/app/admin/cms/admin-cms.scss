@@ -19,6 +19,29 @@ textarea.adm-input {
   min-height: 72px;
 }
 
+// Buttons — these must be redefined here: Angular scopes component styles, so the `.adm-btn` rules in
+// admin.scss (the shell) don't reach the CMS editor child components. Same dark-studio-console look.
+.adm-btn {
+  font: inherit;
+  font-size: var(--fs-small);
+  font-weight: 600;
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--r-sm);
+  border: 1px solid var(--line-control);
+  background: var(--bg-elevated);
+  color: var(--text);
+  cursor: pointer;
+  transition: all var(--dur-fast) var(--ease-out);
+  white-space: nowrap;
+}
+.adm-btn:hover { border-color: var(--text-3); }
+.adm-btn--primary { background: var(--accent); color: var(--text-on-accent); border-color: transparent; }
+.adm-btn--primary:hover { background: var(--accent-hover); }
+.adm-btn--ghost { background: transparent; color: var(--text); border-color: var(--line-control); }
+.adm-btn--ghost:hover { border-color: var(--text); }
+.adm-btn:disabled { opacity: 0.55; cursor: default; }
+a.adm-btn { display: inline-flex; align-items: center; justify-content: center; text-decoration: none; }
+
 .cms-head {
   display: flex;
   justify-content: space-between;
