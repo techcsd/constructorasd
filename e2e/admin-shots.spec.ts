@@ -19,11 +19,14 @@ test.describe('admin dark theme shots', () => {
     await page.fill('input[type=password]', PASSWORD!);
     await page.locator('button[type=submit]').click();
     await expect(page.locator('.pb__txt')).toBeVisible({ timeout: 15000 });
+    await page.waitForTimeout(900); // let the route transition + entrance motion settle before the shot
     await page.screenshot({ path: `${DIR}/admin-02-panel.png`, fullPage: true });
     await page.goto('/admin/contenido/inicio', { waitUntil: 'networkidle' });
     await expect(page.locator('.cms-title')).toBeVisible({ timeout: 15000 });
+    await page.waitForTimeout(600);
     await page.screenshot({ path: `${DIR}/admin-03-inicio.png`, fullPage: true });
     await page.goto('/admin/contenido/proyectos', { waitUntil: 'networkidle' });
+    await page.waitForTimeout(600);
     await page.screenshot({ path: `${DIR}/admin-04-proyectos.png`, fullPage: true });
   });
 });
