@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/c
 import { RouterLink } from '@angular/router';
 import { I18nService } from '../../core/i18n/i18n.service';
 import { pathFor } from '../../core/i18n/localized-routes';
+import { COMPANY } from '../../../content/company';
 import { Logo } from '../logo/logo';
 import { Icon } from '../icon/icon';
 import { TPipe } from '../../core/i18n/t.pipe';
@@ -38,4 +39,10 @@ export class Footer {
   readonly links = computed(() =>
     NAV_KEYS.map((key) => ({ key, label: NAV_LABEL[key], path: pathFor(key, this.locale()) ?? '/' })),
   );
+
+  // Company data (editable via Empresa / Ajustes) — bound here so nothing is hardcoded (WL6).
+  readonly email = COMPANY.email;
+  readonly instagram = COMPANY.instagram;
+  readonly phones = COMPANY.phones.map((p) => ({ label: p, href: 'tel:+1' + p.replace(/[^0-9]/g, '') }));
+  readonly presence = computed(() => this.i18n.pick(COMPANY.presence) ?? '');
 }
