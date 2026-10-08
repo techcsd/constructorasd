@@ -97,3 +97,9 @@
   display: inline-flex;
   color: var(--accent);
 }
+
+// Success slides in (WN3). Only rendered after submit, so it animates on appear. Reduced-motion = static.
+@media (prefers-reduced-motion: no-preference) {
+  .app-contact-form__success { animation: cf-success-in var(--m-base) var(--m-ease-out) both; }
+  @keyframes cf-success-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+}
