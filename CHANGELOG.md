@@ -3,6 +3,15 @@
 All notable changes to this project. Versioning is simple (CLAUDE.md / WB9): a `CHANGELOG.md` entry plus a
 `package.json` bump per release. Not tracked in `sgc.app_versiones`.
 
+## 2.0.9 — barra de publicación: progreso en vivo (2026-10-08)
+
+Mejora **sin token** del estado de publicación (WK2): al pulsar *Publicar*, la barra muestra un **cronómetro
+en vivo** (`Publicando… 1:20`) mientras sondea `version.json`; cuando cambia la revisión → *Publicado ✓*. Si
+tarda más de lo normal, aparece un enlace **"Ver en Vercel"** para inspeccionar el deploy en el panel.
+(Los repos SGC/csd-app solo tienen `VERCEL_OIDC_TOKEN` de runtime, no un token REST; el estado granular de
+Vercel —QUEUED/BUILDING/ERROR— requeriría un token de API en un edge function, pendiente de que Xaviel cree
+uno.)
+
 ## 2.0.8 — guard de CV (P10) + limpieza de datos de prueba en dev (2026-10-08)
 
 - **P10 — validación de CV con guard automático:** se extrajo la regla (PDF/DOC/DOCX, ≤ 5 MB) a
