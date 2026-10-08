@@ -54,6 +54,9 @@ a.adm-btn { display: inline-flex; align-items: center; justify-content: center; 
   gap: var(--space-3);
   align-items: center;
 }
+// Console numerals (mirrors admin.scss; component scoping means it must be defined here too).
+.adm-num { font-family: var(--font-mono); font-variant-numeric: tabular-nums; letter-spacing: -0.01em; }
+
 .cms-title { font-size: var(--fs-h3); margin: 0; }
 .cms-sub, .cms-hint { color: var(--text-3); }
 .cms-back { color: var(--text-2); display: inline-block; margin-bottom: var(--space-2); }

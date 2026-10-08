@@ -9,7 +9,7 @@
     <input class="adm-input" type="search" placeholder="Buscar…" [value]="query()" (input)="query.set($any($event.target).value)" />
     <label class="small"><input type="checkbox" [checked]="onlyModified()" (change)="onlyModified.set($any($event.target).checked)" /> Solo modificados ({{ modifiedCount() }})</label>
     <button type="button" class="adm-btn adm-btn--ghost" (click)="exportCsv()">Exportar CSV</button>
-    <span class="small cms-row__meta">{{ filtered().length }} de {{ all().length }}</span>
+    <span class="small cms-row__meta"><span class="adm-num">{{ filtered().length }}</span> de <span class="adm-num">{{ all().length }}</span></span>
   </div>
 
   <div class="txt-list">
