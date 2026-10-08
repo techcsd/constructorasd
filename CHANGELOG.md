@@ -3,6 +3,36 @@
 All notable changes to this project. Versioning is simple (CLAUDE.md / WB9): a `CHANGELOG.md` entry plus a
 `package.json` bump per release. Not tracked in `sgc.app_versiones`.
 
+## 2.2.0 — ronda 04: todo editable + motion (en dev, sin merge a main) (2026-10-08)
+
+Ronda `csd imp 08102026`, PROMPT-09 + 10. Todo en `dev` (sin merge a `main` hasta WO2).
+
+**PROMPT-09 — gestión total desde /admin (WL1–WL6, WN1–WN2)**
+- **Botón hero** "Hablemos" en bone, no tinta (WL1/WM1): input `tone` en `app-button` (reemplaza el
+  `:host-context` que no compilaba); guard e2e por color computado.
+- **Inicio** (WL2/WL3/WN1): modelo `site_content.home` + editor `/admin › Inicio` — foto del hero
+  (cambiar + descargar), títulos/eyebrow/botones, **banda de stats** ordenable, intro, destacados,
+  sectores, cita, clientes, ventajas, CTA. `gen-content` resuelve la foto del hero.
+- **Imágenes de etapas** (WL4): selector de imagen por etapa en `/admin › Etapas`.
+- **Ajustes** (WN2): `site_settings.data` + `/admin › Ajustes` — **correos destino** editables (las edge
+  functions los leen en vivo, sin redeploy) y **banner de mantenimiento** (runtime, sin publicar); además
+  WhatsApp/redes/legal/analítica (editables; parte del consumo público pendiente).
+- **Textos del sitio** (WL6): tabla `web.ui_strings` (124 strings sembrados dev+prod) + módulo con
+  búsqueda, "solo modificados", autosave en línea, restablecer y CSV. `gen-content` inyecta los cambios en
+  `t()`. **Guard `verify-editable-coverage` → 0 strings públicos hardcodeados** (en prebuild).
+
+**PROMPT-10 — motion público (WL5/WN3): notable pero con gusto, sin librerías**
+- Sistema de motion (`_motion.scss` tokens + interruptor `prefers-reduced-motion`); `verify-no-ai-tropes`
+  ampliado (hue animado, background-position animado, blur fuera del LQIP, duraciones > 1200 ms).
+- Hero: entrada escalonada (CSS, LCP-safe) + **Ken Burns** (gatillado tras `load`, pausa con pestaña oculta).
+- **Count-up** de stats (expo.out), hover/foco de tarjetas (scale 1.03), **transiciones de ruta** (View
+  Transitions API, header como elemento compartido). Todo colapsa bajo reduced-motion; solo transform/opacity
+  (CLS-safe).
+
+Verificado: build verde (todas las guardas), 62 unit + e2e (motion, button-contrast, A17/A19/A20, …) en verde.
+Migraciones dev→prod: `settings-data`, `ui-strings`, `leads-en-seguimiento`. **Pendiente de la ronda:** resto
+de motion (parallax/acordeón/lightbox), barrido de imágenes, admin redesign (PROMPT-11, gate WO1), merge WO2.
+
 ## 2.0.11 — verificaciones reproducibles de QA (A16 + I01) (2026-10-08)
 
 Cierre fino de PROMPT-08 con scripts reutilizables que producen evidencia real:
