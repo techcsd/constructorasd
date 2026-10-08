@@ -124,9 +124,15 @@ since the public sprite had none; collapse remembered in `localStorage`, SSR-saf
 keyboard-shortcuts help** overlay (reuses the palette overlay). Admin isolation verified: the sprite,
 dark palette and palette chunk never reach public prerendered HTML or the eager bundle.
 
-**Still deferred (logged):** sparkline on the stat tiles (needs time-series data we don't store), a
-bespoke tabs-with-sliding-indicator primitive, a hard 3-pane split of Leads (it's already a 2-pane inbox
-with notes + filters + bulk + unread + toast — the brief's intent is met), masonry Biblioteca (the shared
-thumb is fixed-height, so masonry adds little without reworking it), and the project-editor sticky live
-preview + focal picker. These are refinements to already-working, e2e-covered screens — best as a focused
-follow-up round with their own QA rather than a risky rewrite right before the WO2 merge gate.
+**Also delivered (continuation):** the **project editor sticky live preview + focal picker** (brief §5 —
+8/4 layout, hero that doubles as a focal picker, card preview reusing the public `<app-project-card>`,
+ES/EN segmented control), and the focal point **wired through to the public render** (ImageRef.focal →
+gen-content → `object-position` on the project hero + listing cards). Plus console **mono numerals** on
+the list/section counts (brief §2).
+
+**Still deferred (genuinely low value / blocked):** sparkline stat tiles (we don't store the time-series
+data they'd need); a bespoke tabs-with-sliding-indicator primitive (the editor's ES/EN segmented control
+covers the one place it was needed); a hard 3-pane split of Leads (it's already a 2-pane inbox with notes
++ filters + bulk + unread + toast — the brief's intent is met); and masonry Biblioteca (the shared thumb
+is fixed-height, so masonry adds little without reworking it). These are the remaining items and are
+marginal; everything structural from the brief is done.
