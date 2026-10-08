@@ -37,6 +37,7 @@ export class CommandPalette {
   private readonly commands: readonly Command[] = [
     ...(
       [
+        ['Panel', '/admin/panel'],
         ['Inicio', '/admin/contenido/inicio'],
         ['Proyectos', '/admin/contenido/proyectos'],
         ['Clientes', '/admin/contenido/clientes'],

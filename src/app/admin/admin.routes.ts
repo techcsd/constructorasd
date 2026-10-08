@@ -12,7 +12,8 @@ export const ADMIN_ROUTES: Routes = [
     canActivate: [adminGuard],
     loadComponent: () => import('./pages/admin-shell').then((m) => m.AdminShell),
     children: [
-      { path: '', pathMatch: 'full', redirectTo: 'notas' },
+      { path: '', pathMatch: 'full', redirectTo: 'panel' },
+      { path: 'panel', loadComponent: () => import('./pages/panel-page').then((m) => m.PanelPage) },
       { path: 'notas', loadComponent: () => import('./pages/dev-notes-page').then((m) => m.DevNotesPage) },
       { path: 'leads', loadComponent: () => import('./pages/leads-page').then((m) => m.LeadsPage) },
       { path: 'apariencia', loadComponent: () => import('./pages/apariencia-page').then((m) => m.ApparienciaPage) },
