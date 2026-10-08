@@ -127,6 +127,20 @@ p {
     opacity: 1;
     transform: none;
   }
+
+  // Client wall (WN3): cells fade in with a per-cell stagger when the wall reveals.
+  [data-reveal] .app-client-wall__cell {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  [data-reveal].is-revealed .app-client-wall__cell {
+    opacity: 1;
+    transform: none;
+    transition:
+      opacity var(--m-base) var(--m-ease-out),
+      transform var(--m-base) var(--m-ease-out);
+    transition-delay: calc(var(--i, 0) * 20ms);
+  }
 }
 
 // Global kill switch: no transforms/opacity animations when the user asks for less motion.
