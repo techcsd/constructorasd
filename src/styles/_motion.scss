@@ -36,8 +36,20 @@
   }
 }
 
+// Route transitions (WN3) — the main content cross-fades + rises 8 px; the header is a named shared element
+// so it stays put (no flash). ~220 ms. Only the client-side nav is affected; prerendered HTML is untouched.
+@media (prefers-reduced-motion: no-preference) {
+  ::view-transition-old(root) { animation: m-vt-out 180ms var(--m-ease-out) both; }
+  ::view-transition-new(root) { animation: m-vt-in 220ms var(--m-ease-out) both; }
+  @keyframes m-vt-out { to { opacity: 0; } }
+  @keyframes m-vt-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+}
+
 // One global kill-switch — accessible, battery-friendly, and the no-JS/SSR state is already fully visible.
 @media (prefers-reduced-motion: reduce) {
+  ::view-transition-group(*),
+  ::view-transition-old(root),
+  ::view-transition-new(root) { animation: none !important; }
   .m-kenburns img,
   .m-kenburns.is-playing img {
     animation: none !important;
