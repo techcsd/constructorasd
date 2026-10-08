@@ -67,3 +67,6 @@ src/content/_redirects.generated.json
 # session scratch + regenerable QA evidence (PW_EVIDENCE=1)
 scratchpad/
 docs/round-03-qa/
+
+# supabase CLI scratch
+supabase/.temp/
