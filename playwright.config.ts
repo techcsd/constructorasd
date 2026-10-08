@@ -21,7 +21,10 @@ export default defineConfig({
   timeout: 30_000,
   expect: { timeout: 7_000 },
   fullyParallel: true,
-  retries: 0,
+  // Chromium gate is strict (0). The heavier cross-engine pass (PW_WEBKIT=1) gets one retry to absorb
+  // environmental flakes — WebKit-on-Windows intermittently times out its page-load wait under machine load
+  // (confirmed: the same specs pass on re-run and in isolation), which is not a site defect.
+  retries: withWebkit ? 1 : 0,
   reporter: [['list']],
   use: {
     baseURL: 'http://localhost:4466',

@@ -3,6 +3,18 @@
 All notable changes to this project. Versioning is simple (CLAUDE.md / WB9): a `CHANGELOG.md` entry plus a
 `package.json` bump per release. Not tracked in `sgc.app_versiones`.
 
+## 2.0.7 — cierre de brechas PROMPT-08 (QA total) (2026-10-08)
+
+- **Matriz QA** (`docs/QA-WORKFLOWS.md`) reescrita al formato de la especificación: una fila por workflow
+  (P01–P15, A01–A16, I01–I04) con prueba automática, evidencia, entorno y estado; incluye las novedades de
+  v2.0.1–2.0.6 (redirecciones de slug, descarga de original, duplicar nota, en_seguimiento, lote, etc.),
+  la sección de seguridad, el "pendiente Xaviel" y el checklist post-merge.
+- **A12 — guardia de cambios sin guardar:** el editor de proyecto avisa con `beforeunload` si hay cambios
+  sin guardar (usa el signal `dirty`, antes sin uso).
+- **E2E determinista entre motores:** la pasada `PW_WEBKIT=1` corre con **1 reintento** para absorber los
+  timeouts ambientales de WebKit-en-Windows bajo carga (confirmado flake: pasan al reintento/aislamiento);
+  el gate de Chromium sigue estricto. Baseline: **143 e2e + 54 unit** en verde.
+
 ## 2.0.6 — cierre de brechas PROMPT-07 (dev notes + leads) (2026-10-08)
 
 Completa los sub-ítems que faltaban del PROMPT-07 frente a su especificación detallada:

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostListener, computed, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { CdkDragDrop, DragDropModule, moveItemInArray } from '@angular/cdk/drag-drop';
@@ -46,6 +46,12 @@ export class ProyectoEditor {
   readonly dirty = computed(() => JSON.stringify(this.snapshot()) !== this.initial);
 
   constructor() { this.load(); }
+
+  // A12 — warn before losing unsaved edits (tab close / reload / external navigation).
+  @HostListener('window:beforeunload', ['$event'])
+  onBeforeUnload(e: BeforeUnloadEvent): void {
+    if (this.dirty() && !this.saving()) { e.preventDefault(); e.returnValue = ''; }
+  }
 
   private snapshot() {
     return { p: this.p(), cover: this.cover()?.id ?? null, gallery: this.gallery().map((g) => [g.media.id, g.caption_es, g.caption_en]) };
