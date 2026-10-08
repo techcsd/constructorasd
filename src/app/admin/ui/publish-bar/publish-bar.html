@@ -4,8 +4,8 @@
       @case ('loading') { Comprobando… }
       @case ('clean') { ✓ Todo publicado }
       @case ('changes') { Hay cambios sin publicar }
-      @case ('publishing') { Publicando… (~2 min) }
-      @case ('slow') { Está tardando más de lo normal }
+      @case ('publishing') { Publicando… {{ elapsedLabel() }} (~2 min) }
+      @case ('slow') { Está tardando más de lo normal ({{ elapsedLabel() }}) }
       @case ('done') { ✓ Publicado — ya está en vivo }
       @case ('error') { {{ error() }} }
     }
@@ -13,6 +13,9 @@
   <span class="pb__actions">
     @if (state() === 'changes' || state() === 'error') {
       <button type="button" class="adm-btn adm-btn--primary" (click)="publish()">Publicar</button>
+    }
+    @if (state() === 'slow' || state() === 'error') {
+      <a class="adm-btn adm-btn--ghost" [href]="vercelUrl" target="_blank" rel="noopener">Ver en Vercel</a>
     }
     @if (state() === 'slow') {
       <button type="button" class="adm-btn" (click)="check()">Comprobar</button>
