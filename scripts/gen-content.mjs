@@ -103,6 +103,12 @@ async function main() {
           const c = await cacheMedia(url, st.coverMediaId, byId);
           if (c) st.images = [{ src: c.key, alt: st.images?.[0]?.alt ?? c.alt }, ...(st.images ?? []).slice(1)];
         }
+        // Gallery (WL4) → appended after the cover, for the /servicios strip.
+        if (Array.isArray(st?.galleryMediaIds) && st.galleryMediaIds.length) {
+          const extra = [];
+          for (const id of st.galleryMediaIds) { const g = await cacheMedia(url, id, byId); if (g) extra.push({ src: g.key, alt: g.alt }); }
+          if (extra.length) st.images = [...(st.images ?? []), ...extra];
+        }
       }
     }
 

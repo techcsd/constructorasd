@@ -41,6 +41,17 @@
             <app-media-uploader [label]="coverThumb(s) ? 'Reemplazar imagen' : 'Subir imagen'" (uploaded)="onCover(s, $event)" />
           </div>
           <div class="cms-field">
+            <label>Galería de la etapa (para /servicios)</label>
+            @if (galleryThumbs(s).length) {
+              <div class="cms-gallery">
+                @for (g of galleryThumbs(s); track g.id; let i = $index) {
+                  <div class="cms-gitem"><app-admin-thumb [src]="g.url" /><div class="cms-gitem__actions"><button type="button" class="adm-btn adm-btn--ghost" (click)="removeGalleryImg(s, i)">Quitar</button></div></div>
+                }
+              </div>
+            }
+            <app-media-uploader label="Añadir a la galería" (uploaded)="onGallery(s, $event)" />
+          </div>
+          <div class="cms-field">
             <label>Capacidades</label>
             @for (c of s.capabilities; track $index; let i = $index) {
               <div class="cms-bi" style="margin-bottom:var(--space-2)">

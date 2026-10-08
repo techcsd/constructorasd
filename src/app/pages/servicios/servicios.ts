@@ -35,6 +35,7 @@ export class Servicios {
       facts: (s.facts ?? []).map((f) => ({ value: f.value, label: this.pick(f.label)! })),
       image: s.images[0]?.src ?? '',
       imageAlt: this.pick(s.images[0]?.alt) ?? '',
+      gallery: s.images.slice(1).map((im) => ({ src: im.src, alt: this.pick(im.alt) ?? '' })),
     })),
   );
 }

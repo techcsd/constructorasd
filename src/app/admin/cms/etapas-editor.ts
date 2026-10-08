@@ -9,7 +9,7 @@ import { STAGES } from '../../../content/stages';
 
 interface L { es: string; en: string }
 interface Fact { label: L; value: string }
-interface Stage { id: string; index: number; title: L; tagline: L; description: L; capabilities: L[]; images?: { src?: string; alt?: L }[]; coverMediaId?: string | null; facts?: Fact[]; note?: L }
+interface Stage { id: string; index: number; title: L; tagline: L; description: L; capabilities: L[]; images?: { src?: string; alt?: L }[]; coverMediaId?: string | null; galleryMediaIds?: string[]; facts?: Fact[]; note?: L }
 
 const E = (): L => ({ es: '', en: '' });
 
@@ -57,6 +57,16 @@ export class EtapasEditor {
   coverDownload(s: Stage): string | null { const m = this.mediaOf(s); return m ? this.cms.downloadUrl(m.path, `${s.id}.jpg`) : null; }
   onCover(s: Stage, m: MediaRow): void { s.coverMediaId = m.id; if (!this.media.find((x) => x.id === m.id)) this.media.push(m); }
   clearCover(s: Stage): void { s.coverMediaId = null; }
+
+  // Gallery (WL4 — extra images for /servicios)
+  galleryThumbs(s: Stage): { id: string; url: string }[] {
+    return (s.galleryMediaIds ?? []).map((id) => {
+      const m = this.media.find((x) => x.id === id);
+      return { id, url: m ? this.cms.thumbUrl(m.path, 200) : '' };
+    }).filter((g) => g.url);
+  }
+  onGallery(s: Stage, m: MediaRow): void { (s.galleryMediaIds ??= []).push(m.id); if (!this.media.find((x) => x.id === m.id)) this.media.push(m); }
+  removeGalleryImg(s: Stage, i: number): void { s.galleryMediaIds?.splice(i, 1); }
 
   async save(): Promise<void> {
     this.saving.set(true); this.error.set(null); this.saved.set(false);
