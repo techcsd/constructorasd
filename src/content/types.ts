@@ -151,3 +151,36 @@ export interface Office {
   addressLine?: L; // optional exact street line, once confirmed
   directionsUrl: string; // "Cómo llegar" deep link
 }
+
+// ── Home ("Inicio") content (WL2/WL3/WN1) — editable from /admin › Inicio. Stored in web.site_content.home.
+export interface HomeHero {
+  mediaId?: string | null;              // CMS media id for the hero photo; null → the build asset 'lopesan/hero'
+  image?: string;                       // resolved manifest key (set by gen-content when mediaId is present)
+  focal?: { x: number; y: number };     // focal point 0..1
+  alt: L;
+  title: L;
+  emphasis: L;                          // the word/phrase inside the title rendered in serif <em>
+  lead: L;
+  eyebrow: L;
+  primary: { label: L; href: string };
+  secondary: { label: L; href: string };
+}
+export interface HomeStat { value: string; suffix?: string; label: L }
+export interface HomeIntro { eyebrow: L; title: L; text: L; linkLabel: L; href: string }
+export interface HomeSectorsBlock { title: L; lead: L }
+export interface HomeQuote { text: L; author: L }
+export interface HomeAdvantage { title: L; text: L }
+export interface HomeCta { title: L; buttonLabel: L; href: string; showPhones: boolean }
+export interface HomeSelection { mode: 'auto' | 'manual'; ids: string[]; max?: number }
+
+export interface HomeContent {
+  hero: HomeHero;
+  stats: HomeStat[];
+  intro: HomeIntro;
+  featuredProjects: HomeSelection;      // auto = first N featured by sort_order; manual = explicit slugs
+  sectors: HomeSectorsBlock;
+  quote: HomeQuote;
+  clientsOnHome: HomeSelection;
+  advantages: HomeAdvantage[];
+  cta: HomeCta;
+}

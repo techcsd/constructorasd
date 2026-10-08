@@ -16,7 +16,7 @@ const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const OUT = join(ROOT, 'src', 'content', '_overrides.json');
 const CMS_DIR = join(ROOT, 'assets-src', 'cms');
 
-const SINGLETONS = new Set(['company', 'stages', 'sectors', 'equipment', 'page_meta']);
+const SINGLETONS = new Set(['company', 'stages', 'sectors', 'equipment', 'page_meta', 'home']);
 
 function envFromGenerated() {
   try {
@@ -88,6 +88,13 @@ async function main() {
       fetchJson(url, anon, 'v_public_project_images?select=*'),
     ]);
     const byId = new Map(mediaRows.map((m) => [m.id, m]));
+
+    // Home hero media (WL2): resolve home.hero.mediaId → optimized image key so a photo uploaded from
+    // /admin › Inicio actually appears on the hero (priority/LCP image).
+    if (out.home?.hero?.mediaId) {
+      const hero = await cacheMedia(url, out.home.hero.mediaId, byId);
+      if (hero) { out.home.hero.image = hero.key; if (!out.home.hero.alt?.es && !out.home.hero.alt?.en) out.home.hero.alt = hero.alt; }
+    }
 
     // clients
     out.clients = [];

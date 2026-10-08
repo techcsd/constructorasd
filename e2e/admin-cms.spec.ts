@@ -59,6 +59,15 @@ test.describe('admin CMS', () => {
     expect(href).toContain('download='); // attachment disposition
   });
 
+  test('inicio editor prefills the home content (A17)', async ({ page }) => {
+    await login(page);
+    await page.goto('/admin/contenido/inicio', { waitUntil: 'networkidle' });
+    await expect(page.locator('.cms-title', { hasText: 'Inicio' })).toBeVisible({ timeout: 15000 });
+    // hero title field is prefilled from the committed seed (or DB override)
+    await expect(page.locator('.cms-form input.adm-input').first()).toHaveValue(/.+/, { timeout: 10000 });
+    await expect(page.locator('summary', { hasText: 'Números' })).toBeVisible();
+  });
+
   test('empresa form loads the company data', async ({ page }) => {
     await login(page);
     await page.goto('/admin/contenido/empresa', { waitUntil: 'networkidle' });
