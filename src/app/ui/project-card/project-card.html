@@ -1,7 +1,7 @@
 @if (routerLink() !== null) {
   <a class="app-project-card" [routerLink]="routerLink()">
     <div class="app-project-card__media">
-      <app-image-figure [image]="image()" [alt]="altText()" [aspect]="aspect()" [priority]="priority()" />
+      <app-image-figure [image]="image()" [alt]="altText()" [aspect]="aspect()" [priority]="priority()" [focal]="focal()" />
     </div>
     <div class="app-project-card__info">
       <h3 class="h3">{{ name() }}</h3>
@@ -13,7 +13,7 @@
 } @else {
   <div class="app-project-card">
     <div class="app-project-card__media">
-      <app-image-figure [image]="image()" [alt]="altText()" [aspect]="aspect()" [priority]="priority()" />
+      <app-image-figure [image]="image()" [alt]="altText()" [aspect]="aspect()" [priority]="priority()" [focal]="focal()" />
     </div>
     <div class="app-project-card__info">
       <h3 class="h3">{{ name() }}</h3>

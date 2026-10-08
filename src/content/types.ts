@@ -30,6 +30,7 @@ export type StageId =
 export interface ImageRef {
   src: string;
   alt: L;
+  focal?: { x: number; y: number }; // 0..1 crop centre (admin focal picker); omitted when centred
 }
 
 export type ProjectStatus = 'ejecutado' | 'en_ejecucion';

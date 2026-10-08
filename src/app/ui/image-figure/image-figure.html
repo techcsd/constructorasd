@@ -7,6 +7,7 @@
         #img
         [src]="fallbackSrc()"
         [alt]="alt()"
+        [style.object-position]="objectPosition()"
         [attr.width]="entry()!.width"
         [attr.height]="entry()!.height"
         [attr.loading]="priority() ? 'eager' : 'lazy'"
@@ -22,7 +23,7 @@
 } @else if (directUrl(); as src) {
   <figure class="app-image-figure">
     <picture class="app-image-figure__pic" [style.aspect-ratio]="aspect()">
-      <img [src]="src" [alt]="alt()" loading="lazy" />
+      <img [src]="src" [alt]="alt()" [style.object-position]="objectPosition()" loading="lazy" />
     </picture>
     @if (caption()) {
       <figcaption class="small app-image-figure__cap">{{ caption() }}</figcaption>

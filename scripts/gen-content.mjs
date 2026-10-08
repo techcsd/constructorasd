@@ -54,7 +54,10 @@ async function cacheMedia(url, m, byId) {
     if (!r.ok) throw new Error(`media ${media.path} → ${r.status}`);
     writeFileSync(file, Buffer.from(await r.arrayBuffer()));
   }
-  return { key, alt: { es: media.alt_es ?? '', en: media.alt_en ?? '' } };
+  // Carry the focal point only when it's off-centre, so centred images stay noise-free in the manifest.
+  const fx = media.focal_x, fy = media.focal_y;
+  const focal = fx != null && fy != null && (fx !== 0.5 || fy !== 0.5) ? { x: fx, y: fy } : undefined;
+  return { key, alt: { es: media.alt_es ?? '', en: media.alt_en ?? '' }, ...(focal ? { focal } : {}) };
 }
 
 async function main() {
@@ -138,7 +141,7 @@ async function main() {
         location: { es: p.location_es ?? '', en: p.location_en ?? '' }, year: p.year ?? undefined,
         status: p.status, summary: { es: p.summary_es ?? '', en: p.summary_en ?? '' },
         ...(p.body_es || p.body_en ? { body: { es: p.body_es ?? '', en: p.body_en ?? '' } } : {}),
-        scope: p.scope ?? [], cover: cover ? { src: cover.key, alt: cover.alt } : { src: '', alt: { es: '', en: '' } },
+        scope: p.scope ?? [], cover: cover ? { src: cover.key, alt: cover.alt, ...(cover.focal ? { focal: cover.focal } : {}) } : { src: '', alt: { es: '', en: '' } },
         gallery, featured: !!p.featured, order: p.sort_order,
       });
     }

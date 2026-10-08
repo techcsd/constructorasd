@@ -25,7 +25,7 @@
     <div class="proyectos__grid">
       @for (p of projects(); track p.href; let i = $index) {
         <app-project-card [name]="p.name" [client]="p.client" [sector]="p.sector" [city]="p.city"
-          [image]="p.image" [alt]="p.alt" [routerLink]="p.href" [priority]="i < 3" />
+          [image]="p.image" [focal]="p.focal" [alt]="p.alt" [routerLink]="p.href" [priority]="i < 3" />
       }
     </div>
   } @else {
