@@ -21,6 +21,8 @@ export class PublishBar implements OnDestroy {
   readonly state = signal<State>('loading');
   readonly error = signal<string | null>(null);
   readonly elapsed = signal(0); // seconds since publish
+  readonly vercelState = signal(''); // real Vercel state when a token is configured (else empty)
+  private vercelOff = false; // becomes true once we learn no token is configured (stop asking)
   /** Vercel deployments dashboard for this project (public URL, not a secret). */
   readonly vercelUrl = 'https://vercel.com/xaviel-csd/constructorasd/deployments';
 
@@ -52,8 +54,14 @@ export class PublishBar implements OnDestroy {
     this.timer = setInterval(() => void this.poll(), 10000);
   }
 
+  private readonly STATE_LABELS: Record<string, string> = {
+    QUEUED: 'en cola', INITIALIZING: 'iniciando', BUILDING: 'compilando', READY: 'listo', CANCELED: 'cancelado', ERROR: 'error',
+  };
+  vercelLabel(): string { return this.STATE_LABELS[this.vercelState()] ?? this.vercelState().toLowerCase(); }
+
   async publish(): Promise<void> {
     this.error.set(null);
+    this.vercelState.set('');
     this.startRev = await this.cms.siteVersion();
     this.startedAt = Date.now();
     this.elapsed.set(0);
@@ -65,8 +73,23 @@ export class PublishBar implements OnDestroy {
   }
 
   private async poll(): Promise<void> {
+    // Primary, always-reliable signal: a new built revision means the new deploy is live.
     const rev = await this.cms.siteVersion();
     if (rev && rev !== this.startRev) { this.stopTimers(); this.state.set('done'); return; }
+    // Secondary (only if a Vercel token is configured): surface the real state and catch a failed build fast.
+    if (!this.vercelOff) {
+      const st = await this.cms.deployStatus();
+      if (st && st.configured === false) this.vercelOff = true;
+      else if (st?.configured && st.state) {
+        this.vercelState.set(st.state);
+        if (st.state === 'ERROR' || st.state === 'CANCELED') {
+          this.stopTimers();
+          this.error.set('El deploy falló en Vercel. Revisa el panel.');
+          this.state.set('error');
+          return;
+        }
+      }
+    }
     if (Date.now() > this.deadline) { this.stopTimers(); this.state.set('slow'); }
   }
 

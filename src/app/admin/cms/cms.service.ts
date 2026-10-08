@@ -223,6 +223,24 @@ export class CmsService {
     await this.db.from('site_state').upsert({ key: 'last_published_at', value: new Date().toISOString() }, { onConflict: 'key' });
   }
 
+  /**
+   * Real Vercel deploy state via the web-deploy-status edge function (the token lives there, never in the
+   * browser). Returns { configured:false } until a VERCEL_TOKEN secret is set — the publish bar then uses
+   * its token-free version.json polling. Null on network error.
+   */
+  async deployStatus(): Promise<{ configured: boolean; state?: string; url?: string | null; inspectorUrl?: string | null; error?: string } | null> {
+    const { data: sess } = await this.db.auth.getSession();
+    const token = sess.session?.access_token;
+    const base = (environment.supabaseUrl || '').replace(/\/$/, '');
+    try {
+      const res = await fetch(`${base}/functions/v1/web-deploy-status`, {
+        method: 'POST', headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
+      });
+      if (!res.ok) return null;
+      return await res.json();
+    } catch { return null; }
+  }
+
   /** Current built revision from /version.json (for the degraded deploy-detection path). */
   async siteVersion(): Promise<string | null> {
     try {

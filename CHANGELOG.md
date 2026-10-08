@@ -3,6 +3,24 @@
 All notable changes to this project. Versioning is simple (CLAUDE.md / WB9): a `CHANGELOG.md` entry plus a
 `package.json` bump per release. Not tracked in `sgc.app_versiones`.
 
+## 2.0.10 — estado real del deploy de Vercel (plumbing, inerte sin token) (2026-10-08)
+
+Infraestructura lista para el estado **real** del deploy (WK2), activable sin tocar código:
+
+- Nueva edge function **`web-deploy-status`** (admin-only; el token vive solo ahí, nunca en el navegador):
+  devuelve el estado de la última deployment de producción (`QUEUED/BUILDING/READY/ERROR`) cuando existe un
+  `VERCEL_TOKEN`, y `{ configured:false }` mientras no — así la barra sigue con su sondeo sin token.
+- La barra de publicación usa ese estado como señal secundaria: muestra "compilando/en cola…" junto al
+  cronómetro y marca **error** de inmediato si el build falla; el cambio de revisión en `version.json` sigue
+  siendo la señal primaria de "listo".
+- `set-secrets.mjs`: empuja `VERCEL_PROJECT_ID`/`VERCEL_TEAM` (identificadores públicos, desde `.env.local`) y
+  `VERCEL_TOKEN` solo si está presente; además **ya no rota `IP_SALT`** (se crea una vez) — importa porque
+  este proyecto Supabase es **compartido con SGC**.
+- Desplegado e inerte en **dev y prod** (función viva, `401` sin auth; `configured:false` sin token).
+
+**Para activarlo:** crear un token en vercel.com/account/tokens, ponerlo en `.env.local` como `VERCEL_TOKEN`,
+y reejecutar `set-secrets` (dev+prod). No requiere redeploy del sitio.
+
 ## 2.0.9 — barra de publicación: progreso en vivo (2026-10-08)
 
 Mejora **sin token** del estado de publicación (WK2): al pulsar *Publicar*, la barra muestra un **cronómetro
