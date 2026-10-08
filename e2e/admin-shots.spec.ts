@@ -44,5 +44,12 @@ test.describe('admin dark theme shots', () => {
     await page.screenshot({ path: `${DIR}/admin-05-palette.png`, fullPage: true });
     await page.keyboard.press('Enter');
     await expect(page).toHaveURL(/\/admin\/contenido\/clientes/, { timeout: 5000 });
+
+    // Keyboard shortcuts help (?)
+    await page.keyboard.press('?');
+    await expect(page.locator('.cmdk__help-list')).toBeVisible({ timeout: 5000 });
+    await page.screenshot({ path: `${DIR}/admin-07-shortcuts.png`, fullPage: true });
+    await page.keyboard.press('Escape');
+    await expect(page.locator('.cmdk__help-list')).toBeHidden({ timeout: 5000 });
   });
 });

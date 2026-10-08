@@ -31,6 +31,7 @@ export class CommandPalette {
   private readonly input = viewChild<ElementRef<HTMLInputElement>>('input');
 
   readonly open = signal(false);
+  readonly help = signal(false);
   readonly query = signal('');
   readonly active = signal(0);
 
@@ -69,6 +70,12 @@ export class CommandPalette {
       hint: 'Abre constructorasd.com en otra pestaña',
       kind: 'acción',
       run: () => window.open('/', '_blank'),
+    },
+    {
+      label: 'Atajos de teclado',
+      hint: 'Muestra la lista de atajos (?)',
+      kind: 'acción',
+      run: () => queueMicrotask(() => this.help.set(true)),
     },
     {
       label: 'Cerrar sesión',
@@ -111,11 +118,32 @@ export class CommandPalette {
     return 100 + gaps; // fuzzy subsequence — always after substrings
   }
 
+  // True when focus is in a field — so plain-key shortcuts ("?") don't fire mid-typing.
+  private editing(e: KeyboardEvent): boolean {
+    const t = e.target as HTMLElement | null;
+    if (!t) return false;
+    const tag = t.tagName;
+    return tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT' || t.isContentEditable;
+  }
+
   @HostListener('document:keydown', ['$event'])
   onKey(e: KeyboardEvent): void {
     if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') {
       e.preventDefault();
       this.open() ? this.close() : this.openPalette();
+      return;
+    }
+    // "?" (Shift+/) opens the shortcuts cheat-sheet when not already in an overlay or a field.
+    if (e.key === '?' && !this.open() && !this.help() && !this.editing(e)) {
+      e.preventDefault();
+      this.help.set(true);
+      return;
+    }
+    if (this.help()) {
+      if (e.key === 'Escape') {
+        e.preventDefault();
+        this.help.set(false);
+      }
       return;
     }
     if (!this.open()) return;
