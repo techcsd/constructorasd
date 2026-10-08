@@ -1,3 +1,6 @@
+@if (maintenanceMsg(); as msg) {
+  <div class="maintenance-banner" role="status">{{ msg }}</div>
+}
 @if (!isAdmin()) {
   <a class="skip-link" href="#main">{{ 'Ir al contenido' | t }}</a>
   @if (isDev) {

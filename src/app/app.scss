@@ -25,3 +25,16 @@ main {
   text-decoration: underline;
   margin-left: auto;
 }
+
+// Maintenance banner (Ajustes) — live from web.site_settings.data, no publish needed.
+.maintenance-banner {
+  position: sticky;
+  top: 0;
+  z-index: 101;
+  padding: var(--space-2) var(--pad-inline);
+  background: var(--ink-900); // tokens-allow (neutral attention bar, both tones)
+  color: var(--bone-50); // tokens-allow
+  text-align: center;
+  font-size: var(--fs-small);
+  font-weight: 500;
+}
