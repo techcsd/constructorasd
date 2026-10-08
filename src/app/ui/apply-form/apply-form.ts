@@ -20,9 +20,8 @@ import { PhoneFormatDirective } from '../../core/forms/phone-format.directive';
 import { Button } from '../button/button';
 import { Icon } from '../icon/icon';
 import { TPipe } from '../../core/i18n/t.pipe';
+import { CV_ACCEPT, CV_MAX_MB, validateCvFile } from './cv-validation';
 
-const MAX_MB = 5;
-const ACCEPT = ['.pdf', '.doc', '.docx'];
 const MSG_MAX = 3000;
 const COUNTER_FROM = 2500;
 
@@ -55,7 +54,7 @@ export class ApplyForm {
   readonly fileName = signal('');
   readonly fileError = signal('');
   private startedAt = Date.now();
-  readonly accept = ACCEPT.join(',');
+  readonly accept = CV_ACCEPT.join(',');
   readonly maxLen = MSG_MAX;
   readonly privacidadPath = computed(() => pathFor('privacidad', this.i18n.locale()) ?? '/privacidad');
 
@@ -99,16 +98,11 @@ export class ApplyForm {
       this.fileName.set('');
       return;
     }
-    const ext = '.' + (f.name.split('.').pop() ?? '').toLowerCase();
-    if (!ACCEPT.includes(ext)) {
-      this.fileError.set(this.i18n.t('Formato no válido. Usa PDF, DOC o DOCX.'));
-      this.file = null;
-      this.fileName.set('');
-      input.value = '';
-      return;
-    }
-    if (f.size > MAX_MB * 1024 * 1024) {
-      this.fileError.set(this.i18n.t('El archivo supera los {mb} MB.', { mb: MAX_MB }));
+    const err = validateCvFile(f.name, f.size);
+    if (err) {
+      this.fileError.set(err === 'cv_type'
+        ? this.i18n.t('Formato no válido. Usa PDF, DOC o DOCX.')
+        : this.i18n.t('El archivo supera los {mb} MB.', { mb: CV_MAX_MB }));
       this.file = null;
       this.fileName.set('');
       input.value = '';
