@@ -57,6 +57,24 @@ export interface MailInput {
   text: string;
   html?: string;
   replyTo?: string;
+  to?: string;       // prod recipient override (from site_settings); dev always goes to MAIL_TO_DEV
+  cc?: string;       // optional CC (prod only)
+}
+
+// Live global settings (web.site_settings.data), cached 60 s so the admin can change destination emails /
+// WhatsApp message etc. without a redeploy (WN2). Falls back to {} on any error.
+let _settingsCache: { at: number; data: Record<string, unknown> } | null = null;
+export async function siteSettings(): Promise<Record<string, unknown>> {
+  const now = Date.now();
+  if (_settingsCache && now - _settingsCache.at < 60_000) return _settingsCache.data;
+  try {
+    const { data } = await admin().schema('web').from('site_settings').select('data').eq('id', 1).single();
+    const d = (data?.data as Record<string, unknown>) ?? {};
+    _settingsCache = { at: now, data: d };
+    return d;
+  } catch {
+    return _settingsCache?.data ?? {};
+  }
 }
 
 /** Send via Resend. In dev, redirect to MAIL_TO and prefix the subject with [DEV]. Never throws. */
@@ -67,7 +85,9 @@ export async function sendEmail(m: MailInput): Promise<{ id?: string; error?: st
   if (!key) return { error: 'resend_not_configured' };
   const isProd = ENV_NAME === 'prod';
   const subject = isProd ? m.subject : `[DEV] ${m.subject}`;
-  const recipient = isProd ? to : (Deno.env.get('MAIL_TO_DEV') ?? 'Tecnologia@constructorasd.com');
+  // prod: settings override (m.to) → MAIL_TO secret; dev: always the safe dev inbox.
+  const recipient = isProd ? (m.to || to) : (Deno.env.get('MAIL_TO_DEV') ?? 'Tecnologia@constructorasd.com');
+  const cc = isProd && m.cc ? [m.cc] : undefined;
   try {
     const r = await fetch('https://api.resend.com/emails', {
       method: 'POST',
@@ -75,6 +95,7 @@ export async function sendEmail(m: MailInput): Promise<{ id?: string; error?: st
       body: JSON.stringify({
         from,
         to: [recipient],
+        cc,
         subject,
         text: m.text,
         html: m.html,

@@ -68,6 +68,14 @@ test.describe('admin CMS', () => {
     await expect(page.locator('summary', { hasText: 'Números' })).toBeVisible();
   });
 
+  test('ajustes editor loads global settings (A20)', async ({ page }) => {
+    await login(page);
+    await page.goto('/admin/ajustes', { waitUntil: 'networkidle' });
+    await expect(page.locator('.cms-title', { hasText: 'Ajustes' })).toBeVisible({ timeout: 15000 });
+    await expect(page.locator('summary', { hasText: 'Correos destino' })).toBeVisible();
+    await expect(page.locator('input[type="email"]').first()).toBeVisible();
+  });
+
   test('empresa form loads the company data', async ({ page }) => {
     await login(page);
     await page.goto('/admin/contenido/empresa', { waitUntil: 'networkidle' });
