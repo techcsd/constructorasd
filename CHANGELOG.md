@@ -3,6 +3,14 @@
 All notable changes to this project. Versioning is simple (CLAUDE.md / WB9): a `CHANGELOG.md` entry plus a
 `package.json` bump per release. Not tracked in `sgc.app_versiones`.
 
+## 2.0.5 — descargar foto original desde el admin (2026-10-08)
+
+En el editor de proyectos ("obras") ahora se puede **descargar la foto original** (portada y cada imagen de
+la galería) para editarla/mejorarla fuera (p. ej. con una IA) y volver a subir la versión en alta. También
+en Biblioteca, por cada imagen. Descarga el archivo **original de máxima resolución** (no la miniatura) con
+nombre útil (`<slug>-portada.jpg`, `<slug>-2.jpg`, …) usando el parámetro `?download` de Supabase Storage
+(`Content-Disposition: attachment`). Nuevo `CmsService.downloadUrl(path, filename)`. Guardado por e2e.
+
 ## 2.0.4 — estado de carga en miniaturas del admin (2026-10-07)
 
 Nuevo componente reutilizable `app-admin-thumb` (admin/ui): mientras carga la imagen muestra un **esqueleto

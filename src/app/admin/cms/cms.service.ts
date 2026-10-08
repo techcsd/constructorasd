@@ -117,6 +117,15 @@ export class CmsService {
     }).data.publicUrl;
   }
 
+  /**
+   * URL that downloads the ORIGINAL (full-resolution) file with an attachment disposition — for pulling a
+   * photo out to edit/upscale it elsewhere. `?download=<filename>` makes Supabase send
+   * `Content-Disposition: attachment`, so the browser saves it (not a thumbnail, not a navigation).
+   */
+  downloadUrl(path: string, filename?: string): string {
+    return this.db.storage.from('web-media').getPublicUrl(path, { download: filename || true }).data.publicUrl;
+  }
+
   /** Upload a pasted/inline image to web-media/notes/<uuid>.<ext> (no media row); returns its public URL. */
   async uploadInline(file: File): Promise<string> {
     const ext = (file.name.split('.').pop() || 'png').toLowerCase();
