@@ -96,6 +96,16 @@ async function main() {
       if (hero) { out.home.hero.image = hero.key; if (!out.home.hero.alt?.es && !out.home.hero.alt?.en) out.home.hero.alt = hero.alt; }
     }
 
+    // Stage cover media (WL4): resolve each stage's coverMediaId → its first image (home accordion / servicios).
+    if (Array.isArray(out.stages)) {
+      for (const st of out.stages) {
+        if (st?.coverMediaId) {
+          const c = await cacheMedia(url, st.coverMediaId, byId);
+          if (c) st.images = [{ src: c.key, alt: st.images?.[0]?.alt ?? c.alt }, ...(st.images ?? []).slice(1)];
+        }
+      }
+    }
+
     // clients
     out.clients = [];
     for (const c of clients) {

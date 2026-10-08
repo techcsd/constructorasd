@@ -74,6 +74,8 @@ export interface Stage {
   description: L;
   capabilities: L[];
   images: ImageRef[];
+  coverMediaId?: string | null;         // CMS media for the accordion/servicios cover (WL4); null → images[0]
+  galleryMediaIds?: string[];           // extra CMS images for /servicios (WL4)
   facts?: StageFact[];
   note?: L;
 }

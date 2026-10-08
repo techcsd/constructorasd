@@ -1,5 +1,5 @@
 <header class="cms-head">
-  <div><h1 class="cms-title">Etapas (Servicios)</h1><p class="cms-sub small">Las 7 etapas del ciclo constructivo · las imágenes se mantienen</p></div>
+  <div><h1 class="cms-title">Etapas (Servicios)</h1><p class="cms-sub small">Las 7 etapas del ciclo constructivo · imagen por etapa editable</p></div>
   <div class="cms-head__actions">
     @if (saved()) { <span class="small" style="color:var(--text)">Guardado</span> }
     <button type="button" class="adm-btn" [disabled]="saving()" (click)="save()">{{ saving() ? 'Guardando…' : 'Guardar' }}</button>
@@ -24,6 +24,21 @@
           <div class="cms-bi">
             <div class="cms-field"><label>Descripción (ES)</label><textarea class="adm-input" rows="3" [(ngModel)]="s.description.es"></textarea></div>
             <div class="cms-field"><label>Description (EN)</label><textarea class="adm-input" rows="3" [(ngModel)]="s.description.en"></textarea></div>
+          </div>
+          <div class="cms-field">
+            <label>Imagen de la etapa (desplegable en Inicio / Servicios)</label>
+            @if (coverThumb(s); as url) {
+              <div class="cms-cover">
+                <app-admin-thumb [src]="url" />
+                <div class="cms-cover__actions">
+                  <a class="adm-btn adm-btn--ghost" [href]="coverDownload(s)" download>Descargar original</a>
+                  <button type="button" class="adm-btn adm-btn--ghost" (click)="clearCover(s)">Quitar (usar la de por defecto)</button>
+                </div>
+              </div>
+            } @else {
+              <p class="small">Sin imagen propia — se usa la foto por defecto de la etapa.</p>
+            }
+            <app-media-uploader [label]="coverThumb(s) ? 'Reemplazar imagen' : 'Subir imagen'" (uploaded)="onCover(s, $event)" />
           </div>
           <div class="cms-field">
             <label>Capacidades</label>
