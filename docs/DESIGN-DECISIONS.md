@@ -130,9 +130,17 @@ ES/EN segmented control), and the focal point **wired through to the public rend
 gen-content → `object-position` on the project hero + listing cards). Plus console **mono numerals** on
 the list/section counts (brief §2).
 
-**Still deferred (genuinely low value / blocked):** sparkline stat tiles (we don't store the time-series
-data they'd need); a bespoke tabs-with-sliding-indicator primitive (the editor's ES/EN segmented control
-covers the one place it was needed); a hard 3-pane split of Leads (it's already a 2-pane inbox with notes
-+ filters + bulk + unread + toast — the brief's intent is met); and masonry Biblioteca (the shared thumb
-is fixed-height, so masonry adds little without reworking it). These are the remaining items and are
-marginal; everything structural from the brief is done.
+**Deferred items — now all done (2026-10-09, post-3.0.0, on `dev`):**
+- **Sparkline stat tiles** — reconsidered the "no data" call: leads + dev notes carry `created_at`, so the
+  Panel now buckets them into real 14-day per-day series behind a reusable `<app-sparkline>` (inline SVG).
+- **Masonry Biblioteca** — tiles take each photo's natural `width/height` as aspect-ratio and flow into
+  CSS columns; images show undistorted at true proportions (vs the old fixed 120px crop).
+- **Tabs with sliding indicator** — the editor's ES/EN segmented control got an oxide pill that slides
+  between options (springy, reduced-motion-safe).
+- **3-pane Leads** — split into list / detail / **notes** columns (history + internal notes get their own
+  pane); pure layout move, all logic + e2e intact.
+
+Nothing from PROMPT-11 remains deferred. Only the `VERCEL_DEPLOY_HOOK` for the in-app Publicar button is
+open — it needs a Vercel token/dashboard action that isn't available in any reachable secret store
+(verified: SGC's only Vercel credential is an OIDC build token → 403 on the REST API). Publishing is
+covered via the Vercel API in the meantime.

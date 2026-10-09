@@ -866,8 +866,23 @@ a.adm-btn {
 // Leads v2 (WJ8)
 .lead-toast { position: fixed; top: var(--space-4); right: var(--space-4); z-index: 200; background: var(--accent); color: var(--text-on-accent); padding: var(--space-3) var(--space-4); border-radius: var(--r-sm); font-size: var(--fs-small); box-shadow: var(--shadow-1); }
 .adm-btn.is-active { border-color: var(--accent); color: var(--text); }
-.lead-inbox { display: grid; grid-template-columns: 380px 1fr; gap: var(--space-4); align-items: start; }
-@media (max-width: 900px) { .lead-inbox { grid-template-columns: 1fr; } }
+// 3-pane inbox: list | detail | notes. Collapses to 2 cols (notes under detail), then 1.
+.lead-inbox { display: grid; grid-template-columns: 340px minmax(0, 1fr) 300px; gap: var(--space-4); align-items: start; }
+@media (max-width: 1200px) {
+  .lead-inbox { grid-template-columns: 340px minmax(0, 1fr); }
+  .lead-notes-pane { grid-column: 2; } // drops under the detail
+}
+@media (max-width: 900px) { .lead-inbox { grid-template-columns: 1fr; } .lead-notes-pane { grid-column: auto; } }
+.lead-notes-pane {
+  border: 1px solid var(--line);
+  border-radius: var(--r-sm);
+  padding: var(--space-4);
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+.lead-note-add { display: flex; gap: var(--space-2); margin-top: var(--space-2); }
 .lead-list { display: flex; flex-direction: column; gap: var(--space-2); }
 .lead-row-wrap { display: flex; align-items: center; gap: var(--space-2); }
 .lead-row-wrap .lead-row { flex: 1; min-width: 0; }
@@ -1093,3 +1108,7 @@ a.adm-btn {
 .adm.is-rail .adm__collapse { align-self: center; }
 .adm.is-rail .adm__collapse-ico { transform: rotate(180deg); }
 .adm.is-rail .adm__logout { padding-left: 0; padding-right: 0; }
+
+// Sparkline stat tiles (brief §4): number top, label, trend line pinned to the bottom.
+.pnl__tile--spark { justify-content: space-between; }
+.pnl__tile-spark { display: block; margin-top: var(--space-3); }

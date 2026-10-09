@@ -25,21 +25,23 @@
         <span class="pnl__tile-label">{{ t.label }}</span>
       </a>
     }
-    <a class="pnl__tile" routerLink="/admin/leads">
+    <a class="pnl__tile pnl__tile--spark" routerLink="/admin/leads">
       @if (loaded()) {
         <span class="pnl__tile-num adm-num">{{ unread() }}</span>
       } @else {
         <span class="adm-skeleton adm-skeleton--num"></span>
       }
       <span class="pnl__tile-label">Leads sin leer</span>
+      @if (loaded()) { <app-sparkline class="pnl__tile-spark" [values]="leadsSeries()" /> }
     </a>
-    <a class="pnl__tile" routerLink="/admin/notas">
+    <a class="pnl__tile pnl__tile--spark" routerLink="/admin/notas">
       @if (loaded()) {
         <span class="pnl__tile-num adm-num">{{ notesCount() }}</span>
       } @else {
         <span class="adm-skeleton adm-skeleton--num"></span>
       }
       <span class="pnl__tile-label">Dev notes</span>
+      @if (loaded()) { <app-sparkline class="pnl__tile-spark" [values]="notesSeries()" /> }
     </a>
   </section>
 

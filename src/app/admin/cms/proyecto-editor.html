@@ -137,7 +137,7 @@
   <aside class="cms-preview">
     <div class="cms-preview__head">
       <span class="cms-preview__title">Vista previa</span>
-      <div class="cms-seg" role="group" aria-label="Idioma de la vista previa">
+      <div class="cms-seg" [attr.data-active]="lang()" role="group" aria-label="Idioma de la vista previa">
         <button type="button" class="cms-seg__btn" [class.is-active]="lang()==='es'" (click)="lang.set('es')">ES</button>
         <button type="button" class="cms-seg__btn" [class.is-active]="lang()==='en'" (click)="lang.set('en')">EN</button>
       </div>

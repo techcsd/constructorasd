@@ -15,7 +15,11 @@
   <div class="cms-media-grid">
     @for (m of filtered(); track m.id) {
       <div class="cms-media-card">
-        <app-admin-thumb [src]="url(m)" [alt]="m.alt_es" />
+        <app-admin-thumb
+          [src]="url(m)"
+          [alt]="m.alt_es"
+          [style.aspect-ratio]="m.width && m.height ? m.width + ' / ' + m.height : '4 / 3'"
+        />
         <div class="cms-media-card__body">
           <span class="cms-media-card__alt" [title]="m.alt_es">{{ m.alt_es || m.original_name || '(sin alt)' }}</span>
           <span class="cms-media-card__use">{{ uses(m) }} uso(s) · {{ m.width }}×{{ m.height }}</span>

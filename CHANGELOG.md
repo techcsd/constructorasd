@@ -3,6 +3,18 @@
 All notable changes to this project. Versioning is simple (CLAUDE.md / WB9): a `CHANGELOG.md` entry plus a
 `package.json` bump per release. Not tracked in `sgc.app_versiones`.
 
+## 3.1.0 — pulido del admin: sparklines, masonry, tabs deslizantes, Leads 3 paneles (2026-10-09)
+
+Cierre de los 4 ítems que habían quedado diferidos de PROMPT-11:
+- **Sparklines** en el Panel: series reales de 14 días (leads + dev notes por `created_at`) con
+  `<app-sparkline>` (SVG en línea, sin librería).
+- **Biblioteca masonry**: cada tile toma la proporción natural de su foto y fluye en columnas.
+- **Control segmentado ES/EN** con indicador deslizante (píldora óxido).
+- **Leads a 3 paneles**: lista / detalle / notas (historial + notas internas en su propia columna).
+
+Verificado: build verde, 62 unit + admin-cms 14/14. Pendiente único: `VERCEL_DEPLOY_HOOK` del botón
+Publicar (requiere token/dashboard de Vercel, no disponible en ningún secreto accesible).
+
 ## 3.0.0 — ronda 04: todo editable + motion + admin "dark studio console" (2026-10-08)
 
 Ronda `csd imp 08102026`, PROMPT-09 + 10 + 11. Merge `dev → main` (WO2, OK de Xaviel).
