@@ -71,17 +71,6 @@
           <a class="adm-btn adm-btn--ghost" [href]="replyMailto(l)">Responder</a>
           @if (waUrl(l); as w) { <a class="adm-btn adm-btn--ghost" [href]="w" target="_blank" rel="noopener">WhatsApp</a> }
         </div>
-
-        <h3 class="cms-h2">Historial</h3>
-        @for (h of history(); track h.id) { <p class="small">{{ fmt(h.changed_at) }}: {{ h.from_status || '—' }} → {{ h.to_status }}</p> }
-        @if (!history().length) { <p class="small">Sin cambios.</p> }
-
-        <h3 class="cms-h2">Notas internas</h3>
-        @for (n of notes(); track n.id) { <p class="lead-note">{{ n.body }} <span class="small">· {{ fmt(n.created_at) }}</span></p> }
-        <div class="lead-actions">
-          <input class="adm-input" placeholder="Añadir nota interna…" [(ngModel)]="noteDraft" (keydown.enter)="addNote('lead')" />
-          <button type="button" class="adm-btn" (click)="addNote('lead')">Añadir</button>
-        </div>
       } @else if (tab()==='postulaciones' && openApp(); as a) {
         <h2 class="cms-h2">{{ a.name }}</h2>
         <dl class="lead-fields">
@@ -99,5 +88,21 @@
         <p class="small" style="padding:var(--space-5)">Elige un mensaje para ver el detalle.</p>
       }
     </div>
+
+    <!-- NOTES / HISTORY (3rd pane, messages only) -->
+    @if (tab()==='mensajes' && openLead(); as l) {
+      <aside class="lead-notes-pane">
+        <h3 class="cms-h2">Historial</h3>
+        @for (h of history(); track h.id) { <p class="small">{{ fmt(h.changed_at) }}: {{ h.from_status || '—' }} → {{ h.to_status }}</p> }
+        @if (!history().length) { <p class="small">Sin cambios.</p> }
+
+        <h3 class="cms-h2">Notas internas</h3>
+        @for (n of notes(); track n.id) { <p class="lead-note">{{ n.body }} <span class="small">· {{ fmt(n.created_at) }}</span></p> }
+        <div class="lead-note-add">
+          <input class="adm-input" placeholder="Añadir nota interna…" [(ngModel)]="noteDraft" (keydown.enter)="addNote('lead')" />
+          <button type="button" class="adm-btn" (click)="addNote('lead')">Añadir</button>
+        </div>
+      </aside>
+    }
   </div>
 }

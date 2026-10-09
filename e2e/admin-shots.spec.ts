@@ -70,5 +70,15 @@ test.describe('admin dark theme shots', () => {
     await page.goto('/admin/contenido/biblioteca', { waitUntil: 'networkidle' });
     await page.waitForTimeout(800);
     await page.screenshot({ path: `${DIR}/admin-09-biblioteca.png`, fullPage: true });
+
+    // Leads 3-pane inbox (open the first message)
+    await page.goto('/admin/leads', { waitUntil: 'networkidle' });
+    await page.waitForTimeout(600);
+    const row = page.locator('.lead-row').first();
+    if (await row.count()) {
+      await row.click();
+      await page.waitForTimeout(600);
+      await page.screenshot({ path: `${DIR}/admin-10-leads.png`, fullPage: true });
+    }
   });
 });
