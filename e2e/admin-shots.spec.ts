@@ -65,5 +65,10 @@ test.describe('admin dark theme shots', () => {
       await page.waitForTimeout(800);
       await page.screenshot({ path: `${DIR}/admin-08-editor.png`, fullPage: true });
     }
+
+    // Biblioteca masonry
+    await page.goto('/admin/contenido/biblioteca', { waitUntil: 'networkidle' });
+    await page.waitForTimeout(800);
+    await page.screenshot({ path: `${DIR}/admin-09-biblioteca.png`, fullPage: true });
   });
 });

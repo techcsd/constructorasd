@@ -148,10 +148,19 @@ a.adm-btn { display: inline-flex; align-items: center; justify-content: center; 
 .cms-trash { border: 1px solid var(--line); border-radius: var(--r-sm); padding: var(--space-4); margin-bottom: var(--space-4); }
 .cms-office { display: flex; flex-direction: column; gap: var(--space-2); padding: var(--space-3); border: 1px solid var(--line); border-radius: var(--r-sm); margin-bottom: var(--space-3); }
 
-// Biblioteca (media library)
-.cms-media-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: var(--space-3); }
-.cms-media-card { border: 1px solid var(--line); border-radius: var(--r-sm); overflow: hidden; background: var(--bg-elevated); }
-.cms-media-card app-admin-thumb { display: block; height: 120px; }
+// Biblioteca (media library) — masonry: tiles keep each photo's real aspect ratio and flow into columns.
+.cms-media-grid { columns: 200px; column-gap: var(--space-3); }
+.cms-media-card {
+  break-inside: avoid;
+  margin-bottom: var(--space-3);
+  border: 1px solid var(--line);
+  border-radius: var(--r-sm);
+  overflow: hidden;
+  background: var(--bg-elevated);
+  transition: border-color var(--dur-fast) var(--ease-out), transform var(--dur-fast) var(--ease-out);
+}
+.cms-media-card:hover { border-color: var(--line-control); transform: translateY(-2px); }
+.cms-media-card app-admin-thumb { display: block; width: 100%; height: auto; }
 .cms-media-card__body { padding: var(--space-2) var(--space-3); display: flex; flex-direction: column; gap: var(--space-1); }
 .cms-media-card__alt { font-size: var(--fs-small); color: var(--text); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .cms-media-card__use { font-size: var(--fs-eyebrow); color: var(--text-3); }
