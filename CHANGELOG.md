@@ -3,9 +3,9 @@
 All notable changes to this project. Versioning is simple (CLAUDE.md / WB9): a `CHANGELOG.md` entry plus a
 `package.json` bump per release. Not tracked in `sgc.app_versiones`.
 
-## Sin publicar (en `dev`) — pulido del admin (2026-10-09)
+## 3.1.0 — pulido del admin: sparklines, masonry, tabs deslizantes, Leads 3 paneles (2026-10-09)
 
-Cierre de los 4 ítems que habían quedado diferidos de PROMPT-11 (todos en `dev`, sin merge aún):
+Cierre de los 4 ítems que habían quedado diferidos de PROMPT-11:
 - **Sparklines** en el Panel: series reales de 14 días (leads + dev notes por `created_at`) con
   `<app-sparkline>` (SVG en línea, sin librería).
 - **Biblioteca masonry**: cada tile toma la proporción natural de su foto y fluye en columnas.
