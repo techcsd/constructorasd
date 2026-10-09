@@ -1093,3 +1093,7 @@ a.adm-btn {
 .adm.is-rail .adm__collapse { align-self: center; }
 .adm.is-rail .adm__collapse-ico { transform: rotate(180deg); }
 .adm.is-rail .adm__logout { padding-left: 0; padding-right: 0; }
+
+// Sparkline stat tiles (brief §4): number top, label, trend line pinned to the bottom.
+.pnl__tile--spark { justify-content: space-between; }
+.pnl__tile-spark { display: block; margin-top: var(--space-3); }
