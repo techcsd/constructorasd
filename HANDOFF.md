@@ -27,10 +27,14 @@ Post-merge checklist items that require an interactive team login (shared prod h
 - [ ] Round-trip de edición de Inicio en prod.
 - [ ] Confirmar botón hero "Hablemos" en bone y edición de punto focal en un proyecto real.
 
-## Deferred (marginal, logged in docs/DESIGN-DECISIONS.md)
-Sparkline stat tiles (sin datos de serie temporal), masonry Biblioteca (thumb de altura fija),
-3-paneles Leads (ya es inbox de 2 paneles con notas), tabs con indicador deslizante (cubierto por el
-control segmentado del editor). Todo lo estructural del brief está hecho.
+## Deferred — all done (2026-10-09, on `dev`, pending next merge)
+Sparklines (Panel, datos reales 14d), masonry Biblioteca, control segmentado con indicador deslizante,
+y Leads a 3 paneles. **Nada de PROMPT-11 queda pendiente.** Único ítem abierto: `VERCEL_DEPLOY_HOOK`
+del botón Publicar (necesita un token de Vercel que no existe en ningún secreto accesible — publicar
+se cubre vía la API de Vercel mientras tanto).
+
+`dev` está por delante de `main` (v3.0.0) con el pulido del admin + docs; listo para el próximo merge
+cuando Xaviel dé el OK (o para seguir acumulando).
 
 ## Gotchas to remember
 - `src/content/_overrides.json` must be committed as `{}` — always `git checkout HEAD -- src/content/_overrides.json`
