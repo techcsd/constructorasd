@@ -190,9 +190,32 @@ a.adm-btn { display: inline-flex; align-items: center; justify-content: center; 
 .cms-preview__title { font-size: var(--fs-small); text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-3); }
 .cms-preview__label { font-size: var(--fs-eyebrow); text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-3); margin-top: var(--space-2); }
 
-// Segmented ES/EN control
-.cms-seg { display: inline-flex; border: 1px solid var(--line-control); border-radius: var(--r-sm); overflow: hidden; }
+// Segmented ES/EN control with a sliding oxide indicator (brief §4 "tabs with sliding indicator").
+.cms-seg {
+  position: relative;
+  display: inline-flex;
+  border: 1px solid var(--line-control);
+  border-radius: var(--r-sm);
+  overflow: hidden;
+}
+// The pill: 50% wide (2 options), slides between them.
+.cms-seg::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 50%;
+  background: var(--accent);
+  border-radius: var(--r-sm);
+  transition: transform 0.22s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.cms-seg[data-active="en"]::before { transform: translateX(100%); }
 .cms-seg__btn {
+  position: relative;
+  z-index: 1;
+  flex: 1;
+  min-width: 2.4em;
   font: inherit;
   font-size: var(--fs-small);
   font-weight: 600;
@@ -201,9 +224,12 @@ a.adm-btn { display: inline-flex; align-items: center; justify-content: center; 
   color: var(--text-3);
   border: 0;
   cursor: pointer;
-  transition: all var(--dur-fast) var(--ease-out);
+  transition: color var(--dur-fast) var(--ease-out);
 }
-.cms-seg__btn.is-active { background: var(--accent); color: var(--text-on-accent); }
+.cms-seg__btn.is-active { color: var(--text-on-accent); }
+@media (prefers-reduced-motion: reduce) {
+  .cms-seg::before { transition: none; }
+}
 
 // Hero preview = focal picker
 .cms-preview__hero {
