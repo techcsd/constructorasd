@@ -5,6 +5,11 @@
 // public/img/manifest.json with intrinsic dimensions + generated variants, consumed by ImageFigure.
 // Idempotent: skips a source whose content hash + mtime already match the manifest.
 //
+// ROLES (round 05 / WR6): card+gallery widths 480–1600 (AVIF ≤250 kB), hero = the same widths but any
+// file named *hero* must be ≤180 kB (LCP), and `large` (2400 px long side, AVIF ≤600 kB, lightbox only,
+// never in the srcset of a card). Static (non-CMS) keys prefer assets-src/enhanced/**/<name>.png when it
+// exists; CMS photos are enhanced as NEW media rows (derived_from), so their keys are untouched.
+//
 // Originals in assets-src/ are gitignored; only the optimized output in public/img/ is committed.
 
 import sharp from 'sharp';
@@ -40,7 +45,44 @@ const AVIF_LARGE = { quality: 36, effort: 6 };
 const WEBP = { quality: 46, effort: 5 };
 // Staging folders under assets-src/ that are NOT walked as sources: raw PPTX dump + the upscaled/
 // mirror (which is read on demand below as a preferred source for its matching original).
-const SKIP_DIRS = new Set(['pptx', 'upscaled']);
+const SKIP_DIRS = new Set(['pptx', 'upscaled', 'enhanced', 'retouched']);
+const ENHANCED_DIR = join(SRC_DIR, 'enhanced');
+const LARGE_LONG_SIDE = 2400;
+const LARGE_MAX_KB = 600;
+
+function findEnhanced(key) {
+  if (key.startsWith('cms/') || !existsSync(ENHANCED_DIR)) return null;
+  const name = key.split('/').pop() + '.png';
+  for (const d of readdirSync(ENHANCED_DIR)) {
+    const p = join(ENHANCED_DIR, d, name);
+    if (existsSync(p)) return p;
+  }
+  return null;
+}
+
+// `large`: long side ≤2400, AVIF quality lowered until ≤600 kB. Skipped when the source is too small to matter.
+async function buildLarge(buf, key) {
+  const meta = await sharp(buf).rotate().metadata();
+  const rot = meta.orientation && meta.orientation >= 5;
+  const sw = rot ? meta.height : meta.width, sh = rot ? meta.width : meta.height;
+  if (Math.max(sw, sh) < 2000) return null;
+  const base = sharp(buf).rotate().resize({ width: LARGE_LONG_SIDE, height: LARGE_LONG_SIDE, fit: 'inside', withoutEnlargement: true });
+  const info = await base.clone().toBuffer({ resolveWithObject: true });
+  const avifPath = join(OUT_DIR, `${key}-large.avif`), webpPath = join(OUT_DIR, `${key}-large.webp`);
+  let q = 50, kb = 1e9;
+  while (q >= 26) {
+    const out = await base.clone().avif({ quality: q, effort: 6 }).toBuffer();
+    kb = out.length / 1024;
+    if (kb <= LARGE_MAX_KB - 10) { writeFileSync(avifPath, out); break; }
+    q -= 4;
+  }
+  for (let wq = 62; wq >= 30; wq -= 6) {
+    const out = await base.clone().webp({ quality: wq, effort: 5 }).toBuffer();
+    writeFileSync(webpPath, out);
+    if (out.length / 1024 <= LARGE_MAX_KB) break;
+  }
+  return { width: info.info.width, height: info.info.height, avif: `/img/${key}-large.avif`, webp: `/img/${key}-large.webp` };
+}
 const UPSCALED_DIR = join(SRC_DIR, 'upscaled');
 
 if (!existsSync(SRC_DIR)) {
@@ -73,11 +115,18 @@ for (const src of sources) {
   // Prefer an upscaled copy (assets-src/upscaled/<rel>) when present (WF2) so the 1600 w variant comes
   // from the enlarged source, not from enlarging a small original.
   const upPath = join(UPSCALED_DIR, rel);
-  const usedUpscaled = existsSync(upPath);
-  const buf = readFileSync(usedUpscaled ? upPath : src);
+  const enhPath = findEnhanced(key);
+  const usedUpscaled = !enhPath && existsSync(upPath);
+  const buf = readFileSync(enhPath ?? (usedUpscaled ? upPath : src));
   const hash = createHash('sha1').update(buf).digest('hex').slice(0, 12);
 
   if (manifest[key] && manifest[key].hash === hash) {
+    // Same pixels: only back-fill the `large` variant (added in round 05) without re-encoding the rest.
+    if (manifest[key].large === undefined) {
+      mkdirSync(join(OUT_DIR, dirname(key)), { recursive: true });
+      manifest[key].large = (await buildLarge(buf, key)) ?? null;
+      if (manifest[key].large) console.log(`  + large ${key}`);
+    }
     skipped++;
     continue;
   }
@@ -109,9 +158,10 @@ for (const src of sources) {
   const lqipBuf = await sharp(buf).rotate().resize({ width: 24 }).webp({ quality: 40 }).toBuffer();
   const lqip = `data:image/webp;base64,${lqipBuf.toString('base64')}`;
 
-  manifest[key] = { hash, width: srcW, height: srcH, aspect, widths, variants, lqip };
+  const large = (await buildLarge(buf, key)) ?? null;
+  manifest[key] = { hash, width: srcW, height: srcH, aspect, widths, variants, lqip, large };
   built++;
-  console.log(`  ✓ ${rel}  (${srcW}×${srcH}, ${widths.length} widths)${usedUpscaled ? ' [upscaled]' : ''}`);
+  console.log(`  ✓ ${rel}  (${srcW}×${srcH}, ${widths.length} widths)${enhPath ? ' [enhanced]' : usedUpscaled ? ' [upscaled]' : ''}${large ? ' +large' : ''}`);
 }
 
 writeFileSync(MANIFEST, JSON.stringify(manifest, null, 2) + '\n', 'utf8');

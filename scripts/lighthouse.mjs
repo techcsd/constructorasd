@@ -6,7 +6,7 @@
 // Best-effort: if Chrome / lighthouse can't run in this environment, it reports and exits 0 (never blocks
 // a commit) — the Vercel preview is the source of truth for the checkpoint.
 
-import { spawnSync } from 'node:child_process';
+import { spawnSync, spawn } from 'node:child_process';
 import { createServer } from 'node:http';
 import { readFileSync, existsSync, mkdirSync, statSync, readdirSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
@@ -45,7 +45,10 @@ const BUDGETS = { performance: 90, accessibility: 100, 'best-practices': 100, se
 const MANDATORY = ['accessibility', 'best-practices', 'seo'];
 const TARGETS = [
   { url: '/', name: 'home' },
+  { url: '/proyectos/', name: 'proyectos' },
   { url: '/proyectos/lopesan-costa-bavaro-bloque-f/', name: 'proyecto-detalle' },
+  { url: '/servicios/', name: 'servicios' },
+  { url: '/en/', name: 'home-en' },
 ];
 
 if (!existsSync(browser)) {
@@ -88,34 +91,27 @@ function serve(port) {
   }).listen(port);
 }
 
-const PORT = 4321;
-const server = serve(PORT);
+// The static server MUST run in a separate process: spawnSync below blocks this event loop, so an
+// in-process http server could never answer Lighthouse (the run would hang until the timeout).
+const PORT = 4466; // scripts/serve-dist.mjs
+const server = spawn(process.execPath, [join(__dirname, 'serve-dist.mjs')], { stdio: 'ignore' });
+await new Promise((r) => setTimeout(r, 1500));
 
 function runLighthouse(url, name) {
   const report = join(OUT, `${name}.report.json`);
   const html = join(OUT, `${name}.html`);
-  const res = spawnSync(
-    process.platform === 'win32' ? 'npx.cmd' : 'npx',
-    [
-      '-y',
-      'lighthouse',
-      url,
-      '--quiet',
-      '--only-categories=performance,accessibility,best-practices,seo',
-      '--form-factor=mobile',
-      '--screenEmulation.mobile',
-      '--chrome-flags=--headless=new --no-sandbox',
-      `--output=json`,
-      `--output=html`,
-      `--output-path=${join(OUT, name)}`,
-    ],
-    {
-      encoding: 'utf8',
-      shell: process.platform === 'win32',
-      timeout: 180000,
-      env: { ...process.env, ...(CHROME ? { CHROME_PATH: CHROME } : {}) },
-    },
-  );
+  // One quoted command string (paths contain spaces: "X Dev"); shell:true so npx.cmd resolves on Windows.
+  const cmd = [
+    'npx -y lighthouse', url, '--quiet', '--only-categories=performance,accessibility,best-practices,seo',
+    '--form-factor=mobile', '--screenEmulation.mobile', '"--chrome-flags=--headless=new --no-sandbox"',
+    '--output=json', `"--output-path=${report}"`,
+  ].join(' ');
+  const res = spawnSync(cmd, {
+    encoding: 'utf8',
+    shell: true,
+    timeout: 240000,
+    env: { ...process.env, ...(CHROME ? { CHROME_PATH: CHROME } : {}) },
+  });
   // lighthouse writes <path>.report.json / <path>.report.html with multiple outputs
   const jsonPath = existsSync(report) ? report : join(OUT, `${name}.report.json`);
   if (!existsSync(jsonPath)) {
@@ -126,6 +122,9 @@ function runLighthouse(url, name) {
   const data = JSON.parse(readFileSync(jsonPath, 'utf8'));
   const scores = {};
   for (const k of Object.keys(BUDGETS)) scores[k] = Math.round((data.categories[k]?.score ?? 0) * 100);
+  scores._lcp = Math.round(data.audits['largest-contentful-paint']?.numericValue ?? 0);
+  scores._cls = +(data.audits['cumulative-layout-shift']?.numericValue ?? 0).toFixed(3);
+  scores._kb = Math.round((data.audits['total-byte-weight']?.numericValue ?? 0) / 1024);
   return scores;
 }
 
@@ -135,7 +134,9 @@ try {
     const scores = runLighthouse(`http://localhost:${PORT}${t.url}`, t.name);
     if (!scores) continue;
     console.log(`\n  ${t.name}  ${t.url}`);
+    console.log(`    · LCP ${scores._lcp} ms · CLS ${scores._cls} · transfer ${scores._kb} kB`);
     for (const [k, v] of Object.entries(scores)) {
+      if (k.startsWith('_')) continue;
       const budget = BUDGETS[k];
       const ok = v >= budget;
       const mandatory = MANDATORY.includes(k);
@@ -146,7 +147,7 @@ try {
     }
   }
 } finally {
-  server.close();
+  server.kill();
 }
 
 console.log('');

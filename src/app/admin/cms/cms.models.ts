@@ -15,6 +15,9 @@ export interface MediaRow {
   alt_en: string;
   focal_x: number;
   focal_y: number;
+  /** Round 05: enhanced/retouched copies point back to the untouched original (never deleted). */
+  derived_from?: string | null;
+  variant?: 'original' | 'enhanced' | 'retouched';
   deleted_at?: string | null;
   updated_at?: string;
 }

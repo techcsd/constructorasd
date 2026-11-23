@@ -1,0 +1,785 @@
+{
+ "generated": "2026-11-23",
+ "totals": {
+  "A": 9,
+  "B": 10,
+  "C": 1,
+  "D": 7
+ },
+ "photos": [
+  {
+   "id": "cms/7212afdb26a0a64c14f9cd9c5da08f16769993ebe4bffe82a8faf7c7a9d71e97",
+   "short": "cms/7212af",
+   "project": "Lopesan Costa Bávaro — Bloque F",
+   "page": "proyectos/lopesan-costa-bavaro-bloque-f",
+   "role": "card",
+   "position": null,
+   "orig_w": 4000,
+   "orig_h": 3000,
+   "sharpness": 1657.9,
+   "noise_est": 2.87,
+   "dup_group": 1,
+   "original_path": "assets-src/cms/7212afdb26a0a64c14f9cd9c5da08f16769993ebe4bffe82a8faf7c7a9d71e97.jpg",
+   "name": "Estructura con encofrado y cielo azul (portada / Inicio)",
+   "tier": "A",
+   "why": "Buena luz, nítida y bien encuadrada. Sirve como portada y como foto principal de Inicio.",
+   "plan": "Se deja igual.",
+   "usages": [
+    {
+     "page": "proyectos/lopesan-costa-bavaro-bloque-f",
+     "role": "card"
+    },
+    {
+     "page": "inicio",
+     "role": "hero"
+    }
+   ]
+  },
+  {
+   "id": "cms/1a9cac21204d7ee7ef94ea62a0886d9c4c17800f03c0eefc6531aeee57a5e1f2",
+   "short": "cms/1a9cac",
+   "project": "Lopesan Costa Bávaro — Bloque F",
+   "page": "proyectos/lopesan-costa-bavaro-bloque-f",
+   "role": "gallery",
+   "position": 1,
+   "orig_w": 4000,
+   "orig_h": 3000,
+   "sharpness": 1033.6,
+   "noise_est": 2.75,
+   "dup_group": 2,
+   "original_path": "assets-src/cms/1a9cac21204d7ee7ef94ea62a0886d9c4c17800f03c0eefc6531aeee57a5e1f2.jpg",
+   "name": "Puntales y losa encofrada, vista interior",
+   "tier": "A",
+   "why": "Clara y profesional; el piso está prácticamente limpio.",
+   "plan": "Se deja igual.",
+   "usages": [
+    {
+     "page": "proyectos/lopesan-costa-bavaro-bloque-f",
+     "role": "gallery"
+    }
+   ]
+  },
+  {
+   "id": "cms/14ce3ce26a9dd53258e2c8b13f7d16dd8494421860a6cebb08477b04f45e3450",
+   "short": "cms/14ce3c",
+   "project": "Lopesan Costa Bávaro — Bloque F",
+   "page": "proyectos/lopesan-costa-bavaro-bloque-f",
+   "role": "gallery",
+   "position": 2,
+   "orig_w": 3000,
+   "orig_h": 4000,
+   "sharpness": 2309.8,
+   "noise_est": 3.74,
+   "dup_group": 3,
+   "original_path": "assets-src/cms/14ce3ce26a9dd53258e2c8b13f7d16dd8494421860a6cebb08477b04f45e3450.jpg",
+   "name": "Encofrado y andamio con cielo (vertical)",
+   "tier": "A",
+   "why": "Buen encuadre y luz. Hay madera apilada al fondo, pero ordenada y sin protagonismo.",
+   "plan": "Se deja igual.",
+   "usages": [
+    {
+     "page": "proyectos/lopesan-costa-bavaro-bloque-f",
+     "role": "gallery"
+    }
+   ]
+  },
+  {
+   "id": "cms/929f738a1ac77aa13a3cdc2893ca18906694661e0d2a0f20a8364e43ea2ca32b",
+   "short": "cms/929f73",
+   "project": "Lopesan Costa Bávaro — Bloque F",
+   "page": "proyectos/lopesan-costa-bavaro-bloque-f",
+   "role": "gallery",
+   "position": 3,
+   "orig_w": 3000,
+   "orig_h": 4000,
+   "sharpness": 2535.7,
+   "noise_est": 5.38,
+   "dup_group": 4,
+   "original_path": "assets-src/cms/929f738a1ac77aa13a3cdc2893ca18906694661e0d2a0f20a8364e43ea2ca32b.jpg",
+   "name": "Terreno con charco y material al fondo (vertical)",
+   "tier": "D",
+   "codes": [
+    "POOR_COMPOSITION"
+   ],
+   "why": "El protagonista es un charco con lodo y el sol quema una esquina; el material queda lejos y pequeño.",
+   "plan": "No se publica. Reemplazar (ver NEED-NEW-PHOTOS).",
+   "usages": [
+    {
+     "page": "proyectos/lopesan-costa-bavaro-bloque-f",
+     "role": "gallery"
+    }
+   ]
+  },
+  {
+   "id": "cms/fdabf27eae5f2442418e87b6c3d89d87be06529154ad6da1fa5aa3c60e44fdec",
+   "short": "cms/fdabf2",
+   "project": "Lopesan Costa Bávaro — Bloque F",
+   "page": "proyectos/lopesan-costa-bavaro-bloque-f",
+   "role": "gallery",
+   "position": 4,
+   "orig_w": 4000,
+   "orig_h": 3000,
+   "sharpness": 1243.2,
+   "noise_est": 3.61,
+   "dup_group": 5,
+   "original_path": "assets-src/cms/fdabf27eae5f2442418e87b6c3d89d87be06529154ad6da1fa5aa3c60e44fdec.jpg",
+   "name": "Paneles de encofrado cubiertos con lona naranja",
+   "tier": "D",
+   "codes": [
+    "CLUTTER_IS_THE_SUBJECT"
+   ],
+   "why": "La foto es un montón de paneles y lona tirados en el suelo; limpiarla la dejaría sin tema.",
+   "plan": "No se publica. Reemplazar.",
+   "usages": [
+    {
+     "page": "proyectos/lopesan-costa-bavaro-bloque-f",
+     "role": "gallery"
+    }
+   ]
+  },
+  {
+   "id": "cms/8fe6b21357ebac93f308c9811aa80b918e88906c0f8e29c47ab9205031b9737a",
+   "short": "cms/8fe6b2",
+   "project": "Lopesan Costa Bávaro — Bloque F",
+   "page": "proyectos/lopesan-costa-bavaro-bloque-f",
+   "role": "gallery",
+   "position": 5,
+   "orig_w": 4000,
+   "orig_h": 3000,
+   "sharpness": 620.4,
+   "noise_est": 2.11,
+   "dup_group": 6,
+   "original_path": "assets-src/cms/8fe6b21357ebac93f308c9811aa80b918e88906c0f8e29c47ab9205031b9737a.jpg",
+   "name": "Sótano con madera verde apilada en el piso",
+   "tier": "D",
+   "codes": [
+    "CLUTTER_IS_THE_SUBJECT"
+   ],
+   "why": "El montón de tablas ocupa todo el primer plano.",
+   "plan": "No se publica. Reemplazar.",
+   "usages": [
+    {
+     "page": "proyectos/lopesan-costa-bavaro-bloque-f",
+     "role": "gallery"
+    }
+   ]
+  },
+  {
+   "id": "cms/f2014c8181eae5241cccc9cf80d6147c4d901a1560d58b6529eb94c2172369b1",
+   "short": "cms/f2014c",
+   "project": "Lopesan Costa Bávaro — Bloque F",
+   "page": "proyectos/lopesan-costa-bavaro-bloque-f",
+   "role": "gallery",
+   "position": 6,
+   "orig_w": 4000,
+   "orig_h": 3000,
+   "sharpness": 1803.6,
+   "noise_est": 4.01,
+   "dup_group": 7,
+   "original_path": "assets-src/cms/f2014c8181eae5241cccc9cf80d6147c4d901a1560d58b6529eb94c2172369b1.jpg",
+   "name": "Patio con material apilado y paneles",
+   "tier": "D",
+   "codes": [
+    "CLUTTER_IS_THE_SUBJECT"
+   ],
+   "why": "Primer plano lleno de material tirado; es contenido de obra real, pero no para una web comercial.",
+   "plan": "No se publica. Reemplazar.",
+   "usages": [
+    {
+     "page": "proyectos/lopesan-costa-bavaro-bloque-f",
+     "role": "gallery"
+    }
+   ]
+  },
+  {
+   "id": "cms/1d65dcf066831eb49d408e71b6ab9a1d562131e198bfa7d27994d18277482bd5",
+   "short": "cms/1d65dc",
+   "project": "Lopesan Costa Bávaro — Bloque F",
+   "page": "proyectos/lopesan-costa-bavaro-bloque-f",
+   "role": "gallery",
+   "position": 7,
+   "orig_w": 4000,
+   "orig_h": 3000,
+   "sharpness": 1266.2,
+   "noise_est": 3.41,
+   "dup_group": 8,
+   "original_path": "assets-src/cms/1d65dcf066831eb49d408e71b6ab9a1d562131e198bfa7d27994d18277482bd5.jpg",
+   "name": "Paneles y puntales amontonados en el piso",
+   "tier": "D",
+   "codes": [
+    "CLUTTER_IS_THE_SUBJECT"
+   ],
+   "why": "Todo el encuadre es el montón de tubos y paneles.",
+   "plan": "No se publica. Reemplazar.",
+   "usages": [
+    {
+     "page": "proyectos/lopesan-costa-bavaro-bloque-f",
+     "role": "gallery"
+    }
+   ]
+  },
+  {
+   "id": "cms/5ebba3735c95b5d407190e83913e0d0c07c2a86ef0d2cd4ddbe11749860cd5f8",
+   "short": "cms/5ebba3",
+   "project": "Lopesan Costa Bávaro — Bloque F",
+   "page": "proyectos/lopesan-costa-bavaro-bloque-f",
+   "role": "gallery",
+   "position": 8,
+   "orig_w": 3000,
+   "orig_h": 4000,
+   "sharpness": 3161,
+   "noise_est": 4.19,
+   "dup_group": 9,
+   "original_path": "assets-src/cms/5ebba3735c95b5d407190e83913e0d0c07c2a86ef0d2cd4ddbe11749860cd5f8.jpg",
+   "name": "Andamio y encofrado desde un nivel alto (vertical)",
+   "tier": "A",
+   "why": "Buen cielo y estructura clara; la madera verde apilada a la derecha está ordenada.",
+   "plan": "Se deja igual.",
+   "usages": [
+    {
+     "page": "proyectos/lopesan-costa-bavaro-bloque-f",
+     "role": "gallery"
+    }
+   ]
+  },
+  {
+   "id": "cms/c0706ebbb0c4bf972e7797a930165f6056b064263a0b195487aeaf732bdae142",
+   "short": "cms/c0706e",
+   "project": "Poseidonia",
+   "page": "proyectos/poseidonia",
+   "role": "card",
+   "position": null,
+   "orig_w": 2560,
+   "orig_h": 1440,
+   "sharpness": 1352.8,
+   "noise_est": 3.05,
+   "dup_group": 10,
+   "original_path": "assets-src/cms/c0706ebbb0c4bf972e7797a930165f6056b064263a0b195487aeaf732bdae142.jpg",
+   "name": "Vista aérea de la obra (Poseidonia)",
+   "tier": "B",
+   "codes": [
+    "LOW_RES"
+   ],
+   "why": "La foto original mide solo 1280 px de ancho; hoy se muestra agrandada sin ganar detalle.",
+   "plan": "Mejora gratuita en la PC (más resolución y nitidez). Se compara con la actual.",
+   "native": "projects/poseidonia",
+   "usages": [
+    {
+     "page": "proyectos/poseidonia",
+     "role": "card"
+    }
+   ],
+   "native_w": 1280,
+   "native_h": 720,
+   "native_path": "assets-src/projects/poseidonia.jpg"
+  },
+  {
+   "id": "cms/1a461b348180b2caa40198ff16ec31ecce9c6c216831c3bdd3f95e8dda6ff05a",
+   "short": "cms/1a461b",
+   "project": "Hospital Barahona",
+   "page": "proyectos/hospital-barahona",
+   "role": "card",
+   "position": null,
+   "orig_w": 2560,
+   "orig_h": 1920,
+   "sharpness": 13485.6,
+   "noise_est": 15.7,
+   "dup_group": 11,
+   "original_path": "assets-src/cms/1a461b348180b2caa40198ff16ec31ecce9c6c216831c3bdd3f95e8dda6ff05a.jpg",
+   "name": "Vista aérea de la losa (Hospital Barahona)",
+   "tier": "A",
+   "why": "Nítida, buena luz y encuadre. Tiene textura fina de grano pero no molesta.",
+   "plan": "Se deja igual.",
+   "usages": [
+    {
+     "page": "proyectos/hospital-barahona",
+     "role": "card"
+    }
+   ]
+  },
+  {
+   "id": "cms/41a11f702ce1c19f728db419810dcdf28ca3f9963174036c3abd9af814acf8a8",
+   "short": "cms/41a11f",
+   "project": "Brisas City Center",
+   "page": "proyectos/brisas-city-center",
+   "role": "card",
+   "position": null,
+   "orig_w": 2560,
+   "orig_h": 1440,
+   "sharpness": 3547.5,
+   "noise_est": 3.67,
+   "dup_group": 12,
+   "original_path": "assets-src/cms/41a11f702ce1c19f728db419810dcdf28ca3f9963174036c3abd9af814acf8a8.jpg",
+   "name": "Vista aérea del edificio en construcción (Brisas City Center)",
+   "tier": "A",
+   "why": "Buena resolución y composición.",
+   "plan": "Se deja igual.",
+   "usages": [
+    {
+     "page": "proyectos/brisas-city-center",
+     "role": "card"
+    }
+   ]
+  },
+  {
+   "id": "cms/f5ff52928e061ffecbeb3d47b62219cc4f377884694622d223a047813a94346d",
+   "short": "cms/f5ff52",
+   "project": "Torre Alpha",
+   "page": "proyectos/torre-alpha",
+   "role": "card",
+   "position": null,
+   "orig_w": 2560,
+   "orig_h": 1440,
+   "sharpness": 4171.1,
+   "noise_est": 5.2,
+   "dup_group": 13,
+   "original_path": "assets-src/cms/f5ff52928e061ffecbeb3d47b62219cc4f377884694622d223a047813a94346d.jpg",
+   "name": "Excavación y cimentación desde arriba (Torre Alpha)",
+   "tier": "A",
+   "why": "Buena resolución. Hay varillas en el suelo, propias de la obra en ese momento.",
+   "plan": "Se deja igual.",
+   "usages": [
+    {
+     "page": "proyectos/torre-alpha",
+     "role": "card"
+    }
+   ]
+  },
+  {
+   "id": "cms/cd660709e949ce67611caec20fe11cdf9e3fe8c70c0ee6246e5676e7e9dab9d5",
+   "short": "cms/cd6607",
+   "project": "Riviera Bay",
+   "page": "proyectos/riviera-bay",
+   "role": "card",
+   "position": null,
+   "orig_w": 2560,
+   "orig_h": 1440,
+   "sharpness": 1767.1,
+   "noise_est": 3.75,
+   "dup_group": 14,
+   "original_path": "assets-src/cms/cd660709e949ce67611caec20fe11cdf9e3fe8c70c0ee6246e5676e7e9dab9d5.jpg",
+   "name": "Vista aérea de las estructuras (Riviera Bay)",
+   "tier": "B",
+   "codes": [
+    "LOW_RES"
+   ],
+   "why": "La original mide 1280 px de ancho; hoy está agrandada.",
+   "plan": "Mejora gratuita en la PC.",
+   "native": "projects/riviera-bay",
+   "usages": [
+    {
+     "page": "proyectos/riviera-bay",
+     "role": "card"
+    }
+   ],
+   "native_w": 1280,
+   "native_h": 720,
+   "native_path": "assets-src/projects/riviera-bay.jpg"
+  },
+  {
+   "id": "cms/99bbb89e9c092e35e7ffeecc363a79a090e463065f1ddf1cd36ea89a87567b7f",
+   "short": "cms/99bbb8",
+   "project": "City Place",
+   "page": "proyectos/city-place",
+   "role": "card",
+   "position": null,
+   "orig_w": 2560,
+   "orig_h": 1920,
+   "sharpness": 1264.6,
+   "noise_est": 2.21,
+   "dup_group": 15,
+   "original_path": "assets-src/cms/99bbb89e9c092e35e7ffeecc363a79a090e463065f1ddf1cd36ea89a87567b7f.jpg",
+   "name": "Vista aérea del conjunto (City Place)",
+   "tier": "B",
+   "codes": [
+    "LOW_RES"
+   ],
+   "why": "La original mide 1280 px de ancho; hoy está agrandada.",
+   "plan": "Mejora gratuita en la PC.",
+   "native": "projects/city-place",
+   "usages": [
+    {
+     "page": "proyectos/city-place",
+     "role": "card"
+    }
+   ],
+   "native_w": 1280,
+   "native_h": 960,
+   "native_path": "assets-src/projects/city-place.jpg"
+  },
+  {
+   "id": "cms/0228f3320f336d13b19bee1309253288e1472282b7c6c912c0d08a76e14ed49d",
+   "short": "cms/0228f3",
+   "project": "Monterezzo",
+   "page": "proyectos/monterezzo",
+   "role": "card",
+   "position": null,
+   "orig_w": 2560,
+   "orig_h": 1920,
+   "sharpness": 2400.9,
+   "noise_est": 4.11,
+   "dup_group": 16,
+   "original_path": "assets-src/cms/0228f3320f336d13b19bee1309253288e1472282b7c6c912c0d08a76e14ed49d.jpg",
+   "name": "Estructuras entre vegetación (Monterezzo)",
+   "tier": "B",
+   "codes": [
+    "LOW_RES"
+   ],
+   "why": "La original mide 1280 px de ancho; hoy está agrandada.",
+   "plan": "Mejora gratuita en la PC.",
+   "native": "projects/monterezzo",
+   "usages": [
+    {
+     "page": "proyectos/monterezzo",
+     "role": "card"
+    }
+   ],
+   "native_w": 1280,
+   "native_h": 960,
+   "native_path": "assets-src/projects/monterezzo.jpg"
+  },
+  {
+   "id": "cms/9e708b07afccdafabf05949955b1070fd675d86c3f0b486b16da83b522d8cc7c",
+   "short": "cms/9e708b",
+   "project": "Elements Volare",
+   "page": "proyectos/elements-volare",
+   "role": "card",
+   "position": null,
+   "orig_w": 2560,
+   "orig_h": 1440,
+   "sharpness": 1842.1,
+   "noise_est": 2.94,
+   "dup_group": 17,
+   "original_path": "assets-src/cms/9e708b07afccdafabf05949955b1070fd675d86c3f0b486b16da83b522d8cc7c.jpg",
+   "name": "Vista aérea de la obra (Elements Volare)",
+   "tier": "B",
+   "codes": [
+    "LOW_RES"
+   ],
+   "why": "La original mide 1280 px de ancho; hoy está agrandada.",
+   "plan": "Mejora gratuita en la PC.",
+   "native": "projects/elements-volare",
+   "usages": [
+    {
+     "page": "proyectos/elements-volare",
+     "role": "card"
+    }
+   ],
+   "native_w": 1280,
+   "native_h": 720,
+   "native_path": "assets-src/projects/elements-volare.jpg"
+  },
+  {
+   "id": "cms/b2330667afcb7a565a56172fdbc39ffb0018e877deb6feafeb4466ebe2e862f5",
+   "short": "cms/b23306",
+   "project": "Olea",
+   "page": "proyectos/olea",
+   "role": "card",
+   "position": null,
+   "orig_w": 2560,
+   "orig_h": 1440,
+   "sharpness": 2424.9,
+   "noise_est": 4.76,
+   "dup_group": 18,
+   "original_path": "assets-src/cms/b2330667afcb7a565a56172fdbc39ffb0018e877deb6feafeb4466ebe2e862f5.jpg",
+   "name": "Edificio frente a la laguna (Olea)",
+   "tier": "B",
+   "codes": [
+    "LOW_RES",
+    "DARK",
+    "HAZE"
+   ],
+   "why": "La original mide 1280 px, y se ve algo oscura y con velo.",
+   "plan": "Mejora gratuita en la PC (resolución, luz y contraste suave).",
+   "native": "projects/olea",
+   "usages": [
+    {
+     "page": "proyectos/olea",
+     "role": "card"
+    }
+   ],
+   "native_w": 1280,
+   "native_h": 720,
+   "native_path": "assets-src/projects/olea.jpg"
+  },
+  {
+   "id": "cms/9f56cd834d64123873fb6e6e133287e23a35689f94fdbf94c266a23c83d376f5",
+   "short": "cms/9f56cd",
+   "project": "Villa Cacique 38",
+   "page": "proyectos/villa-cacique-38",
+   "role": "card",
+   "position": null,
+   "orig_w": 2560,
+   "orig_h": 1920,
+   "sharpness": 7374.4,
+   "noise_est": 9.7,
+   "dup_group": 19,
+   "original_path": "assets-src/cms/9f56cd834d64123873fb6e6e133287e23a35689f94fdbf94c266a23c83d376f5.jpg",
+   "name": "Vista aérea de la obra (Villa Cacique 38)",
+   "tier": "C",
+   "codes": [
+    "CLUTTER_GROUND"
+   ],
+   "why": "Buena foto, pero en el suelo frente al edificio hay tablas de madera verde tiradas, que se ven desordenadas.",
+   "plan": "Retoque con IA solo en esa zona del suelo; el resto queda con los píxeles originales.",
+   "regions": [
+    {
+     "label": "tablas de madera verde sueltas frente a la entrada",
+     "polygon": [
+      [
+       0.5,
+       0.685
+      ],
+      [
+       0.585,
+       0.685
+      ],
+      [
+       0.685,
+       0.7
+      ],
+      [
+       0.695,
+       0.8
+      ],
+      [
+       0.665,
+       0.825
+      ],
+      [
+       0.6,
+       0.8
+      ],
+      [
+       0.525,
+       0.755
+      ],
+      [
+       0.495,
+       0.72
+      ]
+     ]
+    }
+   ],
+   "brief": "Remove the loose green wooden planks lying on the bare ground and fill with the surrounding sandy soil and small rubble, matching texture, colour and lighting. Do not change the building, trees, people, vehicles or anything outside the marked area.",
+   "usages": [
+    {
+     "page": "proyectos/villa-cacique-38",
+     "role": "card"
+    }
+   ]
+  },
+  {
+   "id": "cms/6f2f5c42545139843f56088b403f8212a2b23ad8e1b21ae3571905acf2cb7348",
+   "short": "cms/6f2f5c",
+   "project": "Plaza Roque",
+   "page": "proyectos/plaza-roque",
+   "role": "card",
+   "position": null,
+   "orig_w": 3072,
+   "orig_h": 1948,
+   "sharpness": 290.7,
+   "noise_est": 0.76,
+   "dup_group": 20,
+   "original_path": "assets-src/cms/6f2f5c42545139843f56088b403f8212a2b23ad8e1b21ae3571905acf2cb7348.jpg",
+   "name": "Fachada ACM de colores (Plaza Roque)",
+   "tier": "D",
+   "codes": [
+    "TOO_SMALL"
+   ],
+   "why": "La original mide solo 768 × 487 px y está blanda; al agrandarla la IA inventaría detalle. La misma foto se usa también en Servicios.",
+   "plan": "Se deja como está por ahora; hay que conseguir una foto nueva y más grande.",
+   "usages": [
+    {
+     "page": "proyectos/plaza-roque",
+     "role": "card"
+    }
+   ]
+  },
+  {
+   "id": "stages/etapa-01",
+   "short": "stages/etapa-01",
+   "project": "servicios/etapa-01",
+   "page": "servicios/etapa-01",
+   "role": "stage",
+   "position": null,
+   "orig_w": 1169,
+   "orig_h": 634,
+   "sharpness": 3128.9,
+   "noise_est": 4.84,
+   "dup_group": null,
+   "original_path": "assets-src/stages/etapa-01.jpg",
+   "name": "Losa de gran altura sobre torres de apuntalamiento (Servicios, etapa 1)",
+   "tier": "B",
+   "codes": [
+    "LOW_RES"
+   ],
+   "why": "Mide 1169 px de ancho.",
+   "plan": "Mejora gratuita en la PC.",
+   "usages": [
+    {
+     "page": "servicios/etapa-01",
+     "role": "stage"
+    }
+   ]
+  },
+  {
+   "id": "stages/etapa-02",
+   "short": "stages/etapa-02",
+   "project": "servicios/etapa-02",
+   "page": "servicios/etapa-02",
+   "role": "stage",
+   "position": null,
+   "orig_w": 1800,
+   "orig_h": 1350,
+   "sharpness": 1531.7,
+   "noise_est": 2.81,
+   "dup_group": null,
+   "original_path": "assets-src/stages/etapa-02.jpg",
+   "name": "Motoniveladora moviendo tierra (Servicios, etapa 2)",
+   "tier": "A",
+   "why": "Foto clara, buen cielo y tema evidente.",
+   "plan": "Se deja igual.",
+   "usages": [
+    {
+     "page": "servicios/etapa-02",
+     "role": "stage"
+    }
+   ]
+  },
+  {
+   "id": "stages/etapa-03",
+   "short": "stages/etapa-03",
+   "project": "servicios/etapa-03",
+   "page": "servicios/etapa-03",
+   "role": "stage",
+   "position": null,
+   "orig_w": 1800,
+   "orig_h": 1350,
+   "sharpness": 833.4,
+   "noise_est": 2.35,
+   "dup_group": null,
+   "original_path": "assets-src/stages/etapa-03.jpg",
+   "name": "Obra civil industrial con andamios (Servicios, etapa 3)",
+   "tier": "A",
+   "why": "Foto clara y de buen tamaño. Las lonas y materiales son parte de la obra en ejecución.",
+   "plan": "Se deja igual.",
+   "usages": [
+    {
+     "page": "servicios/etapa-03",
+     "role": "stage"
+    }
+   ]
+  },
+  {
+   "id": "stages/etapa-04",
+   "short": "stages/etapa-04",
+   "project": "servicios/etapa-04",
+   "page": "servicios/etapa-04",
+   "role": "stage",
+   "position": null,
+   "orig_w": 1217,
+   "orig_h": 1350,
+   "sharpness": 689.9,
+   "noise_est": 1.64,
+   "dup_group": null,
+   "original_path": "assets-src/stages/etapa-04.jpg",
+   "name": "Estructura vertical y encofrado, nave interior (Servicios, etapa 4)",
+   "tier": "B",
+   "codes": [
+    "LOW_RES",
+    "DARK"
+   ],
+   "why": "Es vertical, mide 1217 px de ancho y queda oscura.",
+   "plan": "Mejora gratuita en la PC (resolución y luz).",
+   "usages": [
+    {
+     "page": "servicios/etapa-04",
+     "role": "stage"
+    }
+   ]
+  },
+  {
+   "id": "stages/etapa-05",
+   "short": "stages/etapa-05",
+   "project": "servicios/etapa-05",
+   "page": "servicios/etapa-05",
+   "role": "stage",
+   "position": null,
+   "orig_w": 768,
+   "orig_h": 487,
+   "sharpness": 265.6,
+   "noise_est": 0.64,
+   "dup_group": 20,
+   "original_path": "assets-src/stages/etapa-05.jpg",
+   "name": "Fachada ACM de colores (Servicios, etapa 5)",
+   "tier": "D",
+   "codes": [
+    "TOO_SMALL",
+    "DUPLICATE"
+   ],
+   "why": "Es la misma foto de la tarjeta de Plaza Roque (768 px, blanda). Repetirla hace ver el sitio con pocas fotos.",
+   "plan": "Reemplazar con otra foto de fachada o de acabados (ver NEED-NEW-PHOTOS).",
+   "usages": [
+    {
+     "page": "servicios/etapa-05",
+     "role": "stage"
+    }
+   ]
+  },
+  {
+   "id": "stages/etapa-06",
+   "short": "stages/etapa-06",
+   "project": "servicios/etapa-06",
+   "page": "servicios/etapa-06",
+   "role": "stage",
+   "position": null,
+   "orig_w": 1800,
+   "orig_h": 1800,
+   "sharpness": 605,
+   "noise_est": 1.8,
+   "dup_group": null,
+   "original_path": "assets-src/stages/etapa-06.jpg",
+   "name": "Habitación terminada (Servicios, etapa 6)",
+   "tier": "B",
+   "codes": [
+    "SOFT"
+   ],
+   "why": "Algo blanda y con poco contraste.",
+   "plan": "Mejora gratuita en la PC (nitidez y contraste suave).",
+   "usages": [
+    {
+     "page": "servicios/etapa-06",
+     "role": "stage"
+    }
+   ]
+  },
+  {
+   "id": "stages/etapa-07",
+   "short": "stages/etapa-07",
+   "project": "servicios/etapa-07",
+   "page": "servicios/etapa-07",
+   "role": "stage",
+   "position": null,
+   "orig_w": 1280,
+   "orig_h": 720,
+   "sharpness": 1027.2,
+   "noise_est": 1.99,
+   "dup_group": null,
+   "original_path": "assets-src/stages/etapa-07.jpg",
+   "name": "Resort terminado visto desde arriba (Servicios, etapa 7)",
+   "tier": "B",
+   "codes": [
+    "LOW_RES"
+   ],
+   "why": "Mide 1280 px de ancho.",
+   "plan": "Mejora gratuita en la PC.",
+   "usages": [
+    {
+     "page": "servicios/etapa-07",
+     "role": "stage"
+    }
+   ]
+  }
+ ]
+}
