@@ -2,8 +2,11 @@
 //
 // Fails the build when:
 //   1) an <img> or <app-image-figure> is missing a meaningful alt (empty, or equal to the filename);
-//   2) any committed file in public/img/ exceeds 250 kB;
-//   3) a hero/LCP image (public/img/hero/** or filename containing "hero") exceeds 180 kB.
+//   2) any committed card/gallery file in public/img/ exceeds 250 kB (AVIF);
+//   3) a hero/LCP image (public/img/hero/** or filename containing "hero") exceeds 180 kB;
+//   4) a `-large` lightbox variant (2400 px long side) exceeds 600 kB (round 05, per-role budgets).
+// Alt text must be present in BOTH languages: bound alts are accepted, and the CMS media rows are
+// checked by verify-i18n / the editable-coverage guard.
 //
 // Per-line escape hatch for alt (decorative images): `images-allow`.
 
@@ -18,6 +21,7 @@ const IMG_DIR = join(ROOT, 'public', 'img');
 
 const MAX_KB = 250;
 const HERO_MAX_KB = 180;
+const LARGE_MAX_KB = 600;
 
 function walk(dir, exts) {
   const out = [];
@@ -66,22 +70,23 @@ if (existsSync(IMG_DIR)) {
     if (/\.(json|txt|md)$/.test(file)) continue; // manifest etc.
     const kb = statSync(file).size / 1024;
     const isHero = /(^|\/)hero(\/|-)/i.test(rel) || /hero/i.test(basename(file));
+    const isLarge = /-large.(avif|webp)$/.test(file);
     const isAvif = file.endsWith('.avif');
     const isWebp = file.endsWith('.webp');
     // Modern browsers serve AVIF, so the budget is enforced there (180 kB hero / 250 kB otherwise).
     // WebP is a fallback for old browsers: over-budget is a warning, not a build failure.
     if (isAvif) {
-      const limit = isHero ? HERO_MAX_KB : MAX_KB;
+      const limit = isLarge ? LARGE_MAX_KB : isHero ? HERO_MAX_KB : MAX_KB;
       if (kb > limit) {
         violations.push({
           rel,
           line: 0,
-          kind: isHero ? 'hero-too-big' : 'img-too-big',
+          kind: isLarge ? 'large-too-big' : isHero ? 'hero-too-big' : 'img-too-big',
           text: `${kb.toFixed(0)} kB > ${limit} kB (AVIF, served)`,
         });
       }
-    } else if (isWebp && kb > MAX_KB) {
-      imgWarnings.push(`${rel}  ${kb.toFixed(0)} kB > ${MAX_KB} kB (WebP fallback)`);
+    } else if (isWebp && kb > (isLarge ? LARGE_MAX_KB : MAX_KB)) {
+      imgWarnings.push(`${rel}  ${kb.toFixed(0)} kB > ${isLarge ? LARGE_MAX_KB : MAX_KB} kB (WebP fallback)`);
     }
   }
 }
@@ -126,14 +131,14 @@ if (violations.length) {
   console.error(
     `\n[verify-images] ✗ ${violations.length} image issue(s):\n` +
       `  alt-missing/alt-empty → add a meaningful alt (ES/EN), not the filename\n` +
-      `  img-too-big (>${MAX_KB}kB) / hero-too-big (>${HERO_MAX_KB}kB) → re-run npm run images / recrop\n` +
+      `  img-too-big (>${MAX_KB}kB) / hero-too-big (>${HERO_MAX_KB}kB) / large-too-big (>${LARGE_MAX_KB}kB) → re-run npm run images / recrop\n` +
       `  (decorative image: add "images-allow" in the tag)\n`,
   );
   for (const v of violations) console.error(`  [${v.kind}] ${v.rel}:${v.line}  ${v.text}`);
   console.error('');
   process.exit(1);
 }
-console.log('[verify-images] ✓ alt text present; served AVIF within budget (hero ≤180 kB, rest ≤250 kB).');
+console.log('[verify-images] ✓ alt text present; served AVIF within per-role budgets (hero ≤180 kB, card/gallery ≤250 kB, large ≤600 kB).');
 if (imgWarnings.length) {
   console.log(`[verify-images]   note: ${imgWarnings.length} WebP fallback(s) over 250 kB (AVIF is served first):`);
   for (const w of imgWarnings.slice(0, 10)) console.log(`     ${w}`);

@@ -6,7 +6,7 @@
 // Best-effort: if Chrome / lighthouse can't run in this environment, it reports and exits 0 (never blocks
 // a commit) — the Vercel preview is the source of truth for the checkpoint.
 
-import { spawnSync } from 'node:child_process';
+import { spawnSync, spawn } from 'node:child_process';
 import { createServer } from 'node:http';
 import { readFileSync, existsSync, mkdirSync, statSync, readdirSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
@@ -91,33 +91,27 @@ function serve(port) {
   }).listen(port);
 }
 
-const PORT = 4321;
-const server = serve(PORT);
+// The static server MUST run in a separate process: spawnSync below blocks this event loop, so an
+// in-process http server could never answer Lighthouse (the run would hang until the timeout).
+const PORT = 4466; // scripts/serve-dist.mjs
+const server = spawn(process.execPath, [join(__dirname, 'serve-dist.mjs')], { stdio: 'ignore' });
+await new Promise((r) => setTimeout(r, 1500));
 
 function runLighthouse(url, name) {
   const report = join(OUT, `${name}.report.json`);
   const html = join(OUT, `${name}.html`);
-  const res = spawnSync(
-    process.platform === 'win32' ? 'npx.cmd' : 'npx',
-    [
-      '-y',
-      'lighthouse',
-      url,
-      '--quiet',
-      '--only-categories=performance,accessibility,best-practices,seo',
-      '--form-factor=mobile',
-      '--screenEmulation.mobile',
-      '"--chrome-flags=--headless=new --no-sandbox"',
-      `--output=json`,
-      `"--output-path=${report}"`,
-    ],
-    {
-      encoding: 'utf8',
-      shell: process.platform === 'win32',
-      timeout: 180000,
-      env: { ...process.env, ...(CHROME ? { CHROME_PATH: CHROME } : {}) },
-    },
-  );
+  // One quoted command string (paths contain spaces: "X Dev"); shell:true so npx.cmd resolves on Windows.
+  const cmd = [
+    'npx -y lighthouse', url, '--quiet', '--only-categories=performance,accessibility,best-practices,seo',
+    '--form-factor=mobile', '--screenEmulation.mobile', '"--chrome-flags=--headless=new --no-sandbox"',
+    '--output=json', `"--output-path=${report}"`,
+  ].join(' ');
+  const res = spawnSync(cmd, {
+    encoding: 'utf8',
+    shell: true,
+    timeout: 240000,
+    env: { ...process.env, ...(CHROME ? { CHROME_PATH: CHROME } : {}) },
+  });
   // lighthouse writes <path>.report.json / <path>.report.html with multiple outputs
   const jsonPath = existsSync(report) ? report : join(OUT, `${name}.report.json`);
   if (!existsSync(jsonPath)) {
@@ -153,7 +147,7 @@ try {
     }
   }
 } finally {
-  server.close();
+  server.kill();
 }
 
 console.log('');

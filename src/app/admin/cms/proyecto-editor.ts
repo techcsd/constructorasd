@@ -35,6 +35,8 @@ export class ProyectoEditor {
   readonly isNew = !this.id;
   readonly p = signal<Editable>({ scope: [], location_es: '', location_en: '', summary_es: '', summary_en: '', body_es: '', body_en: '', featured: false, published: false, seo_title_es: '', seo_title_en: '', seo_description_es: '', seo_description_en: '' });
   readonly cover = signal<MediaRow | null>(null);
+  /** Untouched original of a mejorada/retocada cover (round 05) — keeps "Descargar original" honest. */
+  readonly coverOriginal = signal<MediaRow | null>(null);
   readonly gallery = signal<GalleryItem[]>([]);
   readonly loading = signal(true);
   readonly saving = signal(false);
@@ -96,6 +98,8 @@ export class ProyectoEditor {
         const media = await this.cms.listMedia();
         const byId = Object.fromEntries(media.map((m) => [m.id, m]));
         if (row.cover_media_id) this.cover.set(byId[row.cover_media_id] ?? null);
+        const dfrom = this.cover()?.derived_from;
+        this.coverOriginal.set(dfrom ? byId[dfrom] ?? null : null);
         this.syncFocalFromCover();
         const imgs = await this.cms.projectImages(row.id);
         this.gallery.set(imgs.map((i: ProjectImageRow & { media: MediaRow }) => ({ media: i.media, caption_es: i.caption_es, caption_en: i.caption_en })));
@@ -196,6 +200,10 @@ export class ProyectoEditor {
   coverDownloadUrl(): string | null {
     const c = this.cover(); if (!c) return null;
     return this.cms.downloadUrl(c.path, `${this.p().slug || 'proyecto'}-portada.${this.ext(c.path)}`);
+  }
+  coverOriginalDownloadUrl(): string | null {
+    const o = this.coverOriginal(); if (!o) return null;
+    return this.cms.downloadUrl(o.path, `${this.p().slug || 'proyecto'}-portada-original.${this.ext(o.path)}`);
   }
   galleryDownloadUrl(m: MediaRow, i: number): string {
     return this.cms.downloadUrl(m.path, `${this.p().slug || 'proyecto'}-${i + 1}.${this.ext(m.path)}`);

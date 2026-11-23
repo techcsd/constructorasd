@@ -3,6 +3,16 @@
 All notable changes to this project. Versioning is simple (CLAUDE.md / WB9): a `CHANGELOG.md` entry plus a
 `package.json` bump per release. Not tracked in `sgc.app_versiones`.
 
+## 3.2.0 — ronda 05, PROMPT-12: auditoría de fotos, niveles y mejora local gratuita (2026-11-23)
+
+- **Auditoría** de las 27 fotos distintas que muestra el sitio (`docs/round-05-photos/`: inventory.csv, audit.json, PHOTO-AUDIT.md en español, NEED-NEW-PHOTOS.md): **A 9 · B 10 · C 1 · D 7**.
+- **Mejora local (nivel B)**: `scripts/photos/enhance.mjs` (sharp + Real-ESRGAN ncnn-vulkan, mezcla ajustable, red de seguridad de nitidez + SSIM ≥ 0.90). 10/10 aprobadas.
+- **CMS**: las 6 portadas B de proyectos se publican como **media nuevas** ligadas al original (`web.media.derived_from`, `variant`; migración `2026-11-23-media-derived.sql`, aplicada solo a dev) y se cambian en dev; reversible con `publish-enhanced.mjs --revert`. Admin: "Descargar retocada" / "Descargar original".
+- **Pipeline por rol**: nueva variante `large` (2400 px, AVIF ≤ 600 kB) solo para el lightbox; `verify-images.mjs` valida por rol (hero 180 / tarjeta 250 / large 600 kB). Etapas de Servicios usan la versión mejorada.
+- `npm run lighthouse` reparado (servidor estático en proceso hijo; rutas con espacios) y ampliado a 5 páginas con LCP/CLS.
+- Verificado: build verde, 62 unit, Playwright público 72/72 (admin: 22 omitidos, la clave QA de dev es rechazada), Lighthouse sin regresión (ver `docs/round-05-photos/baseline.md`).
+- Nota de versión: la ronda esperaba partir de 3.0.0; el repo estaba en 3.1.0, así que esta entrega es 3.2.0.
+
 ## 3.1.0 — pulido del admin: sparklines, masonry, tabs deslizantes, Leads 3 paneles (2026-10-09)
 
 Cierre de los 4 ítems que habían quedado diferidos de PROMPT-11:

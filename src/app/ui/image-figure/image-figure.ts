@@ -21,6 +21,8 @@ interface ImageEntry {
   widths: number[];
   variants: { avif: Record<string, string>; webp: Record<string, string> };
   lqip: string;
+  /** 2400 px long-side variant (≤600 kB) — lightbox only; absent for small sources. */
+  large?: { width: number; height: number; avif: string; webp: string } | null;
 }
 const MANIFEST = manifestJson as unknown as Record<string, ImageEntry>;
 
@@ -44,6 +46,8 @@ export class ImageFigure {
   /** CSS aspect-ratio, e.g. '16 / 10', '4 / 5', '3 / 2'. */
   readonly aspect = input<string>('3 / 2');
   readonly priority = input<boolean>(false);
+  /** Lightbox mode: adds the 2400 px `large` variant to the srcset (never used by cards/galleries grid). */
+  readonly large = input<boolean>(false);
   readonly caption = input<string>('');
   readonly sizes = input<string>('(min-width: 1024px) 50vw, 100vw');
   /** Crop centre 0..1 from the admin focal picker; maps to object-position so the subject stays in frame. */
@@ -112,7 +116,9 @@ export class ImageFigure {
   private buildSrcset(fmt: 'avif' | 'webp'): string {
     const e = this.entry();
     if (!e) return '';
-    return e.widths.map((w) => `${e.variants[fmt][String(w)]} ${w}w`).join(', ');
+    const parts = e.widths.map((w) => `${e.variants[fmt][String(w)]} ${w}w`);
+    if (this.large() && e.large) parts.push(`${e.large[fmt]} ${e.large.width}w`);
+    return parts.join(', ');
   }
 
   // Preload a priority (LCP) image so the browser starts fetching it before the component renders.

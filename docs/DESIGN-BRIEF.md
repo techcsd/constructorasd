@@ -155,6 +155,7 @@ Eyebrows (`SECCIÓN 02 / ALCANCE`) echo the presentation and are the main "syste
 - **AI upscaling** is allowed **only via the pipeline** (`scripts/upscale-images.mjs` → Real-ESRGAN, sharp lanczos fallback), **never beyond ×4**, and only to reach the ≥1600 w cover target (approved by Xaviel 06-oct, WD5/WF2). If an upscale looks artificial, keep the original and log a "need real photo" line in `CONTENIDO-PENDIENTE.md` instead of shipping it. Every upscaled file is recorded in `docs/DESIGN-DECISIONS.md`.
 - Every image has a meaningful `alt` (ES and EN) — the guard fails on empty alt or alt equal to the filename.
 - Hero/LCP image: `priority`, preloaded, ≤ 180 kB at 1600w AVIF.
+- Image roles (round 05): **card/gallery** 480–1600 w, AVIF ≤ 250 kB; **hero** ≤ 180 kB; **large** = 2400 px long side, AVIF ≤ 600 kB, only in the lightbox srcset (`<app-image-figure [large]="true">`), so it never counts toward LCP. `verify-images.mjs` checks each role. Originals stay downloadable (admin: "Descargar original" / "Descargar retocada").
 - Logos: monochrome SVG if available, else PNG converted to grayscale at build.
 
 ## 9. Accessibility & quality bars
