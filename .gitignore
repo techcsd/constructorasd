@@ -73,3 +73,7 @@ supabase/.temp/
 
 # round-04 QA evidence (regenerable)
 docs/round-04-qa/
+
+# round-05 photos: local tools + source index (machine paths)
+/tools/
+docs/round-05-photos/.source-index.json

@@ -45,7 +45,10 @@ const BUDGETS = { performance: 90, accessibility: 100, 'best-practices': 100, se
 const MANDATORY = ['accessibility', 'best-practices', 'seo'];
 const TARGETS = [
   { url: '/', name: 'home' },
+  { url: '/proyectos/', name: 'proyectos' },
   { url: '/proyectos/lopesan-costa-bavaro-bloque-f/', name: 'proyecto-detalle' },
+  { url: '/servicios/', name: 'servicios' },
+  { url: '/en/', name: 'home-en' },
 ];
 
 if (!existsSync(browser)) {
@@ -104,10 +107,9 @@ function runLighthouse(url, name) {
       '--only-categories=performance,accessibility,best-practices,seo',
       '--form-factor=mobile',
       '--screenEmulation.mobile',
-      '--chrome-flags=--headless=new --no-sandbox',
+      '"--chrome-flags=--headless=new --no-sandbox"',
       `--output=json`,
-      `--output=html`,
-      `--output-path=${join(OUT, name)}`,
+      `"--output-path=${report}"`,
     ],
     {
       encoding: 'utf8',
@@ -126,6 +128,9 @@ function runLighthouse(url, name) {
   const data = JSON.parse(readFileSync(jsonPath, 'utf8'));
   const scores = {};
   for (const k of Object.keys(BUDGETS)) scores[k] = Math.round((data.categories[k]?.score ?? 0) * 100);
+  scores._lcp = Math.round(data.audits['largest-contentful-paint']?.numericValue ?? 0);
+  scores._cls = +(data.audits['cumulative-layout-shift']?.numericValue ?? 0).toFixed(3);
+  scores._kb = Math.round((data.audits['total-byte-weight']?.numericValue ?? 0) / 1024);
   return scores;
 }
 
@@ -135,7 +140,9 @@ try {
     const scores = runLighthouse(`http://localhost:${PORT}${t.url}`, t.name);
     if (!scores) continue;
     console.log(`\n  ${t.name}  ${t.url}`);
+    console.log(`    · LCP ${scores._lcp} ms · CLS ${scores._cls} · transfer ${scores._kb} kB`);
     for (const [k, v] of Object.entries(scores)) {
+      if (k.startsWith('_')) continue;
       const budget = BUDGETS[k];
       const ok = v >= budget;
       const mandatory = MANDATORY.includes(k);
