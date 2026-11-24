@@ -28,7 +28,7 @@ for (const [vw, vh, tag] of [[1440, 900, 'desktop'], [390, 844, 'mobile']]) {
     // trigger lazy images
     await page.evaluate(async () => { for (let y = 0; y < document.body.scrollHeight; y += 600) { window.scrollTo(0, y); await new Promise((r) => setTimeout(r, 60)); } window.scrollTo(0, 0); });
     await page.waitForTimeout(400);
-    await page.screenshot({ path: join(OUT, `${name}-${tag}.png`), fullPage: true });
+    await page.screenshot({ path: join(OUT, `${name}-${tag}.jpg`), fullPage: true, type: "jpeg", quality: 60 });
     const res = await page.evaluate(() => {
       const out = { orphan: null, upscaled: [] };
       const grid = document.querySelector('.gallery__grid');
