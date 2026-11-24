@@ -4,7 +4,7 @@ _Last updated: 2026-10-08 (end of round 04 `csd imp 08102026`)._
 
 ## Round 05 / PROMPT-12 (2026-11-23) — photos audit + free enhancement — on `dev` (v3.2.0), NOT on main
 - Done: inventory, tiers (A9 B10 C1 D7), tier-B enhancement (Real-ESRGAN in `tools/realesrgan/`, gitignored), role-based pipeline (`large` 2400 px lightbox variant), enhanced covers published to dev CMS as `derived_from` media (revert: `node scripts/photos/publish-enhanced.mjs --env dev --revert`). Docs in `docs/round-05-photos/`.
-- Migration `sql/2026-11-23-media-derived.sql` applied to **dev only** — apply to prod (`--env prod --yes`) before merging to main, then re-run publish for prod if the swap is wanted there.
+- **Shipped to production** (OK de Xaviel, 2026-11-23): `main` = v3.2.0 (rev `362acd8`). Migration `2026-11-23-media-derived.sql` applied to dev and prod; the 6 enhanced covers are swapped on prod too (`publish-enhanced.mjs --env prod --yes`, log `publish-log-prod.csv`, `--revert` undoes it).
 - Open: PROMPT-13 (tier C Villa Cacique 38, region saved in `audit.json`) needs `GEMINI_API_KEY` in `.env.local` (WS1). QA admin password in `.env.local` is rejected by dev (admin e2e skipped) — reset it. PROMPT-14 handles gallery order and the 5 Lopesan D photos still in the gallery.
 - `SUPABASE_SERVICE_ROLE_KEY_DEV` was copied from the SGC `.env.local` (same dev project) into this repo's gitignored `.env.local`.
 
