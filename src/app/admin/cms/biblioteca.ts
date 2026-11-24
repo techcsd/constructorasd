@@ -37,6 +37,9 @@ export class Biblioteca {
   }
   url(m: MediaRow): string { return this.cms.thumbUrl(m.path, 320); }
   dl(m: MediaRow): string { return this.cms.downloadUrl(m.path, m.original_name || m.path.split('/').pop() || 'imagen'); }
+  /** The untouched original a mejorada/retocada copy was made from (null for originals). */
+  originalOf(m: MediaRow): MediaRow | null { return m.derived_from ? this.media().find((x) => x.id === m.derived_from) ?? null : null; }
+  dlOriginal(m: MediaRow): string | null { const o = this.originalOf(m); return o ? this.dl(o) : null; }
   uses(m: MediaRow): number { return this.usage()[m.id] ?? 0; }
 
   onUploaded(): void { void this.load(); }

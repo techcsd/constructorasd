@@ -84,7 +84,7 @@
     <div class="cms-field">
       <label>Portada</label>
       @if (coverUrl(); as url) {
-        <div class="cms-cover"><app-admin-thumb [src]="url" /><div class="cms-cover__actions"><a class="adm-btn adm-btn--ghost" [href]="coverDownloadUrl()" download>Descargar original</a><button type="button" class="adm-btn adm-btn--ghost" (click)="cover.set(null)">Quitar portada</button></div></div>
+        <div class="cms-cover"><app-admin-thumb [src]="url" /><div class="cms-cover__actions">@if (coverOriginalDownloadUrl(); as orig) { <a class="adm-btn adm-btn--ghost" [href]="coverDownloadUrl()" download>Descargar retocada</a><a class="adm-btn adm-btn--ghost" [href]="orig" download>Descargar original</a> } @else { <a class="adm-btn adm-btn--ghost" [href]="coverDownloadUrl()" download>Descargar original</a> }<button type="button" class="adm-btn adm-btn--ghost" (click)="cover.set(null)">Quitar portada</button></div></div>
       }
       <app-media-uploader [label]="coverUrl() ? 'Reemplazar portada' : 'Subir portada'" (uploaded)="onCoverUploaded($event)" />
     </div>

@@ -22,9 +22,10 @@
         />
         <div class="cms-media-card__body">
           <span class="cms-media-card__alt" [title]="m.alt_es">{{ m.alt_es || m.original_name || '(sin alt)' }}</span>
-          <span class="cms-media-card__use">{{ uses(m) }} uso(s) · {{ m.width }}×{{ m.height }}</span>
+          <span class="cms-media-card__use">{{ uses(m) }} uso(s) · {{ m.width }}×{{ m.height }}{{ m.variant && m.variant !== 'original' ? ' · mejorada' : '' }}</span>
           <div class="cms-media-card__actions">
-            <a class="adm-btn adm-btn--ghost" [href]="dl(m)" download>Descargar</a>
+            <a class="adm-btn adm-btn--ghost" [href]="dl(m)" download>{{ m.variant && m.variant !== 'original' ? 'Descargar retocada' : 'Descargar' }}</a>
+            @if (dlOriginal(m); as o) { <a class="adm-btn adm-btn--ghost" [href]="o" download>Descargar original</a> }
             <button type="button" class="adm-btn adm-btn--ghost" [disabled]="uses(m) > 0" (click)="remove(m)">{{ uses(m) > 0 ? 'En uso' : 'Borrar' }}</button>
           </div>
         </div>
