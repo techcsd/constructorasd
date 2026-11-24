@@ -1,10 +1,10 @@
-// scripts/photos/publish-enhanced.mjs — PROMPT-12 Phase 4.3. DEV ONLY.
-//   node scripts/photos/publish-enhanced.mjs --env dev [--revert]
+// scripts/photos/publish-enhanced.mjs — PROMPT-12 Phase 4.3.
+//   node scripts/photos/publish-enhanced.mjs --env dev|prod [--yes (prod)] [--revert]
 //
 // Uploads each tier-B CMS photo's enhanced version (assets-src/enhanced/**) to the web-media bucket as a
 // NEW media row linked to its original (derived_from, variant='enhanced') and swaps it into the slots it
 // came from (projects.cover_media_id / project_images.media_id). The original row/file is never deleted
-// or unpublished. Uses the DEV service-role key from .env.local (server-side only). Every swap is logged in docs/round-05-photos/publish-log.csv so --revert can undo it.
+// or unpublished. Uses the env's service-role key from .env.local (server-side only). Every swap is logged in docs/round-05-photos/publish-log[-prod].csv so --revert can undo it.
 
 import sharp from 'sharp';
 import { createHash } from 'node:crypto';
@@ -17,10 +17,15 @@ import { csvLine } from './lib.mjs';
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..', '..');
 const DOCS = join(ROOT, 'docs', 'round-05-photos');
 const envName = process.argv.includes('--env') ? process.argv[process.argv.indexOf('--env') + 1] : undefined;
-if (envName !== 'dev') {
-  console.error('✖ publish-enhanced: --env dev is required. Prod is never touched by this script (round rule: dev only).');
+if (!['dev', 'prod'].includes(envName ?? '')) {
+  console.error('✖ publish-enhanced: --env dev|prod is required (BU1).');
   process.exit(1);
 }
+if (envName === 'prod' && !process.argv.includes('--yes')) {
+  console.error('✖ publish-enhanced: refusing to touch prod without --yes.');
+  process.exit(1);
+}
+const SUF = envName.toUpperCase();
 const revert = process.argv.includes('--revert');
 
 const E = {};
@@ -28,11 +33,11 @@ for (const l of readFileSync(join(ROOT, '.env.local'), 'utf8').split(/\r?\n/)) {
   const i = l.indexOf('=');
   if (i > 0 && !l.trim().startsWith('#')) E[l.slice(0, i).trim()] = l.slice(i + 1).trim();
 }
-const URL_ = E.SUPABASE_URL_DEV.replace(/\/$/, ''), ANON = E.SUPABASE_ANON_KEY_DEV;
+const URL_ = E[`SUPABASE_URL_${SUF}`].replace(/\/$/, '');
 
-// Dev service-role key (server-side script only, never logged / bundled — rule 5).
-const JWT = E.SUPABASE_SERVICE_ROLE_KEY_DEV;
-if (!JWT) { console.error('✖ SUPABASE_SERVICE_ROLE_KEY_DEV missing in .env.local'); process.exit(1); }
+// Service-role key for the chosen env (server-side script only, never logged / bundled — rule 5).
+const JWT = E[`SUPABASE_SERVICE_ROLE_KEY_${SUF}`];
+if (!JWT) { console.error(`✖ SUPABASE_SERVICE_ROLE_KEY_${SUF} missing in .env.local`); process.exit(1); }
 
 const H = (extra = {}) => ({ apikey: JWT, Authorization: 'Bearer ' + JWT, 'Accept-Profile': 'web', 'Content-Profile': 'web', ...extra });
 async function rest(method, path, body, prefer) {
@@ -42,7 +47,7 @@ async function rest(method, path, body, prefer) {
   return t ? JSON.parse(t) : null;
 }
 
-const logPath = join(DOCS, 'publish-log.csv');
+const logPath = join(DOCS, envName === 'dev' ? 'publish-log.csv' : `publish-log-${envName}.csv`);
 const head = ['original_media_id', 'enhanced_media_id', 'swap_table', 'swap_row_id', 'swap_column'];
 
 if (revert) {
