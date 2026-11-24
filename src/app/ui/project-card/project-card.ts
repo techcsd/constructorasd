@@ -30,6 +30,8 @@ export class ProjectCard {
   readonly featured = input<boolean>(false);
   readonly priority = input<boolean>(false); // eager + fetchpriority for above-the-fold cards (WE5)
   readonly routerLink = input<string | null>(null);
+  // The featured lead spans the full content width — tell the browser, or it picks an upscaled smaller variant.
+  readonly imgSizes = computed(() => (this.featured() ? '(max-width: 1024px) 100vw, 1280px' : '(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw'));
 
   readonly aspect = computed(() => (this.featured() ? '16 / 10' : '4 / 5'));
   readonly meta = computed(() => {

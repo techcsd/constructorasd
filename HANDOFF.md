@@ -49,3 +49,8 @@ cuando Xaviel dé el OK (o para seguir acumulando).
   because Angular scopes component styles — add new `.adm-*` utilities to **both**.
 - Prod Supabase is **shared with SGC** (ref `jeeqhgccqefbqilntcpu`); never rotate shared secrets.
 - `gh` CLI is not installed on this machine — merges done via local `git merge --no-ff` + push.
+
+## Round 05 — PROMPT-13/14 (2026-11-24) → 3.3.0 on `dev`
+- Done: gallery layout (featured + no orphan row + "Ver todas", tier-ordered via `src/content/photo-tiers.json`), `sizes` fix for featured card, `retouch.mjs` (Gemini, protect-composite), `review-sheet.mjs` → `…\November\csd imp 23112026\review\review.html` (10 enhanced photos), `qa-shots.mjs` (docs/round-05-qa), admin e2e green (QA password reset on dev).
+- **Blocked:** Gemini calls return 429 (key's Google project has no billing; image models have no free tier). Enable billing in Google Cloud for the key's project, then `node scripts/photos/retouch.mjs --env dev --budget 15` (pilot: Villa Cacique 38), then `node scripts/photos/review-sheet.mjs`.
+- Waiting on Xaviel: `review\approvals.json` (Phase 1 of PROMPT-14 — apply approved/rejected/retry), merge `dev → main` OK for 3.3.0 (gate WS3), NEED-NEW-PHOTOS.md to forward to site residents.

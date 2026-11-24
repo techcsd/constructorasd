@@ -1,0 +1,5 @@
+# model=gemini-nano-banana-2.1 budget=15 est_price=$0.05/2K-image
+id,project,tier_in,model,attempt,status,out_tokens,in_tokens,cost_usd_est,cumulative_usd,ssim_outside,seam_delta,inside_delta,output,note
+cms/9f56cd834d64123873fb6e6e133287e23a35689f94fdbf94c266a23c83d376f5,proyectos/villa-cacique-38,C,gemini-nano-banana-2.1,1,API_ERROR,,,0,0.000,,,,,"Gemini 429: You exceeded your current quota, please check your plan and billing details. For more information on this er"
+cms/9f56cd834d64123873fb6e6e133287e23a35689f94fdbf94c266a23c83d376f5,proyectos/villa-cacique-38,C,gemini-nano-banana-2.1,2,API_ERROR,,,0,0.000,,,,,"Gemini 429: You exceeded your current quota, please check your plan and billing details. For more information on this er"
+cms/9f56cd834d64123873fb6e6e133287e23a35689f94fdbf94c266a23c83d376f5,proyectos/villa-cacique-38,C,gemini-nano-banana-2.1,3,API_ERROR,,,0,0.000,,,,,"Gemini 429: You exceeded your current quota, please check your plan and billing details. For more information on this er"

@@ -1,0 +1,180 @@
+[
+ {
+  "page": "home",
+  "viewport": "desktop",
+  "orphan": null,
+  "upscaled": []
+ },
+ {
+  "page": "servicios",
+  "viewport": "desktop",
+  "orphan": null,
+  "upscaled": []
+ },
+ {
+  "page": "lopesan-costa-bavaro-bloque-f",
+  "viewport": "desktop",
+  "orphan": {
+   "cols": 3,
+   "tiles": 6,
+   "cells": 3,
+   "ok": true
+  },
+  "upscaled": []
+ },
+ {
+  "page": "poseidonia",
+  "viewport": "desktop",
+  "orphan": null,
+  "upscaled": []
+ },
+ {
+  "page": "hospital-barahona",
+  "viewport": "desktop",
+  "orphan": null,
+  "upscaled": []
+ },
+ {
+  "page": "brisas-city-center",
+  "viewport": "desktop",
+  "orphan": null,
+  "upscaled": []
+ },
+ {
+  "page": "torre-alpha",
+  "viewport": "desktop",
+  "orphan": null,
+  "upscaled": []
+ },
+ {
+  "page": "riviera-bay",
+  "viewport": "desktop",
+  "orphan": null,
+  "upscaled": []
+ },
+ {
+  "page": "city-place",
+  "viewport": "desktop",
+  "orphan": null,
+  "upscaled": []
+ },
+ {
+  "page": "monterezzo",
+  "viewport": "desktop",
+  "orphan": null,
+  "upscaled": []
+ },
+ {
+  "page": "elements-volare",
+  "viewport": "desktop",
+  "orphan": null,
+  "upscaled": []
+ },
+ {
+  "page": "olea",
+  "viewport": "desktop",
+  "orphan": null,
+  "upscaled": []
+ },
+ {
+  "page": "villa-cacique-38",
+  "viewport": "desktop",
+  "orphan": null,
+  "upscaled": []
+ },
+ {
+  "page": "plaza-roque",
+  "viewport": "desktop",
+  "orphan": null,
+  "upscaled": []
+ },
+ {
+  "page": "home",
+  "viewport": "mobile",
+  "orphan": null,
+  "upscaled": []
+ },
+ {
+  "page": "servicios",
+  "viewport": "mobile",
+  "orphan": null,
+  "upscaled": []
+ },
+ {
+  "page": "lopesan-costa-bavaro-bloque-f",
+  "viewport": "mobile",
+  "orphan": {
+   "cols": 2,
+   "tiles": 7,
+   "cells": 2,
+   "ok": true
+  },
+  "upscaled": []
+ },
+ {
+  "page": "poseidonia",
+  "viewport": "mobile",
+  "orphan": null,
+  "upscaled": []
+ },
+ {
+  "page": "hospital-barahona",
+  "viewport": "mobile",
+  "orphan": null,
+  "upscaled": []
+ },
+ {
+  "page": "brisas-city-center",
+  "viewport": "mobile",
+  "orphan": null,
+  "upscaled": []
+ },
+ {
+  "page": "torre-alpha",
+  "viewport": "mobile",
+  "orphan": null,
+  "upscaled": []
+ },
+ {
+  "page": "riviera-bay",
+  "viewport": "mobile",
+  "orphan": null,
+  "upscaled": []
+ },
+ {
+  "page": "city-place",
+  "viewport": "mobile",
+  "orphan": null,
+  "upscaled": []
+ },
+ {
+  "page": "monterezzo",
+  "viewport": "mobile",
+  "orphan": null,
+  "upscaled": []
+ },
+ {
+  "page": "elements-volare",
+  "viewport": "mobile",
+  "orphan": null,
+  "upscaled": []
+ },
+ {
+  "page": "olea",
+  "viewport": "mobile",
+  "orphan": null,
+  "upscaled": []
+ },
+ {
+  "page": "villa-cacique-38",
+  "viewport": "mobile",
+  "orphan": null,
+  "upscaled": []
+ },
+ {
+  "page": "plaza-roque",
+  "viewport": "mobile",
+  "orphan": null,
+  "upscaled": []
+ }
+]

@@ -19,7 +19,7 @@ Generado por scripts/verify-editable-coverage.mjs. Objetivo: 0 HARDCODED.
 | src/app/ui/apply-form/apply-form.html | 18 | 0 |
 | src/app/ui/contact-form/contact-form.html | 20 | 0 |
 | src/app/ui/footer/footer.html | 9 | 0 |
-| src/app/ui/gallery/gallery.html | 4 | 0 |
+| src/app/ui/gallery/gallery.html | 5 | 0 |
 | src/app/ui/header/header.html | 7 | 0 |
 | src/app/ui/map-embed/map-embed.html | 2 | 0 |
 | src/app/ui/whatsapp-fab/whatsapp-fab.html | 1 | 0 |

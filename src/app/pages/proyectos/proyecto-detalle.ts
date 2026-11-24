@@ -10,6 +10,11 @@ import { STAGES } from '../../../content/stages';
 import { Eyebrow } from '../../ui/eyebrow/eyebrow';
 import { ImageFigure } from '../../ui/image-figure/image-figure';
 import { Gallery, GalleryImage } from '../../ui/gallery/gallery';
+import tiersJson from '../../../content/photo-tiers.json';
+
+// Round 05 photo audit tiers (scripts/photos/classify.mjs): A keep · B enhanced · C retouch queue · D replace.
+const TIERS = tiersJson as Record<string, string>;
+const TIER_RANK: Record<string, number> = { A: 0, B: 1, C: 2, D: 3 };
 import { Button } from '../../ui/button/button';
 import { Icon } from '../../ui/icon/icon';
 import { RevealDirective } from '../../core/reveal.directive';
@@ -69,7 +74,10 @@ export class ProyectoDetalle {
     () =>
       this.project()
         ?.gallery.filter((g) => g.src !== this.coverSrc())
-        .map((g) => ({ src: g.src, alt: this.pick(g.alt)! })) ?? [],
+        .map((g, i) => ({ g, i }))
+        // best photos first (audit tier A→D), stable inside a tier so the editor's order still counts
+        .sort((a, b) => (TIER_RANK[TIERS[a.g.src]] ?? 1) - (TIER_RANK[TIERS[b.g.src]] ?? 1) || a.i - b.i)
+        .map(({ g }) => ({ src: g.src, alt: this.pick(g.alt)!, focal: g.focal })) ?? [],
   );
 
   readonly proyectosPath = computed(() => pathFor('proyectos', this.i18n.locale()) ?? '/proyectos');
