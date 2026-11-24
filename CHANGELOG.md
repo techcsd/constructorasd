@@ -3,6 +3,15 @@
 All notable changes to this project. Versioning is simple (CLAUDE.md / WB9): a `CHANGELOG.md` entry plus a
 `package.json` bump per release. Not tracked in `sgc.app_versiones`.
 
+## 3.3.0 — ronda 05, PROMPT-13/14: presentación de galerías, herramienta de retoque IA, hoja de revisión (2026-11-24)
+
+- **Galerías**: primera foto destacada (2×2 en escritorio, fila completa en móvil), resto en cuadrícula 4:3 con el punto focal de cada foto, **sin fila huérfana** (se recorta/estira al múltiplo de columnas en cada breakpoint), máx. 12 visibles + "Ver todas". Orden por nivel de la auditoría (A→D) en `src/content/photo-tiers.json`; las de nivel D quedan al final, detrás de "Ver todas".
+- **Imágenes**: la tarjeta destacada del Home declara su `sizes` real (antes el navegador elegía una variante más chica y la ampliaba).
+- **Retoque IA** (`scripts/photos/retouch.mjs`, Gemini, solo edición + compuesto protegido: fuera del polígono auditado cada píxel es el original; `--budget` obligatorio, ≤3 intentos/foto). **No se ejecutó con éxito**: la clave de Gemini devuelve 429 (el proyecto de Google no tiene facturación; los modelos de imagen no tienen cuota gratis). Pendiente: Villa Cacique 38 (única foto nivel C).
+- **Hoja de revisión** (`scripts/photos/review-sheet.mjs`): `review.html` autónomo (slider original|propuesta, Aprobar/Rechazar/Reintentar, exporta `approvals.json`) con las 10 mejoradas (nivel B) y la lista de nivel D.
+- **QA**: `scripts/photos/qa-shots.mjs` (capturas 1440/390 de Home, Servicios y 12 proyectos en `docs/round-05-qa/`; verifica filas huérfanas y ampliaciones). Admin e2e 14/14 con la clave QA de dev restablecida.
+- Verificado: build verde, 62 unit, Playwright 86 passed / 25 omitidos.
+
 ## 3.2.0 — ronda 05, PROMPT-12: auditoría de fotos, niveles y mejora local gratuita (2026-11-23)
 
 - **Auditoría** de las 27 fotos distintas que muestra el sitio (`docs/round-05-photos/`: inventory.csv, audit.json, PHOTO-AUDIT.md en español, NEED-NEW-PHOTOS.md): **A 9 · B 10 · C 1 · D 7**.

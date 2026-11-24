@@ -1,14 +1,24 @@
 @if (images().length) {
-  <ul class="gallery__grid">
-    @for (img of images(); track img.src; let i = $index) {
-      <li>
+  @let L = layout();
+  <ul class="gallery__grid" [class.gallery__grid--fd]="L.fd" [class.gallery__grid--fm]="L.fm">
+    @for (img of images().slice(0, L.base); track img.src; let i = $index) {
+      <li class="gallery__item" [class.gallery__item--first]="i === 0 && L.fm"
+        [class.gallery__item--hide-d]="i >= L.visD" [class.gallery__item--hide-m]="i >= L.visM"
+        [class.gallery__item--last-d2]="i === L.base - 1 && L.spanD === 2" [class.gallery__item--last-d3]="i === L.base - 1 && L.spanD === 3"
+        [class.gallery__item--last-m2]="i === L.base - 1 && L.spanM === 2">
         <button type="button" class="gallery__thumb" (click)="open(i)"
           [attr.aria-label]="('Ampliar imagen' | t) + ' — ' + img.alt">
-          <app-image-figure [image]="img.src" [alt]="img.alt" aspect="4 / 3" />
+          <app-image-figure [image]="img.src" [alt]="img.alt" aspect="4 / 3" [focal]="img.focal"
+            [sizes]="i === 0 && L.fm ? '(max-width: 768px) 100vw, 66vw' : '(max-width: 768px) 50vw, 33vw'" />
         </button>
       </li>
     }
   </ul>
+  @if (L.hasMore) {
+    <p class="gallery__more">
+      <button type="button" class="gallery__more-btn" (click)="showAll()">{{ 'Ver todas' | t }} ({{ count() }})</button>
+    </p>
+  }
 }
 
 @if (isOpen()) {

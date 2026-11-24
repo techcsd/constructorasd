@@ -17,3 +17,15 @@ Notes
 - Performance < 90 and SEO 69 are **pre-existing and local-only**: Lighthouse throttles mobile on localhost, and SEO fails on the
   non-indexed `http://localhost` dev build (noindex + no canonical host). Same numbers in the baseline.
 - Raw reports: `lighthouse/*.report.json` (gitignored).
+
+## After PROMPT-14 (gallery layout, 2026-11-24)
+
+| Page | Perf (3.2.0 → 3.3.0) | LCP ms | CLS | Transfer kB |
+|---|---|---|---|---|
+| `/` | 86 → 86 | 4094 | 0 | 402 |
+| `/proyectos/` | 83 → 83 | 4728 | 0 | 594 |
+| `/proyectos/lopesan-costa-bavaro-bloque-f/` | 85 → 88 | 3979 | 0 | 676 → 439 (gallery shows ≤ a full-row subset, "Ver todas" for the rest) |
+| `/servicios/` | 89 → 89 | 3826 | 0 | 404 |
+| `/en/` | 86 → 86 | 4095 | 0 | 402 |
+
+CLS 0 everywhere. Perf < 90 and SEO 69 remain the local-throttling/`noindex`-on-dev artefacts noted above (not regressions). Villa Cacique 38 has no gallery (cover only), so only Lopesan has a detail gallery to measure.
